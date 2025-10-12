@@ -3,11 +3,12 @@
 ## 📋 Panoramica Progetto
 
 **Nome**: AI Knowledge Companion  
-**Descrizione**: Assistente personale di apprendimento dove l'utente costruisce il proprio "AI tutor" personale per imparare qualsiasi argomento (lingue, coding, storia, etc.)  
+**Descrizione**: Assistente personale di apprendimento dove l'utente costruisce il proprio "AI tutor" personale per imparare qualsiasi argomento (lingue, coding, storia, etc.)
 
 ### Concept Chiave
+
 - Gli utenti caricano materiali (link, PDF, note) in Supabase
-- L'app crea embedding vettoriali per il materiale 
+- L'app crea embedding vettoriali per il materiale
 - Consente di fare domande sul proprio contenuto (RAG con OpenAI)
 - Ogni "tutor" ha un profilo configurabile (tono, livello di dettaglio, lingua)
 - Possibilità di condividere pubblicamente i propri tutor o venderli come "preset"
@@ -15,6 +16,7 @@
 ## 🏗️ Architettura Tecnica
 
 ### Stack Tecnologico OBBLIGATORIO
+
 - **Frontend**: Next.js 15 (App Router), TypeScript, React 19
 - **Styling**: Tailwind CSS (prima scelta), shadcn/ui, Radix UI (solo se Tailwind non basta)
 - **Backend**: Next.js API Routes (Route Handlers)
@@ -25,24 +27,28 @@
 - **Internazionalizzazione**: next-intl (inglese principale, italiano traduzione)
 
 ### Convenzioni di Codice OBBLIGATORIE
+
 ```typescript
 // Componenti React DEVONO essere definiti così:
 function ComponentName(): JSX.Element {
-  return <div>...</div>
+  return <div>...</div>;
 }
 ```
 
 ### Principi di Sviluppo RICHIESTI
+
 - **SOLID Principles**: Sempre applicati
 - **TDD**: Test-driven development quando possibile
 - **Functional Programming**: Preferire funzioni pure, evitare classi
 - **Clean Code**: Codice leggibile e manutenibile
 - **No useEffect per data fetching**: Usare SWR o React Query
 - **Design System centralizzato**: Tipografia e stili con Tailwind e shadcn
+- **SRP applicato ai componenti React**: logica sempre esterna la componente, implementata come custom hooks e funzioni importate. SPezzare i componenti grandi in sottocomponenti elementari.
 
 ## 🗄️ Schema Database (Supabase)
 
 ### Tabelle Principali
+
 ```sql
 -- Gestito da Supabase Auth
 users (id, email, created_at)
@@ -73,6 +79,7 @@ usage_logs (id, user_id, tutor_id, api_calls, cost_estimate, created_at)
 ```
 
 ### Configurazioni Importanti
+
 - **RLS (Row Level Security)**: Obbligatorio per tutte le tabelle
 - **pgvector**: Per similarity search degli embeddings
 - **Indici**: `document_chunks(document_id, chunk_index)` e `document_chunks USING ivfflat (embedding vector_cosine_ops)`
@@ -80,6 +87,7 @@ usage_logs (id, user_id, tutor_id, api_calls, cost_estimate, created_at)
 ## 🤖 Pipeline RAG
 
 ### Flusso Completo
+
 1. **Upload**: File → Supabase Storage
 2. **Parsing**: Estrazione testo (PDF: pdf-parse, plain text)
 3. **Chunking**: 500-800 token per chunk, overlap 50-100 token
@@ -89,21 +97,23 @@ usage_logs (id, user_id, tutor_id, api_calls, cost_estimate, created_at)
 7. **Response**: Risposta + source citation + cost tracking
 
 ### Configurazione Tutor
+
 ```typescript
 interface TutorConfig {
-  tone: 'friendly' | 'professional' | 'casual' | 'academic'
-  max_tokens: number
-  temperature: number
-  language: string
-  retrieval_k: number
-  allow_web_search: boolean
-  system_instructions?: string
+  tone: "friendly" | "professional" | "casual" | "academic";
+  max_tokens: number;
+  temperature: number;
+  language: string;
+  retrieval_k: number;
+  allow_web_search: boolean;
+  system_instructions?: string;
 }
 ```
 
 ## 🌐 Internazionalizzazione
 
 ### Configurazione next-intl
+
 - **Lingue**: Inglese (en) - principale, Italiano (it) - traduzione
 - **Struttura**: `src/app/[locale]/` per routing
 - **Traduzioni**: `/messages/en.json` e `/messages/it.json`
@@ -139,46 +149,50 @@ src/
 ## 🧪 Testing con Jest
 
 ### Configurazione
+
 - **Framework**: Jest 30+ con next/jest
 - **Environment**: jsdom per componenti React
 - **Coverage**: Target 80%+
 - **Mocks**: next/navigation, next-intl, Supabase
 
 ### Tipi di Test
+
 - **Unit**: Utilities e business logic
 - **Integration**: API routes con DB mock
 - **E2E**: Flussi critici (upload → process → query)
 
 ## 🚀 Milestones MVP
 
-### Sprint 1: Setup + Auth (completato)
-- ✅ Next.js + TypeScript + App Router
-- ✅ Supabase integration
-- ✅ Internazionalizzazione (next-intl)
-- ✅ Jest testing setup
-- ✅ shadcn/ui components
+### Sprint 0: Setup (1 settimana) - ✅ COMPLETATO
 
-### Sprint 2: Documents Flow (prossimo)
-- [ ] Upload UI + Supabase Storage
-- [ ] Worker: parsing + chunking (senza embeddings)
+- ✅ Repo + CI + TypeScript + Next.js + shadcn scaffold
+- ✅ Supabase project init + RLS baseline (configurazione pronta)
+- 🔄 Auth flows (signup/login) - **DA IMPLEMENTARE**
+
+### Sprint 1: Documents Flow (2 settimane) - 🎯 PROSSIMO
+
+- [ ] Upload UI + storage
+- [ ] Worker: parsing + chunking local implementation (no embeddings yet)
 - [ ] Document list + preview
-- [ ] Unit tests per chunker
 
-### Sprint 3: Embeddings + RAG
-- [ ] OpenAI Embeddings integration
-- [ ] pgvector setup e similarity search
-- [ ] Retrieval endpoint + basic prompt builder
-- [ ] Chat UI minimale
+### Sprint 2: Embeddings + RAG (2 settimane)
 
-### Sprint 4: Tutors + Conversation
+- [ ] Integrate OpenAI Embeddings
+- [ ] Store embeddings in pgvector
+- [ ] Implement retrieval endpoint + basic prompt builder
+- [ ] Chat UI minimal
+
+### Sprint 3: Tutors + Conversation (2 settimane)
+
 - [ ] Tutor CRUD + config UI
 - [ ] Conversation history save
 - [ ] Source citation display
 
-### Sprint 5: Marketplace + Polish
-- [ ] Marketplace pages + fork functionality
+### Sprint 4: Polish + Marketplace + Billing (2-3 settimane)
+
+- [ ] Marketplace pages + fork
 - [ ] Usage tracking + cost estimates
-- [ ] Deploy Vercel + monitoring
+- [ ] Deploy to Vercel + basic analytics + Sentry
 
 ## 🔧 Environment Variables
 
@@ -199,18 +213,21 @@ NEXTAUTH_URL=http://localhost:3000
 ## 📝 Note Implementative
 
 ### Security & Privacy
+
 - RLS policies rigorose su tutte le tabelle
 - Non loggare testi utente in plain text
 - Rate limiting per API abuse prevention
 - Validazione input con Zod
 
 ### Performance
+
 - Cache embeddings per riuso
 - Throttle embedding jobs per utente
 - Stima token e costi in real-time
 - Lazy loading per UI components
 
 ### Deployment
+
 - **Vercel**: Per Next.js app
 - **Supabase**: Database + Auth + Storage gestiti
 - **GitHub Actions**: CI/CD pipeline
@@ -219,6 +236,7 @@ NEXTAUTH_URL=http://localhost:3000
 ## 🎯 Acceptance Criteria
 
 ### Per ogni feature:
+
 - **Upload**: File salvato + metadata in DB + parsing job avviato
 - **Embeddings**: Chunk persistente + similarity search funzionante
 - **Query**: Domanda → risposta pertinente + source citation

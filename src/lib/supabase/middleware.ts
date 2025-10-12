@@ -35,15 +35,29 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/signup') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  // Check if we're on a public route that doesn't require auth
+  const publicRoutes = [
+    '/',
+    '/auth/login',
+    '/auth/signup',
+    '/auth/callback',
+  ]
+  
+  // Extract the path without locale
+  const pathWithoutLocale = request.nextUrl.pathname.replace(/^\/[a-z]{2}/, '') || '/'
+  const isPublicRoute = publicRoutes.includes(pathWithoutLocale)
+
+  // If no user and trying to access protected route, redirect to login
+  if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = '/auth/login'
+    return NextResponse.redirect(url)
+  }
+
+  // If user is authenticated and trying to access auth pages, redirect to dashboard
+  if (user && (pathWithoutLocale === '/auth/login' || pathWithoutLocale === '/auth/signup')) {
+    const url = request.nextUrl.clone()
+    url.pathname = '/dashboard'
     return NextResponse.redirect(url)
   }
 

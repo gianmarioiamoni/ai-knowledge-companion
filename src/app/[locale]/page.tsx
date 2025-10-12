@@ -2,6 +2,7 @@ import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Upload, Settings, MessageCircle, Share2 } from 'lucide-react'
+import { Link } from '@/lib/navigation'
 
 export default function LandingPage(): JSX.Element {
   const t = useTranslations('landing')
@@ -22,12 +23,16 @@ export default function LandingPage(): JSX.Element {
           </p>
           
           <div className="flex gap-4 justify-center flex-col sm:flex-row">
-            <Button size="lg" className="text-lg px-8 py-3">
-              {t('cta.primary')}
-            </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-3">
-              {t('cta.secondary')}
-            </Button>
+            <Link href="/auth/signup">
+              <Button size="lg" className="text-lg px-8 py-3 w-full sm:w-auto">
+                {t('cta.primary')}
+              </Button>
+            </Link>
+            <Link href="/auth/login">
+              <Button variant="outline" size="lg" className="text-lg px-8 py-3 w-full sm:w-auto">
+                {t('cta.secondary')}
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

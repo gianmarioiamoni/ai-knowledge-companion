@@ -3,7 +3,7 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { Inter } from 'next/font/google'
 import { LanguageSwitcher } from '@/components/language-switcher'
-import './globals.css'
+import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
