@@ -2,6 +2,21 @@
 
 Una piattaforma web dove un utente carica materiali (PDF, link, note), il sistema crea embeddings e consente di interrogare un "tutor AI" personalizzato che risponde con conoscenza limitata al materiale caricato; ogni tutor è configurabile e può essere condiviso o venduto.
 
+## Documentazione del Progetto
+
+### 📋 File di Riferimento per Claude AI
+- **[CLAUDE.md](./CLAUDE.md)** - Specifiche complete del progetto, architettura e convenzioni
+- **[docs/ADR.md](./docs/ADR.md)** - Architecture Decision Records e pattern di sviluppo
+- **[docs/API.md](./docs/API.md)** - Contratti API completi e specifiche endpoint
+
+### 🎯 Per Sviluppatori
+Leggere sempre `CLAUDE.md` per comprendere:
+- Architettura completa del sistema
+- Convenzioni di codice obbligatorie
+- Schema database dettagliato
+- Pipeline RAG e configurazioni
+- Milestones e acceptance criteria
+
 ## Tech Stack
 
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript
