@@ -1,4 +1,7 @@
-import { LandingPageClient } from '@/components/landing-page-client'
+import { JSX } from 'react'
+
+import { LandingPageClient } from '@/components/landing'
+
 
 interface LandingPageProps {
   params: Promise<{ locale: string }>

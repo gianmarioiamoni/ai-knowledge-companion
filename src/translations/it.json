@@ -1,0 +1,55 @@
+{
+  "landing": {
+    "title": "AI Knowledge Companion",
+    "subtitle": "Costruisci il tuo tutor AI personale per qualsiasi materia",
+    "description": "Carica documenti, crea tutor AI personalizzati e ottieni assistenza nell'apprendimento personalizzata basata sulla tua base di conoscenza.",
+    "cta": {
+      "primary": "Inizia Gratuitamente",
+      "secondary": "Scopri di Più"
+    },
+    "features": {
+      "upload": {
+        "title": "Carica i Tuoi Materiali",
+        "description": "Carica PDF, documenti e link per costruire la tua base di conoscenza"
+      },
+      "customize": {
+        "title": "Personalizza il Tuo Tutor",
+        "description": "Configura tono, lingua e stile di insegnamento per adattarsi alle tue preferenze"
+      },
+      "learn": {
+        "title": "Impara Interattivamente",
+        "description": "Fai domande e ottieni risposte basate sui tuoi materiali caricati"
+      },
+      "share": {
+        "title": "Condividi e Scopri",
+        "description": "Condividi i tuoi tutor pubblicamente o scopri altri nel marketplace"
+      }
+    }
+  },
+  "documents": {
+    "title": "Documenti",
+    "subtitle": "Gestisci i documenti della tua base di conoscenza",
+    "upload": {
+      "title": "Carica Nuovo Documento",
+      "description": "Trascina i file qui o clicca per sfogliare. Formati supportati: PDF, TXT, MD",
+      "dropzone": "Rilascia i file qui",
+      "browse": "o clicca per selezionare i file",
+      "button": "Sfoglia File"
+    },
+    "list": {
+      "title": "I Tuoi Documenti",
+      "empty": "Nessun documento caricato. Carica il tuo primo documento per iniziare."
+    },
+    "actions": {
+      "preview": "Anteprima",
+      "delete": "Elimina"
+    },
+    "status": {
+      "processed": "Elaborato",
+      "processing": "In elaborazione"
+    },
+    "meta": {
+      "uploaded": "Caricato"
+    }
+  }
+}
