@@ -1,23 +1,8 @@
 import createMiddleware from "next-intl/middleware";
-import { updateSession } from "@/lib/supabase/middleware";
-import { NextRequest, NextResponse } from "next/server";
 import { routing } from "@/i18n/routing";
 
-// Create the internationalization middleware
-const intlMiddleware = createMiddleware(routing);
-
-export async function middleware(request: NextRequest) {
-  // First, handle internationalization
-  const intlResponse = intlMiddleware(request);
-
-  // If the intl middleware returns a response (redirect), use it
-  if (intlResponse) {
-    return intlResponse;
-  }
-
-  // Then handle Supabase session
-  return await updateSession(request);
-}
+// For now, use only next-intl middleware to debug the locale issue
+export default createMiddleware(routing);
 
 export const config = {
   matcher: [
