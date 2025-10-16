@@ -20,10 +20,25 @@ const messages = {
     "landing.features.learn.title": "Learn Interactively",
     "landing.features.learn.description":
       "Ask questions and get answers based on your uploaded materials",
-    "landing.features.share.title": "Share & Discover",
-    "landing.features.share.description":
-      "Share your tutors publicly or discover others in the marketplace",
-  },
+     "landing.features.share.title": "Share & Discover",
+     "landing.features.share.description":
+       "Share your tutors publicly or discover others in the marketplace",
+     // Documents page
+     "documents.title": "Documents",
+     "documents.subtitle": "Manage your knowledge base documents",
+     "documents.upload.title": "Upload New Document",
+     "documents.upload.description": "Drag and drop files here or click to browse. Supported formats: PDF, TXT, MD",
+     "documents.upload.dropzone": "Drop files here",
+     "documents.upload.browse": "or click to select files",
+     "documents.upload.button": "Browse Files",
+     "documents.list.title": "Your Documents",
+     "documents.list.empty": "No documents uploaded yet. Upload your first document to get started.",
+     "documents.actions.preview": "Preview",
+     "documents.actions.delete": "Delete",
+     "documents.status.processed": "Processed",
+     "documents.status.processing": "Processing",
+     "documents.meta.uploaded": "Uploaded",
+   },
   it: {
     "landing.title": "AI Knowledge Companion",
     "landing.subtitle":
@@ -41,10 +56,25 @@ const messages = {
     "landing.features.learn.title": "Impara Interattivamente",
     "landing.features.learn.description":
       "Fai domande e ottieni risposte basate sui tuoi materiali caricati",
-    "landing.features.share.title": "Condividi e Scopri",
-    "landing.features.share.description":
-      "Condividi i tuoi tutor pubblicamente o scopri altri nel marketplace",
-  },
+     "landing.features.share.title": "Condividi e Scopri",
+     "landing.features.share.description":
+       "Condividi i tuoi tutor pubblicamente o scopri altri nel marketplace",
+     // Documents page
+     "documents.title": "Documenti",
+     "documents.subtitle": "Gestisci i documenti della tua base di conoscenza",
+     "documents.upload.title": "Carica Nuovo Documento",
+     "documents.upload.description": "Trascina i file qui o clicca per sfogliare. Formati supportati: PDF, TXT, MD",
+     "documents.upload.dropzone": "Rilascia i file qui",
+     "documents.upload.browse": "o clicca per selezionare i file",
+     "documents.upload.button": "Sfoglia File",
+     "documents.list.title": "I Tuoi Documenti",
+     "documents.list.empty": "Nessun documento caricato. Carica il tuo primo documento per iniziare.",
+     "documents.actions.preview": "Anteprima",
+     "documents.actions.delete": "Elimina",
+     "documents.status.processed": "Elaborato",
+     "documents.status.processing": "In elaborazione",
+     "documents.meta.uploaded": "Caricato",
+   },
 } as const;
 
 type Locale = "en" | "it";

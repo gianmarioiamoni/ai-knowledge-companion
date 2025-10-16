@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
 import { SimpleLanguageSwitcher } from '@/components/simple-language-switcher'
+import Link from 'next/link'
 import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -37,7 +38,27 @@ export default async function LocaleLayout({
           {/* Header */}
           <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-              <h1 className="text-xl font-semibold">AI Knowledge Companion</h1>
+              <div className="flex items-center gap-8">
+                <Link href={`/${locale}`}>
+                  <h1 className="text-xl font-semibold hover:text-blue-600 transition-colors">
+                    AI Knowledge Companion
+                  </h1>
+                </Link>
+                <nav className="flex items-center gap-6">
+                  <Link 
+                    href={`/${locale}/documents`}
+                    className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                  >
+                    {locale === 'en' ? 'Documents' : 'Documenti'}
+                  </Link>
+                  <Link 
+                    href={`/${locale}/dashboard`}
+                    className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                  >
+                    {locale === 'en' ? 'Dashboard' : 'Dashboard'}
+                  </Link>
+                </nav>
+              </div>
               <SimpleLanguageSwitcher currentLocale={locale} />
             </div>
           </header>
