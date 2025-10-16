@@ -1,111 +1,33 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { createClient } from '@/lib/supabase/client'
-import type { User, Session } from '@supabase/supabase-js'
+import { useState, useEffect } from 'react'
 
-interface AuthState {
-  user: User | null
-  session: Session | null
-  loading: boolean
+// Mock user for development
+const mockUser = {
+  id: 'mock-user-id',
+  email: 'user@example.com',
+  name: 'Test User'
 }
 
 export function useAuth() {
-  const [authState, setAuthState] = useState<AuthState>({
-    user: null,
-    session: null,
-    loading: true,
-  })
-  const router = useRouter()
-  const supabase = createClient()
+  const [user, setUser] = useState<typeof mockUser | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    // Get initial session
-    const getInitialSession = async () => {
-      const { data: { session }, error } = await supabase.auth.getSession()
-      
-      if (error) {
-        console.error('Error getting session:', error)
-      }
+    // Simulate loading and authentication
+    const timer = setTimeout(() => {
+      setUser(mockUser)
+      setLoading(false)
+    }, 1000)
 
-      setAuthState({
-        user: session?.user ?? null,
-        session,
-        loading: false,
-      })
-    }
-
-    getInitialSession()
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state changed:', event, session?.user?.email)
-        
-        setAuthState({
-          user: session?.user ?? null,
-          session,
-          loading: false,
-        })
-
-        // Handle different auth events
-        if (event === 'SIGNED_IN' && session) {
-          router.push('/dashboard')
-        } else if (event === 'SIGNED_OUT') {
-          router.push('/')
-        }
-      }
-    )
-
-    return () => {
-      subscription.unsubscribe()
-    }
-  }, [router, supabase.auth])
-
-  const signOut = async () => {
-    try {
-      setAuthState(prev => ({ ...prev, loading: true }))
-      const { error } = await supabase.auth.signOut()
-      
-      if (error) {
-        console.error('Error signing out:', error)
-        throw error
-      }
-    } catch (error) {
-      console.error('Sign out error:', error)
-      throw error
-    } finally {
-      setAuthState(prev => ({ ...prev, loading: false }))
-    }
-  }
-
-  const refreshSession = async () => {
-    try {
-      const { data: { session }, error } = await supabase.auth.refreshSession()
-      
-      if (error) {
-        console.error('Error refreshing session:', error)
-        throw error
-      }
-
-      setAuthState({
-        user: session?.user ?? null,
-        session,
-        loading: false,
-      })
-
-      return session
-    } catch (error) {
-      console.error('Refresh session error:', error)
-      throw error
-    }
-  }
+    return () => clearTimeout(timer)
+  }, [])
 
   return {
-    ...authState,
-    signOut,
-    refreshSession,
-    isAuthenticated: !!authState.user,
+    user,
+    loading,
+    signIn: async () => {},
+    signOut: async () => {},
+    signUp: async () => {}
   }
 }

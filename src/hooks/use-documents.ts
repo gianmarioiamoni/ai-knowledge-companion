@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { Document } from '@/types/documents'
-import { DocumentsService } from '@/lib/supabase/documents'
+import * as documentsService from '@/lib/supabase/documents'
 import { useAuth } from './use-auth'
 
 export function useDocuments() {
@@ -10,8 +10,6 @@ export function useDocuments() {
   const [documents, setDocuments] = useState<Document[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
-  const documentsService = new DocumentsService()
 
   // Load user documents
   const loadDocuments = async () => {
