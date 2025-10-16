@@ -1,7 +1,6 @@
-'use client'
-
+import { JSX } from 'react'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+import { Link } from '@/lib/navigation'
 
 interface HeroSectionProps {
   title: string
@@ -9,7 +8,6 @@ interface HeroSectionProps {
   description: string
   ctaPrimary: string
   ctaSecondary: string
-  locale: string
 }
 
 export function HeroSection({
@@ -17,8 +15,7 @@ export function HeroSection({
   subtitle,
   description,
   ctaPrimary,
-  ctaSecondary,
-  locale
+  ctaSecondary
 }: HeroSectionProps): JSX.Element {
   return (
     <div className="container mx-auto px-4 py-16">
@@ -34,12 +31,12 @@ export function HeroSection({
         </p>
 
         <div className="flex gap-4 justify-center flex-col sm:flex-row">
-          <Link href={`/${locale}/auth/signup`}>
+          <Link href="/auth/signup">
             <Button size="lg" className="text-lg px-8 py-3 w-full sm:w-auto">
               {ctaPrimary}
             </Button>
           </Link>
-          <Link href={`/${locale}/auth/login`}>
+          <Link href="/auth/login">
             <Button variant="outline" size="lg" className="text-lg px-8 py-3 w-full sm:w-auto">
               {ctaSecondary}
             </Button>

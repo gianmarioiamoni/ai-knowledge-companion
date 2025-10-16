@@ -1,42 +1,38 @@
 'use client'
 
-import { useTranslations } from '@/hooks/use-translations'
+import { JSX } from 'react'
+import { useTranslations } from 'next-intl'
 import { HeroSection } from '../sections/hero-section'
 import { FeaturesSection } from '../sections/features-section'
 
-interface LandingPageClientProps {
-  locale: 'en' | 'it'
-}
-
-export function LandingPageClient({ locale }: LandingPageClientProps): JSX.Element {
-  const { t } = useTranslations(locale)
+export function LandingPageClient(): JSX.Element {
+  const t = useTranslations('landing')
 
   const heroProps = {
-    title: t('landing.title'),
-    subtitle: t('landing.subtitle'),
-    description: t('landing.description'),
-    ctaPrimary: t('landing.cta.primary'),
-    ctaSecondary: t('landing.cta.secondary'),
-    locale
+    title: t('title'),
+    subtitle: t('subtitle'),
+    description: t('description'),
+    ctaPrimary: t('cta.primary'),
+    ctaSecondary: t('cta.secondary')
   }
 
   const featuresProps = {
     features: {
       upload: {
-        title: t('landing.features.upload.title'),
-        description: t('landing.features.upload.description')
+        title: t('features.upload.title'),
+        description: t('features.upload.description')
       },
       customize: {
-        title: t('landing.features.customize.title'),
-        description: t('landing.features.customize.description')
+        title: t('features.customize.title'),
+        description: t('features.customize.description')
       },
       learn: {
-        title: t('landing.features.learn.title'),
-        description: t('landing.features.learn.description')
+        title: t('features.learn.title'),
+        description: t('features.learn.description')
       },
       share: {
-        title: t('landing.features.share.title'),
-        description: t('landing.features.share.description')
+        title: t('features.share.title'),
+        description: t('features.share.description')
       }
     }
   }
