@@ -1,4 +1,4 @@
-import { DocumentsPageClient } from '@/components/documents/documents-page-client'
+import { DocumentsPageClient } from '@/components/documents'
 
 interface DocumentsPageProps {
   params: Promise<{ locale: string }>

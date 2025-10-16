@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { FileUpload } from './file-upload'
+import { FileUpload } from '../ui/file-upload'
 
 interface UploadSectionProps {
   title: string

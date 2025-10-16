@@ -1,5 +1,6 @@
 'use client'
 
+import { JSX } from 'react'
 import { useLocale } from 'next-intl'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'

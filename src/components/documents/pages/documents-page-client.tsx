@@ -3,10 +3,10 @@
 import { JSX, useState } from 'react'
 import { useTranslations } from '@/hooks/use-translations'
 import { useDocuments } from '@/hooks/use-documents'
-import { DocumentsHeader } from './documents-header'
-import { UploadSection } from './upload-section'
-import { ErrorDisplay } from './error-display'
-import { DocumentsList } from './documents-list'
+import { DocumentsHeader } from '../sections/documents-header'
+import { UploadSection } from '../sections/upload-section'
+import { ErrorDisplay } from '../ui/error-display'
+import { DocumentsList } from '../sections/documents-list'
 
 interface DocumentsPageClientProps {
   locale: 'en' | 'it'

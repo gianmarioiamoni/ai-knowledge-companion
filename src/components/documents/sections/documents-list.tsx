@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from '@/components/ui/card'
 import { FileText } from 'lucide-react'
-import { DocumentItem } from './document-item'
+import { DocumentItem } from '../ui/document-item'
 import type { Document } from '@/types/database'
 
 interface DocumentsListProps {
