@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
+import { SimpleLanguageSwitcher } from '@/components/simple-language-switcher'
 import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -37,7 +38,7 @@ export default async function LocaleLayout({
           <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
             <div className="container mx-auto px-4 py-4 flex justify-between items-center">
               <h1 className="text-xl font-semibold">AI Knowledge Companion</h1>
-              <div>Locale: {locale}</div>
+              <SimpleLanguageSwitcher currentLocale={locale} />
             </div>
           </header>
 
