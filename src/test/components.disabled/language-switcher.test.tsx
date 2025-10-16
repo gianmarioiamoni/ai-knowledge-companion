@@ -1,34 +1,17 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import { NextIntlClientProvider } from 'next-intl'
-import { LanguageSwitcher } from '@/components/language-switcher'
-
-const messages = {
-  // Empty messages object for testing
-}
-
-function renderWithIntl(component: React.ReactElement) {
-  return render(
-    <NextIntlClientProvider locale="en" messages={messages}>
-      {component}
-    </NextIntlClientProvider>
-  )
-}
+import { SimpleLanguageSwitcher } from '@/components/simple-language-switcher'
 
 // Mock the navigation hooks
-jest.mock('next-intl/navigation', () => ({
+jest.mock('next/navigation', () => ({
   useRouter: () => ({
     push: jest.fn(),
   }),
   usePathname: () => '/en/dashboard',
 }))
 
-jest.mock('next-intl', () => ({
-  useLocale: () => 'en',
-}))
-
-describe('LanguageSwitcher', () => {
+describe('SimpleLanguageSwitcher', () => {
   it('renders the language switcher button', () => {
-    renderWithIntl(<LanguageSwitcher />)
+    render(<SimpleLanguageSwitcher currentLocale="en" />)
     
     const button = screen.getByRole('button')
     expect(button).toBeInTheDocument()
@@ -36,7 +19,7 @@ describe('LanguageSwitcher', () => {
   })
 
   it('opens dropdown when clicked', () => {
-    renderWithIntl(<LanguageSwitcher />)
+    render(<SimpleLanguageSwitcher currentLocale="en" />)
     
     const button = screen.getByRole('button')
     fireEvent.click(button)
@@ -47,7 +30,7 @@ describe('LanguageSwitcher', () => {
   })
 
   it('shows both language options', () => {
-    renderWithIntl(<LanguageSwitcher />)
+    render(<SimpleLanguageSwitcher currentLocale="en" />)
     
     const button = screen.getByRole('button')
     fireEvent.click(button)
@@ -57,7 +40,7 @@ describe('LanguageSwitcher', () => {
   })
 
   it('has proper accessibility attributes', () => {
-    renderWithIntl(<LanguageSwitcher />)
+    render(<SimpleLanguageSwitcher currentLocale="en" />)
     
     const button = screen.getByRole('button')
     expect(button).toHaveAttribute('type', 'button')
