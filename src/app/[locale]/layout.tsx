@@ -33,6 +33,7 @@ export default async function LocaleLayout({
     notFound()
   }
 
+
   // Providing all messages to the client side is the easiest way to get started
   const messages = await getMessages()
 
@@ -51,13 +52,13 @@ export default async function LocaleLayout({
                     </h1>
                   </Link>
                   <nav className="flex items-center gap-6">
-                    <Link 
+                    <Link
                       href="/documents"
                       className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                     >
                       {locale === 'en' ? 'Documents' : 'Documenti'}
                     </Link>
-                    <Link 
+                    <Link
                       href="/dashboard"
                       className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                     >

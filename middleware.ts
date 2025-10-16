@@ -1,7 +1,6 @@
 import createMiddleware from "next-intl/middleware";
 import { routing } from "@/i18n/routing";
 
-// For now, use only next-intl middleware to debug the locale issue
 export default createMiddleware(routing);
 
 export const config = {
