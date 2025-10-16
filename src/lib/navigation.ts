@@ -1,44 +1,10 @@
-import { createLocalizedPathnamesNavigation } from 'next-intl/navigation'
-
-export const locales = ['en', 'it'] as const
-export type Locale = (typeof locales)[number]
-
-// The `pathnames` object holds pairs of internal and
-// external paths. Based on the locale, the external
-// paths are rewritten to the shared, internal ones.
-export const pathnames = {
-  '/': '/',
-  '/dashboard': {
-    en: '/dashboard',
-    it: '/dashboard'
-  },
-  '/tutors': {
-    en: '/tutors',
-    it: '/tutor'
-  },
-  '/documents': {
-    en: '/documents',
-    it: '/documenti'
-  },
-  '/marketplace': {
-    en: '/marketplace',
-    it: '/marketplace'
-  },
-  '/settings': {
-    en: '/settings',
-    it: '/impostazioni'
-  },
-  '/auth/login': {
-    en: '/auth/login',
-    it: '/auth/accedi'
-  },
-  '/auth/signup': {
-    en: '/auth/signup',
-    it: '/auth/registrati'
-  }
-} as const
+import { createNavigation } from "next-intl/navigation";
+import { routing } from "@/i18n/routing";
 
 export const { Link, redirect, usePathname, useRouter, getPathname } =
-  createLocalizedPathnamesNavigation({ locales, pathnames })
+  createNavigation(routing);
 
-export const defaultLocale: Locale = 'en'
+// Re-export types and constants from routing
+export type Locale = (typeof routing.locales)[number];
+export const locales = routing.locales;
+export const defaultLocale = routing.defaultLocale;

@@ -1,24 +1,22 @@
-import createMiddleware from 'next-intl/middleware'
-import { updateSession } from '@/lib/supabase/middleware'
-import { NextRequest, NextResponse } from 'next/server'
+import createMiddleware from "next-intl/middleware";
+import { updateSession } from "@/lib/supabase/middleware";
+import { NextRequest, NextResponse } from "next/server";
+import { routing } from "@/i18n/routing";
 
 // Create the internationalization middleware
-const intlMiddleware = createMiddleware({
-  locales: ['en', 'it'],
-  defaultLocale: 'en'
-})
+const intlMiddleware = createMiddleware(routing);
 
 export async function middleware(request: NextRequest) {
   // First, handle internationalization
-  const intlResponse = intlMiddleware(request)
-  
+  const intlResponse = intlMiddleware(request);
+
   // If the intl middleware returns a response (redirect), use it
   if (intlResponse) {
-    return intlResponse
+    return intlResponse;
   }
 
   // Then handle Supabase session
-  return await updateSession(request)
+  return await updateSession(request);
 }
 
 export const config = {
@@ -31,6 +29,6 @@ export const config = {
      * - favicon.ico (favicon file)
      * Feel free to modify this pattern to include more paths.
      */
-    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
-}
+};
