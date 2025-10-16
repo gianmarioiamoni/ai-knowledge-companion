@@ -36,10 +36,10 @@ export interface Database {
           title: string
           description: string | null
           source_url: string | null
-          storage_path: string | null
-          mime_type: string | null
+          storage_path: string
+          mime_type: string
           length_tokens: number | null
-          visibility: 'private' | 'shared' | 'public'
+          visibility: 'private' | 'public'
           created_at: string
           updated_at: string
         }
@@ -49,10 +49,10 @@ export interface Database {
           title: string
           description?: string | null
           source_url?: string | null
-          storage_path?: string | null
-          mime_type?: string | null
+          storage_path: string
+          mime_type: string
           length_tokens?: number | null
-          visibility?: 'private' | 'shared' | 'public'
+          visibility?: 'private' | 'public'
           created_at?: string
           updated_at?: string
         }
@@ -62,10 +62,10 @@ export interface Database {
           title?: string
           description?: string | null
           source_url?: string | null
-          storage_path?: string | null
-          mime_type?: string | null
+          storage_path?: string
+          mime_type?: string
           length_tokens?: number | null
-          visibility?: 'private' | 'shared' | 'public'
+          visibility?: 'private' | 'public'
           updated_at?: string
         }
       }
