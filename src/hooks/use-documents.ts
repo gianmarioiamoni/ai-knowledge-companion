@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Document } from '@/types/documents'
+import type { Document } from '@/types/database'
 import * as documentsService from '@/lib/supabase/documents'
 import { useAuth } from './use-auth'
 
