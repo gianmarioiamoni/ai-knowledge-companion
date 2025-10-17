@@ -38,8 +38,10 @@ export interface Database {
           source_url: string | null
           storage_path: string
           mime_type: string
+          file_size: number | null
           length_tokens: number | null
           visibility: 'private' | 'public'
+          status: 'processing' | 'ready' | 'error'
           created_at: string
           updated_at: string
         }
@@ -51,8 +53,10 @@ export interface Database {
           source_url?: string | null
           storage_path: string
           mime_type: string
+          file_size?: number | null
           length_tokens?: number | null
           visibility?: 'private' | 'public'
+          status?: 'processing' | 'ready' | 'error'
           created_at?: string
           updated_at?: string
         }
@@ -64,8 +68,10 @@ export interface Database {
           source_url?: string | null
           storage_path?: string
           mime_type?: string
+          file_size?: number | null
           length_tokens?: number | null
           visibility?: 'private' | 'public'
+          status?: 'processing' | 'ready' | 'error'
           updated_at?: string
         }
       }

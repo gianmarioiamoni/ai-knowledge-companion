@@ -1,101 +1,197 @@
-# Supabase Setup Guide
+# 🚀 Supabase Setup Guide
 
-## 🚀 Quick Start (Development Mode)
+Questa guida ti aiuterà a configurare Supabase per il progetto AI Knowledge Companion, sia per lo sviluppo che per la produzione.
 
-The application will work without Supabase configuration using mock data. You'll see a warning in the console, but all UI components will function normally.
+## 📋 Prerequisiti
 
-## 🔧 Production Setup
+- Account Supabase (gratuito su [supabase.com](https://supabase.com))
+- Account OpenAI per le API
+- Account Vercel per il deploy (opzionale)
 
-To connect to a real Supabase instance:
+## 🏗️ Setup Sviluppo
 
-### 1. Create Supabase Project
+### 1. Crea Progetto Supabase
 
-1. Go to [supabase.com](https://supabase.com)
-2. Create a new project
-3. Wait for the project to be ready
+1. Vai su [supabase.com](https://supabase.com) e accedi
+2. Clicca "New Project"
+3. Compila i dettagli:
+   - **Organization**: Scegli o crea una organization
+   - **Name**: `ai-knowledge-companion`
+   - **Database Password**: Genera una password sicura (salvala!)
+   - **Region**: Scegli la regione più vicina (es. `Europe (Frankfurt)` per l'Europa)
+4. Clicca "Create new project"
+5. Aspetta che il progetto sia pronto (2-3 minuti)
 
-### 2. Get API Credentials
+### 2. Configura Database Schema
 
-1. Go to your project dashboard
-2. Navigate to **Settings** → **API**
-3. Copy the following values:
-   - **Project URL** (e.g., `https://your-project.supabase.co`)
-   - **anon/public key** (starts with `eyJ...`)
-   - **service_role key** (starts with `eyJ...`)
+1. Nel dashboard Supabase, vai su **SQL Editor**
+2. Copia e incolla il contenuto del file `supabase/schema.sql`
+3. Clicca "Run" per eseguire lo script
+4. Verifica che tutte le tabelle siano state create nella sezione **Table Editor**
 
-### 3. Configure Environment Variables
+### 3. Configura Storage
 
-Create a `.env.local` file in the project root:
+1. Vai su **Storage** nel dashboard
+2. Copia e incolla il contenuto del file `supabase/storage-setup.sql` nell'SQL Editor
+3. Clicca "Run" per creare il bucket e le policies
+
+### 4. Ottieni le Chiavi API
+
+1. Vai su **Settings** > **API**
+2. Copia i seguenti valori:
+   - **Project URL** (es. `https://xxxxx.supabase.co`)
+   - **anon public** key
+   - **service_role** key (⚠️ Mantieni questa chiave segreta!)
+
+### 5. Configura Environment Variables
+
+1. Crea il file `.env.local` nella root del progetto:
 
 ```bash
 # Supabase Configuration
 NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key_here
 
-# OpenAI Configuration (optional for now)
-OPENAI_API_KEY=your-openai-api-key-here
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key_here
 
 # Next.js Configuration
-NEXTAUTH_SECRET=your-nextauth-secret-here
+NEXTAUTH_SECRET=your_random_secret_here
 NEXTAUTH_URL=http://localhost:3000
 
-# Development
+# Environment
 NODE_ENV=development
 ```
 
-### 4. Setup Database Schema
+2. Sostituisci i valori con quelli reali del tuo progetto
 
-Run the SQL scripts in the `sql/` folder in your Supabase SQL editor:
-
-1. **`sql/01_documents_schema.sql`** - Creates documents and document_chunks tables
-2. **`sql/02_storage_setup.sql`** - Sets up file storage bucket
-
-### 5. Enable Row Level Security (RLS)
-
-The SQL scripts automatically enable RLS policies for security.
-
-### 6. Restart Development Server
+### 6. Testa la Connessione
 
 ```bash
 pnpm run dev
 ```
 
-## 🧪 Mock Mode Features
+Se tutto è configurato correttamente, l'app dovrebbe avviarsi senza errori.
 
-When running without Supabase configuration:
+## 🌐 Setup Produzione (Vercel)
 
-- ✅ All UI components work normally
-- ✅ File upload UI functions (files aren't actually stored)
-- ✅ Document list shows empty state
-- ✅ No errors or crashes
-- ⚠️ Console warning about missing Supabase config
-- ❌ No real data persistence
+### 1. Prepara il Deploy
 
-## 🔍 Troubleshooting
+1. Assicurati che il codice sia committato su GitHub
+2. Vai su [vercel.com](https://vercel.com) e accedi
+3. Clicca "New Project" e seleziona il tuo repository
 
-### "Supabase environment variables not found" Warning
+### 2. Configura Environment Variables in Vercel
 
-This is normal if you haven't set up Supabase yet. The app will use mock data.
+Nel dashboard Vercel, vai su **Settings** > **Environment Variables** e aggiungi:
 
-### Connection Errors
+```bash
+# Supabase (stesso progetto o crea uno separato per produzione)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-1. Check your `.env.local` file exists and has correct values
-2. Verify your Supabase project is active
-3. Ensure the API keys are correct
-4. Restart the development server
+# OpenAI
+OPENAI_API_KEY=your_openai_api_key
 
-### Database Errors
+# Next.js
+NEXTAUTH_SECRET=your_production_secret
+NEXTAUTH_URL=https://your-domain.vercel.app
 
-1. Make sure you've run the SQL scripts in your Supabase dashboard
-2. Check that RLS policies are enabled
-3. Verify your service role key has the correct permissions
+# Environment
+NODE_ENV=production
+```
 
-## 📝 Next Steps
+### 3. Deploy
 
-Once Supabase is configured:
+1. Clicca "Deploy" in Vercel
+2. Aspetta che il build sia completato
+3. Testa l'app in produzione
 
-1. Test file upload functionality
-2. Verify document storage and retrieval
-3. Set up OpenAI integration for embeddings
-4. Configure authentication flows
+## 🔒 Sicurezza
+
+### Variabili d'Ambiente
+
+- ✅ **NEXT*PUBLIC*\*** - Sicure, visibili nel browser
+- ⚠️ **SUPABASE_SERVICE_ROLE_KEY** - Mantieni segreta, solo server-side
+- ⚠️ **OPENAI_API_KEY** - Mantieni segreta, solo server-side
+
+### Row Level Security (RLS)
+
+Il nostro schema include già le policies RLS per:
+
+- ✅ Isolamento dati per utente
+- ✅ Accesso controllato ai documenti
+- ✅ Sicurezza storage files
+
+### Best Practices
+
+1. **Mai** committare file `.env.local` nel repository
+2. Usa **service_role_key** solo per operazioni server-side
+3. Implementa rate limiting per le API
+4. Monitora l'uso delle API OpenAI
+
+## 🧪 Testing
+
+### Test Connessione Database
+
+```bash
+# Nel browser, apri Developer Tools e vai su Network
+# Naviga nell'app e verifica le chiamate a Supabase
+```
+
+### Test Storage
+
+```bash
+# Carica un file nella sezione Documents
+# Verifica che appaia nel bucket Supabase Storage
+```
+
+### Test Autenticazione
+
+```bash
+# Registra un nuovo utente
+# Verifica che appaia nella tabella auth.users in Supabase
+```
+
+## 🆘 Troubleshooting
+
+### Errore: "Missing Supabase environment variables"
+
+- Verifica che `.env.local` esista e contenga le variabili corrette
+- Riavvia il server di sviluppo dopo aver aggiunto le variabili
+
+### Errore: "Invalid API key"
+
+- Verifica che le chiavi Supabase siano corrette
+- Assicurati di usare le chiavi del progetto giusto
+
+### Errore: "Row Level Security policy violation"
+
+- Verifica che l'utente sia autenticato
+- Controlla che le RLS policies siano configurate correttamente
+
+### Errore di CORS
+
+- Verifica che il dominio sia configurato in Supabase **Authentication** > **URL Configuration**
+
+## 📚 Risorse Utili
+
+- [Supabase Documentation](https://supabase.com/docs)
+- [Next.js + Supabase Guide](https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs)
+- [Vercel Deployment Guide](https://vercel.com/docs/deployments/overview)
+
+## 🎯 Prossimi Passi
+
+Dopo aver completato il setup:
+
+1. ✅ Testa l'autenticazione
+2. ✅ Testa l'upload di documenti
+3. ✅ Configura OpenAI per gli embeddings
+4. ✅ Implementa la pipeline RAG completa
+5. ✅ Deploy in produzione
+
+---
+
+**Hai bisogno di aiuto?** Controlla la sezione Troubleshooting o consulta la documentazione Supabase.
