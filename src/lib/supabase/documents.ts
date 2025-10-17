@@ -19,10 +19,18 @@ export async function uploadFile(
   userId: string
 ): Promise<{ path: string; error?: string }> {
   try {
+    console.log("🚀 Starting upload:", {
+      fileName: file.name,
+      fileSize: file.size,
+      fileType: file.type,
+      userId,
+    });
+
     const supabase = createClient();
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
+      console.log("❌ File too large:", file.size, "vs", MAX_FILE_SIZE);
       return { path: "", error: "File size exceeds 10MB limit" };
     }
 
@@ -33,6 +41,9 @@ export async function uploadFile(
       .substring(2)}.${fileExt}`;
     const filePath = `${userId}/${fileName}`;
 
+    console.log("📁 Upload path:", filePath);
+    console.log("⏳ Starting Supabase upload...");
+
     const { data, error } = await supabase.storage
       .from("documents")
       .upload(filePath, file, {
@@ -41,10 +52,11 @@ export async function uploadFile(
       });
 
     if (error) {
-      console.error("Upload error:", error);
+      console.error("❌ Upload error:", error);
       return { path: "", error: error.message };
     }
 
+    console.log("✅ Upload successful:", data);
     return { path: data.path };
   } catch (error) {
     console.error("Upload exception:", error);
