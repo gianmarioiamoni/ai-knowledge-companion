@@ -1,0 +1,85 @@
+'use client'
+
+import { JSX } from 'react'
+import { useAuth } from '@/hooks/use-auth'
+import { LanguageSwitcher } from '@/components/language-switcher'
+import { Link } from '@/lib/navigation'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
+
+interface HeaderProps {
+    locale: string
+}
+
+export function Header({ locale }: HeaderProps): JSX.Element {
+    const { user, signOut } = useAuth()
+    const router = useRouter()
+
+    const handleSignOut = async () => {
+        await signOut()
+        router.push('/')
+    }
+
+    return (
+        <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+                <div className="flex items-center gap-8">
+                    <Link href="/">
+                        <h1 className="text-xl font-semibold hover:text-blue-600 transition-colors">
+                            AI Knowledge Companion
+                        </h1>
+                    </Link>
+
+                    {user && (
+                        <nav className="flex items-center gap-6">
+                            <Link
+                                href="/documents"
+                                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                            >
+                                {locale === 'en' ? 'Documents' : 'Documenti'}
+                            </Link>
+                            <Link
+                                href="/dashboard"
+                                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                            >
+                                {locale === 'en' ? 'Dashboard' : 'Dashboard'}
+                            </Link>
+                        </nav>
+                    )}
+                </div>
+
+                <div className="flex items-center gap-4">
+                    <LanguageSwitcher />
+
+                    {user ? (
+                        <div className="flex items-center gap-4">
+                            <span className="text-sm text-gray-600">
+                                {user.email}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleSignOut}
+                            >
+                                {locale === 'en' ? 'Sign Out' : 'Esci'}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <Link href="/auth/login">
+                                <Button variant="outline" size="sm">
+                                    {locale === 'en' ? 'Login' : 'Accedi'}
+                                </Button>
+                            </Link>
+                            <Link href="/auth/signup">
+                                <Button size="sm">
+                                    {locale === 'en' ? 'Sign Up' : 'Registrati'}
+                                </Button>
+                            </Link>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </header>
+    )
+}

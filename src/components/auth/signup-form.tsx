@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@/hooks/use-auth'
 import { Link } from '@/lib/navigation'
 
 const signupSchema = z.object({
@@ -31,7 +31,7 @@ export function SignupForm(): JSX.Element {
   const [success, setSuccess] = useState(false)
   const router = useRouter()
   const t = useTranslations('auth')
-  const supabase = createClient()
+  const { signUp, signInWithGoogle } = useAuth()
 
   const {
     register,
@@ -46,15 +46,8 @@ export function SignupForm(): JSX.Element {
       setIsLoading(true)
       setError(null)
 
-      const { error: authError, data: authData } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
-          data: {
-            display_name: data.displayName || data.email.split('@')[0],
-          },
-        },
+      const { error: authError, data: authData } = await signUp(data.email, data.password, {
+        displayName: data.displayName
       })
 
       if (authError) {
@@ -62,7 +55,7 @@ export function SignupForm(): JSX.Element {
         return
       }
 
-      if (authData.user && !authData.session) {
+      if (authData?.user && !authData?.session) {
         // Email confirmation required
         setSuccess(true)
       } else {
@@ -173,6 +166,34 @@ export function SignupForm(): JSX.Element {
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? t('loading') : t('signup')}
+          </Button>
+
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-background px-2 text-muted-foreground">
+                Or
+              </span>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={async () => {
+              setIsLoading(true)
+              const { error } = await signInWithGoogle()
+              if (error) {
+                setError(error.message)
+              }
+              setIsLoading(false)
+            }}
+            disabled={isLoading}
+          >
+            Continue with Google
           </Button>
         </form>
 

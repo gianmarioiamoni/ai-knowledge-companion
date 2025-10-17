@@ -1,33 +1,95 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
-// Mock user for development with valid UUID
-const mockUser = {
-  id: "00000000-0000-4000-8000-000000000001",
-  email: "user@example.com",
-  name: "Test User",
-};
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 export function useAuth() {
-  const [user, setUser] = useState<typeof mockUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const supabase = createClient();
 
   useEffect(() => {
-    // Simulate loading and authentication
-    const timer = setTimeout(() => {
-      setUser(mockUser);
+    // Get initial session
+    const getInitialSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
       setLoading(false);
-    }, 1000);
+    };
 
-    return () => clearTimeout(timer);
-  }, []);
+    getInitialSession();
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setUser(session?.user ?? null);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  const signIn = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    return { data, error };
+  };
+
+  const signUp = async (
+    email: string,
+    password: string,
+    options?: { displayName?: string }
+  ) => {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+        data: {
+          display_name: options?.displayName || email.split("@")[0],
+        },
+      },
+    });
+    return { data, error };
+  };
+
+  const signOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    return { error };
+  };
+
+  const signInWithGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+    return { data, error };
+  };
+
+  const signInWithMagicLink = async (email: string) => {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`,
+      },
+    });
+    return { data, error };
+  };
 
   return {
     user,
     loading,
-    signIn: async () => {},
-    signOut: async () => {},
-    signUp: async () => {},
+    signIn,
+    signOut,
+    signUp,
+    signInWithGoogle,
+    signInWithMagicLink,
   };
 }

@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { createClient } from '@/lib/supabase/client'
+import { useAuth } from '@/hooks/use-auth'
 import { Link } from '@/lib/navigation'
 
 const loginSchema = z.object({
@@ -25,7 +25,7 @@ export function LoginForm(): JSX.Element {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const t = useTranslations('auth')
-  const supabase = createClient()
+  const { signIn, signInWithGoogle, signInWithMagicLink } = useAuth()
 
   const {
     register,
@@ -40,10 +40,7 @@ export function LoginForm(): JSX.Element {
       setIsLoading(true)
       setError(null)
 
-      const { error: authError } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: data.password,
-      })
+      const { error: authError } = await signIn(data.email, data.password)
 
       if (authError) {
         setError(authError.message)
@@ -60,7 +57,7 @@ export function LoginForm(): JSX.Element {
 
   const handleMagicLink = async () => {
     const email = (document.getElementById('email') as HTMLInputElement)?.value
-    
+
     if (!email) {
       setError('Please enter your email first')
       return
@@ -70,12 +67,7 @@ export function LoginForm(): JSX.Element {
       setIsLoading(true)
       setError(null)
 
-      const { error: authError } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`,
-        },
-      })
+      const { error: authError } = await signInWithMagicLink(email)
 
       if (authError) {
         setError(authError.message)
@@ -156,6 +148,23 @@ export function LoginForm(): JSX.Element {
             disabled={isLoading}
           >
             {t('magicLink')}
+          </Button>
+
+          <Button
+            type="button"
+            variant="outline"
+            className="w-full"
+            onClick={async () => {
+              setIsLoading(true)
+              const { error } = await signInWithGoogle()
+              if (error) {
+                setError(error.message)
+              }
+              setIsLoading(false)
+            }}
+            disabled={isLoading}
+          >
+            Continue with Google
           </Button>
         </form>
 

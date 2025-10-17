@@ -49,7 +49,9 @@
     "signupError": "Error creating account",
     "passwordTooShort": "Password must be at least 6 characters",
     "emailRequired": "Email is required",
-    "passwordRequired": "Password is required"
+    "passwordRequired": "Password is required",
+    "loading": "Loading...",
+    "success": "Success!"
   },
   "dashboard": {
     "title": "Dashboard",
