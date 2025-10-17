@@ -128,9 +128,14 @@ Il nostro schema include già le policies RLS per:
 ### Best Practices
 
 1. **Mai** committare file `.env.local` nel repository
+   - ✅ `.env.local` è già escluso dal `.gitignore`
+   - ✅ Usa `env.example` come template
+   - ⚠️ Verifica sempre con `git status` prima del commit
 2. Usa **service_role_key** solo per operazioni server-side
 3. Implementa rate limiting per le API
 4. Monitora l'uso delle API OpenAI
+5. **Rotazione chiavi**: Cambia le API keys periodicamente
+6. **Ambiente separato**: Usa progetti Supabase diversi per dev/prod
 
 ## 🧪 Testing
 

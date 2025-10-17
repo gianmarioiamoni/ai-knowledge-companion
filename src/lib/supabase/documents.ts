@@ -7,10 +7,11 @@ import {
 } from "@/types/documents";
 
 // Use Supabase generated types
-type Document = Database['public']['Tables']['documents']['Row'];
-type DocumentInsert = Database['public']['Tables']['documents']['Insert'];
-type DocumentChunk = Database['public']['Tables']['document_chunks']['Row'];
-type DocumentChunkInsert = Database['public']['Tables']['document_chunks']['Insert'];
+type Document = Database["public"]["Tables"]["documents"]["Row"];
+type DocumentInsert = Database["public"]["Tables"]["documents"]["Insert"];
+type DocumentChunk = Database["public"]["Tables"]["document_chunks"]["Row"];
+type DocumentChunkInsert =
+  Database["public"]["Tables"]["document_chunks"]["Insert"];
 
 // Upload file to Supabase Storage
 export async function uploadFile(
@@ -19,7 +20,7 @@ export async function uploadFile(
 ): Promise<{ path: string; error?: string }> {
   try {
     const supabase = createClient();
-    
+
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       return { path: "", error: "File size exceeds 10MB limit" };
@@ -57,7 +58,7 @@ export async function createDocument(
 ): Promise<{ data?: Document; error?: string }> {
   try {
     const supabase = createClient();
-    
+
     const { data, error } = await (supabase as any)
       .from("documents")
       .insert(document)
@@ -82,7 +83,7 @@ export async function getUserDocuments(
 ): Promise<{ data?: Document[]; error?: string }> {
   try {
     const supabase = createClient();
-    
+
     const { data, error } = await supabase
       .from("documents")
       .select("*")
@@ -107,7 +108,7 @@ export async function getDocument(
 ): Promise<{ data?: Document; error?: string }> {
   try {
     const supabase = createClient();
-    
+
     const { data, error } = await supabase
       .from("documents")
       .select("*")
@@ -138,7 +139,7 @@ export async function deleteDocument(
     }
 
     const supabase = createClient();
-    
+
     // Delete from storage
     const { error: storageError } = await supabase.storage
       .from("documents")
@@ -173,8 +174,10 @@ export async function createDocumentChunks(
 ): Promise<{ error?: string }> {
   try {
     const supabase = createClient();
-    
-    const { error } = await (supabase as any).from("document_chunks").insert(chunks);
+
+    const { error } = await (supabase as any)
+      .from("document_chunks")
+      .insert(chunks);
 
     if (error) {
       console.error("Create chunks error:", error);
@@ -194,7 +197,7 @@ export async function getDocumentChunks(
 ): Promise<{ data?: DocumentChunk[]; error?: string }> {
   try {
     const supabase = createClient();
-    
+
     const { data, error } = await supabase
       .from("document_chunks")
       .select("*")
@@ -219,7 +222,7 @@ export async function getFileUrl(
 ): Promise<{ url?: string; error?: string }> {
   try {
     const supabase = createClient();
-    
+
     const { data, error } = await supabase.storage
       .from("documents")
       .createSignedUrl(path, 3600); // 1 hour expiry

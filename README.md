@@ -59,21 +59,31 @@ cd ai-knowledge-companion
 pnpm install
 ```
 
-3. Configura le variabili d'ambiente:
+3. Installa i git hooks di sicurezza:
 ```bash
-cp .env.example .env.local
+./scripts/setup-git-hooks.sh
+```
+
+4. Configura le variabili d'ambiente:
+```bash
+cp env.example .env.local
 ```
 
 Modifica `.env.local` con le tue credenziali:
 - Supabase URL e Keys
 - OpenAI API Key
 
-4. Setup del database Supabase:
+⚠️ **IMPORTANTE**: 
+- `.env.local` è automaticamente escluso da git per sicurezza
+- Non committare mai file contenenti API keys o credenziali
+- Usa `env.example` come template per documentare le variabili necessarie
+
+5. Setup del database Supabase:
 - Crea un nuovo progetto su [Supabase](https://supabase.com)
 - Abilita l'estensione pgvector nel Database
 - Esegui le migrazioni SQL (vedi `/sql/migrations/`)
 
-5. Avvia il server di sviluppo:
+6. Avvia il server di sviluppo:
 ```bash
 pnpm dev
 ```
