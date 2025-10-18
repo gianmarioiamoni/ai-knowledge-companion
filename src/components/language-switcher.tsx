@@ -2,7 +2,7 @@
 
 import { JSX } from 'react'
 import { useLocale } from 'next-intl'
-import { useRouter, usePathname } from '@/lib/navigation'
+import { Link, usePathname } from '@/lib/navigation'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -19,13 +19,7 @@ const languages = [
 
 export function LanguageSwitcher(): JSX.Element {
   const locale = useLocale()
-  const router = useRouter()
   const pathname = usePathname()
-
-  const handleLanguageChange = (newLocale: string) => {
-    // Use next-intl's router which handles locale switching automatically
-    router.replace(pathname, { locale: newLocale })
-  }
 
   const currentLanguage = languages.find(lang => lang.code === locale)
 
@@ -41,11 +35,13 @@ export function LanguageSwitcher(): JSX.Element {
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
-            onClick={() => handleLanguageChange(language.code)}
+            asChild
             className={language.code === locale ? 'bg-accent' : ''}
           >
-            <span className="mr-2">{language.flag}</span>
-            {language.name}
+            <Link href={pathname} locale={language.code as 'en' | 'it'}>
+              <span className="mr-2">{language.flag}</span>
+              {language.name}
+            </Link>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>
