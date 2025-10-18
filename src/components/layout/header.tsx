@@ -1,6 +1,7 @@
 'use client'
 
 import { JSX } from 'react'
+import { useTranslations } from 'next-intl'
 import { useAuth } from '@/hooks/use-auth'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { Link } from '@/lib/navigation'
@@ -14,6 +15,7 @@ interface HeaderProps {
 export function Header({ locale }: HeaderProps): JSX.Element {
     const { user, signOut } = useAuth()
     const router = useRouter()
+    const t = useTranslations('navigation')
 
     const handleSignOut = async () => {
         await signOut()
@@ -36,13 +38,13 @@ export function Header({ locale }: HeaderProps): JSX.Element {
                                 href="/documents"
                                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                             >
-                                {locale === 'en' ? 'Documents' : 'Documenti'}
+                                {t('documents')}
                             </Link>
                             <Link
                                 href="/dashboard"
                                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                             >
-                                {locale === 'en' ? 'Dashboard' : 'Dashboard'}
+                                {t('dashboard')}
                             </Link>
                         </nav>
                     )}
@@ -61,19 +63,19 @@ export function Header({ locale }: HeaderProps): JSX.Element {
                                 size="sm"
                                 onClick={handleSignOut}
                             >
-                                {locale === 'en' ? 'Sign Out' : 'Esci'}
+                                {t('logout')}
                             </Button>
                         </div>
                     ) : (
                         <div className="flex items-center gap-2">
                             <Link href="/auth/login">
                                 <Button variant="outline" size="sm">
-                                    {locale === 'en' ? 'Login' : 'Accedi'}
+                                    {t('login')}
                                 </Button>
                             </Link>
                             <Link href="/auth/signup">
                                 <Button size="sm">
-                                    {locale === 'en' ? 'Sign Up' : 'Registrati'}
+                                    {t('signup')}
                                 </Button>
                             </Link>
                         </div>

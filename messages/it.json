@@ -28,6 +28,8 @@
     "marketplace": "Marketplace",
     "settings": "Impostazioni",
     "profile": "Profilo",
+    "login": "Accedi",
+    "signup": "Registrati",
     "logout": "Esci"
   },
   "auth": {
