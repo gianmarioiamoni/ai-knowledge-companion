@@ -1,7 +1,8 @@
 'use client'
 
-import { JSX } from 'react'
+import { JSX, useEffect, useState } from 'react'
 import { useLocale } from 'next-intl'
+import { useParams } from 'next/navigation'
 import { Link, usePathname } from '@/lib/navigation'
 import { Button } from '@/components/ui/button'
 import {
@@ -19,9 +20,24 @@ const languages = [
 
 export function LanguageSwitcher(): JSX.Element {
   const locale = useLocale()
+  const params = useParams()
   const pathname = usePathname()
+  const [displayLocale, setDisplayLocale] = useState<string>(locale || 'en')
 
-  const currentLanguage = languages.find(lang => lang.code === locale)
+  // Update display locale when URL changes
+  useEffect(() => {
+    const urlLocale = (params?.locale as string) || locale || 'en'
+    console.log('LanguageSwitcher Effect:', {
+      locale,
+      paramsLocale: params?.locale,
+      urlLocale,
+      pathname,
+      currentDisplayLocale: displayLocale
+    })
+    setDisplayLocale(urlLocale)
+  }, [locale, params?.locale, pathname])
+
+  const currentLanguage = languages.find(lang => lang.code === displayLocale)
 
   return (
     <DropdownMenu>
@@ -36,7 +52,7 @@ export function LanguageSwitcher(): JSX.Element {
           <DropdownMenuItem
             key={language.code}
             asChild
-            className={language.code === locale ? 'bg-accent' : ''}
+            className={language.code === displayLocale ? 'bg-accent' : ''}
           >
             <Link href={pathname} locale={language.code as 'en' | 'it'}>
               <span className="mr-2">{language.flag}</span>

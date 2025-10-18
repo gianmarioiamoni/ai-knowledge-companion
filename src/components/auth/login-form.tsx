@@ -2,7 +2,7 @@
 
 import { JSX, useState } from 'react'
 import { useRouter } from '@/lib/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -25,6 +25,7 @@ export function LoginForm(): JSX.Element {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
+  const locale = useLocale()
   const t = useTranslations('auth')
   const { signIn, signInWithGoogle, signInWithMagicLink } = useAuth()
 
@@ -48,7 +49,9 @@ export function LoginForm(): JSX.Element {
         return
       }
 
-      router.push('/dashboard')
+      console.log('Login success, redirecting with locale:', locale)
+      // Force redirect with locale to ensure language is maintained
+      window.location.href = `/${locale}/dashboard`
     } catch (err) {
       setError('An unexpected error occurred')
     } finally {

@@ -2,7 +2,7 @@
 
 import { JSX, useState } from 'react'
 import { useRouter } from '@/lib/navigation'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -31,6 +31,7 @@ export function SignupForm(): JSX.Element {
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
   const router = useRouter()
+  const locale = useLocale()
   const t = useTranslations('auth')
   const { signUp, signInWithGoogle } = useAuth()
 
@@ -61,7 +62,8 @@ export function SignupForm(): JSX.Element {
         setSuccess(true)
       } else {
         // Auto-login successful
-        router.push('/dashboard')
+        console.log('Signup auto-login success, redirecting with locale:', locale)
+        window.location.href = `/${locale}/dashboard`
       }
     } catch (err) {
       setError('An unexpected error occurred')
