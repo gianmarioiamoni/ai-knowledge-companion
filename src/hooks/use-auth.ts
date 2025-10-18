@@ -45,11 +45,14 @@ export function useAuth() {
     password: string,
     options?: { displayName?: string }
   ) => {
+    // Get current locale from URL or default to 'en'
+    const currentLocale = window.location.pathname.split('/')[1] || 'en';
+    
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
+        emailRedirectTo: `${window.location.origin}/${currentLocale}/dashboard`,
         data: {
           display_name: options?.displayName || email.split("@")[0],
         },
@@ -64,20 +67,26 @@ export function useAuth() {
   };
 
   const signInWithGoogle = async () => {
+    // Get current locale from URL or default to 'en'
+    const currentLocale = window.location.pathname.split('/')[1] || 'en';
+    
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/dashboard`,
+        redirectTo: `${window.location.origin}/${currentLocale}/dashboard`,
       },
     });
     return { data, error };
   };
 
   const signInWithMagicLink = async (email: string) => {
+    // Get current locale from URL or default to 'en'
+    const currentLocale = window.location.pathname.split('/')[1] || 'en';
+    
     const { data, error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
+        emailRedirectTo: `${window.location.origin}/${currentLocale}/dashboard`,
       },
     });
     return { data, error };
