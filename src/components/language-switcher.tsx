@@ -25,11 +25,7 @@ export function LanguageSwitcher(): JSX.Element {
   const currentLocale = (params?.locale as string) || 'en'
   const currentLanguage = languages.find(lang => lang.code === currentLocale)
 
-  console.log('LanguageSwitcher Debug:', {
-    paramsLocale: params?.locale,
-    currentLocale,
-    pathname
-  })
+  // Debug: console.log('LanguageSwitcher:', { currentLocale, pathname })
 
   return (
     <DropdownMenu>
