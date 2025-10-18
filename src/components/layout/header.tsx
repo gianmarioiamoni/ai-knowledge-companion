@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/use-auth'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { Link } from '@/lib/navigation'
 import { Button } from '@/components/ui/button'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/lib/navigation'
 
 interface HeaderProps {
     locale: string
