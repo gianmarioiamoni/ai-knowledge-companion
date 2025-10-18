@@ -50,8 +50,8 @@ export function LoginForm(): JSX.Element {
       }
 
       console.log('Login success, redirecting with locale:', locale)
-      // Force redirect with locale to ensure language is maintained
-      window.location.href = `/${locale}/dashboard`
+      // Use next-intl router which should maintain locale automatically
+      router.push('/dashboard')
     } catch (err) {
       setError('An unexpected error occurred')
     } finally {

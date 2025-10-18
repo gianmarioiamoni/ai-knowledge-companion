@@ -63,7 +63,7 @@ export function SignupForm(): JSX.Element {
       } else {
         // Auto-login successful
         console.log('Signup auto-login success, redirecting with locale:', locale)
-        window.location.href = `/${locale}/dashboard`
+        router.push('/dashboard')
       }
     } catch (err) {
       setError('An unexpected error occurred')
