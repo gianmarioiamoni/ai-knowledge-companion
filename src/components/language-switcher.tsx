@@ -2,7 +2,7 @@
 
 import { JSX } from 'react'
 import { useParams } from 'next/navigation'
-import { Link, usePathname } from '@/lib/navigation'
+import { useRouter, usePathname } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -20,12 +20,16 @@ const languages = [
 export function LanguageSwitcher(): JSX.Element {
   const params = useParams()
   const pathname = usePathname()
+  const router = useRouter()
   
   // Get locale directly from URL params - this is always accurate
   const currentLocale = (params?.locale as string) || 'en'
   const currentLanguage = languages.find(lang => lang.code === currentLocale)
 
-  // Debug: console.log('LanguageSwitcher:', { currentLocale, pathname })
+  const handleLanguageChange = (newLocale: string) => {
+    // Use router.replace with locale option as recommended by next-intl docs
+    router.replace(pathname, { locale: newLocale })
+  }
 
   return (
     <DropdownMenu>
@@ -39,13 +43,11 @@ export function LanguageSwitcher(): JSX.Element {
         {languages.map((language) => (
           <DropdownMenuItem
             key={language.code}
-            asChild
+            onClick={() => handleLanguageChange(language.code)}
             className={language.code === currentLocale ? 'bg-accent' : ''}
           >
-            <Link href={pathname} locale={language.code as 'en' | 'it'}>
-              <span className="mr-2">{language.flag}</span>
-              {language.name}
-            </Link>
+            <span className="mr-2">{language.flag}</span>
+            {language.name}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

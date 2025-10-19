@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useAuth } from '@/hooks/use-auth'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Link } from '@/lib/navigation'
+import { Link } from '@/i18n/navigation'
 import { FileText, Bot, MessageSquare, Upload } from 'lucide-react'
 
 interface DashboardPageClientProps {

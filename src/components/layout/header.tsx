@@ -4,9 +4,8 @@ import { JSX } from 'react'
 import { useTranslations } from 'next-intl'
 import { useAuth } from '@/hooks/use-auth'
 import { LanguageSwitcher } from '@/components/language-switcher'
-import { Link } from '@/lib/navigation'
+import { Link, useRouter } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
-import { useRouter } from '@/lib/navigation'
 
 interface HeaderProps {
     locale: string

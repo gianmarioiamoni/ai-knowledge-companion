@@ -1,7 +1,7 @@
 'use client'
 
 import { JSX, useState } from 'react'
-import { useRouter } from '@/lib/navigation'
+import { useRouter } from '@/i18n/navigation'
 import { useTranslations, useLocale } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { GoogleIcon } from '@/components/ui/google-icon'
 import { useAuth } from '@/hooks/use-auth'
-import { Link } from '@/lib/navigation'
+import { Link } from '@/i18n/navigation'
 
 const signupSchema = z.object({
   email: z.string().email('Invalid email address'),

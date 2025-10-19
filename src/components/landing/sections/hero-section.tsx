@@ -1,6 +1,6 @@
 import { JSX } from 'react'
 import { Button } from '@/components/ui/button'
-import { Link } from '@/lib/navigation'
+import { Link } from '@/i18n/navigation'
 
 interface HeroSectionProps {
   title: string
