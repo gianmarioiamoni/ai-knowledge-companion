@@ -1,3 +1,4 @@
+import { JSX } from 'react'
 import { render, screen } from '@testing-library/react'
 
 // Simple test component for demonstration
@@ -8,7 +9,7 @@ function SimpleButton({ children }: { children: React.ReactNode }): JSX.Element 
 describe('Jest Configuration', () => {
   it('should render a simple component', () => {
     render(<SimpleButton>Click me</SimpleButton>)
-    
+
     expect(screen.getByText('Click me')).toBeInTheDocument()
   })
 
@@ -26,7 +27,7 @@ describe('Jest Configuration', () => {
   it('should mock functions correctly', () => {
     const mockFn = jest.fn()
     mockFn('test')
-    
+
     expect(mockFn).toHaveBeenCalledWith('test')
     expect(mockFn).toHaveBeenCalledTimes(1)
   })

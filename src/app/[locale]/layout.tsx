@@ -39,7 +39,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale}>
       <body className={inter.className}>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <div className="min-h-screen flex flex-col">
             <Header locale={locale} />
 

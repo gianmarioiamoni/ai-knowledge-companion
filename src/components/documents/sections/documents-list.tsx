@@ -1,5 +1,6 @@
 'use client'
 
+import { JSX } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { FileText } from 'lucide-react'
 import { DocumentItem } from '../ui/document-item'

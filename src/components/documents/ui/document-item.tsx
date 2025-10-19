@@ -1,5 +1,6 @@
 'use client'
 
+import { JSX } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Eye, Trash2 } from 'lucide-react'
@@ -55,9 +56,9 @@ export function DocumentItem({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               className="gap-2"
               onClick={() => onPreview(document.id)}
             >

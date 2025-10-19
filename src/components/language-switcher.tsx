@@ -1,7 +1,7 @@
 'use client'
 
 import { JSX } from 'react'
-import { useParams } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import { useRouter, usePathname } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import {
@@ -18,17 +18,15 @@ const languages = [
 ]
 
 export function LanguageSwitcher(): JSX.Element {
-  const params = useParams()
+  const locale = useLocale()
   const pathname = usePathname()
   const router = useRouter()
-  
-  // Get locale directly from URL params - this is always accurate
-  const currentLocale = (params?.locale as string) || 'en'
-  const currentLanguage = languages.find(lang => lang.code === currentLocale)
+
+  const currentLanguage = languages.find(lang => lang.code === locale)
 
   const handleLanguageChange = (newLocale: string) => {
-    // Use router.replace with locale option as recommended by next-intl docs
-    router.replace(pathname, { locale: newLocale })
+    // Use router.push with locale option for language switching
+    router.push(pathname, { locale: newLocale })
   }
 
   return (
@@ -44,7 +42,7 @@ export function LanguageSwitcher(): JSX.Element {
           <DropdownMenuItem
             key={language.code}
             onClick={() => handleLanguageChange(language.code)}
-            className={language.code === currentLocale ? 'bg-accent' : ''}
+            className={language.code === locale ? 'bg-accent' : ''}
           >
             <span className="mr-2">{language.flag}</span>
             {language.name}

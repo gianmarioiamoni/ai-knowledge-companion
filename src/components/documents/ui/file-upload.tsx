@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { JSX, useState, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Upload, X, FileText, AlertCircle } from 'lucide-react'
@@ -86,7 +86,7 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
 
   // Update file metadata
   const updateFileMetadata = useCallback((index: number, field: 'title' | 'description', value: string) => {
-    setSelectedFiles(prev => prev.map((file, i) => 
+    setSelectedFiles(prev => prev.map((file, i) =>
       i === index ? { ...file, [field]: value } : file
     ))
   }, [])
@@ -97,10 +97,10 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
     if (validFiles.length === 0) return
 
     setUploading(true)
-    
+
     try {
       const results = await Promise.allSettled(
-        validFiles.map(({ file, title, description }) => 
+        validFiles.map(({ file, title, description }) =>
           onUpload(file, title.trim(), description.trim() || undefined)
         )
       )
@@ -132,21 +132,19 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
   return (
     <div className={className}>
       {/* Drop Zone */}
-      <Card 
-        className={`border-2 border-dashed transition-colors cursor-pointer ${
-          dragActive 
-            ? 'border-blue-500 bg-blue-50 dark:bg-blue-950' 
+      <Card
+        className={`border-2 border-dashed transition-colors cursor-pointer ${dragActive
+            ? 'border-blue-500 bg-blue-50 dark:bg-blue-950'
             : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
-        }`}
+          }`}
         onDragEnter={handleDrag}
         onDragLeave={handleDrag}
         onDragOver={handleDrag}
         onDrop={handleDrop}
       >
         <CardContent className="p-8 text-center">
-          <Upload className={`h-12 w-12 mx-auto mb-4 ${
-            dragActive ? 'text-blue-500' : 'text-gray-400'
-          }`} />
+          <Upload className={`h-12 w-12 mx-auto mb-4 ${dragActive ? 'text-blue-500' : 'text-gray-400'
+            }`} />
           <p className="text-lg font-medium text-gray-600 dark:text-gray-300 mb-2">
             {dragActive ? 'Drop files here' : 'Drag and drop files here'}
           </p>
@@ -163,8 +161,8 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
             disabled={isProcessing}
           />
           <label htmlFor="file-upload">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               className="cursor-pointer"
               disabled={isProcessing}
               asChild
@@ -184,7 +182,7 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
           <h3 className="text-lg font-medium text-gray-900 dark:text-white">
             Selected Files ({selectedFiles.length})
           </h3>
-          
+
           <div className="space-y-3">
             {selectedFiles.map((fileData, index) => (
               <Card key={index} className={`${fileData.error ? 'border-red-200 bg-red-50 dark:bg-red-950' : ''}`}>

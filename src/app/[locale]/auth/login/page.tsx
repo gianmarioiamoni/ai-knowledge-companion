@@ -1,3 +1,4 @@
+import { JSX } from 'react'
 import { LoginForm } from '@/components/auth/login-form'
 import { useTranslations } from 'next-intl'
 

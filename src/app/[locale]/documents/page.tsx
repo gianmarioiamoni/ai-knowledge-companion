@@ -1,3 +1,4 @@
+import { JSX } from 'react'
 import { DocumentsPageClient } from '@/components/documents'
 import { AuthGuard } from '@/components/auth/auth-guard'
 
