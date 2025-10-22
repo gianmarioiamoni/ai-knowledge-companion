@@ -1,0 +1,278 @@
+/**
+ * Document Processor - Coordina parsing e chunking dei documenti
+ * Sprint 1: Implementazione locale senza embeddings
+ */
+
+import { parseDocument, type ParsedDocument } from "./document-parser";
+import {
+  chunkDocument,
+  estimateTokens,
+  type ChunkingResult,
+  type DocumentChunk,
+} from "./document-chunker";
+import { createDocumentChunks } from "@/lib/supabase/documents";
+import type { SupportedMimeType } from "@/types/documents";
+import type { Database } from "@/types/database";
+
+type DocumentChunkInsert =
+  Database["public"]["Tables"]["document_chunks"]["Insert"];
+
+export interface ProcessingResult {
+  success: boolean;
+  documentId?: string;
+  chunks?: DocumentChunk[];
+  totalTokens?: number;
+  error?: string;
+  metadata?: {
+    parsing: ParsedDocument["metadata"];
+    chunking: ChunkingResult["metadata"];
+  };
+}
+
+export interface ProcessingOptions {
+  minTokens?: number;
+  maxTokens?: number;
+  overlapTokens?: number;
+  saveToDatabase?: boolean;
+}
+
+/**
+ * Processa un documento: parsing + chunking + salvataggio
+ */
+export async function processDocument(
+  file: File,
+  documentId: string,
+  options: ProcessingOptions = {}
+): Promise<ProcessingResult> {
+  const {
+    minTokens = 500,
+    maxTokens = 800,
+    overlapTokens = 100,
+    saveToDatabase = true,
+  } = options;
+
+  try {
+    console.log("🔄 Starting document processing:", {
+      fileName: file.name,
+      fileSize: file.size,
+      documentId,
+      options,
+    });
+
+    // Step 1: Validazione del file
+    if (!file.type || !isSupportedMimeType(file.type)) {
+      return {
+        success: false,
+        error: `Unsupported file type: ${file.type}`,
+      };
+    }
+
+    // Step 2: Parsing del documento
+    console.log("📄 Step 1: Parsing document...");
+    const parseResult = await parseDocument(
+      file,
+      file.type as SupportedMimeType
+    );
+
+    if (!parseResult.data) {
+      return {
+        success: false,
+        error: parseResult.error || "Failed to parse document",
+      };
+    }
+
+    const { text, metadata: parsingMetadata } = parseResult.data;
+
+    // Step 3: Chunking del testo
+    console.log("🔪 Step 2: Chunking document...");
+    
+    // Per documenti molto brevi, usa parametri più permissivi
+    const textTokens = estimateTokens(text);
+    const adjustedMinTokens = textTokens < minTokens ? Math.max(10, Math.floor(textTokens * 0.8)) : minTokens;
+    
+    console.log("📊 Chunking parameters:", {
+      originalMinTokens: minTokens,
+      adjustedMinTokens,
+      textTokens,
+      textLength: text.length
+    });
+    
+    const chunkingResult = chunkDocument(text, {
+      minTokens: adjustedMinTokens,
+      maxTokens,
+      overlapTokens,
+    });
+
+    if (chunkingResult.chunks.length === 0) {
+      return {
+        success: false,
+        error: `No chunks generated from document. Text too short (${textTokens} tokens, minimum ${adjustedMinTokens} required)`,
+      };
+    }
+
+    // Step 4: Salvataggio nel database (se richiesto)
+    if (saveToDatabase) {
+      console.log("💾 Step 3: Saving chunks to database...");
+      const saveResult = await saveChunksToDatabase(
+        documentId,
+        chunkingResult.chunks
+      );
+
+      if (!saveResult.success) {
+        return {
+          success: false,
+          error: saveResult.error || "Failed to save chunks to database",
+        };
+      }
+    }
+
+    console.log("✅ Document processing completed successfully:", {
+      documentId,
+      totalChunks: chunkingResult.totalChunks,
+      totalTokens: chunkingResult.totalTokens,
+    });
+
+    return {
+      success: true,
+      documentId,
+      chunks: chunkingResult.chunks,
+      totalTokens: chunkingResult.totalTokens,
+      metadata: {
+        parsing: parsingMetadata,
+        chunking: chunkingResult.metadata,
+      },
+    };
+  } catch (error) {
+    console.error("❌ Document processing error:", error);
+    return {
+      success: false,
+      error: `Processing failed: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
+    };
+  }
+}
+
+/**
+ * Salva i chunk nel database
+ */
+async function saveChunksToDatabase(
+  documentId: string,
+  chunks: DocumentChunk[]
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // Converte i chunk nel formato del database
+    const dbChunks: DocumentChunkInsert[] = chunks.map((chunk) => ({
+      document_id: documentId,
+      chunk_index: chunk.index,
+      text: chunk.text,
+      tokens: chunk.tokens,
+      // embedding sarà aggiunto in Sprint 2
+    }));
+
+    const result = await createDocumentChunks(dbChunks);
+
+    if (result.error) {
+      return { success: false, error: result.error };
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Database save error:", error);
+    return {
+      success: false,
+      error: `Failed to save chunks: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }`,
+    };
+  }
+}
+
+/**
+ * Processa un documento in background (per uso futuro con Web Workers)
+ */
+export async function processDocumentInBackground(
+  file: File,
+  documentId: string,
+  options: ProcessingOptions = {},
+  onProgress?: (progress: number, status: string) => void
+): Promise<ProcessingResult> {
+  // Per ora, esegue il processing normale
+  // In futuro, questo potrebbe usare Web Workers
+
+  onProgress?.(10, "Starting document processing...");
+
+  const result = await processDocument(file, documentId, options);
+
+  onProgress?.(
+    100,
+    result.success ? "Processing completed" : "Processing failed"
+  );
+
+  return result;
+}
+
+/**
+ * Stima il tempo di processing
+ */
+export function estimateProcessingTime(fileSize: number): {
+  parsing: number;
+  chunking: number;
+  total: number;
+} {
+  // Stime approssimative in secondi
+  const parsing = Math.max(1, Math.ceil((fileSize / (1024 * 1024)) * 2)); // 2 sec per MB
+  const chunking = Math.max(1, Math.ceil((fileSize / (1024 * 1024)) * 0.5)); // 0.5 sec per MB
+
+  return {
+    parsing,
+    chunking,
+    total: parsing + chunking,
+  };
+}
+
+/**
+ * Verifica se il tipo MIME è supportato
+ */
+function isSupportedMimeType(mimeType: string): mimeType is SupportedMimeType {
+  const supportedTypes = [
+    "application/pdf",
+    "text/plain",
+    "text/markdown",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  ];
+  return supportedTypes.includes(mimeType);
+}
+
+/**
+ * Ottiene statistiche di processing per un batch di documenti
+ */
+export function getProcessingStats(results: ProcessingResult[]): {
+  total: number;
+  successful: number;
+  failed: number;
+  totalTokens: number;
+  totalChunks: number;
+  averageTokensPerChunk: number;
+} {
+  const successful = results.filter((r) => r.success);
+  const failed = results.filter((r) => !r.success);
+  const totalTokens = successful.reduce(
+    (sum, r) => sum + (r.totalTokens || 0),
+    0
+  );
+  const totalChunks = successful.reduce(
+    (sum, r) => sum + (r.chunks?.length || 0),
+    0
+  );
+
+  return {
+    total: results.length,
+    successful: successful.length,
+    failed: failed.length,
+    totalTokens,
+    totalChunks,
+    averageTokensPerChunk: totalChunks > 0 ? totalTokens / totalChunks : 0,
+  };
+}

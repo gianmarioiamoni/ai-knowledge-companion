@@ -2,7 +2,7 @@
 
 import { JSX } from 'react'
 import { Button } from '@/components/ui/button'
-import { Plus } from 'lucide-react'
+import { Plus, RefreshCw, Wifi } from 'lucide-react'
 
 interface DocumentsHeaderProps {
   title: string
@@ -10,6 +10,8 @@ interface DocumentsHeaderProps {
   uploadButtonText: string
   showUpload: boolean
   onToggleUpload: () => void
+  onRefresh?: () => void
+  onTestConnectivity?: () => void
 }
 
 export function DocumentsHeader({
@@ -17,7 +19,9 @@ export function DocumentsHeader({
   subtitle,
   uploadButtonText,
   showUpload,
-  onToggleUpload
+  onToggleUpload,
+  onRefresh,
+  onTestConnectivity
 }: DocumentsHeaderProps): JSX.Element {
   return (
     <div className="flex justify-between items-center mb-8">
@@ -29,13 +33,37 @@ export function DocumentsHeader({
           {subtitle}
         </p>
       </div>
-      <Button
-        className="gap-2"
-        onClick={onToggleUpload}
-      >
-        <Plus className="h-4 w-4" />
-        {showUpload ? 'Hide Upload' : uploadButtonText}
-      </Button>
+      <div className="flex gap-2">
+        {onTestConnectivity && (
+          <Button
+            variant="outline"
+            onClick={onTestConnectivity}
+            className="gap-2"
+            title="Test Supabase connectivity"
+          >
+            <Wifi className="h-4 w-4" />
+            Test
+          </Button>
+        )}
+        {onRefresh && (
+          <Button
+            variant="outline"
+            onClick={onRefresh}
+            className="gap-2"
+            title="Refresh documents"
+          >
+            <RefreshCw className="h-4 w-4" />
+            Refresh
+          </Button>
+        )}
+        <Button
+          className="gap-2"
+          onClick={onToggleUpload}
+        >
+          <Plus className="h-4 w-4" />
+          {showUpload ? 'Hide Upload' : uploadButtonText}
+        </Button>
+      </div>
     </div>
   )
 }

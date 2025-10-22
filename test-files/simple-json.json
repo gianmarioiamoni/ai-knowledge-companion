@@ -1,0 +1,23 @@
+{
+  "testDocument": {
+    "title": "Simple JSON Test File",
+    "description": "A basic JSON file for testing upload functionality",
+    "created": "2025-01-20",
+    "format": "JSON",
+    "size": "small",
+    "content": {
+      "text": "This is a simple JSON structure",
+      "numbers": [1, 2, 3, 4, 5],
+      "boolean": true,
+      "nested": {
+        "property": "value",
+        "array": ["item1", "item2", "item3"]
+      }
+    },
+    "metadata": {
+      "purpose": "Upload testing",
+      "expectedResult": "Should upload quickly",
+      "fileType": "application/json"
+    }
+  }
+}

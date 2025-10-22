@@ -1,47 +1,80 @@
 'use client'
 
 import { JSX, useState } from 'react'
-import { useTranslations } from '@/hooks/use-translations'
+import { useTranslations } from 'next-intl'
 import { useDocuments } from '@/hooks/use-documents'
 import { DocumentsHeader } from '../sections/documents-header'
 import { UploadSection } from '../sections/upload-section'
 import { ErrorDisplay } from '../ui/error-display'
 import { DocumentsList } from '../sections/documents-list'
+import { DocumentPreview } from '../ui/document-preview'
+import { testSupabaseConnectivity } from '@/lib/supabase/test-connectivity'
+import { SupabaseDiagnostics } from '@/components/diagnostics/supabase-diagnostics'
+import type { Document } from '@/types/database'
 
 interface DocumentsPageClientProps {
   locale: 'en' | 'it'
 }
 
 export function DocumentsPageClient({ locale }: DocumentsPageClientProps): JSX.Element {
-  const { t } = useTranslations(locale)
-  const { documents, loading, error, uploadDocument, deleteDocument } = useDocuments()
+  const t = useTranslations('documents')
+  const { documents, loading, error, uploadDocument, deleteDocument, getFileUrl, refreshDocuments } = useDocuments()
   const [showUpload, setShowUpload] = useState(false)
+  const [previewDocument, setPreviewDocument] = useState<Document | null>(null)
 
   const handlePreviewDocument = (id: string) => {
-    // TODO: Implement document preview
-    console.log('Preview document:', id)
+    const document = documents.find(doc => doc.id === id)
+    if (document) {
+      setPreviewDocument(document)
+    }
+  }
+
+  const handleDownloadDocument = async (doc: Document) => {
+    try {
+      const url = await getFileUrl(doc.storage_path)
+      if (url) {
+        // Create a temporary link to download the file
+        const link = window.document.createElement('a')
+        link.href = url
+        link.download = doc.title
+        link.style.display = 'none'
+        window.document.body.appendChild(link)
+        link.click()
+        window.document.body.removeChild(link)
+      }
+    } catch (error) {
+      console.error('Download failed:', error)
+    }
+  }
+
+  const handleTestConnectivity = async () => {
+    console.log('🧪 Starting Supabase connectivity test...')
+    const results = await testSupabaseConnectivity()
+    console.log('📊 Connectivity test results:', results)
   }
 
   const documentTranslations = {
-    uploaded: t('documents.meta.uploaded'),
-    processed: t('documents.status.processed'),
-    preview: t('documents.actions.preview'),
-    delete: t('documents.actions.delete')
+    uploaded: t('uploaded'),
+    processed: t('ready'),
+    preview: t('preview'), // Usa la traduzione corretta
+    delete: t('delete')
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <DocumentsHeader
-        title={t('documents.title')}
-        subtitle={t('documents.subtitle')}
-        uploadButtonText={t('documents.upload.title')}
+        title={t('title')}
+        subtitle={t('title')}
+        uploadButtonText={t('upload')}
         showUpload={showUpload}
         onToggleUpload={() => setShowUpload(!showUpload)}
+        onRefresh={refreshDocuments}
+        onTestConnectivity={handleTestConnectivity}
       />
 
       <UploadSection
-        title={t('documents.upload.title')}
-        description={t('documents.upload.description')}
+        title={t('upload')}
+        description={t('supportedFormats')}
         onUpload={uploadDocument}
         loading={loading}
         show={showUpload}
@@ -49,14 +82,30 @@ export function DocumentsPageClient({ locale }: DocumentsPageClientProps): JSX.E
 
       <ErrorDisplay error={error} />
 
+      <SupabaseDiagnostics />
+
       <DocumentsList
-        title={t('documents.list.title')}
+        title={t('title')}
         documents={documents}
         loading={loading}
-        emptyMessage={t('documents.list.empty')}
+        emptyMessage={t('nameRequired')}
         onDeleteDocument={deleteDocument}
         onPreviewDocument={handlePreviewDocument}
+        onDownloadDocument={(id) => {
+          const document = documents.find(doc => doc.id === id)
+          if (document) {
+            handleDownloadDocument(document)
+          }
+        }}
         translations={documentTranslations}
+      />
+
+      {/* Document Preview Modal */}
+      <DocumentPreview
+        document={previewDocument}
+        isOpen={!!previewDocument}
+        onClose={() => setPreviewDocument(null)}
+        onDownload={handleDownloadDocument}
       />
     </div>
   )

@@ -13,6 +13,7 @@ interface DocumentsListProps {
   emptyMessage: string
   onDeleteDocument: (id: string) => void
   onPreviewDocument: (id: string) => void
+  onDownloadDocument?: (id: string) => void
   translations: {
     uploaded: string
     processed: string
@@ -28,6 +29,7 @@ export function DocumentsList({
   emptyMessage,
   onDeleteDocument,
   onPreviewDocument,
+  onDownloadDocument,
   translations
 }: DocumentsListProps): JSX.Element {
   return (
@@ -48,6 +50,7 @@ export function DocumentsList({
               document={document}
               onDelete={onDeleteDocument}
               onPreview={onPreviewDocument}
+              onDownload={onDownloadDocument}
               translations={translations}
             />
           ))}
