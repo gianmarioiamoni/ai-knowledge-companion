@@ -29,7 +29,7 @@
 ### Convenzioni di Codice OBBLIGATORIE
 
 ```typescript
-// Componenti React DEVONO essere definiti così:
+// Componenti React DEVONO essere definiti nel seguente modo:
 function ComponentName(): JSX.Element {
   return <div>...</div>;
 }
