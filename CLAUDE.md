@@ -246,4 +246,4 @@ NEXTAUTH_URL=http://localhost:3000
 ---
 
 **Ultimo aggiornamento**: Migrazione da Vitest a Jest completata  
-**Stato corrente**: Setup base completo, pronto per Sprint 2 (Documents Flow)
+**Stato corrente**: Setup base completo, pronto per Sprint 2 (vedi Documents Flow)
