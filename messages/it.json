@@ -300,6 +300,37 @@
         "systemPrompt": "Prompt di Sistema",
         "systemPromptPlaceholder": "Definisci il comportamento del tutor..."
       }
+    },
+    "chat": {
+      "title": "Chatta con il Tutor AI",
+      "header": {
+        "online": "Online"
+      },
+      "messages": {
+        "empty": {
+          "title": "Inizia una conversazione",
+          "subtitle": "Invia un messaggio per iniziare a chattare con il tuo tutor AI"
+        },
+        "typing": "L'AI sta scrivendo..."
+      },
+      "input": {
+        "placeholder": "Scrivi il tuo messaggio...",
+        "hint": "Premi Invio per inviare, Maiusc+Invio per nuova riga"
+      },
+      "sidebar": {
+        "title": "Conversazioni",
+        "search": "Cerca conversazioni...",
+        "empty": {
+          "title": "Nessuna conversazione ancora",
+          "subtitle": "Inizia a chattare con il tuo tutor AI"
+        },
+        "noResults": "Nessuna conversazione trovata",
+        "noResultsDesc": "Prova un termine di ricerca diverso"
+      },
+      "noConversation": {
+        "title": "Seleziona una conversazione",
+        "subtitle": "Scegli una conversazione dalla barra laterale per iniziare a chattare"
+      }
     }
   }
 }

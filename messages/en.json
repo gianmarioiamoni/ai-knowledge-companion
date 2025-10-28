@@ -300,6 +300,37 @@
         "systemPrompt": "System Prompt",
         "systemPromptPlaceholder": "Define the tutor's behavior..."
       }
+    },
+    "chat": {
+      "title": "Chat with AI Tutor",
+      "header": {
+        "online": "Online"
+      },
+      "messages": {
+        "empty": {
+          "title": "Start a conversation",
+          "subtitle": "Send a message to begin chatting with your AI tutor"
+        },
+        "typing": "AI is typing..."
+      },
+      "input": {
+        "placeholder": "Type your message...",
+        "hint": "Press Enter to send, Shift+Enter for new line"
+      },
+      "sidebar": {
+        "title": "Conversations",
+        "search": "Search conversations...",
+        "empty": {
+          "title": "No conversations yet",
+          "subtitle": "Start chatting with your AI tutor"
+        },
+        "noResults": "No conversations found",
+        "noResultsDesc": "Try a different search term"
+      },
+      "noConversation": {
+        "title": "Select a conversation",
+        "subtitle": "Choose a conversation from the sidebar to start chatting"
+      }
     }
   }
 }

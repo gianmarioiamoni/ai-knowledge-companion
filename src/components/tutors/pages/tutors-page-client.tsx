@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from '@/i18n/navigation';
 import { TutorForm } from "../ui/tutor-form";
 import { TutorsHeader, TutorsStats, TutorsEmpty, TutorsGrid } from "../sections";
 import { useTutors } from "@/hooks/use-tutors";
@@ -9,6 +10,7 @@ import type { Tutor, TutorInsert } from "@/types/tutors";
 
 export function TutorsPageClient() {
   const t = useTranslations('tutors');
+  const router = useRouter();
   const {
     tutors,
     loading,
@@ -50,8 +52,7 @@ export function TutorsPageClient() {
   };
 
   const handleChatTutor = (tutor: Tutor) => {
-    // TODO: Implementare navigazione alla chat
-    console.log("Chat with tutor:", tutor.name);
+    router.push(`/chat?tutor=${tutor.id}`);
   };
 
   const filteredTutors = tutors.filter(tutor =>
