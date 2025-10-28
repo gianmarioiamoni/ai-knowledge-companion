@@ -1,99 +1,44 @@
 'use client'
 
-import { JSX, useState } from 'react'
-import { useRouter } from '@/i18n/navigation'
-import { useTranslations, useLocale } from 'next-intl'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { JSX } from 'react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { GoogleIcon } from '@/components/ui/google-icon'
-import { useAuth } from '@/hooks/use-auth'
-import { Link } from '@/i18n/navigation'
-
-const signupSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string().min(6, 'Password must be at least 6 characters'),
-  displayName: z.string().min(2, 'Display name must be at least 2 characters').optional(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-})
-
-type SignupFormData = z.infer<typeof signupSchema>
+import { useSignupForm } from '@/hooks/use-signup-form'
+import { 
+  FormField, 
+  FormDivider, 
+  GoogleButton, 
+  ErrorMessage, 
+  AuthLink,
+  SuccessCard 
+} from './ui'
 
 export function SignupForm(): JSX.Element {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
-  const router = useRouter()
-  const locale = useLocale()
-  const t = useTranslations('auth')
-  const { signUp, signInWithGoogle } = useAuth()
-
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignupFormData>({
-    resolver: zodResolver(signupSchema),
-  })
+    isLoading,
+    error,
+    success,
+    form,
+    handleEmailPasswordSignup,
+    handleGoogleSignup,
+    t,
+  } = useSignupForm()
 
-  const onSubmit = async (data: SignupFormData) => {
-    try {
-      setIsLoading(true)
-      setError(null)
+  const { register, handleSubmit, formState: { errors } } = form
 
-      const { error: authError, data: authData } = await signUp(data.email, data.password, {
-        displayName: data.displayName
-      })
-
-      if (authError) {
-        setError(authError.message)
-        return
-      }
-
-      if (authData?.user && !authData?.session) {
-        // Email confirmation required
-        setSuccess(true)
-      } else {
-        // Auto-login successful
-        console.log('Signup auto-login success, redirecting with locale:', locale)
-        router.push('/dashboard')
-      }
-    } catch (err) {
-      setError('An unexpected error occurred')
-    } finally {
-      setIsLoading(false)
-    }
+  const onSubmit = async (data: any) => {
+    await handleEmailPasswordSignup(data)
   }
 
   if (success) {
     return (
-      <Card className="w-full max-w-md mx-auto">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center text-green-600">
-            {t('success')}
-          </CardTitle>
-          <CardDescription className="text-center">
-            {t('checkEmail')}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center">
-            <p className="text-sm text-muted-foreground mb-4">
-              Please check your email and click the confirmation link to activate your account.
-            </p>
-            <Link href="/auth/login">
-              <Button variant="outline">{t('login')}</Button>
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+      <SuccessCard
+        title={t('success')}
+        description={t('checkEmail')}
+        message="Please check your email and click the confirmation link to activate your account."
+        buttonText={t('login')}
+        buttonHref="/auth/login"
+      />
     )
   }
 
@@ -109,103 +54,63 @@ export function SignupForm(): JSX.Element {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">{t('email')}</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="name@example.com"
-              {...register('email')}
-              disabled={isLoading}
-            />
-            {errors.email && (
-              <p className="text-sm text-red-600">{errors.email.message}</p>
-            )}
-          </div>
+          <FormField
+            id="email"
+            type="email"
+            label={t('email')}
+            placeholder="name@example.com"
+            disabled={isLoading}
+            error={errors.email?.message}
+            register={register('email')}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="displayName">Display Name (Optional)</Label>
-            <Input
-              id="displayName"
-              type="text"
-              placeholder="Your name"
-              {...register('displayName')}
-              disabled={isLoading}
-            />
-            {errors.displayName && (
-              <p className="text-sm text-red-600">{errors.displayName.message}</p>
-            )}
-          </div>
+          <FormField
+            id="displayName"
+            type="text"
+            label="Display Name (Optional)"
+            placeholder="Your name"
+            disabled={isLoading}
+            error={errors.displayName?.message}
+            register={register('displayName')}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="password">{t('password')}</Label>
-            <Input
-              id="password"
-              type="password"
-              {...register('password')}
-              disabled={isLoading}
-            />
-            {errors.password && (
-              <p className="text-sm text-red-600">{errors.password.message}</p>
-            )}
-          </div>
+          <FormField
+            id="password"
+            type="password"
+            label={t('password')}
+            disabled={isLoading}
+            error={errors.password?.message}
+            register={register('password')}
+          />
 
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">{t('confirmPassword')}</Label>
-            <Input
-              id="confirmPassword"
-              type="password"
-              {...register('confirmPassword')}
-              disabled={isLoading}
-            />
-            {errors.confirmPassword && (
-              <p className="text-sm text-red-600">{errors.confirmPassword.message}</p>
-            )}
-          </div>
+          <FormField
+            id="confirmPassword"
+            type="password"
+            label={t('confirmPassword')}
+            disabled={isLoading}
+            error={errors.confirmPassword?.message}
+            register={register('confirmPassword')}
+          />
 
-          {error && (
-            <div className="text-sm text-red-600 text-center">{error}</div>
-          )}
+          <ErrorMessage error={error} />
 
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? t('loading') : t('signup')}
           </Button>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or
-              </span>
-            </div>
-          </div>
+          <FormDivider />
 
-          <Button
-            type="button"
-            variant="outline"
-            className="w-full bg-white hover:bg-gray-50 text-gray-700 border-gray-300 font-medium"
-            onClick={async () => {
-              setIsLoading(true)
-              const { error } = await signInWithGoogle()
-              if (error) {
-                setError(error.message)
-              }
-              setIsLoading(false)
-            }}
+          <GoogleButton
+            onClick={handleGoogleSignup}
             disabled={isLoading}
-          >
-            <GoogleIcon className="w-5 h-5 mr-3" />
-            Continue with Google
-          </Button>
+          />
         </form>
 
         <div className="mt-4 text-center text-sm">
           {t('alreadyHaveAccount')}{' '}
-          <Link href="/auth/login" className="underline">
+          <AuthLink href="/auth/login">
             {t('login')}
-          </Link>
+          </AuthLink>
         </div>
       </CardContent>
     </Card>
