@@ -655,25 +655,33 @@ async function uploadFileInChunks(
   }
 }
 
-// Create document record in database
+// Create document record in database via API route
 export async function createDocument(
   document: DocumentInsert
 ): Promise<{ data?: Document; error?: string }> {
   try {
-    const supabase = createClient();
+    const response = await fetch('/api/documents/create', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        title: document.title,
+        description: document.description,
+        mimeType: document.mime_type,
+        fileSize: document.file_size,
+        storagePath: document.storage_path
+      }),
+    });
 
-    const { data, error } = await (supabase as any)
-      .from("documents")
-      .insert(document)
-      .select()
-      .single();
+    const result = await response.json();
 
-    if (error) {
-      console.error("Create document error:", error);
-      return { error: error.message };
+    if (!response.ok) {
+      console.error("Create document error:", result.error);
+      return { error: result.error };
     }
 
-    return { data };
+    return { data: result.document };
   } catch (error) {
     console.error("Create document exception:", error);
     return { error: "Failed to create document" };

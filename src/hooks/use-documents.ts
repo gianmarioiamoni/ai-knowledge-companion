@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import type { Document } from "@/types/database";
 import * as documentsService from "@/lib/supabase/documents";
-import { processDocument } from "@/lib/workers/document-processor";
 import { useAuth } from "./use-auth";
 
 export function useDocuments() {
@@ -57,16 +56,25 @@ export function useDocuments() {
                 return;
               }
 
-              // Fetch the file and reprocess
-              const response = await fetch(url);
-              const blob = await response.blob();
-              const file = new File([blob], doc.title, { type: doc.mime_type });
-
-              const result = await processDocument(file, doc.id, {
-                saveToDatabase: true,
+              // Process document via API route (server-side)
+              const response = await fetch('/api/documents/process', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ documentId: doc.id }),
               });
 
+              const result = await response.json();
+
               if (result.success) {
+                console.log(`✅ Document ${doc.id} processed successfully:`, {
+                  chunks: result.chunks,
+                  tokens: result.totalTokens,
+                  embeddings: result.embeddingsGenerated,
+                  cost: result.embeddingCost
+                });
+                
                 setDocuments((prev) =>
                   prev.map((d) =>
                     d.id === doc.id
@@ -158,68 +166,11 @@ export function useDocuments() {
       // Add to local state with processing status
       setDocuments((prev) => [data, ...prev]);
 
-      // Process document in background (parsing + chunking)
+      // Process document via API route (server-side)
       console.log("🔄 Starting background processing for document:", data.id);
 
-      processDocument(file, data.id, {
-        saveToDatabase: true,
-      })
-        .then((result) => {
-          console.log("📋 Processing result received:", {
-            success: result.success,
-            documentId: data.id,
-            chunks: result.chunks?.length,
-            tokens: result.totalTokens,
-            error: result.error,
-          });
-
-          if (result.success) {
-            console.log(
-              "✅ Document processed successfully, updating status to ready"
-            );
-
-            // Update document status to ready
-            setDocuments((prev) => {
-              const updated = prev.map((doc) =>
-                doc.id === data.id
-                  ? {
-                      ...doc,
-                      status: "ready",
-                      length_tokens: result.totalTokens || 0,
-                    }
-                  : doc
-              );
-              console.log(
-                "📊 Documents state updated:",
-                updated.find((d) => d.id === data.id)
-              );
-              return updated;
-            });
-          } else {
-            console.error("❌ Document processing failed:", result.error);
-
-            // Update document status to error
-            setDocuments((prev) =>
-              prev.map((doc) =>
-                doc.id === data.id ? { ...doc, status: "error" } : doc
-              )
-            );
-
-            setError(`Processing failed: ${result.error}`);
-          }
-        })
-        .catch((err) => {
-          console.error("❌ Document processing exception:", err);
-
-          // Update document status to error
-          setDocuments((prev) =>
-            prev.map((doc) =>
-              doc.id === data.id ? { ...doc, status: "error" } : doc
-            )
-          );
-
-          setError(`Processing failed: ${err.message}`);
-        });
+      // The processing will be handled by the loadDocuments function
+      // when it detects the document is in 'processing' status
 
       return { success: true, document: data };
     } catch (err) {
