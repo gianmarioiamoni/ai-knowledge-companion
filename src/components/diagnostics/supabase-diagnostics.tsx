@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { runCompleteDiagnostics, checkMacOSSpecificIssues } from "@/lib/supabase/diagnostics";
+import { runSilentDiagnostics, checkMacOSSpecificIssuesSilent } from "@/lib/supabase/diagnostics";
 
 export function SupabaseDiagnostics(): JSX.Element {
     const [isRunning, setIsRunning] = useState(false);
@@ -13,10 +13,30 @@ export function SupabaseDiagnostics(): JSX.Element {
             console.clear();
             console.log("🚀 Starting Supabase Upload Diagnostics...");
 
-            await runCompleteDiagnostics();
-            await checkMacOSSpecificIssues();
+            const results = await runSilentDiagnostics();
+            const macosResults = await checkMacOSSpecificIssuesSilent();
 
-            console.log("\n✅ Diagnostics completed! Check console for detailed results.");
+            // Display results in console
+            console.log("📊 DIAGNOSTIC RESULTS:");
+            console.log("Environment:", results.environment ? "✅" : "❌");
+            console.log("Supabase Connection:", results.supabaseConnection ? "✅" : "❌");
+            console.log("Storage Access:", results.storageAccess ? "✅" : "❌");
+            console.log("Network Config:", results.networkConfig ? "✅" : "❌");
+            console.log("Browser Capabilities:", results.browserCapabilities ? "✅" : "❌");
+            console.log("File Upload:", results.fileUpload ? "✅" : "❌");
+            console.log("macOS Network:", macosResults ? "✅" : "❌");
+            
+            if (results.criticalIssues.length > 0) {
+                console.log("🚨 Critical Issues:", results.criticalIssues);
+            }
+            if (results.warnings.length > 0) {
+                console.log("⚠️ Warnings:", results.warnings);
+            }
+            if (results.recommendations.length > 0) {
+                console.log("💡 Recommendations:", results.recommendations);
+            }
+
+            console.log("\n✅ Diagnostics completed!");
         } catch (error) {
             console.error("❌ Diagnostics failed:", error);
         } finally {
@@ -30,7 +50,7 @@ export function SupabaseDiagnostics(): JSX.Element {
                 🔍 Supabase Upload Diagnostics
             </h3>
             <p className="text-yellow-700 mb-4">
-                Run comprehensive diagnostics to identify upload issues. Results will appear in the browser console.
+                Run comprehensive diagnostics to identify upload issues. The improved diagnostics will show a clear summary with critical issues, warnings, and recommendations. Results will appear in the browser console.
             </p>
             <Button
                 onClick={handleRunDiagnostics}

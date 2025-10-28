@@ -9,7 +9,6 @@ import { ErrorDisplay } from '../ui/error-display'
 import { DocumentsList } from '../sections/documents-list'
 import { DocumentPreview } from '../ui/document-preview'
 import { testSupabaseConnectivity } from '@/lib/supabase/test-connectivity'
-import { SupabaseDiagnostics } from '@/components/diagnostics/supabase-diagnostics'
 import type { Document } from '@/types/database'
 
 interface DocumentsPageClientProps {
@@ -81,8 +80,6 @@ export function DocumentsPageClient({ locale }: DocumentsPageClientProps): JSX.E
       />
 
       <ErrorDisplay error={error} />
-
-      <SupabaseDiagnostics />
 
       <DocumentsList
         title={t('title')}

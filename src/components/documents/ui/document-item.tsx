@@ -69,14 +69,7 @@ export function DocumentItem({
   const isReady = document.status === 'ready'
   const hasError = document.status === 'error'
 
-  // Debug logging (only for processing documents)
-  if (isProcessing) {
-    console.log(`📄 Document ${document.title} still processing:`, {
-      id: document.id,
-      status: document.status,
-      tokens: document.length_tokens
-    })
-  }
+  // Debug logging removed for cleaner console
 
   return (
     <Card className={`hover:shadow-md transition-shadow ${hasError ? 'border-red-200' : ''}`}>

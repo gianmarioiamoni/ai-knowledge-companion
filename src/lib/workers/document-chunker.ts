@@ -46,12 +46,7 @@ export function chunkDocument(
     overlapTokens = CHUNK_CONFIG.OVERLAP_TOKENS,
   } = options;
 
-  console.log("🔪 Chunking document:", {
-    textLength: text.length,
-    minTokens,
-    maxTokens,
-    overlapTokens,
-  });
+  // Chunking document
 
   // Preprocessing del testo
   const cleanText = preprocessText(text);
@@ -169,11 +164,7 @@ export function chunkDocument(
   const totalTokens = chunks.reduce((sum, chunk) => sum + chunk.tokens, 0);
   const averageChunkSize = chunks.length > 0 ? totalTokens / chunks.length : 0;
 
-  console.log("✅ Document chunked successfully:", {
-    totalChunks: chunks.length,
-    totalTokens,
-    averageChunkSize: Math.round(averageChunkSize),
-  });
+  // Document chunked successfully
 
   return {
     chunks,

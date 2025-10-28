@@ -37,16 +37,9 @@ export function useDocuments() {
           (doc) => doc.status === "processing"
         );
         if (stuckDocuments.length > 0) {
-          console.log(
-            `🔄 Found ${stuckDocuments.length} stuck documents, attempting to reprocess...`
-          );
-
           // Process stuck documents in background
           stuckDocuments.forEach(async (doc) => {
             try {
-              console.log(
-                `🔄 Reprocessing stuck document: ${doc.title} (${doc.id})`
-              );
 
               // Try to get the file from storage and reprocess
               const { url, error: urlError } =
@@ -74,7 +67,6 @@ export function useDocuments() {
               });
 
               if (result.success) {
-                console.log(`✅ Reprocessed document ${doc.id} successfully`);
                 setDocuments((prev) =>
                   prev.map((d) =>
                     d.id === doc.id

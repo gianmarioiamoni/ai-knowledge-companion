@@ -52,13 +52,6 @@ export async function processDocument(
   } = options;
 
   try {
-    console.log("🔄 Starting document processing:", {
-      fileName: file.name,
-      fileSize: file.size,
-      documentId,
-      options,
-    });
-
     // Step 1: Validazione del file
     if (!file.type || !isSupportedMimeType(file.type)) {
       return {
@@ -68,7 +61,6 @@ export async function processDocument(
     }
 
     // Step 2: Parsing del documento
-    console.log("📄 Step 1: Parsing document...");
     const parseResult = await parseDocument(
       file,
       file.type as SupportedMimeType
@@ -84,18 +76,9 @@ export async function processDocument(
     const { text, metadata: parsingMetadata } = parseResult.data;
 
     // Step 3: Chunking del testo
-    console.log("🔪 Step 2: Chunking document...");
-    
     // Per documenti molto brevi, usa parametri più permissivi
     const textTokens = estimateTokens(text);
     const adjustedMinTokens = textTokens < minTokens ? Math.max(10, Math.floor(textTokens * 0.8)) : minTokens;
-    
-    console.log("📊 Chunking parameters:", {
-      originalMinTokens: minTokens,
-      adjustedMinTokens,
-      textTokens,
-      textLength: text.length
-    });
     
     const chunkingResult = chunkDocument(text, {
       minTokens: adjustedMinTokens,
@@ -112,7 +95,6 @@ export async function processDocument(
 
     // Step 4: Salvataggio nel database (se richiesto)
     if (saveToDatabase) {
-      console.log("💾 Step 3: Saving chunks to database...");
       const saveResult = await saveChunksToDatabase(
         documentId,
         chunkingResult.chunks
@@ -126,11 +108,7 @@ export async function processDocument(
       }
     }
 
-    console.log("✅ Document processing completed successfully:", {
-      documentId,
-      totalChunks: chunkingResult.totalChunks,
-      totalTokens: chunkingResult.totalTokens,
-    });
+    // Document processing completed successfully
 
     return {
       success: true,

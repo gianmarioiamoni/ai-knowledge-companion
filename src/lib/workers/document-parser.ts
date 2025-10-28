@@ -24,11 +24,7 @@ export async function parseDocument(
   mimeType: SupportedMimeType
 ): Promise<{ data?: ParsedDocument; error?: string }> {
   try {
-    console.log("📄 Parsing document:", {
-      name: file.name,
-      type: mimeType,
-      size: file.size,
-    });
+    // Parsing document
 
     let text: string;
     let metadata: ParsedDocument["metadata"];
@@ -71,11 +67,7 @@ export async function parseDocument(
       return { error: "Document content too short (minimum 50 characters)" };
     }
 
-    console.log("✅ Document parsed successfully:", {
-      textLength: text.length,
-      wordCount: metadata.wordCount,
-      charCount: metadata.charCount,
-    });
+    // Document parsed successfully
 
     return {
       data: {
