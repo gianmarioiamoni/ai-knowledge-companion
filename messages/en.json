@@ -235,5 +235,71 @@
       "primary": "Get Started for Free",
       "secondary": "Learn More"
     }
+  },
+  "tutors": {
+    "title": "My Tutors",
+    "subtitle": "Manage your personalized AI tutors",
+    "newTutor": "New Tutor",
+    "searchPlaceholder": "Search tutors...",
+    "filters": "Filters",
+    "noTutors": "No tutors yet",
+    "noTutorsFound": "No tutors found",
+    "createFirstTutor": "Create your first personalized AI tutor",
+    "tryDifferentSearch": "Try modifying your search terms",
+    "createFirstTutorButton": "Create First Tutor",
+    "stats": {
+      "totalTutors": "Total Tutors",
+      "public": "Public",
+      "conversations": "Conversations"
+    },
+    "card": {
+      "chat": "Chat",
+      "lastUsed": "Last used: {date}",
+      "private": "Private",
+      "public": "Public",
+      "unlisted": "Unlisted"
+    },
+      "form": {
+        "createTitle": "Create New Tutor",
+        "editTitle": "Edit Tutor",
+        "saving": "Saving...",
+        "create": "Create",
+        "update": "Update",
+        "cancel": "Cancel",
+      "sections": {
+        "basicInfo": "Basic Information",
+        "aiConfig": "AI Configuration",
+        "ragConfig": "RAG Configuration",
+        "visibility": "Visibility",
+        "systemPrompt": "System Prompt"
+      },
+      "fields": {
+        "name": "Name *",
+        "namePlaceholder": "Tutor name",
+        "description": "Description",
+        "descriptionPlaceholder": "Tutor description...",
+        "avatarUrl": "Avatar URL",
+        "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+        "model": "Model",
+        "modelPlaceholder": "Select model",
+        "maxTokens": "Max Tokens",
+        "temperature": "Temperature: {value}",
+        "temperatureLabels": {
+          "conservative": "Conservative (0)",
+          "creative": "Creative (2)"
+        },
+        "useRag": "Use RAG for contextual responses",
+        "maxContextChunks": "Max Context Chunks",
+        "similarityThreshold": "Similarity Threshold: {value}",
+        "visibility": "Visibility Level",
+        "visibilityOptions": {
+          "private": "Private - Only you",
+          "public": "Public - Visible to everyone",
+          "unlisted": "Unlisted - Only with link"
+        },
+        "systemPrompt": "System Prompt",
+        "systemPromptPlaceholder": "Define the tutor's behavior..."
+      }
+    }
   }
 }

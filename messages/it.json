@@ -235,5 +235,71 @@
       "primary": "Inizia Gratuitamente",
       "secondary": "Scopri di Più"
     }
+  },
+  "tutors": {
+    "title": "I Miei Tutor",
+    "subtitle": "Gestisci i tuoi tutor AI personalizzati",
+    "newTutor": "Nuovo Tutor",
+    "searchPlaceholder": "Cerca tutor...",
+    "filters": "Filtri",
+    "noTutors": "Nessun tutor ancora",
+    "noTutorsFound": "Nessun tutor trovato",
+    "createFirstTutor": "Crea il tuo primo tutor AI personalizzato",
+    "tryDifferentSearch": "Prova a modificare i termini di ricerca",
+    "createFirstTutorButton": "Crea Primo Tutor",
+    "stats": {
+      "totalTutors": "Tutor Totali",
+      "public": "Pubblici",
+      "conversations": "Conversazioni"
+    },
+    "card": {
+      "chat": "Chat",
+      "lastUsed": "Ultimo utilizzo: {date}",
+      "private": "Privato",
+      "public": "Pubblico",
+      "unlisted": "Non elencato"
+    },
+      "form": {
+        "createTitle": "Crea Nuovo Tutor",
+        "editTitle": "Modifica Tutor",
+        "saving": "Salvataggio...",
+        "create": "Crea",
+        "update": "Aggiorna",
+        "cancel": "Annulla",
+      "sections": {
+        "basicInfo": "Informazioni Base",
+        "aiConfig": "Configurazioni AI",
+        "ragConfig": "Configurazioni RAG",
+        "visibility": "Visibilità",
+        "systemPrompt": "System Prompt"
+      },
+      "fields": {
+        "name": "Nome *",
+        "namePlaceholder": "Nome del tutor",
+        "description": "Descrizione",
+        "descriptionPlaceholder": "Descrizione del tutor...",
+        "avatarUrl": "URL Avatar",
+        "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+        "model": "Modello",
+        "modelPlaceholder": "Seleziona modello",
+        "maxTokens": "Max Tokens",
+        "temperature": "Temperature: {value}",
+        "temperatureLabels": {
+          "conservative": "Conservativo (0)",
+          "creative": "Creativo (2)"
+        },
+        "useRag": "Usa RAG per risposte contestuali",
+        "maxContextChunks": "Max Chunk di Contesto",
+        "similarityThreshold": "Soglia Similarità: {value}",
+        "visibility": "Livello di Visibilità",
+        "visibilityOptions": {
+          "private": "Privato - Solo tu",
+          "public": "Pubblico - Visibile a tutti",
+          "unlisted": "Non elencato - Solo con link"
+        },
+        "systemPrompt": "Prompt di Sistema",
+        "systemPromptPlaceholder": "Definisci il comportamento del tutor..."
+      }
+    }
   }
 }
