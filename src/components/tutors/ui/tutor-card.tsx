@@ -65,32 +65,32 @@ export function TutorCard({
   };
 
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardHeader className="pb-3">
+    <Card className="hover:shadow-lg transition-all duration-200 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
-            <Avatar className="h-12 w-12">
+            <Avatar className="h-12 w-12 ring-2 ring-gray-200 dark:ring-gray-700">
               <AvatarImage src={tutor.avatar_url} alt={tutor.name} />
-              <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+              <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white font-semibold">
                 {getInitials(tutor.name)}
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <CardTitle className="text-lg font-semibold truncate">
+              <CardTitle className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                 {tutor.name}
               </CardTitle>
-              <div className="flex items-center space-x-2 mt-1">
-                <Badge variant="secondary" className="text-xs">
+              <div className="flex items-center space-x-2 mt-2">
+                <Badge variant="secondary" className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
                   {tutor.model}
                 </Badge>
-                <div className="flex items-center space-x-1 text-muted-foreground">
+                <div className="flex items-center space-x-1 text-gray-500 dark:text-gray-400">
                   {getVisibilityIcon()}
                   <span className="text-xs">{getVisibilityLabel()}</span>
                 </div>
               </div>
             </div>
           </div>
-          <Button variant="ghost" size="sm">
+          <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </div>
@@ -98,13 +98,13 @@ export function TutorCard({
       
       <CardContent className="pt-0">
         {tutor.description && (
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
             {tutor.description}
           </p>
         )}
         
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4 text-sm text-muted-foreground">
+          <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
             <div className="flex items-center space-x-1">
               <MessageSquare className="h-4 w-4" />
               <span>{tutor.total_conversations}</span>
@@ -115,15 +115,15 @@ export function TutorCard({
             </div>
           </div>
           
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-2">
             {onChat && (
-              <Button size="sm" onClick={() => onChat(tutor)}>
+              <Button size="sm" onClick={() => onChat(tutor)} className="bg-blue-600 hover:bg-blue-700 text-white">
                 <MessageSquare className="h-4 w-4 mr-1" />
                 {t('card.chat')}
               </Button>
             )}
             {onEdit && (
-              <Button variant="outline" size="sm" onClick={() => onEdit(tutor)}>
+              <Button variant="outline" size="sm" onClick={() => onEdit(tutor)} className="border-gray-300 dark:border-gray-600">
                 <Settings className="h-4 w-4" />
               </Button>
             )}
@@ -131,8 +131,10 @@ export function TutorCard({
         </div>
         
         {tutor.last_used_at && (
-          <div className="mt-2 text-xs text-muted-foreground">
-            {t('card.lastUsed', { date: new Date(tutor.last_used_at).toLocaleDateString() })}
+          <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+            <div className="text-xs text-gray-500 dark:text-gray-400">
+              {t('card.lastUsed', { date: new Date(tutor.last_used_at).toLocaleDateString() })}
+            </div>
           </div>
         )}
       </CardContent>
