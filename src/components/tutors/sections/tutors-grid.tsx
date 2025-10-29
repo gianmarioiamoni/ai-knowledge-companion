@@ -11,6 +11,7 @@ interface TutorsGridProps {
   onChat?: (tutor: Tutor) => void
   onShare?: (tutor: Tutor) => void
   onToggleVisibility?: (tutor: Tutor) => void
+  onDuplicate?: (tutor: Tutor) => void
 }
 
 export function TutorsGrid({
@@ -19,7 +20,8 @@ export function TutorsGrid({
   onDelete,
   onChat,
   onShare,
-  onToggleVisibility
+  onToggleVisibility,
+  onDuplicate
 }: TutorsGridProps): JSX.Element {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -32,6 +34,7 @@ export function TutorsGrid({
           onChat={onChat}
           onShare={onShare}
           onToggleVisibility={onToggleVisibility}
+          onDuplicate={onDuplicate}
         />
       ))}
     </div>

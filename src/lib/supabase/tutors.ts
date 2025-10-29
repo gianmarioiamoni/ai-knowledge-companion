@@ -13,7 +13,10 @@ export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
 
     const { data, error } = await supabase
       .from('tutors')
-      .select('*')
+      .select(`
+        *,
+        tutor_documents(count)
+      `)
       .eq('owner_id', user.id)
       .order('created_at', { ascending: false });
 
@@ -22,7 +25,13 @@ export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
       return { error: error.message };
     }
 
-    return { data: data || [] };
+    // Mappa i dati includendo il conteggio dei documenti
+    const tutorsWithDocumentCount = (data || []).map(tutor => ({
+      ...tutor,
+      total_documents: tutor.tutor_documents?.[0]?.count || 0
+    }));
+
+    return { data: tutorsWithDocumentCount };
   } catch (error) {
     console.error('Exception fetching tutors:', error);
     return { error: 'Failed to fetch tutors' };

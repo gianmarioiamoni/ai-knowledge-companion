@@ -55,6 +55,29 @@ export function TutorsPageClient() {
     router.push(`/chat?tutor=${tutor.id}`);
   };
 
+  const handleDuplicateTutor = async (tutor: Tutor) => {
+    const duplicateData: TutorInsert = {
+      name: `${tutor.name} (Copy)`,
+      description: tutor.description,
+      avatar_url: tutor.avatar_url,
+      system_prompt: tutor.system_prompt,
+      temperature: tutor.temperature,
+      max_tokens: tutor.max_tokens,
+      model: tutor.model,
+      use_rag: tutor.use_rag,
+      max_context_chunks: tutor.max_context_chunks,
+      similarity_threshold: tutor.similarity_threshold,
+      allowed_document_types: tutor.allowed_document_types,
+      max_document_size_mb: tutor.max_document_size_mb,
+      visibility: tutor.visibility,
+    };
+    
+    const result = await createTutor(duplicateData);
+    if (result.success) {
+      // Il tutor duplicato verrà mostrato automaticamente nella lista
+    }
+  };
+
   const filteredTutors = tutors.filter(tutor =>
     tutor.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (tutor.description && tutor.description.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -141,6 +164,7 @@ export function TutorsPageClient() {
                 onEdit={handleEditTutor}
                 onDelete={handleDeleteTutor}
                 onChat={handleChatTutor}
+                onDuplicate={handleDuplicateTutor}
               />
               
               {/* Stats */}

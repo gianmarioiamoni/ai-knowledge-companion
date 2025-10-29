@@ -9,10 +9,13 @@ import {
   Settings,
   Share2,
   Eye,
-  EyeOff
+  EyeOff,
+  Trash2,
+  Copy
 } from "lucide-react";
 import { useTranslations } from 'next-intl';
 import type { Tutor } from "@/types/tutors";
+import { useState, useEffect, useRef } from 'react';
 
 interface TutorCardProps {
   tutor: Tutor;
@@ -21,6 +24,7 @@ interface TutorCardProps {
   onChat?: (tutor: Tutor) => void;
   onShare?: (tutor: Tutor) => void;
   onToggleVisibility?: (tutor: Tutor) => void;
+  onDuplicate?: (tutor: Tutor) => void;
 }
 
 export function TutorCard({
@@ -30,8 +34,28 @@ export function TutorCard({
   onChat,
   onShare,
   onToggleVisibility,
+  onDuplicate,
 }: TutorCardProps) {
   const t = useTranslations('tutors');
+  const [showMenu, setShowMenu] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Chiudi il menu quando si clicca fuori
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setShowMenu(false);
+      }
+    };
+
+    if (showMenu) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showMenu]);
   
   const getInitials = (name: string) => {
     return name
@@ -90,9 +114,87 @@ export function TutorCard({
               </div>
             </div>
           </div>
-          <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-            <MoreHorizontal className="h-4 w-4" />
-          </Button>
+          <div className="relative" ref={menuRef}>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              onClick={() => setShowMenu(!showMenu)}
+            >
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+            
+            {showMenu && (
+              <div className="absolute right-0 top-8 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-md shadow-lg z-10">
+                <div className="py-1">
+                       {onEdit && (
+                         <button
+                           className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
+                           onClick={() => {
+                             onEdit(tutor);
+                             setShowMenu(false);
+                           }}
+                         >
+                           <Settings className="h-4 w-4" />
+                           <span>Edit</span>
+                         </button>
+                       )}
+                       
+                       {onDuplicate && (
+                         <button
+                           className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
+                           onClick={() => {
+                             onDuplicate(tutor);
+                             setShowMenu(false);
+                           }}
+                         >
+                           <Copy className="h-4 w-4" />
+                           <span>Duplicate</span>
+                         </button>
+                       )}
+                       
+                       {onShare && (
+                         <button
+                           className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
+                           onClick={() => {
+                             onShare(tutor);
+                             setShowMenu(false);
+                           }}
+                         >
+                           <Share2 className="h-4 w-4" />
+                           <span>Share</span>
+                         </button>
+                       )}
+                       
+                       {onToggleVisibility && (
+                         <button
+                           className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center space-x-2"
+                           onClick={() => {
+                             onToggleVisibility(tutor);
+                             setShowMenu(false);
+                           }}
+                         >
+                           {getVisibilityIcon()}
+                           <span>Toggle Visibility</span>
+                         </button>
+                       )}
+                       
+                       {onDelete && (
+                         <button
+                           className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center space-x-2"
+                           onClick={() => {
+                             onDelete(tutor);
+                             setShowMenu(false);
+                           }}
+                         >
+                           <Trash2 className="h-4 w-4" />
+                           <span>Delete</span>
+                         </button>
+                       )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </CardHeader>
       
@@ -105,14 +207,27 @@ export function TutorCard({
         
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
-            <div className="flex items-center space-x-1">
-              <MessageSquare className="h-4 w-4" />
-              <span>{tutor.total_conversations}</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <FileText className="h-4 w-4" />
-              <span>{tutor.total_messages}</span>
-            </div>
+                 <div 
+                   className="flex items-center space-x-1"
+                   title={`${tutor.total_conversations} conversations`}
+                 >
+                   <MessageSquare className="h-4 w-4" />
+                   <span>{tutor.total_conversations}</span>
+                 </div>
+                 <div 
+                   className="flex items-center space-x-1"
+                   title={`${tutor.total_messages} messages`}
+                 >
+                   <FileText className="h-4 w-4" />
+                   <span>{tutor.total_messages}</span>
+                 </div>
+                 <div 
+                   className="flex items-center space-x-1"
+                   title={`${tutor.total_documents || 0} documents`}
+                 >
+                   <FileText className="h-4 w-4" />
+                   <span>{tutor.total_documents || 0}</span>
+                 </div>
           </div>
           
           <div className="flex items-center space-x-2">

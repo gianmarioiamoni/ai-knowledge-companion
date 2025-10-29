@@ -35,6 +35,7 @@ export interface Tutor {
   total_conversations: number;
   total_messages: number;
   total_tokens_used: number;
+  total_documents: number;
 }
 
 export interface TutorInsert {

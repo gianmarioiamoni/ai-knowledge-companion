@@ -250,9 +250,21 @@
       "lastUsed": "Last used: {date}",
       "private": "Private",
       "public": "Public",
-      "unlisted": "Unlisted"
+      "unlisted": "Unlisted",
+      "tooltips": {
+        "conversations": "{count} conversations",
+        "messages": "{count} messages",
+        "documents": "{count} documents"
+      },
+      "menu": {
+        "edit": "Edit",
+        "duplicate": "Duplicate",
+        "share": "Share",
+        "toggleVisibility": "Toggle Visibility",
+        "delete": "Delete"
+      }
     },
-      "form": {
+    "form": {
         "createTitle": "Create New Tutor",
         "editTitle": "Edit Tutor",
         "saving": "Saving...",

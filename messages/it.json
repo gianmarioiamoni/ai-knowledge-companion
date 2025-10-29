@@ -71,41 +71,6 @@
     "apiCalls": "Chiamate API",
     "costEstimate": "Stima Costi"
   },
-  "tutors": {
-    "title": "Tutor AI",
-    "create": "Crea Nuovo Tutor",
-    "edit": "Modifica Tutor",
-    "delete": "Elimina Tutor",
-    "name": "Nome Tutor",
-    "description": "Descrizione",
-    "config": "Configurazione",
-    "tone": "Tono",
-    "language": "Lingua",
-    "maxTokens": "Token Massimi",
-    "temperature": "Temperatura",
-    "retrievalK": "Retrieval K",
-    "allowWebSearch": "Consenti Ricerca Web",
-    "systemInstructions": "Istruzioni di Sistema",
-    "visibility": "Visibilità",
-    "private": "Privato",
-    "public": "Pubblico",
-    "marketplace": "Marketplace",
-    "documents": "Documenti",
-    "addDocuments": "Aggiungi Documenti",
-    "removeDocument": "Rimuovi Documento",
-    "noDocuments": "Nessun documento collegato",
-    "tones": {
-      "friendly": "Amichevole",
-      "professional": "Professionale",
-      "casual": "Informale",
-      "academic": "Accademico"
-    },
-    "created": "Tutor creato con successo",
-    "updated": "Tutor aggiornato con successo",
-    "deleted": "Tutor eliminato con successo",
-    "nameRequired": "Nome tutor richiesto",
-    "descriptionRequired": "Descrizione richiesta"
-  },
   "documents": {
     "title": "Documenti",
     "upload": "Carica Documento",
@@ -285,9 +250,21 @@
       "lastUsed": "Ultimo utilizzo: {date}",
       "private": "Privato",
       "public": "Pubblico",
-      "unlisted": "Non elencato"
+      "unlisted": "Non in elenco",
+      "tooltips": {
+        "conversations": "{count} conversazioni",
+        "messages": "{count} messaggi",
+        "documents": "{count} documenti"
+      },
+      "menu": {
+        "edit": "Modifica",
+        "duplicate": "Duplica",
+        "share": "Condividi",
+        "toggleVisibility": "Cambia Visibilità",
+        "delete": "Elimina"
+      }
     },
-      "form": {
+    "form": {
         "createTitle": "Crea Nuovo Tutor",
         "editTitle": "Modifica Tutor",
         "saving": "Salvataggio...",
