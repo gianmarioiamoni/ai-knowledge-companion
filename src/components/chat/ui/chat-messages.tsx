@@ -67,7 +67,7 @@ export function ChatMessages({
         <div className="space-y-4">
           {messages.map((message, index) => (
             <MessageBubble
-              key={message.id}
+              key={`${message.id}-${index}`}
               message={message}
               isLast={index === messages.length - 1}
             />

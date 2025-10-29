@@ -30,6 +30,8 @@ export async function GET(request: NextRequest) {
     }
 
     const serviceClient = createServiceClient();
+    
+    // Use explicit join instead of Supabase relationship
     let query_builder = serviceClient
       .from('conversations')
       .select(`
@@ -40,12 +42,7 @@ export async function GET(request: NextRequest) {
         last_message_at,
         message_count,
         is_archived,
-        tutors!inner(
-          id,
-          name,
-          avatar_url,
-          model
-        )
+        tutor_id
       `)
       .eq('user_id', user.id)
       .order('updated_at', { ascending: false })
@@ -66,19 +63,44 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to get conversations' }, { status: 500 });
     }
 
-    const transformedConversations = conversations?.map(conv => ({
-      id: conv.id,
-      title: conv.title,
-      tutor: {
-        id: conv.tutors.id,
-        name: conv.tutors.name,
-        avatar_url: conv.tutors.avatar_url,
-        model: conv.tutors.model,
-      },
-      last_message_at: conv.last_message_at,
-      message_count: conv.message_count,
-      is_archived: conv.is_archived,
-    })) || [];
+    // Get tutor information separately
+    const tutorIds = [...new Set(conversations?.map(conv => conv.tutor_id) || [])];
+    let tutors = {};
+    
+    if (tutorIds.length > 0) {
+      const { data: tutorsData, error: tutorsError } = await serviceClient
+        .from('tutors')
+        .select('id, name, avatar_url, model')
+        .in('id', tutorIds);
+      
+      if (tutorsError) {
+        console.error('Get tutors error:', tutorsError);
+        return NextResponse.json({ error: 'Failed to get tutors' }, { status: 500 });
+      }
+      
+      tutors = tutorsData?.reduce((acc, tutor) => {
+        acc[tutor.id] = tutor;
+        return acc;
+      }, {} as Record<string, any>) || {};
+    }
+
+    const transformedConversations = conversations?.map(conv => {
+      const tutor = tutors[conv.tutor_id] || {
+        id: conv.tutor_id,
+        name: 'Unknown Tutor',
+        avatar_url: null,
+        model: 'gpt-4',
+      };
+      
+      return {
+        id: conv.id,
+        title: conv.title,
+        tutor: tutor,
+        last_message_at: conv.last_message_at,
+        message_count: conv.message_count,
+        is_archived: conv.is_archived,
+      };
+    }) || [];
 
     return NextResponse.json({ conversations: transformedConversations });
   } catch (error) {

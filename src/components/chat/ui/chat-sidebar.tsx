@@ -85,7 +85,19 @@ export function ChatSidebar({
           </div>
         ) : (
           <div className="space-y-2">
-            {filteredConversations.map((conversation) => (
+            {filteredConversations.map((conversation) => {
+              // Ensure tutor data exists with proper fallbacks
+              const tutor = {
+                id: conversation.tutor?.id || 'unknown',
+                name: conversation.tutor?.name || 'Unknown Tutor',
+                avatar_url: conversation.tutor?.avatar_url || null,
+                model: conversation.tutor?.model || 'gpt-4'
+              };
+              
+              // Additional safety check
+              const tutorName = tutor.name || 'T';
+              
+              return (
               <Card
                 key={conversation.id}
                 className={`cursor-pointer transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 ${
@@ -98,9 +110,16 @@ export function ChatSidebar({
                 <CardContent className="p-3">
                   <div className="flex items-start space-x-3">
                     <Avatar className="h-10 w-10 flex-shrink-0">
-                      <AvatarImage src={conversation.tutor.avatar_url} alt={conversation.tutor.name} />
+                      <AvatarImage src={tutor.avatar_url} alt={tutor.name} />
                       <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-sm">
-                        {conversation.tutor.name.charAt(0).toUpperCase()}
+                        {(() => {
+                          try {
+                            return (tutorName || 'T').charAt(0).toUpperCase();
+                          } catch (error) {
+                            console.error('Error getting tutor initial:', error, { tutorName, tutor });
+                            return 'T';
+                          }
+                        })()}
                       </AvatarFallback>
                     </Avatar>
                     
@@ -116,10 +135,10 @@ export function ChatSidebar({
                       
                       <div className="flex items-center space-x-2 mb-1">
                         <span className="text-xs text-gray-600 dark:text-gray-400 truncate">
-                          {conversation.tutor.name}
+                          {tutor.name}
                         </span>
                         <Badge variant="outline" className="text-xs">
-                          {conversation.tutor.model}
+                          {tutor.model}
                         </Badge>
                       </div>
                       
@@ -152,7 +171,8 @@ export function ChatSidebar({
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              );
+            })}
           </div>
         )}
       </div>

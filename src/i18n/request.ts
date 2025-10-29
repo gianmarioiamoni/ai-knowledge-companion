@@ -5,7 +5,7 @@ export default getRequestConfig(async ({ locale }) => {
   const actualLocale = locale || "en";
 
   // Import messages dynamically based on actual locale
-  const messages = (await import(`../../messages/${actualLocale}.json`))
+  const messages = (await import(`../../public/messages/${actualLocale}.json`))
     .default;
 
   return {

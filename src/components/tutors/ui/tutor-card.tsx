@@ -122,11 +122,15 @@ export function TutorCard({
                 {t('card.chat')}
               </Button>
             )}
-            {onEdit && (
-              <Button variant="outline" size="sm" onClick={() => onEdit(tutor)} className="border-gray-300 dark:border-gray-600">
-                <Settings className="h-4 w-4" />
-              </Button>
-            )}
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => onEdit?.(tutor)} 
+              className="border-gray-300 dark:border-gray-600"
+              title="Edit Tutor"
+            >
+              <Settings className="h-4 w-4" />
+            </Button>
           </div>
         </div>
         

@@ -18,6 +18,7 @@ import { Slider } from "@/components/ui/slider";
 import { useTranslations } from 'next-intl';
 import type { Tutor, TutorInsert, SupportedModel, VisibilityLevel } from "@/types/tutors";
 import { SUPPORTED_MODELS, VISIBILITY_LEVELS } from "@/types/tutors";
+import { TutorDocumentsSection } from './tutor-documents-section';
 
 interface TutorFormProps {
   tutor?: Tutor;
@@ -247,6 +248,13 @@ export function TutorForm({ tutor, onSubmit, onCancel, loading = false }: TutorF
               />
             </div>
           </div>
+
+          {/* Sezione Documenti - Solo per tutor esistenti */}
+          {tutor && (
+            <div className="mt-6">
+              <TutorDocumentsSection tutorId={tutor.id} />
+            </div>
+          )}
 
           {/* Azioni */}
           <div className="flex justify-end space-x-2 pt-4">

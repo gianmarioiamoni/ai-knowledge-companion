@@ -18,32 +18,60 @@ export async function GET(
     }
 
     const serviceClient = createServiceClient();
+    
+    // Get conversation
     const { data: conversation, error } = await serviceClient
-      .rpc('get_conversation_with_tutor', { conversation_uuid: id });
+      .from('conversations')
+      .select(`
+        id,
+        user_id,
+        tutor_id,
+        title,
+        created_at,
+        updated_at,
+        last_message_at,
+        message_count,
+        is_archived,
+        metadata
+      `)
+      .eq('id', id)
+      .eq('user_id', user.id)
+      .single();
 
     if (error) {
       console.error('Get conversation error:', error);
       return NextResponse.json({ error: 'Failed to get conversation' }, { status: 500 });
     }
 
-    if (!conversation || conversation.length === 0) {
+    if (!conversation) {
       return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
     }
 
-    const conv = conversation[0];
+    // Get tutor information
+    const { data: tutor, error: tutorError } = await serviceClient
+      .from('tutors')
+      .select('id, name, avatar_url, model')
+      .eq('id', conversation.tutor_id)
+      .single();
+
+    if (tutorError) {
+      console.error('Get tutor error:', tutorError);
+      return NextResponse.json({ error: 'Failed to get tutor' }, { status: 500 });
+    }
+
     const transformedConversation = {
-      id: conv.conversation_id,
-      user_id: user.id,
-      tutor_id: conv.tutor_id,
-      title: conv.title,
-      created_at: conv.created_at,
-      updated_at: conv.updated_at,
-      last_message_at: conv.updated_at,
-      message_count: conv.message_count,
-      is_archived: false,
-      tutor_name: conv.tutor_name,
-      tutor_avatar_url: conv.tutor_avatar_url,
-      tutor_model: conv.tutor_model,
+      id: conversation.id,
+      user_id: conversation.user_id,
+      tutor_id: conversation.tutor_id,
+      title: conversation.title,
+      created_at: conversation.created_at,
+      updated_at: conversation.updated_at,
+      last_message_at: conversation.last_message_at,
+      message_count: conversation.message_count,
+      is_archived: conversation.is_archived,
+      tutor_name: tutor?.name || 'Unknown Tutor',
+      tutor_avatar_url: tutor?.avatar_url || null,
+      tutor_model: tutor?.model || 'gpt-4',
     };
 
     return NextResponse.json({ conversation: transformedConversation });

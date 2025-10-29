@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { chatRequestSchema } from '@/lib/schemas/chat';
-import { generateRAGResponse } from '@/lib/openai/rag';
+import { queryTutorRAG } from '@/lib/openai/rag';
 
 // POST /api/chat/send - Send message with RAG
 export async function POST(request: NextRequest) {
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       .from('tutors')
       .select('*')
       .eq('id', tutor_id)
-      .eq('user_id', user.id)
+      .eq('owner_id', user.id)
       .single();
 
     if (tutorError || !tutor) {
@@ -64,16 +64,27 @@ export async function POST(request: NextRequest) {
 
     if (tutor.use_rag) {
       try {
-        ragResponse = await generateRAGResponse({
+        const ragResult = await queryTutorRAG(
           message,
-          tutorId: tutor_id,
-          maxChunks: tutor.max_context_chunks,
-          similarityThreshold: tutor.similarity_threshold,
+          tutor_id,
+          user.id,
+          {
+            maxChunks: tutor.max_context_chunks,
+            similarityThreshold: tutor.similarity_threshold,
+          }
+        );
+
+        if (ragResult.error) {
+          throw new Error(ragResult.error.error);
+        }
+
+        ragResponse = {
+          answer: ragResult.data?.answer || "I apologize, but I'm having trouble accessing my knowledge base right now.",
+          sources: ragResult.data?.sources || [],
+          tokens_used: ragResult.data?.tokensUsed || 0,
           model: tutor.model,
           temperature: tutor.temperature,
-          maxTokens: tutor.max_tokens,
-          systemPrompt: tutor.system_prompt,
-        });
+        };
 
         totalTokensUsed = ragResponse.tokens_used;
       } catch (ragError) {

@@ -29,22 +29,73 @@ export async function GET(request: NextRequest) {
     }
 
     const serviceClient = createServiceClient();
+    
+    // Get messages
     const { data: messages, error } = await serviceClient
-      .rpc('get_messages_with_context', { conversation_uuid: validation.data.conversation_id });
+      .from('messages')
+      .select(`
+        id,
+        role,
+        content,
+        tokens_used,
+        model,
+        temperature,
+        created_at,
+        metadata
+      `)
+      .eq('conversation_id', validation.data.conversation_id)
+      .order('created_at', { ascending: true })
+      .range(validation.data.offset, validation.data.offset + validation.data.limit - 1);
 
     if (error) {
       console.error('Get messages error:', error);
       return NextResponse.json({ error: 'Failed to get messages' }, { status: 500 });
     }
 
+    // Get RAG context for each message
+    const messageIds = messages?.map(msg => msg.id) || [];
+    let ragContext = {};
+    
+    if (messageIds.length > 0) {
+      const { data: ragData, error: ragError } = await serviceClient
+        .from('message_rag_context')
+        .select(`
+          message_id,
+          similarity_score,
+          document_chunks!inner(
+            id,
+            content,
+            documents!inner(
+              name
+            )
+          )
+        `)
+        .in('message_id', messageIds);
+      
+      if (!ragError && ragData) {
+        ragContext = ragData.reduce((acc, item) => {
+          if (!acc[item.message_id]) {
+            acc[item.message_id] = [];
+          }
+          acc[item.message_id].push({
+            chunk_id: item.document_chunks.id,
+            similarity_score: item.similarity_score,
+            content: item.document_chunks.content,
+            document_name: item.document_chunks.documents.name,
+          });
+          return acc;
+        }, {} as Record<string, any[]>);
+      }
+    }
+
     const transformedMessages = messages?.map(msg => ({
-      id: msg.message_id,
+      id: msg.id,
       role: msg.role,
       content: msg.content,
       timestamp: msg.created_at,
       tokens_used: msg.tokens_used,
       model: msg.model,
-      rag_chunks: msg.rag_chunks || [],
+      rag_chunks: ragContext[msg.id] || [],
     })) || [];
 
     return NextResponse.json({ messages: transformedMessages });
