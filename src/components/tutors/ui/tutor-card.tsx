@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
   MoreHorizontal, 
   MessageSquare, 
+  MessageCircle,
   FileText, 
   Settings,
   Share2,
@@ -218,7 +219,7 @@ export function TutorCard({
                    className="flex items-center space-x-1"
                    title={`${tutor.total_messages} messages`}
                  >
-                   <FileText className="h-4 w-4" />
+                   <MessageCircle className="h-4 w-4" />
                    <span>{tutor.total_messages}</span>
                  </div>
                  <div 

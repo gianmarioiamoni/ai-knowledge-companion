@@ -25,13 +25,39 @@ export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
       return { error: error.message };
     }
 
-    // Mappa i dati includendo il conteggio dei documenti
-    const tutorsWithDocumentCount = (data || []).map(tutor => ({
-      ...tutor,
-      total_documents: tutor.tutor_documents?.[0]?.count || 0
+    // Calcola i conteggi per ogni tutor
+    const tutorsWithCounts = await Promise.all((data || []).map(async (tutor) => {
+      // Conta le conversazioni per questo tutor
+      const { count: conversationsCount } = await supabase
+        .from('conversations')
+        .select('*', { count: 'exact', head: true })
+        .eq('tutor_id', tutor.id);
+
+      // Conta i messaggi per questo tutor (tramite le conversazioni)
+      const { data: conversations } = await supabase
+        .from('conversations')
+        .select('id')
+        .eq('tutor_id', tutor.id);
+
+      let messagesCount = 0;
+      if (conversations && conversations.length > 0) {
+        const conversationIds = conversations.map(c => c.id);
+        const { count: messagesCountResult } = await supabase
+          .from('messages')
+          .select('*', { count: 'exact', head: true })
+          .in('conversation_id', conversationIds);
+        messagesCount = messagesCountResult || 0;
+      }
+
+      return {
+        ...tutor,
+        total_documents: tutor.tutor_documents?.[0]?.count || 0,
+        total_conversations: conversationsCount || 0,
+        total_messages: messagesCount
+      };
     }));
 
-    return { data: tutorsWithDocumentCount };
+    return { data: tutorsWithCounts };
   } catch (error) {
     console.error('Exception fetching tutors:', error);
     return { error: 'Failed to fetch tutors' };
