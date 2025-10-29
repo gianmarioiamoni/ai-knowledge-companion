@@ -40,6 +40,12 @@ export function Header({ locale }: HeaderProps): JSX.Element {
                                 {t('documents')}
                             </Link>
                             <Link
+                                href="/tutors"
+                                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                            >
+                                {t('tutors')}
+                            </Link>
+                            <Link
                                 href="/dashboard"
                                 className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                             >

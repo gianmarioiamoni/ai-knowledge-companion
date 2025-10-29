@@ -65,6 +65,8 @@
     "uploadFirstDocument": "Carica il tuo primo documento",
     "noTutors": "Nessun tutor ancora",
     "noDocuments": "Nessun documento ancora",
+    "noConversations": "Nessuna conversazione ancora",
+    "noApiCalls": "Nessuna chiamata API effettuata",
     "totalTutors": "Tutor Totali",
     "totalDocuments": "Documenti Totali",
     "totalConversations": "Conversazioni Totali",
