@@ -40,6 +40,7 @@ export function TutorDocumentsSection({ tutorId }: TutorDocumentsSectionProps) {
 
   const [selectedDocumentId, setSelectedDocumentId] = useState<string>('');
 
+
   const handleLinkDocument = async () => {
     if (!selectedDocumentId) return;
     
@@ -118,9 +119,9 @@ export function TutorDocumentsSection({ tutorId }: TutorDocumentsSectionProps) {
                   <SelectItem key={doc.id} value={doc.id}>
                     <div className="flex items-center space-x-2">
                       {getDocumentStatusIcon(doc.status)}
-                      <span>{doc.name}</span>
+                      <span>{doc.title || doc.name || 'Unknown Document'}</span>
                       <Badge variant="outline" className="text-xs">
-                        {doc.file_type?.toUpperCase()}
+                        {doc.mime_type?.split('/')[1]?.toUpperCase() || doc.file_type?.toUpperCase()}
                       </Badge>
                     </div>
                   </SelectItem>
@@ -156,37 +157,45 @@ export function TutorDocumentsSection({ tutorId }: TutorDocumentsSectionProps) {
             </p>
           ) : (
             <div className="space-y-2">
-              {documents.map((tutorDoc) => (
-                <div
-                  key={tutorDoc.id}
-                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md"
-                >
-                  <div className="flex items-center space-x-3">
-                    {getDocumentStatusIcon(tutorDoc.documents.status)}
-                    <div>
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        {tutorDoc.documents.name}
-                      </p>
-                      <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
-                        <Badge variant="outline">
-                          {tutorDoc.documents.file_type?.toUpperCase()}
-                        </Badge>
-                        <span>{formatFileSize(tutorDoc.documents.file_size || 0)}</span>
-                        <span>{getDocumentStatusLabel(tutorDoc.documents.status)}</span>
+              {documents.map((tutorDoc) => {
+                // Verifica di sicurezza per evitare errori
+                if (!tutorDoc.documents) {
+                  console.warn('Document data missing for tutor document:', tutorDoc);
+                  return null;
+                }
+                
+                return (
+                  <div
+                    key={tutorDoc.id}
+                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md"
+                  >
+                    <div className="flex items-center space-x-3">
+                      {getDocumentStatusIcon(tutorDoc.documents.status)}
+                      <div>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                          {tutorDoc.documents.title || tutorDoc.documents.name || 'Unknown Document'}
+                        </p>
+                        <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
+                          <Badge variant="outline">
+                            {tutorDoc.documents.file_type?.toUpperCase()}
+                          </Badge>
+                          <span>{formatFileSize(tutorDoc.documents.file_size || 0)}</span>
+                          <span>{getDocumentStatusLabel(tutorDoc.documents.status)}</span>
+                        </div>
                       </div>
                     </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleUnlinkDocument(tutorDoc.document_id)}
+                      disabled={loading}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300"
+                    >
+                      <Unlink className="h-4 w-4" />
+                    </Button>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleUnlinkDocument(tutorDoc.document_id)}
-                    disabled={loading}
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300"
-                  >
-                    <Unlink className="h-4 w-4" />
-                  </Button>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
         </div>

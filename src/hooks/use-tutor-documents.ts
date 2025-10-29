@@ -46,43 +46,46 @@ export function useTutorDocuments(tutorId: string | null) {
         setDocuments(tutorDocs || []);
       }
 
-      // Carica tutti i documenti dell'utente per la selezione
-      const { data: allDocs, error: allDocsError } = await supabase
-        .from('documents')
-        .select('*')
-        .eq('owner_id', user.id)
-        .eq('status', 'processed')
-        .order('created_at', { ascending: false });
+      // Assicurati che documents sia sempre un array
+      if (!tutorDocs || tutorDocs.length === 0) {
+        setDocuments([]);
+      }
 
-      if (allDocsError) throw allDocsError;
-
+      // Carica tutti i documenti dell'utente tramite API
+      const response = await fetch('/api/documents?status=all');
+      if (!response.ok) {
+        throw new Error('Failed to fetch documents');
+      }
+      
+      const { documents: allDocs } = await response.json();
       setAvailableDocuments(allDocs || []);
 
       // Se abbiamo documenti collegati, carica i dettagli
       if (tutorDocs && tutorDocs.length > 0) {
         const documentIds = tutorDocs.map(td => td.document_id);
-        const { data: linkedDocs, error: linkedDocsError } = await supabase
-          .from('documents')
-          .select('*')
-          .in('id', documentIds);
-
-        if (linkedDocsError) {
-          console.error('Linked documents error:', linkedDocsError);
-        } else {
-          // Combina i dati
-          const combinedDocs = tutorDocs.map(td => ({
+        const linkedDocs = allDocs?.filter(doc => documentIds.includes(doc.id)) || [];
+        
+        // Combina i dati
+        const combinedDocs = tutorDocs.map(td => {
+          const docData = linkedDocs.find(doc => doc.id === td.document_id);
+          return {
             ...td,
-            documents: linkedDocs?.find(doc => doc.id === td.document_id) || {
+            documents: docData || {
               id: td.document_id,
+              title: 'Unknown Document',
               name: 'Unknown Document',
               status: 'unknown',
               created_at: new Date().toISOString(),
               file_size: 0,
-              file_type: 'unknown'
+              file_type: 'unknown',
+              mime_type: 'unknown'
             }
-          }));
-          setDocuments(combinedDocs);
-        }
+          };
+        });
+        setDocuments(combinedDocs);
+      } else {
+        // Se non ci sono documenti collegati, assicurati che documents sia un array vuoto
+        setDocuments([]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
@@ -99,14 +102,21 @@ export function useTutorDocuments(tutorId: string | null) {
     setError(null);
 
     try {
-      const { error } = await supabase
-        .from('tutor_documents')
-        .insert({
+      const response = await fetch('/api/tutors/link-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           tutor_id: tutorId,
           document_id: documentId
-        });
+        }),
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to link document');
+      }
 
       // Ricarica i documenti
       await loadTutorDocuments();
@@ -125,13 +135,21 @@ export function useTutorDocuments(tutorId: string | null) {
     setError(null);
 
     try {
-      const { error } = await supabase
-        .from('tutor_documents')
-        .delete()
-        .eq('tutor_id', tutorId)
-        .eq('document_id', documentId);
+      const response = await fetch('/api/tutors/unlink-document', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          tutor_id: tutorId,
+          document_id: documentId
+        }),
+      });
 
-      if (error) throw error;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to unlink document');
+      }
 
       // Ricarica i documenti
       await loadTutorDocuments();
