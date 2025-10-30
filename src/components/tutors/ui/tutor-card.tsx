@@ -1,10 +1,10 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { useTutorCard } from "@/hooks/use-tutor-card";
-import { TutorCardHeader } from "./tutor-card-header";
-import { TutorCardMenu } from "./tutor-card-menu";
-import { TutorCardStats } from "./tutor-card-stats";
-import { TutorCardActions } from "./tutor-card-actions";
-import { TutorCardFooter } from "./tutor-card-footer";
+import { TutorCardHeader } from "./tutor-card/tutor-card-header";
+import { TutorCardMenu } from "./tutor-card/tutor-card-menu";
+import { TutorCardStats } from "./tutor-card/tutor-card-stats";
+import { TutorCardActions } from "./tutor-card/tutor-card-actions";
+import { TutorCardFooter } from "./tutor-card/tutor-card-footer";
 import type { Tutor } from "@/types/tutors";
 import type { JSX } from 'react';
 

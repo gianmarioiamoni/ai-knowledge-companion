@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import type { Document } from '@/types/documents';
+import type { Document, DocumentWithStatus } from '@/types/documents';
 
 interface TutorDocument {
   id: string;
   tutor_id: string;
   document_id: string;
-  documents: Document;
+  documents: DocumentWithStatus;
+}
+
+interface TutorDocumentRow {
+  id: string;
+  tutor_id: string;
+  document_id: string;
 }
 
 export function useTutorDocuments(tutorId: string | null) {
@@ -39,17 +45,15 @@ export function useTutorDocuments(tutorId: string | null) {
         // Se la tabella non esiste, inizializza con array vuoto
         if (tutorDocsError.code === 'PGRST116') {
           setDocuments([]);
+          setAvailableDocuments([]);
+          return;
         } else {
           throw tutorDocsError;
         }
-      } else {
-        setDocuments(tutorDocs || []);
       }
 
-      // Assicurati che documents sia sempre un array
-      if (!tutorDocs || tutorDocs.length === 0) {
-        setDocuments([]);
-      }
+      // Assicurati che tutorDocs sia sempre un array
+      const validTutorDocs: TutorDocumentRow[] = tutorDocs || [];
 
       // Carica tutti i documenti dell'utente tramite API
       const response = await fetch('/api/documents?status=all');
@@ -61,13 +65,13 @@ export function useTutorDocuments(tutorId: string | null) {
       setAvailableDocuments(allDocs || []);
 
       // Se abbiamo documenti collegati, carica i dettagli
-      if (tutorDocs && tutorDocs.length > 0) {
-        const documentIds = tutorDocs.map(td => td.document_id);
-        const linkedDocs = allDocs?.filter(doc => documentIds.includes(doc.id)) || [];
+      if (validTutorDocs.length > 0) {
+        const documentIds = validTutorDocs.map(td => td.document_id);
+        const linkedDocs = allDocs?.filter((doc: Document) => documentIds.includes(doc.id)) || [];
         
         // Combina i dati
-        const combinedDocs = tutorDocs.map(td => {
-          const docData = linkedDocs.find(doc => doc.id === td.document_id);
+        const combinedDocs = validTutorDocs.map(td => {
+          const docData = linkedDocs.find((doc: Document) => doc.id === td.document_id);
           return {
             ...td,
             documents: docData || {

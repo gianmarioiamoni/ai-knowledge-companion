@@ -8,10 +8,18 @@ export interface Document {
   source_url?: string
   storage_path: string
   mime_type: string
+  file_size?: number
   length_tokens?: number
   visibility: 'private' | 'public'
   created_at: string
   updated_at: string
+}
+
+// Extended document type with additional properties used in UI
+export interface DocumentWithStatus extends Document {
+  status?: 'processed' | 'processing' | 'error' | 'unknown'
+  file_type?: string
+  name?: string
 }
 
 export interface DocumentChunk {
