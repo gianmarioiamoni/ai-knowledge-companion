@@ -118,19 +118,23 @@ export async function parseDocumentFromBuffer(
       }
       case "application/pdf": {
         try {
-          // Usa LangChain PDFLoader per estrarre testo robustamente
-          const { PDFLoader } = await import("@langchain/community/document_loaders/web/pdf");
+          // Usa LangChain WebPDFLoader per estrarre testo robustamente
+          const { WebPDFLoader } = await import("@langchain/community/document_loaders/web/pdf");
+          
           const blob = new Blob([buffer], { type: "application/pdf" });
-          const loader = new PDFLoader(blob, { parsedItemSeparator: "\n\n" });
+          const loader = new WebPDFLoader(blob, { parsedItemSeparator: "\n\n" });
           const docs = await loader.load();
-          const combined = docs.map(d => (d.pageContent || "").trim()).filter(Boolean).join("\n\n");
+          const combined = docs
+            .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+            .filter(Boolean)
+            .join("\n\n");
 
           text = combined;
           metadata = {
             title: filename.replace(/\.pdf$/i, ""),
             wordCount: countWords(text),
             charCount: text.length,
-            pages: docs.length || undefined,
+            pages: (docs as unknown[]).length || undefined,
           };
         } catch (error) {
           console.warn('PDF parsing failed (LangChain):', error);
