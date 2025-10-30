@@ -7,8 +7,13 @@ import { TutorsHeader, TutorsStats, TutorsEmpty, TutorsGrid } from "../sections"
 import { useTutors } from "@/hooks/use-tutors";
 import { useTranslations } from 'next-intl';
 import type { Tutor, TutorInsert } from "@/types/tutors";
+import type { JSX } from 'react';
 
-export function TutorsPageClient() {
+interface TutorsPageClientProps {
+  locale: 'en' | 'it'
+}
+
+export function TutorsPageClient({ locale }: TutorsPageClientProps): JSX.Element {
   const t = useTranslations('tutors');
   const router = useRouter();
   const {
