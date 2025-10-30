@@ -15,3 +15,9 @@ export { TutorDocumentsStatusIcon } from './tutor-documents/tutor-documents-stat
 export { TutorDocumentsSelector } from './tutor-documents/tutor-documents-selector';
 export { TutorDocumentsList } from './tutor-documents/tutor-documents-list';
 export { TutorDocumentsError } from './tutor-documents/tutor-documents-error';
+export { TutorFormAvatar } from './tutor-form/tutor-form-avatar';
+export { TutorFormBasicInfo } from './tutor-form/tutor-form-basic-info';
+export { TutorFormAiConfig } from './tutor-form/tutor-form-ai-config';
+export { TutorFormRagConfig } from './tutor-form/tutor-form-rag-config';
+export { TutorFormVisibilityConfig } from './tutor-form/tutor-form-visibility-config';
+export { TutorFormActions } from './tutor-form/tutor-form-actions';

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/select';
 import { Link } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { TutorDocumentsStatusIcon } from '../tutor-documents-status-icon';
+import { TutorDocumentsStatusIcon } from './tutor-documents-status-icon';
 import type { Document, DocumentWithStatus } from '@/types/documents';
 import type { JSX } from 'react';
 

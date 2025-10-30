@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Unlink } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { TutorDocumentsStatusIcon } from '../tutor-documents-status-icon';
+import { TutorDocumentsStatusIcon } from './tutor-documents-status-icon';
 import type { DocumentWithStatus } from '@/types/documents';
 import type { JSX } from 'react';
 

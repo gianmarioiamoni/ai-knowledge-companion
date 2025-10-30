@@ -51,41 +51,13 @@ export async function searchSimilarChunks(
     const supabase = createClient()
     const queryEmbedding = embeddingResult.data.embedding
 
-    // Costruisci la query con filtri opzionali
-    let queryBuilder = supabase
-      .from('document_chunks')
-      .select(`
-        id,
-        document_id,
-        chunk_index,
-        text,
-        tokens,
-        created_at,
-        documents!inner(
-          id,
-          title,
-          owner_id,
-          visibility
-        )
-      `)
-      .not('embedding', 'is', null) // Solo chunk con embeddings
-      .gte('similarity', threshold) // Soglia di similarità
-      .order('similarity', { ascending: false })
-      .limit(limit)
-
-    // Filtro per documenti specifici
-    if (documentIds && documentIds.length > 0) {
-      queryBuilder = queryBuilder.in('document_id', documentIds)
-    }
-
-    // Filtro per utente (solo documenti privati dell'utente o pubblici)
-    if (userId) {
-      queryBuilder = queryBuilder.or(`documents.owner_id.eq.${userId},documents.visibility.eq.public`)
-    }
+    // I filtri sono gestiti direttamente dalla RPC function
 
     // Esegui la query di similarità usando pgvector
-    const { data, error } = await queryBuilder.rpc('match_document_chunks', {
+    const { data, error } = await supabase.rpc('match_document_chunks_filtered', {
       query_embedding: queryEmbedding,
+      document_ids: documentIds && documentIds.length > 0 ? documentIds : null,
+      user_id: userId,
       match_threshold: threshold,
       match_count: limit
     })
