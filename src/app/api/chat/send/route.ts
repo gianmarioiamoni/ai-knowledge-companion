@@ -136,8 +136,8 @@ export async function POST(request: NextRequest) {
     if (ragResponse.sources && ragResponse.sources.length > 0) {
       const ragContextData = ragResponse.sources.map(source => ({
         message_id: assistantMessage.id,
-        chunk_id: source.chunk_id,
-        similarity_score: source.similarity_score,
+        chunk_id: source.id,
+        similarity_score: source.similarity,
       }));
 
       const { error: ragContextError } = await serviceClient

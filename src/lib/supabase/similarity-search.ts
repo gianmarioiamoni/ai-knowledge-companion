@@ -1,4 +1,5 @@
-import { createClient } from './client'
+// Use service client on the server to avoid RLS blocking internal retrieval
+import { createServiceClient } from '@/lib/supabase/service'
 import { generateEmbedding } from '@/lib/openai/embeddings'
 
 export interface SimilarityResult {
@@ -27,8 +28,8 @@ export async function searchSimilarChunks(
 ): Promise<{ data?: SimilarityResult[]; error?: string }> {
   try {
     const {
-      limit = 10,
-      threshold = 0.7,
+      limit = 20,
+      threshold = 0.05,
       documentIds,
       userId
     } = options
@@ -48,7 +49,7 @@ export async function searchSimilarChunks(
       }
     }
 
-    const supabase = createClient()
+    const supabase = createServiceClient()
     const queryEmbedding = embeddingResult.data.embedding
 
     // I filtri sono gestiti direttamente dalla RPC function
@@ -114,7 +115,7 @@ export async function searchTutorChunks(
   options: Omit<SearchOptions, 'documentIds'> = {}
 ): Promise<{ data?: SimilarityResult[]; error?: string }> {
   try {
-    const supabase = createClient()
+    const supabase = createServiceClient()
 
     // Ottieni i documenti associati al tutor
     const { data: tutorDocs, error: tutorError } = await supabase

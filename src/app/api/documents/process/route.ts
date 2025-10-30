@@ -1,5 +1,6 @@
+export const runtime = 'nodejs'
 import { NextRequest, NextResponse } from 'next/server'
-import { processDocument } from '@/lib/workers/document-processor'
+import { processDocumentBuffer } from '@/lib/workers/document-processor'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 
@@ -55,13 +56,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Crea un File object dal blob
-    const file = new File([fileData], document.title, { 
-      type: document.mime_type 
-    })
+    // Converte a Buffer (Node runtime)
+    const arrayBuffer = await fileData.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
 
     // Processa il documento (con embeddings)
-    const result = await processDocument(file, documentId, {
+    const result = await processDocumentBuffer(buffer, document.title, document.mime_type as any, documentId, {
       saveToDatabase: true,
     }, serviceClient)
 

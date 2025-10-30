@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { TutorFormImproved } from './tutor-form-improved';
 import type { Tutor, TutorInsert } from "@/types/tutors";
 import type { JSX } from 'react';
@@ -23,6 +23,9 @@ export function TutorsFormModal({
           <DialogTitle>
             {tutor ? 'Modifica Tutor' : 'Crea Nuovo Tutor'}
           </DialogTitle>
+          <DialogDescription>
+            Configura le impostazioni del tutor e collega i documenti per abilitare risposte contestuali.
+          </DialogDescription>
         </DialogHeader>
         <TutorFormImproved
           tutor={tutor}

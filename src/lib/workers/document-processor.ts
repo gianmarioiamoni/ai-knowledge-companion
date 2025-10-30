@@ -3,7 +3,7 @@
  * Sprint 2: Implementazione con OpenAI Embeddings per RAG
  */
 
-import { parseDocument, type ParsedDocument } from "./document-parser";
+import { parseDocument, parseDocumentFromBuffer, type ParsedDocument } from "./document-parser";
 import {
   chunkDocument,
   estimateTokens,
@@ -177,6 +177,83 @@ export async function processDocument(
         error instanceof Error ? error.message : "Unknown error"
       }`,
     };
+  }
+}
+
+/**
+ * Variante server-side: processa partendo da un Buffer (download da storage)
+ */
+export async function processDocumentBuffer(
+  buffer: Buffer,
+  filename: string,
+  mimeType: SupportedMimeType,
+  documentId: string,
+  options: ProcessingOptions = {},
+  supabaseClient?: any
+): Promise<ProcessingResult> {
+  const {
+    minTokens = 500,
+    maxTokens = 800,
+    overlapTokens = 100,
+    saveToDatabase = true,
+  } = options;
+
+  try {
+    // Parsing
+    const parseResult = await parseDocumentFromBuffer(buffer, filename, mimeType);
+    if (!parseResult.data) {
+      return { success: false, error: parseResult.error || "Failed to parse document" };
+    }
+    const { text, metadata: parsingMetadata } = parseResult.data;
+
+    // Chunking
+    const textTokens = estimateTokens(text);
+    const adjustedMinTokens = textTokens < minTokens ? Math.max(10, Math.floor(textTokens * 0.8)) : minTokens;
+    const chunkingResult = chunkDocument(text, { minTokens: adjustedMinTokens, maxTokens, overlapTokens });
+    if (chunkingResult.chunks.length === 0) {
+      return { success: false, error: `No chunks generated from document. Text too short (${textTokens} tokens, minimum ${adjustedMinTokens} required)` };
+    }
+
+    // Embeddings
+    const chunkTexts = chunkingResult.chunks.map(c => c.text);
+    const embeddingsResult = await generateBatchEmbeddings(chunkTexts);
+    if (embeddingsResult.error || !embeddingsResult.data) {
+      return { success: false, error: `Failed to generate embeddings: ${embeddingsResult.error?.error || 'unknown'}` };
+    }
+    const chunksWithEmbeddings = chunkingResult.chunks.map((chunk, idx) => ({
+      ...chunk,
+      embedding: embeddingsResult.data![idx].embedding,
+    }));
+    const totalEmbeddingTokens = embeddingsResult.data.reduce((sum, item) => sum + item.tokens, 0);
+    const embeddingCost = (totalEmbeddingTokens / 1000) * 0.00002;
+
+    // Save
+    if (saveToDatabase) {
+      const saveResult = await saveChunksToDatabase(documentId, chunksWithEmbeddings, supabaseClient);
+      if (!saveResult.success) {
+        return { success: false, error: saveResult.error || 'Failed to save chunks to database' };
+      }
+    }
+
+    return {
+      success: true,
+      documentId,
+      chunks: chunksWithEmbeddings,
+      totalTokens: chunkingResult.totalTokens,
+      embeddingsGenerated: embeddingsResult.data.length,
+      embeddingCost,
+      metadata: {
+        parsing: parsingMetadata,
+        chunking: chunkingResult.metadata,
+        embeddings: {
+          model: embeddingsResult.data[0].model,
+          totalTokens: totalEmbeddingTokens,
+          cost: embeddingCost,
+        },
+      },
+    };
+  } catch (error) {
+    return { success: false, error: `Processing failed: ${error instanceof Error ? error.message : 'Unknown error'}` };
   }
 }
 

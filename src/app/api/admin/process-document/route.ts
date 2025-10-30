@@ -3,7 +3,7 @@ import { createServiceClient } from '@/lib/supabase/service';
 
 export async function POST(request: NextRequest) {
   try {
-    const { documentId } = await request.json();
+    const { documentId, text } = await request.json();
     
     if (!documentId) {
       return NextResponse.json(
@@ -30,12 +30,16 @@ export async function POST(request: NextRequest) {
     
     // Simula il processing del documento
     // In un'implementazione reale, qui chiameresti il servizio di processing
+    const seedText = (typeof text === 'string' && text.trim().length > 0)
+      ? text.trim()
+      : `${document.title ?? 'Document'} — ${document.description ?? ''}`.trim() || 'Sample text content';
+
     const chunks = [
       {
         document_id: documentId,
         chunk_index: 0,
-        text: document.title || 'Sample text content',
-        tokens: 10,
+        text: seedText,
+        tokens: Math.max(10, seedText.length / 4),
         embedding: new Array(1536).fill(0.1) // Embedding di test
       }
     ];

@@ -1,5 +1,5 @@
 import OpenAI from 'openai'
-import { searchSimilarChunks, type SimilarityResult } from '@/lib/supabase/similarity-search'
+import { searchSimilarChunks, searchTutorChunks, type SimilarityResult } from '@/lib/supabase/similarity-search'
 import { generateEmbedding } from './embeddings'
 
 // Funzione per ottenere il client OpenAI
@@ -57,7 +57,7 @@ export async function queryRAG(
     console.log(`🔍 Searching for similar chunks for: "${question}"`)
     
     const searchResult = tutorId 
-      ? await searchSimilarChunks(question, {
+      ? await searchTutorChunks(question, tutorId, {
           limit: maxChunks,
           threshold: similarityThreshold,
           userId
