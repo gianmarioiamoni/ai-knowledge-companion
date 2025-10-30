@@ -1,2 +1,2 @@
 export { TutorCard } from './tutor-card';
-export { TutorForm } from './tutor-form';
+export { TutorFormImproved as TutorForm } from './tutor-form-improved';

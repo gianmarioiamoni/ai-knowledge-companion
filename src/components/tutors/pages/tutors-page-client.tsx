@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from '@/i18n/navigation';
-import { TutorForm } from "../ui/tutor-form";
+import { TutorFormImproved as TutorForm } from "../ui/tutor-form-improved";
 import { TutorsHeader, TutorsStats, TutorsEmpty, TutorsGrid } from "../sections";
 import { useTutors } from "@/hooks/use-tutors";
 import { useTranslations } from 'next-intl';
@@ -135,7 +135,7 @@ export function TutorsPageClient({ locale }: TutorsPageClientProps): JSX.Element
           {/* Form Modal */}
           {showForm && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-              <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+              <div className="bg-white dark:bg-gray-800 rounded-lg max-w-5xl w-full max-h-[95vh] overflow-y-auto shadow-2xl">
                 <TutorForm
                   tutor={editingTutor || undefined}
                   onSubmit={editingTutor ? handleUpdateTutor : handleCreateTutor}
