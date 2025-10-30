@@ -54,10 +54,8 @@ export async function searchSimilarChunks(
     // I filtri sono gestiti direttamente dalla RPC function
 
     // Esegui la query di similarità usando pgvector
-    const { data, error } = await supabase.rpc('match_document_chunks_filtered', {
+    const { data, error } = await supabase.rpc('match_document_chunks', {
       query_embedding: queryEmbedding,
-      document_ids: documentIds && documentIds.length > 0 ? documentIds : null,
-      user_id: userId,
       match_threshold: threshold,
       match_count: limit
     })
@@ -70,7 +68,7 @@ export async function searchSimilarChunks(
     }
 
     // Trasforma i risultati nel formato desiderato
-    const results: SimilarityResult[] = (data || []).map((item: any) => ({
+    let results: SimilarityResult[] = (data || []).map((item: any) => ({
       id: item.id,
       document_id: item.document_id,
       chunk_index: item.chunk_index,
@@ -79,6 +77,22 @@ export async function searchSimilarChunks(
       similarity: item.similarity || 0,
       created_at: item.created_at
     }))
+
+    // Applica filtri manualmente se necessario
+    if (documentIds && documentIds.length > 0) {
+      results = results.filter(result => documentIds.includes(result.document_id))
+    }
+
+    // Per il filtro utente, dobbiamo fare una query separata per ottenere i documenti
+    if (userId) {
+      const { data: userDocs } = await supabase
+        .from('documents')
+        .select('id, owner_id, visibility')
+        .or(`owner_id.eq.${userId},visibility.eq.public`)
+      
+      const allowedDocIds = userDocs?.map(doc => doc.id) || []
+      results = results.filter(result => allowedDocIds.includes(result.document_id))
+    }
 
     return { data: results }
   } catch (error) {
