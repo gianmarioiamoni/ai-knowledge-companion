@@ -1,6 +1,6 @@
 'use client';
 
-import { JSX } from 'react';
+import { JSX, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { MessageBubble } from './message-bubble';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
@@ -25,6 +25,12 @@ export function ChatMessages({
   onClearError 
 }: ChatMessagesProps): JSX.Element {
   const t = useTranslations('chat');
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   return (
     <div className="flex-1 overflow-y-auto p-4 space-y-4">
@@ -84,6 +90,9 @@ export function ChatMessages({
               <span className="text-sm">{t('messages.typing')}</span>
             </div>
           )}
+
+          {/* Scroll anchor */}
+          <div ref={messagesEndRef} />
         </div>
       )}
 

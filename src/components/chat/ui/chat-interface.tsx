@@ -1,6 +1,6 @@
 'use client';
 
-import { JSX, useEffect, useRef } from 'react';
+import { JSX, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useChat } from '@/hooks/use-chat';
 import { ChatHeader } from './chat-header';
@@ -29,13 +29,6 @@ export function ChatInterface({
     setCurrentConversation,
     clearError,
   } = useChat(tutorId);
-
-  const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
 
   // Load initial conversation or create new one
   useEffect(() => {
@@ -103,7 +96,6 @@ export function ChatInterface({
                 error={error}
                 onClearError={clearError}
               />
-              <div ref={messagesEndRef} />
             </div>
 
             {/* Input */}
