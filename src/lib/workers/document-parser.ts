@@ -118,84 +118,23 @@ export async function parseDocumentFromBuffer(
       }
       case "application/pdf": {
         try {
-          // Approccio semplificato: estrai testo grezzo dal PDF
-          // Usa 'latin1' encoding per evitare errori Unicode
-          const pdfText = buffer.toString('latin1');
-          
-          // Cerca pattern di testo comuni nei PDF
-          const textMatches = pdfText.match(/\([^)]+\)/g);
-          if (textMatches && textMatches.length > 0) {
-            text = textMatches
-              .map(match => {
-                try {
-                  // Prova a decodificare il testo
-                  const content = match.slice(1, -1); // Rimuovi parentesi
-                  // Gestisci escape sequences comuni
-                  return content
-                    .replace(/\\n/g, ' ')
-                    .replace(/\\r/g, ' ')
-                    .replace(/\\t/g, ' ')
-                    .replace(/\\\\/g, '\\')
-                    .replace(/\\\(/g, '(')
-                    .replace(/\\\)/g, ')')
-                    .replace(/\\\//g, '/')
-                    .replace(/\\\s/g, ' ')
-                    .replace(/\\([0-9]{3})/g, (match, code) => {
-                      // Decodifica codici ottali
-                      try {
-                        return String.fromCharCode(parseInt(code, 8));
-                      } catch {
-                        return match;
-                      }
-                    });
-                } catch (decodeError) {
-                  console.warn('Error decoding PDF text:', decodeError);
-                  return match.slice(1, -1); // Fallback: rimuovi solo parentesi
-                }
-              })
-              .filter(t => t.length > 2) // Filtra stringhe troppo corte
-              .join(' ');
-          } else {
-            // Fallback: cerca pattern di testo più generici
-            const fallbackMatches = pdfText.match(/[A-Za-z][A-Za-z0-9\s,.-]{5,}/g);
-            text = fallbackMatches ? fallbackMatches.join(' ') : '';
-          }
-          
-          // Pulisci il testo finale
-          text = text
-            .replace(/\s+/g, ' ') // Normalizza spazi
-            .replace(/[^\x20-\x7E]/g, ' ') // Rimuovi caratteri non stampabili
-            .trim();
-          
+          // Usa LangChain PDFLoader per estrarre testo robustamente
+          const { PDFLoader } = await import("@langchain/community/document_loaders/web/pdf");
+          const blob = new Blob([buffer], { type: "application/pdf" });
+          const loader = new PDFLoader(blob, { parsedItemSeparator: "\n\n" });
+          const docs = await loader.load();
+          const combined = docs.map(d => (d.pageContent || "").trim()).filter(Boolean).join("\n\n");
+
+          text = combined;
           metadata = {
             title: filename.replace(/\.pdf$/i, ""),
             wordCount: countWords(text),
             charCount: text.length,
-            pages: undefined, // Non disponibile con questo metodo
+            pages: docs.length || undefined,
           };
         } catch (error) {
-          console.warn('PDF parsing failed:', error);
-          // Fallback: prova con encoding diverso
-          try {
-            const pdfText = buffer.toString('ascii');
-            const fallbackMatches = pdfText.match(/[A-Za-z][A-Za-z0-9\s,.-]{5,}/g);
-            text = fallbackMatches ? fallbackMatches.join(' ') : '';
-            metadata = {
-              title: filename.replace(/\.pdf$/i, ""),
-              wordCount: countWords(text),
-              charCount: text.length,
-              pages: undefined,
-            };
-          } catch (fallbackError) {
-            console.warn('PDF fallback parsing also failed:', fallbackError);
-            text = '';
-            metadata = {
-              title: filename.replace(/\.pdf$/i, ""),
-              wordCount: 0,
-              charCount: 0,
-              pages: undefined,
-            };
-          }
+          console.warn('PDF parsing failed (LangChain):', error);
+          return { error: `Failed to parse PDF via LangChain: ${error instanceof Error ? error.message : 'Unknown error'}` };
         }
         break;
       }

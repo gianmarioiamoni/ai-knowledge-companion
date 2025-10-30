@@ -131,7 +131,9 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps): JSX.Elem
                                 {chunk.document_name}
                               </Badge>
                               <Badge variant="secondary" className="text-xs">
-                                {(chunk.similarity_score * 100).toFixed(1)}% match
+                                {Number.isFinite(chunk.similarity_score)
+                                  ? `${(chunk.similarity_score * 100).toFixed(1)}% match`
+                                  : '—'}
                               </Badge>
                             </div>
                             <p className="text-sm text-gray-700 dark:text-gray-300 line-clamp-3">

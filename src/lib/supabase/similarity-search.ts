@@ -115,6 +115,7 @@ export async function searchTutorChunks(
   options: Omit<SearchOptions, 'documentIds'> = {}
 ): Promise<{ data?: SimilarityResult[]; error?: string }> {
   try {
+    console.log(`🔍 Searching tutor chunks for tutorId: ${tutorId}`)
     const supabase = createServiceClient()
 
     // Ottieni i documenti associati al tutor
@@ -124,12 +125,17 @@ export async function searchTutorChunks(
       .eq('tutor_id', tutorId)
 
     if (tutorError) {
+      console.error('❌ Error fetching tutor documents:', tutorError)
       return {
         error: `Failed to get tutor documents: ${tutorError.message}`
       }
     }
 
+    console.log(`📄 Tutor documents found:`, tutorDocs?.length || 0)
+    console.log(`📄 Document IDs:`, tutorDocs?.map(doc => doc.document_id) || [])
+
     if (!tutorDocs || tutorDocs.length === 0) {
+      console.log('⚠️ No documents associated with tutor')
       return {
         data: [] // Nessun documento associato al tutor
       }
@@ -137,10 +143,19 @@ export async function searchTutorChunks(
 
     const documentIds = tutorDocs.map(doc => doc.document_id)
 
-    return await searchSimilarChunks(query, {
+    console.log(`🔍 Searching similar chunks with documentIds:`, documentIds)
+    const result = await searchSimilarChunks(query, {
       ...options,
       documentIds
     })
+
+    console.log(`📋 Tutor search result:`, {
+      hasData: !!result.data,
+      dataLength: result.data?.length || 0,
+      error: result.error
+    })
+
+    return result
   } catch (error) {
     console.error('Tutor similarity search error:', error)
     return {

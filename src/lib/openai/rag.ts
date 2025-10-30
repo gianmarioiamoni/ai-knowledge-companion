@@ -49,12 +49,13 @@ export async function queryRAG(
       context = '',
       tutorId,
       userId,
-      maxChunks = 5,
-      similarityThreshold = 0.7
+      maxChunks = 10,
+      similarityThreshold = 0.1
     } = query
 
     // Step 1: Retrieval - Cerca chunk simili
     console.log(`🔍 Searching for similar chunks for: "${question}"`)
+    console.log(`📊 Search params: tutorId=${tutorId}, maxChunks=${maxChunks}, threshold=${similarityThreshold}`)
     
     const searchResult = tutorId 
       ? await searchTutorChunks(question, tutorId, {
@@ -67,6 +68,12 @@ export async function queryRAG(
           threshold: similarityThreshold,
           userId
         })
+
+    console.log(`📋 Search result:`, {
+      hasData: !!searchResult.data,
+      dataLength: searchResult.data?.length || 0,
+      error: searchResult.error
+    })
 
     if (searchResult.error) {
       return {
