@@ -21,12 +21,12 @@ export function TutorsFormModal({
 
   return (
     <Dialog open={show} onOpenChange={onCancel}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>
+      <DialogContent className="max-w-[95vw] sm:max-w-[90vw] md:max-w-3xl lg:max-w-4xl xl:max-w-5xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto p-4 sm:p-6">
+        <DialogHeader className="space-y-2 pb-4">
+          <DialogTitle className="text-lg sm:text-xl md:text-2xl">
             {tutor ? t('editTitle') : t('createTitle')}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-xs sm:text-sm">
             {t('description')}
           </DialogDescription>
         </DialogHeader>

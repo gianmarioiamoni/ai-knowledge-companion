@@ -48,56 +48,57 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
   } = useTutorForm({ tutor, onSubmit, onCancel, loading });
 
   return (
-    <div className="w-full max-w-4xl mx-auto">
+    <div className="w-full mx-auto">
       <Card className="border-0 shadow-lg">
-        <CardHeader className="pb-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              <div className="p-2 bg-blue-100 dark:bg-blue-900 rounded-lg">
-                <User className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+        <CardHeader className="pb-3 sm:pb-4 px-3 sm:px-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+            <div className="flex items-center space-x-2 sm:space-x-3">
+              <div className="p-1.5 sm:p-2 bg-blue-100 dark:bg-blue-900 rounded-lg flex-shrink-0">
+                <User className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400" />
               </div>
-              <div>
-                <CardTitle className="text-xl">
+              <div className="min-w-0">
+                <CardTitle className="text-base sm:text-lg md:text-xl truncate">
                   {tutor ? t('form.editTitle') : t('form.createTitle')}
                 </CardTitle>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1 line-clamp-1 sm:line-clamp-none">
                   {tutor ? t('form.editSubtitle') : t('form.createSubtitle')}
                 </p>
               </div>
             </div>
             {tutor && (
-              <Badge variant="secondary" className="flex items-center space-x-1">
+              <Badge variant="secondary" className="flex items-center space-x-1 flex-shrink-0 text-xs sm:text-sm">
                 <MessageSquare className="h-3 w-3" />
-                <span>{t('form.editBadge')}</span>
+                <span className="hidden sm:inline">{t('form.editBadge')}</span>
               </Badge>
             )}
           </div>
         </CardHeader>
         
-        <CardContent className="pt-0">
+        <CardContent className="pt-0 px-3 sm:px-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-6">
-              <TabsTrigger value="basic" className="flex items-center space-x-2">
-                <User className="h-4 w-4" />
-                <span>{t('form.tabs.basic')}</span>
+            <TabsList className="grid w-full grid-cols-4 mb-4 sm:mb-6 h-auto gap-1 sm:gap-0">
+              <TabsTrigger value="basic" className="flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
+                <User className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="hidden xs:inline sm:inline truncate">{t('form.tabs.basic')}</span>
               </TabsTrigger>
-              <TabsTrigger value="ai" className="flex items-center space-x-2">
-                <Brain className="h-4 w-4" />
-                <span>{t('form.tabs.ai')}</span>
+              <TabsTrigger value="ai" className="flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
+                <Brain className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="hidden xs:inline sm:inline truncate">{t('form.tabs.ai')}</span>
               </TabsTrigger>
-              <TabsTrigger value="rag" className="flex items-center space-x-2">
-                <Zap className="h-4 w-4" />
-                <span>{t('form.tabs.rag')}</span>
+              <TabsTrigger value="rag" className="flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
+                <Zap className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="hidden xs:inline sm:inline truncate">{t('form.tabs.rag')}</span>
               </TabsTrigger>
-              <TabsTrigger value="visibility" className="flex items-center space-x-2">
-                <Eye className="h-4 w-4" />
-                <span>{t('form.tabs.visibility')}</span>
+              <TabsTrigger value="visibility" className="flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
+                <Eye className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="hidden sm:inline truncate">{t('form.tabs.visibility')}</span>
+                <span className="inline sm:hidden">Vis</span>
               </TabsTrigger>
             </TabsList>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <TabsContent value="basic" className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <TabsContent value="basic" className="space-y-4 sm:space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                   <TutorFormAvatar
                     name={formData.name}
                     avatarUrl={formData.avatar_url}
@@ -111,7 +112,7 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
                 </div>
               </TabsContent>
 
-              <TabsContent value="ai" className="space-y-6">
+              <TabsContent value="ai" className="space-y-4 sm:space-y-6">
                 <TutorFormAiConfig
                   formData={formData}
                   onInputChange={handleInputChange}
@@ -120,7 +121,7 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
                 />
               </TabsContent>
 
-              <TabsContent value="rag" className="space-y-6">
+              <TabsContent value="rag" className="space-y-4 sm:space-y-6">
                 <TutorFormRagConfig
                   formData={formData}
                   onInputChange={handleInputChange}
@@ -129,7 +130,7 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
                 />
               </TabsContent>
 
-              <TabsContent value="visibility" className="space-y-6">
+              <TabsContent value="visibility" className="space-y-4 sm:space-y-6">
                 <TutorFormVisibilityConfig
                   formData={formData}
                   onInputChange={handleInputChange}
@@ -140,11 +141,11 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
 
               {/* Sezione Documenti - Solo per tutor esistenti */}
               {tutor && (
-                <div className="mt-6">
-                  <Card className="p-4">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <FileText className="h-5 w-5 text-indigo-600" />
-                      <h4 className="font-medium">{t('form.sections.documents')}</h4>
+                <div className="mt-4 sm:mt-6">
+                  <Card className="p-3 sm:p-4">
+                    <div className="flex items-center space-x-2 mb-3 sm:mb-4">
+                      <FileText className="h-4 w-4 sm:h-5 sm:w-5 text-indigo-600" />
+                      <h4 className="font-medium text-sm sm:text-base">{t('form.sections.documents')}</h4>
                     </div>
                     <TutorDocumentsSection tutorId={tutor.id} />
                   </Card>
