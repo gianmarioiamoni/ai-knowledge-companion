@@ -985,6 +985,7 @@ export function isValidFileType(
     "text/markdown",
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
   ];
   return supportedTypes.includes(mimeType);
 }
@@ -1001,6 +1002,8 @@ export function getFileTypeIcon(mimeType: string): string {
     case "application/msword":
     case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
       return "📄";
+    case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+      return "📊"; // PowerPoint icon
     default:
       return "📄";
   }
