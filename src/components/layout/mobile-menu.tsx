@@ -115,8 +115,8 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
           )}
 
           {/* Navigation Links */}
-          {user && (
-            <nav className="flex-1 overflow-y-auto py-4">
+          <nav className="flex-1 overflow-y-auto py-4">
+            {user ? (
               <div className="space-y-1 px-2">
                 {menuItems.map((item) => {
                   const Icon = item.icon
@@ -139,8 +139,12 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
                   )
                 })}
               </div>
-            </nav>
-          )}
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-500 dark:text-gray-400 text-sm px-4 text-center">
+                {t('loginToAccess') || 'Login to access all features'}
+              </div>
+            )}
+          </nav>
 
           {/* Footer Actions */}
           <div className="p-4 border-t space-y-2">
