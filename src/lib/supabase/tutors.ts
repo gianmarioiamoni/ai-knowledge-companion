@@ -131,35 +131,6 @@ export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
   }
 }
 
-// Ottieni un tutor specifico
-export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?: string }> {
-  try {
-    const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (!user) {
-      return { error: 'User not authenticated' };
-    }
-
-    const { data, error } = await supabase
-      .from('tutors')
-      .select('*')
-      .eq('id', tutorId)
-      .eq('owner_id', user.id)
-      .single();
-
-    if (error) {
-      console.error('Error fetching tutor:', error);
-      return { error: error.message };
-    }
-
-    return { data };
-  } catch (error) {
-    console.error('Exception fetching tutor:', error);
-    return { error: 'Failed to fetch tutor' };
-  }
-}
-
 // Ottieni tutor con documenti collegati
 export async function getTutorWithDocuments(tutorId: string): Promise<{ data?: TutorWithDocuments; error?: string }> {
   try {
