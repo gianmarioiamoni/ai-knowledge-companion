@@ -5,6 +5,7 @@
  * - TXT/MD: TextLoader
  * - PDF: WebPDFLoader
  * - DOC/DOCX: DocxLoader
+ * - PPTX: PPTXLoader
  */
 
 import { SupportedMimeType } from "@/types/documents";
@@ -59,11 +60,15 @@ export async function parseDocument(
 
       case "application/msword":
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-        // Per ora, implementiamo un parser DOC semplificato
-        // In produzione, useremmo mammoth.js o simili
         const docResult = await parseDocFile(file);
         text = docResult.text;
         metadata = docResult.metadata;
+        break;
+
+      case "application/vnd.openxmlformats-officedocument.presentationml.presentation":
+        const pptxResult = await parsePPTXFile(file);
+        text = pptxResult.text;
+        metadata = pptxResult.metadata;
         break;
 
       default:
@@ -205,6 +210,35 @@ export async function parseDocumentFromBuffer(
         }
         break;
       }
+      case "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
+        try {
+          // Usa LangChain PPTXLoader per estrarre testo da PPTX
+          const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
+          
+          const blob = new Blob([buffer], { 
+            type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" 
+          });
+          
+          const loader = new PPTXLoader(blob);
+          const docs = await loader.load();
+          const combined = docs
+            .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+            .filter(Boolean)
+            .join("\n\n");
+
+          text = combined;
+          metadata = {
+            title: filename.replace(/\.pptx$/i, ""),
+            wordCount: countWords(text),
+            charCount: text.length,
+            pages: (docs as unknown[]).length || undefined, // Numero di slide
+          };
+        } catch (error) {
+          console.warn('PPTX parsing failed (LangChain):', error);
+          return { error: `Failed to parse PPTX via LangChain: ${error instanceof Error ? error.message : 'Unknown error'}` };
+        }
+        break;
+      }
       default:
         return { error: `Unsupported file type: ${mimeType}` };
     }
@@ -267,6 +301,35 @@ async function parseTextFile(file: File): Promise<ParsedDocument> {
 
 
 /**
+ * Parsa file PPTX usando LangChain PPTXLoader
+ */
+async function parsePPTXFile(file: File): Promise<ParsedDocument> {
+  try {
+    const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
+    
+    const loader = new PPTXLoader(file);
+    const docs = await loader.load();
+    const text = docs
+      .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
+
+    return {
+      text,
+      metadata: {
+        title: file.name.replace(/\.pptx$/i, ""),
+        wordCount: countWords(text),
+        charCount: text.length,
+        pages: (docs as unknown[]).length || undefined, // Numero di slide
+      },
+    };
+  } catch (error) {
+    console.error("Failed to parse PPTX file:", error);
+    throw new Error(`Failed to parse PPTX: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
  * Parsa file DOC/DOCX usando LangChain DocxLoader
  */
 async function parseDocFile(file: File): Promise<ParsedDocument> {
@@ -320,6 +383,7 @@ export function canParseFile(mimeType: string): mimeType is SupportedMimeType {
     "text/markdown",
     "application/msword",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
   ];
   return supportedTypes.includes(mimeType);
 }

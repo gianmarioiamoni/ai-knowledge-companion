@@ -52,7 +52,8 @@ export const SUPPORTED_MIME_TYPES = [
   'text/plain',
   'text/markdown',
   'application/msword',
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation'
 ] as const
 
 export type SupportedMimeType = typeof SUPPORTED_MIME_TYPES[number]

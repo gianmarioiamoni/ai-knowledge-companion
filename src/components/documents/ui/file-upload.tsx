@@ -61,7 +61,7 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
 
       // Validate file type
       if (!isValidFileType(file.type)) {
-        error = 'Unsupported file type. Please use PDF, TXT, MD, DOC, or DOCX files.'
+        error = 'Unsupported file type. Please use PDF, TXT, MD, DOC, DOCX, or PPTX files.'
       }
       // Validate file size
       else if (file.size > MAX_FILE_SIZE) {
@@ -154,7 +154,7 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
           <input
             type="file"
             multiple
-            accept=".pdf,.txt,.md,.doc,.docx"
+            accept=".pdf,.txt,.md,.doc,.docx,.pptx"
             onChange={handleFileInput}
             className="hidden"
             id="file-upload"
@@ -171,7 +171,7 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
             </Button>
           </label>
           <p className="text-xs text-gray-400 mt-2">
-            Supported: PDF, TXT, MD, DOC, DOCX (max 10MB each)
+            Supported: PDF, TXT, MD, DOC, DOCX, PPTX (max 10MB each)
           </p>
         </CardContent>
       </Card>
