@@ -76,23 +76,22 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
         
         <CardContent className="pt-0 px-3 sm:px-6">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-4 sm:mb-6 h-auto gap-1 sm:gap-0">
-              <TabsTrigger value="basic" className="flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
-                <User className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="hidden xs:inline sm:inline truncate">{t('form.tabs.basic')}</span>
+            <TabsList className="grid w-full grid-cols-4 mb-4 sm:mb-6 h-auto gap-0.5 sm:gap-1">
+              <TabsTrigger value="basic" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 px-1 sm:px-3 py-2 text-[10px] sm:text-sm">
+                <User className="h-4 w-4 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="sm:inline truncate">{t('form.tabs.basic')}</span>
               </TabsTrigger>
-              <TabsTrigger value="ai" className="flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
-                <Brain className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="hidden xs:inline sm:inline truncate">{t('form.tabs.ai')}</span>
+              <TabsTrigger value="ai" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 px-1 sm:px-3 py-2 text-[10px] sm:text-sm">
+                <Brain className="h-4 w-4 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="sm:inline truncate">{t('form.tabs.ai')}</span>
               </TabsTrigger>
-              <TabsTrigger value="rag" className="flex items-center justify-center gap-1 sm:gap-2 px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
-                <Zap className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="hidden xs:inline sm:inline truncate">{t('form.tabs.rag')}</span>
+              <TabsTrigger value="rag" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 px-1 sm:px-3 py-2 text-[10px] sm:text-sm">
+                <Zap className="h-4 w-4 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="sm:inline truncate">{t('form.tabs.rag')}</span>
               </TabsTrigger>
-              <TabsTrigger value="visibility" className="flex items-center justify-center gap-1 sm:gap-2 px-1 sm:px-2 py-2 sm:py-2.5 text-xs sm:text-sm">
-                <Eye className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="hidden sm:inline truncate">{t('form.tabs.visibility')}</span>
-                <span className="inline sm:hidden">Vis</span>
+              <TabsTrigger value="visibility" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 px-0.5 sm:px-2 py-2 text-[10px] sm:text-sm">
+                <Eye className="h-4 w-4 sm:h-4 sm:w-4 flex-shrink-0" />
+                <span className="truncate">Vis</span>
               </TabsTrigger>
             </TabsList>
 
