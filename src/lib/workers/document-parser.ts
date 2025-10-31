@@ -1,6 +1,10 @@
 /**
- * Document Parser - Estrae testo da diversi formati di file
- * Sprint 1: Implementazione locale senza embeddings
+ * Document Parser - Estrae testo da diversi formati di file usando LangChain
+ * 
+ * Tutti i formati supportati utilizzano LangChain loaders per consistenza:
+ * - TXT/MD: TextLoader
+ * - PDF: WebPDFLoader
+ * - DOC/DOCX: DocxLoader
  */
 
 import { SupportedMimeType } from "@/types/documents";
@@ -108,12 +112,38 @@ export async function parseDocumentFromBuffer(
     switch (mimeType) {
       case "text/plain":
       case "text/markdown": {
-        const content = buffer.toString("utf8");
-        text = content;
-        metadata = {
-          wordCount: countWords(content),
-          charCount: content.length,
-        };
+        try {
+          // Usa LangChain TextLoader per consistenza con altri loader
+          const { TextLoader } = await import("@langchain/community/document_loaders/fs/text");
+          
+          const blob = new Blob([buffer], { 
+            type: mimeType 
+          });
+          
+          const loader = new TextLoader(blob);
+          const docs = await loader.load();
+          const combined = docs
+            .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+            .filter(Boolean)
+            .join("\n\n");
+
+          text = combined;
+          metadata = {
+            title: filename.replace(/\.(txt|md)$/i, ""),
+            wordCount: countWords(text),
+            charCount: text.length,
+          };
+        } catch (error) {
+          console.warn('TXT/MD parsing failed (LangChain):', error);
+          // Fallback to simple parsing
+          const content = buffer.toString("utf8");
+          text = content;
+          metadata = {
+            title: filename.replace(/\.(txt|md)$/i, ""),
+            wordCount: countWords(content),
+            charCount: content.length,
+          };
+        }
         break;
       }
       case "application/pdf": {
@@ -199,18 +229,40 @@ export async function parseDocumentFromBuffer(
 }
 
 /**
- * Parsa file di testo (.txt, .md)
+ * Parsa file di testo (.txt, .md) usando LangChain TextLoader
  */
 async function parseTextFile(file: File): Promise<ParsedDocument> {
-  const text = await file.text();
+  try {
+    const { TextLoader } = await import("@langchain/community/document_loaders/fs/text");
+    
+    const loader = new TextLoader(file);
+    const docs = await loader.load();
+    const text = docs
+      .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
 
-  return {
-    text,
-    metadata: {
-      wordCount: countWords(text),
-      charCount: text.length,
-    },
-  };
+    return {
+      text,
+      metadata: {
+        title: file.name.replace(/\.(txt|md)$/i, ""),
+        wordCount: countWords(text),
+        charCount: text.length,
+      },
+    };
+  } catch (error) {
+    console.warn("TXT/MD parsing failed (LangChain), using fallback:", error);
+    // Fallback to simple text reading
+    const text = await file.text();
+    return {
+      text,
+      metadata: {
+        title: file.name.replace(/\.(txt|md)$/i, ""),
+        wordCount: countWords(text),
+        charCount: text.length,
+      },
+    };
+  }
 }
 
 
