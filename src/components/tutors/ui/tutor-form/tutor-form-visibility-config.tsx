@@ -66,7 +66,7 @@ export function TutorFormVisibilityConfig({
                         {t(`form.visibilityLevels.${level}`)}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        {getVisibilityDescription(level)}
+                        {t(`form.fields.visibilityOptions.${level}`)}
                       </div>
                     </div>
                   </div>

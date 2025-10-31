@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Shield, XCircle, CheckCircle, Loader2 } from "lucide-react";
+import { useTranslations } from 'next-intl';
 import type { JSX } from 'react';
 
 interface TutorFormActionsProps {
@@ -13,22 +14,24 @@ export function TutorFormActions({
   isEditing,
   onCancel,
 }: TutorFormActionsProps): JSX.Element {
+  const t = useTranslations('tutors');
+  
   return (
     <div className="flex justify-between items-center pt-6 border-t">
       <Button type="button" variant="outline" onClick={onCancel} className="flex items-center space-x-2">
         <XCircle className="h-4 w-4 mr-1" />
-        <span>Annulla</span>
+        <span>{t('form.cancel')}</span>
       </Button>
       <Button type="submit" disabled={loading} className="flex items-center space-x-2">
         {loading ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin mr-1" />
-            <span>Salvataggio...</span>
+            <span>{t('form.saving')}</span>
           </>
         ) : (
           <>
             <CheckCircle className="h-4 w-4 mr-1" />
-            <span>{isEditing ? 'Aggiorna Tutor' : 'Crea Tutor'}</span>
+            <span>{isEditing ? t('form.update') : t('form.create')}</span>
           </>
         )}
       </Button>

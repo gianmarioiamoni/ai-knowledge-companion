@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Zap } from "lucide-react";
+import { useTranslations } from 'next-intl';
 import type { TutorInsert } from "@/types/tutors";
 import type { JSX } from 'react';
 
@@ -20,6 +21,8 @@ export function TutorFormRagConfig({
   onNumericInputChange,
   getSimilarityLabel,
 }: TutorFormRagConfigProps): JSX.Element {
+  const t = useTranslations('tutors');
+  
   return (
     <div className="p-4 border rounded-lg">
       <div className="space-y-4">
@@ -31,10 +34,10 @@ export function TutorFormRagConfig({
         <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
           <div className="space-y-1">
             <Label htmlFor="use_rag" className="text-sm font-medium">
-              Abilita RAG
+              {t('form.fields.enableRag')}
             </Label>
             <p className="text-xs text-muted-foreground">
-              Usa i documenti per risposte più accurate e contestuali
+              {t('form.fields.enableRagHint')}
             </p>
           </div>
           <Switch
@@ -48,7 +51,7 @@ export function TutorFormRagConfig({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t">
             <div className="space-y-3">
               <Label htmlFor="max_context_chunks" className="text-sm font-medium">
-                Max Chunk di Contesto
+                {t('form.fields.maxContextChunks')}
               </Label>
               <Input
                 id="max_context_chunks"
@@ -60,14 +63,14 @@ export function TutorFormRagConfig({
                 className="text-sm"
               />
               <p className="text-xs text-muted-foreground">
-                Numero massimo di frammenti di documento da utilizzare
+                {t('form.fields.maxContextChunksHint')}
               </p>
             </div>
             
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label className="text-sm font-medium">
-                  Soglia Similarità: {formData.similarity_threshold}
+                  {t('form.fields.similarityThreshold')}: {formData.similarity_threshold}
                 </Label>
                 <Badge variant="outline" className="text-xs">
                   {getSimilarityLabel(formData.similarity_threshold)}
@@ -82,8 +85,8 @@ export function TutorFormRagConfig({
                 className="w-full"
               />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>Bassa (0)</span>
-                <span>Alta (1)</span>
+                <span>{t('form.fields.similarityThresholdLabels.low')}</span>
+                <span>{t('form.fields.similarityThresholdLabels.high')}</span>
               </div>
             </div>
           </div>
