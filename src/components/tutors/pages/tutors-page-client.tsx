@@ -65,7 +65,7 @@ export function TutorsPageClient({ locale }: TutorsPageClientProps): JSX.Element
           {/* Form Modal */}
           <TutorsFormModal
             show={showForm}
-            tutor={editingTutor}
+            tutor={editingTutor ?? undefined}
             onSubmit={editingTutor ? handleUpdateTutor : handleCreateTutor}
             onCancel={handleCloseForm}
           />
