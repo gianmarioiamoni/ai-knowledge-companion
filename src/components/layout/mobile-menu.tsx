@@ -77,13 +77,13 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
       {/* Slide-in Menu */}
       <div
         className={cn(
-          "fixed top-0 left-0 h-full w-[280px] bg-white dark:bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden",
+          "fixed top-0 left-0 h-screen w-[280px] bg-white dark:bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden overflow-hidden",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex items-center justify-between p-4 border-b flex-shrink-0">
             <h2 className="text-lg font-semibold">Menu</h2>
             <Button
               variant="ghost"
@@ -97,7 +97,7 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
 
           {/* User Info */}
           {user && (
-            <div className="p-4 border-b bg-gray-50 dark:bg-gray-800/50">
+            <div className="p-4 border-b bg-gray-50 dark:bg-gray-800/50 flex-shrink-0">
               <div className="flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
                   {user.email?.[0]?.toUpperCase() || 'U'}
@@ -147,7 +147,7 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
           </nav>
 
           {/* Footer Actions */}
-          <div className="p-4 border-t space-y-2">
+          <div className="p-4 border-t space-y-2 flex-shrink-0">
             {user ? (
               <Button
                 variant="outline"
