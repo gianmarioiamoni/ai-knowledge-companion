@@ -1,6 +1,73 @@
 import { createClient } from '@/lib/supabase/client';
 import type { Tutor, TutorInsert, TutorUpdate, TutorWithDocuments } from '@/types/tutors';
 
+// Ottieni un singolo tutor con contatori aggiornati
+export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?: string }> {
+  try {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      return { error: 'User not authenticated' };
+    }
+
+    const { data: tutor, error } = await supabase
+      .from('tutors')
+      .select(`
+        *,
+        tutor_documents(count)
+      `)
+      .eq('id', tutorId)
+      .eq('owner_id', user.id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching tutor:', error);
+      return { error: error.message };
+    }
+
+    if (!tutor) {
+      return { error: 'Tutor not found' };
+    }
+
+    // Conta le conversazioni per questo tutor
+    const { count: conversationsCount } = await supabase
+      .from('conversations')
+      .select('*', { count: 'exact', head: true })
+      .eq('tutor_id', tutor.id);
+
+    // Conta i messaggi per questo tutor (tramite le conversazioni)
+    const { data: conversations } = await supabase
+      .from('conversations')
+      .select('id')
+      .eq('tutor_id', tutor.id);
+
+    let messagesCount = 0;
+    if (conversations && conversations.length > 0) {
+      const conversationIds = conversations.map(c => c.id);
+      const { count: messagesCountResult } = await supabase
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .in('conversation_id', conversationIds);
+      messagesCount = messagesCountResult || 0;
+    }
+
+    const tutorWithCounts: Tutor = {
+      ...tutor,
+      total_documents: Array.isArray(tutor.tutor_documents) 
+        ? tutor.tutor_documents.length 
+        : (tutor.tutor_documents as { count: number })?.count || 0,
+      total_conversations: conversationsCount || 0,
+      total_messages: messagesCount,
+    };
+
+    return { data: tutorWithCounts };
+  } catch (error) {
+    console.error('Error in getTutor:', error);
+    return { error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+}
+
 // Ottieni tutti i tutor dell'utente
 export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
   try {

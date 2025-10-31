@@ -94,12 +94,16 @@ export function useTutors() {
       }
 
       if (result.data) {
+        // Ricarica il tutor completo dal server per avere contatori aggiornati
+        const refreshedResult = await tutorsService.getTutor(tutorId);
+        const tutorToUpdate = refreshedResult.data || result.data;
+        
         setTutors(prev => 
           prev.map(tutor => 
-            tutor.id === tutorId ? result.data! : tutor
+            tutor.id === tutorId ? tutorToUpdate : tutor
           )
         );
-        return { success: true, tutor: result.data };
+        return { success: true, tutor: tutorToUpdate };
       }
 
       return { success: false, error: "No data returned" };

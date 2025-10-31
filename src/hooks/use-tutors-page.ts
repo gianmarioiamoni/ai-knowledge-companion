@@ -45,6 +45,8 @@ export function useTutorsPage() {
     const result = await updateTutor(editingTutor.id, data);
     if (result.success) {
       setEditingTutor(null);
+      setShowForm(false); // Chiude il form dopo l'update
+      // I dati vengono aggiornati automaticamente da use-tutors
     }
   };
 
