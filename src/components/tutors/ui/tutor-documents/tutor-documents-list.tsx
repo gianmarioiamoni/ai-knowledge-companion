@@ -43,7 +43,7 @@ export function TutorDocumentsList({
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-full">
       {documents.map((tutorDoc) => {
         // Verifica di sicurezza per evitare errori
         if (!tutorDoc.documents) {
@@ -54,20 +54,20 @@ export function TutorDocumentsList({
         return (
           <div
             key={tutorDoc.id}
-            className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-md"
+            className="flex items-start sm:items-center justify-between gap-2 p-2 sm:p-3 bg-gray-50 dark:bg-gray-800 rounded-md w-full overflow-hidden"
           >
-            <div className="flex items-center space-x-3">
+            <div className="flex items-start sm:items-center gap-2 sm:gap-3 min-w-0 flex-1">
               <TutorDocumentsStatusIcon status={tutorDoc.documents.status} />
-              <div>
-                <p className="text-sm font-medium text-gray-900 dark:text-white">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate">
                   {getDocumentDisplayName(tutorDoc.documents)}
                 </p>
-                <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
-                  <Badge variant="outline">
+                <div className="flex flex-wrap items-center gap-1 sm:gap-2 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                  <Badge variant="outline" className="text-[10px] sm:text-xs">
                     {getDocumentFileType(tutorDoc.documents)}
                   </Badge>
-                  <span>{formatFileSize(tutorDoc.documents.file_size || 0)}</span>
-                  <span>{getDocumentStatusLabel(tutorDoc.documents.status)}</span>
+                  <span className="whitespace-nowrap">{formatFileSize(tutorDoc.documents.file_size || 0)}</span>
+                  <span className="hidden sm:inline whitespace-nowrap">{getDocumentStatusLabel(tutorDoc.documents.status)}</span>
                 </div>
               </div>
             </div>
@@ -76,9 +76,9 @@ export function TutorDocumentsList({
               size="sm"
               onClick={() => onUnlinkDocument(tutorDoc.document_id)}
               disabled={loading}
-              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300"
+              className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 flex-shrink-0 h-8 w-8 sm:h-9 sm:w-9 p-0"
             >
-              <Unlink className="h-4 w-4" />
+              <Unlink className="h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </div>
         );

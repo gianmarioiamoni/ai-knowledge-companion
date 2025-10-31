@@ -31,14 +31,14 @@ export function TutorDocumentsSection({ tutorId }: TutorDocumentsSectionProps): 
   } = useTutorDocumentsSection({ tutorId });
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center space-x-2">
-          <FileText className="h-5 w-5" />
-          <span>{t('documents.title')}</span>
+    <Card className="w-full overflow-hidden">
+      <CardHeader className="p-3 sm:p-6">
+        <CardTitle className="flex items-center gap-2 text-sm sm:text-base">
+          <FileText className="h-4 w-4 sm:h-5 sm:w-5 flex-shrink-0" />
+          <span className="truncate">{t('documents.title')}</span>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-3 sm:space-y-4 p-3 sm:p-6 pt-0">
         {error && <TutorDocumentsError error={error} />}
 
         {/* Collegare nuovo documento */}
@@ -51,8 +51,8 @@ export function TutorDocumentsSection({ tutorId }: TutorDocumentsSectionProps): 
         />
 
         {/* Documenti collegati */}
-        <div className="space-y-2">
-          <h4 className="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <div className="space-y-2 w-full">
+          <h4 className="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">
             {t('documents.linked')} ({documents.length})
           </h4>
           
