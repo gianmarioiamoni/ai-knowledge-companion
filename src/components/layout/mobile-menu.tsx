@@ -1,6 +1,7 @@
 'use client'
 
 import { JSX, useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useTranslations } from 'next-intl'
 import { Link, usePathname } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
@@ -23,8 +24,14 @@ interface MobileMenuProps {
 
 export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.Element {
   const [isOpen, setIsOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const t = useTranslations('navigation')
+
+  // Ensure we're mounted (client-side only)
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Chiudi menu quando cambia route
   useEffect(() => {
@@ -33,32 +40,31 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
 
   // Previeni scroll e applica blur quando menu aperto
   useEffect(() => {
-    const mainContent = document.getElementById('main-content')
-    const header = document.querySelector('header')
-    const appContainer = document.querySelector('.min-h-screen')
+    const blurTarget = document.getElementById('app-blur-target')
     
     if (isOpen) {
       document.body.style.overflow = 'hidden'
-      // Applica blur e scale-down all'intero container dell'app
-      if (appContainer) {
-        (appContainer as HTMLElement).style.filter = 'blur(8px)'
-        ;(appContainer as HTMLElement).style.transform = 'scale(0.95)'
-        ;(appContainer as HTMLElement).style.transition = 'all 0.3s ease-in-out'
+      // Applica blur e scale-down al target specifico (esclude il menu)
+      if (blurTarget) {
+        blurTarget.style.filter = 'blur(8px)'
+        blurTarget.style.transform = 'scale(0.95)'
+        blurTarget.style.transition = 'all 0.3s ease-in-out'
+        blurTarget.style.transformOrigin = 'center center'
       }
     } else {
       document.body.style.overflow = 'unset'
       // Rimuovi blur e scale
-      if (appContainer) {
-        (appContainer as HTMLElement).style.filter = 'none'
-        ;(appContainer as HTMLElement).style.transform = 'scale(1)'
+      if (blurTarget) {
+        blurTarget.style.filter = 'none'
+        blurTarget.style.transform = 'scale(1)'
       }
     }
     
     return () => {
       document.body.style.overflow = 'unset'
-      if (appContainer) {
-        (appContainer as HTMLElement).style.filter = 'none'
-        ;(appContainer as HTMLElement).style.transform = 'scale(1)'
+      if (blurTarget) {
+        blurTarget.style.filter = 'none'
+        blurTarget.style.transform = 'scale(1)'
       }
     }
   }, [isOpen])
@@ -69,23 +75,8 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
     { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard') },
   ]
 
-  return (
+  const menuPortal = mounted && (
     <>
-      {/* Hamburger Button */}
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden p-2"
-        aria-label="Toggle menu"
-      >
-        {isOpen ? (
-          <X className="h-6 w-6" />
-        ) : (
-          <Menu className="h-6 w-6" />
-        )}
-      </Button>
-
       {/* Overlay con blur - deve essere sopra tutto */}
       {isOpen && (
         <div
@@ -95,7 +86,7 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
         />
       )}
 
-      {/* Slide-in Menu - deve essere sopra l'overlay */}
+      {/* Slide-in Menu - renderizzato fuori dal DOM principale */}
       <div
         className={cn(
           "fixed top-0 left-0 h-screen w-[280px] bg-white dark:bg-gray-900 shadow-xl z-[110] transform transition-transform duration-300 ease-in-out md:hidden overflow-hidden",
@@ -198,6 +189,28 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
           </div>
         </div>
       </div>
+    </>
+  )
+
+  return (
+    <>
+      {/* Hamburger Button */}
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => setIsOpen(!isOpen)}
+        className="md:hidden p-2"
+        aria-label="Toggle menu"
+      >
+        {isOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
+      </Button>
+
+      {/* Menu renderizzato come portal fuori dall'app-blur-target */}
+      {mounted && typeof document !== 'undefined' && createPortal(menuPortal, document.body)}
     </>
   )
 }
