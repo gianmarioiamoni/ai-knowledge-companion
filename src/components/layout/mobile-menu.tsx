@@ -66,11 +66,12 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
         )}
       </Button>
 
-      {/* Overlay */}
+      {/* Overlay con blur */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+          className="fixed inset-0 bg-black/30 backdrop-blur-md z-40 md:hidden transition-all duration-300"
           onClick={() => setIsOpen(false)}
+          aria-hidden="true"
         />
       )}
 
