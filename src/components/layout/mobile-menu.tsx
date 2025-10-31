@@ -66,19 +66,19 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
         )}
       </Button>
 
-      {/* Overlay con blur */}
+      {/* Overlay con blur - deve essere sopra tutto */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/30 backdrop-blur-md z-40 md:hidden transition-all duration-300"
+          className="fixed inset-0 bg-black/30 backdrop-blur-md z-[100] md:hidden transition-all duration-300"
           onClick={() => setIsOpen(false)}
           aria-hidden="true"
         />
       )}
 
-      {/* Slide-in Menu */}
+      {/* Slide-in Menu - deve essere sopra l'overlay */}
       <div
         className={cn(
-          "fixed top-0 left-0 h-screen w-[280px] bg-white dark:bg-gray-900 shadow-xl z-50 transform transition-transform duration-300 ease-in-out md:hidden overflow-hidden",
+          "fixed top-0 left-0 h-screen w-[280px] bg-white dark:bg-gray-900 shadow-xl z-[110] transform transition-transform duration-300 ease-in-out md:hidden overflow-hidden",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
