@@ -7,6 +7,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Eye, Globe, Link as LinkIcon, Lock } from "lucide-react";
+import { useTranslations } from 'next-intl';
 import type { TutorInsert, VisibilityLevel } from "@/types/tutors";
 import { VISIBILITY_LEVELS } from "@/types/tutors";
 import type { JSX } from 'react';
@@ -24,6 +25,7 @@ export function TutorFormVisibilityConfig({
   getVisibilityIcon,
   getVisibilityDescription,
 }: TutorFormVisibilityConfigProps): JSX.Element {
+  const t = useTranslations('tutors');
   const getVisibilityIconComponent = (visibility: VisibilityLevel) => {
     switch (getVisibilityIcon(visibility)) {
       case 'globe':

@@ -293,9 +293,11 @@
         "descriptionPlaceholder": "Tutor description...",
         "avatarUrl": "Avatar URL",
         "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+        "aiModel": "AI Model",
         "model": "Model",
         "modelPlaceholder": "Select model",
         "maxTokens": "Max Tokens",
+        "maxTokensHint": "Maximum token limit for response",
         "temperature": "Temperature: {value}",
         "temperatureLabels": {
           "conservative": "Conservative (0)",

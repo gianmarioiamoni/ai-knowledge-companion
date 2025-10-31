@@ -328,10 +328,12 @@
         "descriptionPlaceholder": "Descrizione del tutor...",
         "avatarUrl": "URL Avatar",
         "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+        "aiModel": "Modello AI",
         "model": "Modello",
         "modelPlaceholder": "Seleziona modello",
-        "maxTokens": "Max Tokens",
-        "temperature": "Temperature: {value}",
+        "maxTokens": "Token Massimi",
+        "maxTokensHint": "Limite massimo di token per risposta",
+        "temperature": "Temperatura: {value}",
         "temperatureLabels": {
           "conservative": "Conservativo (0)",
           "creative": "Creativo (2)"

@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Settings, Brain, Target } from "lucide-react";
+import { useTranslations } from 'next-intl';
 import type { TutorInsert, SupportedModel } from "@/types/tutors";
 import { SUPPORTED_MODELS } from "@/types/tutors";
 import type { JSX } from 'react';
@@ -27,25 +28,26 @@ export function TutorFormAiConfig({
   onNumericInputChange,
   getTemperatureLabel,
 }: TutorFormAiConfigProps): JSX.Element {
+  const t = useTranslations('tutors');
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="p-4 border rounded-lg">
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
             <Settings className="h-5 w-5 text-blue-600" />
-            <h4 className="font-medium">Modello AI</h4>
+            <h4 className="font-medium">{t('form.fields.aiModel')}</h4>
           </div>
           
           <div className="space-y-2">
             <Label htmlFor="model" className="text-sm font-medium">
-              Modello
+              {t('form.fields.model')}
             </Label>
             <Select
               value={formData.model}
               onValueChange={(value: SupportedModel) => onInputChange('model', value)}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Seleziona modello" />
+                <SelectValue placeholder={t('form.fields.modelPlaceholder')} />
               </SelectTrigger>
               <SelectContent>
                 {SUPPORTED_MODELS.map((model) => (
@@ -62,7 +64,7 @@ export function TutorFormAiConfig({
 
           <div className="space-y-2">
             <Label htmlFor="max_tokens" className="text-sm font-medium">
-              Max Tokens
+              {t('form.fields.maxTokens')}
             </Label>
             <Input
               id="max_tokens"
@@ -74,7 +76,7 @@ export function TutorFormAiConfig({
               className="text-sm"
             />
             <p className="text-xs text-muted-foreground">
-              Limite massimo di token per risposta
+              {t('form.fields.maxTokensHint')}
             </p>
           </div>
         </div>
@@ -105,8 +107,8 @@ export function TutorFormAiConfig({
               className="w-full"
             />
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Conservativo (0)</span>
-              <span>Creativo (2)</span>
+              <span>{t('form.fields.temperatureLabels.conservative')}</span>
+              <span>{t('form.fields.temperatureLabels.creative')}</span>
             </div>
           </div>
         </div>
