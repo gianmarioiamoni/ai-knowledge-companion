@@ -95,14 +95,30 @@ export function useTutors() {
 
       if (result.data) {
         // Ricarica il tutor completo dal server per avere contatori aggiornati
+        console.log('🔄 Refreshing tutor data after update:', tutorId);
         const refreshedResult = await tutorsService.getTutor(tutorId);
-        const tutorToUpdate = refreshedResult.data || result.data;
         
-        setTutors(prev => 
-          prev.map(tutor => 
+        if (refreshedResult.error) {
+          console.error('⚠️ Failed to refresh tutor, using update result:', refreshedResult.error);
+        }
+        
+        const tutorToUpdate = refreshedResult.data || result.data;
+        console.log('✅ Updated tutor data:', {
+          id: tutorToUpdate.id,
+          name: tutorToUpdate.name,
+          total_documents: tutorToUpdate.total_documents,
+          total_conversations: tutorToUpdate.total_conversations,
+          total_messages: tutorToUpdate.total_messages
+        });
+        
+        setTutors(prev => {
+          const updated = prev.map(tutor => 
             tutor.id === tutorId ? tutorToUpdate : tutor
-          )
-        );
+          );
+          console.log('📊 Tutors state updated, count:', updated.length);
+          return updated;
+        });
+        
         return { success: true, tutor: tutorToUpdate };
       }
 

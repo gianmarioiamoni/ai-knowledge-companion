@@ -4,10 +4,12 @@ import type { Tutor, TutorInsert, TutorUpdate, TutorWithDocuments } from '@/type
 // Ottieni un singolo tutor con contatori aggiornati
 export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?: string }> {
   try {
+    console.log('🔍 getTutor called for:', tutorId);
     const supabase = createClient();
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
+      console.error('❌ getTutor: User not authenticated');
       return { error: 'User not authenticated' };
     }
 
@@ -22,19 +24,28 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
       .single();
 
     if (error) {
-      console.error('Error fetching tutor:', error);
+      console.error('❌ getTutor: Error fetching tutor:', error);
       return { error: error.message };
     }
 
     if (!tutor) {
+      console.error('❌ getTutor: Tutor not found');
       return { error: 'Tutor not found' };
     }
+
+    console.log('📝 getTutor: Base tutor data received:', {
+      id: tutor.id,
+      name: tutor.name,
+      tutor_documents: tutor.tutor_documents
+    });
 
     // Conta le conversazioni per questo tutor
     const { count: conversationsCount } = await supabase
       .from('conversations')
       .select('*', { count: 'exact', head: true })
       .eq('tutor_id', tutor.id);
+
+    console.log('💬 getTutor: Conversations count:', conversationsCount);
 
     // Conta i messaggi per questo tutor (tramite le conversazioni)
     const { data: conversations } = await supabase
@@ -52,6 +63,8 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
       messagesCount = messagesCountResult || 0;
     }
 
+    console.log('📨 getTutor: Messages count:', messagesCount);
+
     const tutorWithCounts: Tutor = {
       ...tutor,
       total_documents: Array.isArray(tutor.tutor_documents) 
@@ -61,9 +74,17 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
       total_messages: messagesCount,
     };
 
+    console.log('✅ getTutor: Final tutor with counts:', {
+      id: tutorWithCounts.id,
+      name: tutorWithCounts.name,
+      total_documents: tutorWithCounts.total_documents,
+      total_conversations: tutorWithCounts.total_conversations,
+      total_messages: tutorWithCounts.total_messages
+    });
+
     return { data: tutorWithCounts };
   } catch (error) {
-    console.error('Error in getTutor:', error);
+    console.error('❌ getTutor: Exception:', error);
     return { error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
