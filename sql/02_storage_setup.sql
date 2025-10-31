@@ -13,7 +13,8 @@ VALUES (
     'text/plain',
     'text/markdown',
     'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation'
   ]
 ) ON CONFLICT (id) DO NOTHING;
 
