@@ -22,16 +22,16 @@ export function UploadSection({
   if (!show) return null
 
   return (
-    <Card className="mb-8">
-      <CardHeader>
-        <CardTitle>
+    <Card className="mb-6 sm:mb-8">
+      <CardHeader className="p-4 sm:p-6">
+        <CardTitle className="text-base sm:text-lg">
           {title}
         </CardTitle>
-        <CardDescription>
+        <CardDescription className="text-xs sm:text-sm">
           {description}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4 sm:p-6 pt-0">
         <FileUpload
           onUpload={onUpload}
           loading={loading}
