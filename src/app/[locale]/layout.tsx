@@ -43,8 +43,8 @@ export default async function LocaleLayout({
           <div className="min-h-screen flex flex-col">
             <Header locale={locale} />
 
-            {/* Main content */}
-            <main className="flex-1">
+            {/* Main content - wrapped with id for blur effect */}
+            <main id="main-content" className="flex-1">
               {children}
             </main>
           </div>

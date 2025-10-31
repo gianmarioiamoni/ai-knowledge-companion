@@ -31,15 +31,45 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
     setIsOpen(false)
   }, [pathname])
 
-  // Previeni scroll quando menu aperto
+  // Previeni scroll e applica blur quando menu aperto
   useEffect(() => {
+    const mainContent = document.getElementById('main-content')
+    const header = document.querySelector('header')
+    
     if (isOpen) {
       document.body.style.overflow = 'hidden'
+      // Applica blur e scale-down al contenuto principale
+      if (mainContent) {
+        mainContent.style.filter = 'blur(8px)'
+        mainContent.style.transform = 'scale(0.95)'
+        mainContent.style.transition = 'all 0.3s ease-in-out'
+      }
+      // Applica blur anche all'header
+      if (header) {
+        header.style.filter = 'blur(8px)'
+        header.style.transition = 'all 0.3s ease-in-out'
+      }
     } else {
       document.body.style.overflow = 'unset'
+      // Rimuovi blur e scale
+      if (mainContent) {
+        mainContent.style.filter = 'none'
+        mainContent.style.transform = 'scale(1)'
+      }
+      if (header) {
+        header.style.filter = 'none'
+      }
     }
+    
     return () => {
       document.body.style.overflow = 'unset'
+      if (mainContent) {
+        mainContent.style.filter = 'none'
+        mainContent.style.transform = 'scale(1)'
+      }
+      if (header) {
+        header.style.filter = 'none'
+      }
     }
   }, [isOpen])
 
