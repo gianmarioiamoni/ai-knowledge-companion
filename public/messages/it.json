@@ -292,6 +292,7 @@
       "form": {
         "createTitle": "Crea Nuovo Tutor",
         "editTitle": "Modifica Tutor",
+        "description": "Configura le impostazioni del tutor e collega i documenti per abilitare risposte contestuali.",
         "saving": "Salvataggio...",
         "create": "Crea",
         "update": "Aggiorna",

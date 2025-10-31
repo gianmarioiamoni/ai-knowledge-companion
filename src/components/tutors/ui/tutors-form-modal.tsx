@@ -1,5 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { TutorFormImproved } from './tutor-form-improved';
+import { useTranslations } from 'next-intl';
 import type { Tutor, TutorInsert } from "@/types/tutors";
 import type { JSX } from 'react';
 
@@ -16,15 +17,17 @@ export function TutorsFormModal({
   onSubmit,
   onCancel,
 }: TutorsFormModalProps): JSX.Element {
+  const t = useTranslations('tutors.form');
+
   return (
     <Dialog open={show} onOpenChange={onCancel}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>
-            {tutor ? 'Modifica Tutor' : 'Crea Nuovo Tutor'}
+            {tutor ? t('editTitle') : t('createTitle')}
           </DialogTitle>
           <DialogDescription>
-            Configura le impostazioni del tutor e collega i documenti per abilitare risposte contestuali.
+            {t('description')}
           </DialogDescription>
         </DialogHeader>
         <TutorFormImproved

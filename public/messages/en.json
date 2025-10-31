@@ -257,6 +257,7 @@
       "form": {
         "createTitle": "Create New Tutor",
         "editTitle": "Edit Tutor",
+        "description": "Configure tutor settings and link documents to enable contextual responses.",
         "saving": "Saving...",
         "create": "Create",
         "update": "Update",
