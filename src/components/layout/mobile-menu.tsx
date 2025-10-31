@@ -35,40 +35,30 @@ export function MobileMenu({ user, onSignOut, locale }: MobileMenuProps): JSX.El
   useEffect(() => {
     const mainContent = document.getElementById('main-content')
     const header = document.querySelector('header')
+    const appContainer = document.querySelector('.min-h-screen')
     
     if (isOpen) {
       document.body.style.overflow = 'hidden'
-      // Applica blur e scale-down al contenuto principale
-      if (mainContent) {
-        mainContent.style.filter = 'blur(8px)'
-        mainContent.style.transform = 'scale(0.95)'
-        mainContent.style.transition = 'all 0.3s ease-in-out'
-      }
-      // Applica blur anche all'header
-      if (header) {
-        header.style.filter = 'blur(8px)'
-        header.style.transition = 'all 0.3s ease-in-out'
+      // Applica blur e scale-down all'intero container dell'app
+      if (appContainer) {
+        (appContainer as HTMLElement).style.filter = 'blur(8px)'
+        ;(appContainer as HTMLElement).style.transform = 'scale(0.95)'
+        ;(appContainer as HTMLElement).style.transition = 'all 0.3s ease-in-out'
       }
     } else {
       document.body.style.overflow = 'unset'
       // Rimuovi blur e scale
-      if (mainContent) {
-        mainContent.style.filter = 'none'
-        mainContent.style.transform = 'scale(1)'
-      }
-      if (header) {
-        header.style.filter = 'none'
+      if (appContainer) {
+        (appContainer as HTMLElement).style.filter = 'none'
+        ;(appContainer as HTMLElement).style.transform = 'scale(1)'
       }
     }
     
     return () => {
       document.body.style.overflow = 'unset'
-      if (mainContent) {
-        mainContent.style.filter = 'none'
-        mainContent.style.transform = 'scale(1)'
-      }
-      if (header) {
-        header.style.filter = 'none'
+      if (appContainer) {
+        (appContainer as HTMLElement).style.filter = 'none'
+        ;(appContainer as HTMLElement).style.transform = 'scale(1)'
       }
     }
   }, [isOpen])
