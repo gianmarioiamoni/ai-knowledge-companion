@@ -144,14 +144,35 @@ export async function parseDocumentFromBuffer(
       }
       case "application/msword":
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
-        // TODO: integrare mammoth.js per estrarre testo reale dai DOC/DOCX
-        const content = buffer.toString("utf8");
-        text = content;
-        metadata = {
-          title: filename.replace(/\.(doc|docx)$/i, ""),
-          wordCount: countWords(content),
-          charCount: content.length,
-        };
+        try {
+          // Usa LangChain DocxLoader per estrarre testo da DOC/DOCX
+          const { DocxLoader } = await import("@langchain/community/document_loaders/fs/docx");
+          
+          const blob = new Blob([buffer], { 
+            type: mimeType 
+          });
+          
+          const loaderOptions = mimeType === "application/msword" 
+            ? { type: "doc" as const }
+            : { type: "docx" as const };
+          
+          const loader = new DocxLoader(blob, loaderOptions);
+          const docs = await loader.load();
+          const combined = docs
+            .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+            .filter(Boolean)
+            .join("\n\n");
+
+          text = combined;
+          metadata = {
+            title: filename.replace(/\.(doc|docx)$/i, ""),
+            wordCount: countWords(text),
+            charCount: text.length,
+          };
+        } catch (error) {
+          console.warn('DOC/DOCX parsing failed (LangChain):', error);
+          return { error: `Failed to parse DOC/DOCX via LangChain: ${error instanceof Error ? error.message : 'Unknown error'}` };
+        }
         break;
       }
       default:
@@ -194,28 +215,37 @@ async function parseTextFile(file: File): Promise<ParsedDocument> {
 
 
 /**
- * Parsa file DOC/DOCX (implementazione semplificata)
- * TODO: Integrare mammoth.js in produzione
+ * Parsa file DOC/DOCX usando LangChain DocxLoader
  */
 async function parseDocFile(file: File): Promise<ParsedDocument> {
-  // Per ora, restituiamo un placeholder
-  // In produzione, useremmo una libreria come mammoth.js
-  const text = `[DOC Content from ${
-    file.name
-  }]\n\nThis is a placeholder for DOC/DOCX parsing. In production, this would extract actual text from the document using mammoth.js or similar library.\n\nFile size: ${(
-    file.size /
-    1024 /
-    1024
-  ).toFixed(2)} MB`;
+  try {
+    const { DocxLoader } = await import("@langchain/community/document_loaders/fs/docx");
+    
+    // Determina il tipo di file
+    const isDoc = file.name.toLowerCase().endsWith('.doc');
+    const loaderOptions = isDoc 
+      ? { type: "doc" as const }
+      : { type: "docx" as const };
+    
+    const loader = new DocxLoader(file, loaderOptions);
+    const docs = await loader.load();
+    const text = docs
+      .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+      .filter(Boolean)
+      .join("\n\n");
 
-  return {
-    text,
-    metadata: {
-      title: file.name.replace(/\.(doc|docx)$/, ""),
-      wordCount: countWords(text),
-      charCount: text.length,
-    },
-  };
+    return {
+      text,
+      metadata: {
+        title: file.name.replace(/\.(doc|docx)$/i, ""),
+        wordCount: countWords(text),
+        charCount: text.length,
+      },
+    };
+  } catch (error) {
+    console.error("Failed to parse DOC/DOCX file:", error);
+    throw new Error(`Failed to parse DOC/DOCX: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
 }
 
 /**
