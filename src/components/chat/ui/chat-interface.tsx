@@ -78,7 +78,7 @@ export function ChatInterface({
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-h-0">
         {currentConversation ? (
           <>
             {/* Chat Header */}
@@ -88,7 +88,7 @@ export function ChatInterface({
             />
 
             {/* Messages */}
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 min-h-0">
               <ChatMessages
                 messages={messages}
                 isLoading={isLoading}
