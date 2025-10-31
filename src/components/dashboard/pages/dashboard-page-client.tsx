@@ -56,8 +56,8 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
+      <div className="mx-auto px-3 sm:px-4 lg:px-6 max-w-7xl">
         <WelcomeHeader
           title={t('title')}
           welcomeMessage={t('welcome')}
@@ -65,7 +65,7 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
         />
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 sm:mb-8">
           <StatsCard
             title={t('totalDocuments')}
             value={stats.totalDocuments}
@@ -97,7 +97,7 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
         </div>
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <ActionCard
             title={t('uploadFirstDocument')}
             description="Start building your knowledge base by uploading your first document."

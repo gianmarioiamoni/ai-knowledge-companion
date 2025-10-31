@@ -60,50 +60,52 @@ export function DocumentsPageClient({ locale }: DocumentsPageClientProps): JSX.E
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <DocumentsHeader
-        title={t('title')}
-        subtitle={t('title')}
-        uploadButtonText={t('upload')}
-        showUpload={showUpload}
-        onToggleUpload={() => setShowUpload(!showUpload)}
-        onRefresh={refreshDocuments}
-        onTestConnectivity={handleTestConnectivity}
-      />
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
+      <div className="mx-auto px-3 sm:px-4 lg:px-6 max-w-7xl">
+        <DocumentsHeader
+          title={t('title')}
+          subtitle={t('title')}
+          uploadButtonText={t('upload')}
+          showUpload={showUpload}
+          onToggleUpload={() => setShowUpload(!showUpload)}
+          onRefresh={refreshDocuments}
+          onTestConnectivity={handleTestConnectivity}
+        />
 
-      <UploadSection
-        title={t('upload')}
-        description={t('supportedFormats')}
-        onUpload={uploadDocument}
-        loading={loading}
-        show={showUpload}
-      />
+        <UploadSection
+          title={t('upload')}
+          description={t('supportedFormats')}
+          onUpload={uploadDocument}
+          loading={loading}
+          show={showUpload}
+        />
 
-      <ErrorDisplay error={error} />
+        <ErrorDisplay error={error} />
 
-      <DocumentsList
-        title={t('title')}
-        documents={documents}
-        loading={loading}
-        emptyMessage={t('nameRequired')}
-        onDeleteDocument={deleteDocument}
-        onPreviewDocument={handlePreviewDocument}
-        onDownloadDocument={(id) => {
-          const document = documents.find(doc => doc.id === id)
-          if (document) {
-            handleDownloadDocument(document)
-          }
-        }}
-        translations={documentTranslations}
-      />
+        <DocumentsList
+          title={t('title')}
+          documents={documents}
+          loading={loading}
+          emptyMessage={t('nameRequired')}
+          onDeleteDocument={deleteDocument}
+          onPreviewDocument={handlePreviewDocument}
+          onDownloadDocument={(id) => {
+            const document = documents.find(doc => doc.id === id)
+            if (document) {
+              handleDownloadDocument(document)
+            }
+          }}
+          translations={documentTranslations}
+        />
 
-      {/* Document Preview Modal */}
-      <DocumentPreview
-        document={previewDocument}
-        isOpen={!!previewDocument}
-        onClose={() => setPreviewDocument(null)}
-        onDownload={handleDownloadDocument}
-      />
+        {/* Document Preview Modal */}
+        <DocumentPreview
+          document={previewDocument}
+          isOpen={!!previewDocument}
+          onClose={() => setPreviewDocument(null)}
+          onDownload={handleDownloadDocument}
+        />
+      </div>
     </div>
   )
 }
