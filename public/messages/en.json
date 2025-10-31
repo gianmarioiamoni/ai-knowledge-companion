@@ -258,16 +258,33 @@
         "createTitle": "Create New Tutor",
         "editTitle": "Edit Tutor",
         "description": "Configure tutor settings and link documents to enable contextual responses.",
+        "createSubtitle": "Create a new personalized AI tutor",
+        "editSubtitle": "Edit your tutor settings",
+        "editBadge": "Edit",
         "saving": "Saving...",
         "create": "Create",
         "update": "Update",
         "cancel": "Cancel",
+      "tabs": {
+        "basic": "Basic",
+        "ai": "AI",
+        "rag": "RAG",
+        "visibility": "Visibility"
+      },
       "sections": {
         "basicInfo": "Basic Information",
         "aiConfig": "AI Configuration",
         "ragConfig": "RAG Configuration",
-        "visibility": "Visibility",
-        "systemPrompt": "System Prompt"
+        "visibility": "Visibility and Sharing",
+        "systemPrompt": "System Prompt",
+        "documents": "Linked Documents",
+        "creativity": "Creativity",
+        "visibilityLevel": "Visibility Level"
+      },
+      "visibilityLevels": {
+        "private": "Private",
+        "public": "Public",
+        "unlisted": "Unlisted"
       },
       "fields": {
         "name": "Name *",

@@ -84,7 +84,7 @@ export function TutorFormAiConfig({
         <div className="space-y-4">
           <div className="flex items-center space-x-2">
             <Target className="h-5 w-5 text-green-600" />
-            <h4 className="font-medium">Creatività</h4>
+            <h4 className="font-medium">{t('form.sections.creativity')}</h4>
           </div>
           
           <div className="space-y-3">

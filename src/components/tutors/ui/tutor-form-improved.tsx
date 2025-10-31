@@ -61,14 +61,14 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
                   {tutor ? t('form.editTitle') : t('form.createTitle')}
                 </CardTitle>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {tutor ? 'Modifica le impostazioni del tuo tutor' : 'Crea un nuovo tutor AI personalizzato'}
+                  {tutor ? t('form.editSubtitle') : t('form.createSubtitle')}
                 </p>
               </div>
             </div>
             {tutor && (
               <Badge variant="secondary" className="flex items-center space-x-1">
                 <MessageSquare className="h-3 w-3" />
-                <span>Modifica</span>
+                <span>{t('form.editBadge')}</span>
               </Badge>
             )}
           </div>
@@ -79,19 +79,19 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
             <TabsList className="grid w-full grid-cols-4 mb-6">
               <TabsTrigger value="basic" className="flex items-center space-x-2">
                 <User className="h-4 w-4" />
-                <span>Base</span>
+                <span>{t('form.tabs.basic')}</span>
               </TabsTrigger>
               <TabsTrigger value="ai" className="flex items-center space-x-2">
                 <Brain className="h-4 w-4" />
-                <span>AI</span>
+                <span>{t('form.tabs.ai')}</span>
               </TabsTrigger>
               <TabsTrigger value="rag" className="flex items-center space-x-2">
                 <Zap className="h-4 w-4" />
-                <span>RAG</span>
+                <span>{t('form.tabs.rag')}</span>
               </TabsTrigger>
               <TabsTrigger value="visibility" className="flex items-center space-x-2">
                 <Eye className="h-4 w-4" />
-                <span>Visibilità</span>
+                <span>{t('form.tabs.visibility')}</span>
               </TabsTrigger>
             </TabsList>
 
@@ -144,7 +144,7 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
                   <Card className="p-4">
                     <div className="flex items-center space-x-2 mb-4">
                       <FileText className="h-5 w-5 text-indigo-600" />
-                      <h4 className="font-medium">Documenti Collegati</h4>
+                      <h4 className="font-medium">{t('form.sections.documents')}</h4>
                     </div>
                     <TutorDocumentsSection tutorId={tutor.id} />
                   </Card>

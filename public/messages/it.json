@@ -293,16 +293,33 @@
         "createTitle": "Crea Nuovo Tutor",
         "editTitle": "Modifica Tutor",
         "description": "Configura le impostazioni del tutor e collega i documenti per abilitare risposte contestuali.",
+        "createSubtitle": "Crea un nuovo tutor AI personalizzato",
+        "editSubtitle": "Modifica le impostazioni del tuo tutor",
+        "editBadge": "Modifica",
         "saving": "Salvataggio...",
         "create": "Crea",
         "update": "Aggiorna",
         "cancel": "Annulla",
+      "tabs": {
+        "basic": "Base",
+        "ai": "AI",
+        "rag": "RAG",
+        "visibility": "Visibilità"
+      },
       "sections": {
         "basicInfo": "Informazioni Base",
         "aiConfig": "Configurazioni AI",
         "ragConfig": "Configurazioni RAG",
-        "visibility": "Visibilità",
-        "systemPrompt": "System Prompt"
+        "visibility": "Visibilità e Condivisione",
+        "systemPrompt": "Prompt di Sistema",
+        "documents": "Documenti Collegati",
+        "creativity": "Creatività",
+        "visibilityLevel": "Livello di Visibilità"
+      },
+      "visibilityLevels": {
+        "private": "Privato",
+        "public": "Pubblico",
+        "unlisted": "Non elencato"
       },
       "fields": {
         "name": "Nome *",

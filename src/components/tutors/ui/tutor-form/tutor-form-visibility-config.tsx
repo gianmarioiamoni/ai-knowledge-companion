@@ -40,12 +40,12 @@ export function TutorFormVisibilityConfig({
       <div className="space-y-4">
         <div className="flex items-center space-x-2">
           <Eye className="h-5 w-5 text-orange-600" />
-          <h4 className="font-medium">Visibilità e Condivisione</h4>
+          <h4 className="font-medium">{t('form.sections.visibility')}</h4>
         </div>
         
         <div className="space-y-3">
           <Label htmlFor="visibility" className="text-sm font-medium">
-            Livello di Visibilità
+            {t('form.sections.visibilityLevel')}
           </Label>
           <Select
             value={formData.visibility}
@@ -61,9 +61,7 @@ export function TutorFormVisibilityConfig({
                     {getVisibilityIconComponent(level)}
                     <div>
                       <div className="font-medium">
-                        {level === 'private' && 'Privato'}
-                        {level === 'public' && 'Pubblico'}
-                        {level === 'unlisted' && 'Non elencato'}
+                        {t(`form.visibilityLevels.${level}`)}
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {getVisibilityDescription(level)}
