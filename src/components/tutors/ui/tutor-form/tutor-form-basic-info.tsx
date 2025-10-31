@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useTranslations } from 'next-intl';
 import type { TutorInsert } from "@/types/tutors";
 import type { JSX } from 'react';
 
@@ -13,17 +14,19 @@ export function TutorFormBasicInfo({
   formData,
   onInputChange,
 }: TutorFormBasicInfoProps): JSX.Element {
+  const t = useTranslations('tutors');
+  
   return (
     <div className="lg:col-span-2 space-y-4">
       <div className="space-y-2">
         <Label htmlFor="name" className="text-sm font-medium">
-          Nome Tutor *
+          {t('form.fields.name')}
         </Label>
         <Input
           id="name"
           value={formData.name}
           onChange={(e) => onInputChange('name', e.target.value)}
-          placeholder="Es. Tutor di Matematica, Assistente Legale..."
+          placeholder={t('form.fields.namePlaceholder')}
           required
           className="text-sm"
         />
@@ -31,13 +34,13 @@ export function TutorFormBasicInfo({
       
       <div className="space-y-2">
         <Label htmlFor="description" className="text-sm font-medium">
-          Descrizione
+          {t('form.fields.description')}
         </Label>
         <Textarea
           id="description"
           value={formData.description}
           onChange={(e) => onInputChange('description', e.target.value)}
-          placeholder="Descrivi le competenze e il ruolo del tutor..."
+          placeholder={t('form.fields.descriptionPlaceholder')}
           rows={3}
           className="text-sm"
         />
@@ -45,18 +48,18 @@ export function TutorFormBasicInfo({
 
       <div className="space-y-2">
         <Label htmlFor="system_prompt" className="text-sm font-medium">
-          System Prompt
+          {t('form.fields.systemPrompt')}
         </Label>
         <Textarea
           id="system_prompt"
           value={formData.system_prompt}
           onChange={(e) => onInputChange('system_prompt', e.target.value)}
-          placeholder="Definisci il comportamento e lo stile del tutor..."
+          placeholder={t('form.fields.systemPromptPlaceholder')}
           rows={4}
           className="text-sm"
         />
         <p className="text-xs text-muted-foreground">
-          Questo prompt definisce come il tutor si comporta e risponde alle domande
+          {t('form.fields.systemPromptHint')}
         </p>
       </div>
     </div>

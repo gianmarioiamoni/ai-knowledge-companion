@@ -287,11 +287,12 @@
         "unlisted": "Unlisted"
       },
       "fields": {
-        "name": "Name *",
+        "name": "Tutor Name *",
         "namePlaceholder": "Tutor name",
         "description": "Description",
         "descriptionPlaceholder": "Tutor description...",
-        "avatarUrl": "Avatar URL",
+        "avatarPreview": "Avatar Preview",
+        "avatarUrl": "Avatar URL (optional)",
         "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
         "aiModel": "AI Model",
         "model": "Model",
@@ -301,16 +302,25 @@
         "temperature": "Temperature: {value}",
         "temperatureLabels": {
           "conservative": "Conservative (0)",
+          "balanced": "Balanced",
           "creative": "Creative (2)"
         },
+        "enableRag": "Enable RAG",
+        "enableRagHint": "Use documents for more accurate and contextual responses",
         "useRag": "Use RAG for contextual responses",
         "maxContextChunks": "Max Context Chunks",
-        "similarityThreshold": "Similarity Threshold: {value}",
+        "maxContextChunksHint": "Maximum number of document chunks to use",
+        "similarityThreshold": "Similarity Threshold",
+        "similarityThresholdLabels": {
+          "low": "Low (0)",
+          "high": "High (1)"
+        },
+        "systemPromptHint": "This prompt defines how the tutor behaves and responds to questions",
         "visibility": "Visibility Level",
         "visibilityOptions": {
-          "private": "Private - Only you",
-          "public": "Public - Visible to everyone",
-          "unlisted": "Unlisted - Only with link"
+          "private": "Visible only to you",
+          "public": "Visible to everyone in the Marketplace",
+          "unlisted": "Accessible only via direct link"
         },
         "systemPrompt": "System Prompt",
         "systemPromptPlaceholder": "Define the tutor's behavior...",
