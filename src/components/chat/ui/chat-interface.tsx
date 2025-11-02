@@ -12,7 +12,9 @@ import type { ChatInterfaceProps } from '@/types/chat';
 
 export function ChatInterface({ 
   tutorId, 
-  conversationId, 
+  conversationId,
+  tutor,
+  locale,
   onClose 
 }: ChatInterfaceProps): JSX.Element {
   const t = useTranslations('chat');
@@ -28,7 +30,7 @@ export function ChatInterface({
     sendMessage,
     setCurrentConversation,
     clearError,
-  } = useChat(tutorId);
+  } = useChat(tutorId, tutor, locale);
 
   // Load initial conversation or create new one
   useEffect(() => {

@@ -62,6 +62,7 @@ export interface ConversationInsert {
 export interface MessageInsert {
   conversation_id: string;
   role: MessageRole;
+  sender: 'user' | 'assistant';
   content: string;
   tokens_used?: number;
   model?: string;
@@ -141,6 +142,8 @@ export interface ChatResponse {
 export interface ChatInterfaceProps {
   tutorId: string;
   conversationId?: string;
+  tutor?: import('./tutors').Tutor;
+  locale?: string;
   onClose?: () => void;
 }
 

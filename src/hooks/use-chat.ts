@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useAuth } from './use-auth';
 import { chatService } from '@/lib/supabase/chat';
+import { createConversationWithWelcome } from '@/lib/supabase/chat-with-welcome';
 import type { 
   ChatState, 
   ChatActions, 
@@ -10,8 +11,9 @@ import type {
   ChatMessage,
   ConversationQueryInput 
 } from '@/types/chat';
+import type { Tutor } from '@/types/tutors';
 
-export function useChat(tutorId?: string) {
+export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
   const { user } = useAuth();
   const [state, setState] = useState<ChatState>({
     conversations: [],
@@ -87,9 +89,9 @@ export function useChat(tutorId?: string) {
     }
   }, [user]);
 
-  // Create a new conversation
+  // Create a new conversation (with welcome message if tutor is provided)
   const createConversation = useCallback(async (
-    tutorId: string, 
+    targetTutorId: string, 
     title?: string
   ): Promise<{ success: boolean; conversationId?: string; error?: string }> => {
     if (!user) {
@@ -99,26 +101,56 @@ export function useChat(tutorId?: string) {
     setState(prev => ({ ...prev, isSending: true, error: null }));
 
     try {
-      const result = await chatService.createConversation({
-        tutor_id: tutorId,
-        title: title || 'New Conversation',
-      });
+      // If tutor info is available, create conversation with welcome message
+      if (tutor && targetTutorId === tutor.id) {
+        const result = await createConversationWithWelcome({
+          tutorId: targetTutorId,
+          tutor,
+          userEmail: user.email,
+          locale
+        });
 
-      if (result.error) {
-        setState(prev => ({ ...prev, error: result.error!, isSending: false }));
-        return { success: false, error: result.error };
-      }
+        if (result.error) {
+          setState(prev => ({ ...prev, error: result.error!, isSending: false }));
+          return { success: false, error: result.error };
+        }
 
-      if (result.data) {
-        // Add to conversations list
-        setState(prev => ({
-          ...prev,
-          conversations: [chatService.transformConversationToChat(result.data!), ...prev.conversations],
-          currentConversation: result.data!.id,
-          isSending: false,
-        }));
+        if (result.data) {
+          // Add to conversations list
+          setState(prev => ({
+            ...prev,
+            conversations: [chatService.transformConversationToChat(result.data!.conversation), ...prev.conversations],
+            currentConversation: result.data!.conversation.id,
+            isSending: false,
+          }));
 
-        return { success: true, conversationId: result.data.id };
+          // Load messages to show welcome message
+          await loadMessages(result.data.conversation.id);
+
+          return { success: true, conversationId: result.data.conversation.id };
+        }
+      } else {
+        // Fallback to regular conversation creation
+        const result = await chatService.createConversation({
+          tutor_id: targetTutorId,
+          title: title || 'New Conversation',
+        });
+
+        if (result.error) {
+          setState(prev => ({ ...prev, error: result.error!, isSending: false }));
+          return { success: false, error: result.error };
+        }
+
+        if (result.data) {
+          setState(prev => ({
+            ...prev,
+            conversations: [chatService.transformConversationToChat(result.data!), ...prev.conversations],
+            currentConversation: result.data!.id,
+            isSending: false,
+          }));
+
+          return { success: true, conversationId: result.data.id };
+        }
       }
 
       return { success: false, error: 'Failed to create conversation' };
@@ -127,7 +159,7 @@ export function useChat(tutorId?: string) {
       setState(prev => ({ ...prev, error: errorMessage, isSending: false }));
       return { success: false, error: errorMessage };
     }
-  }, [user]);
+  }, [user, tutor, locale, loadMessages]);
 
   // Send a message
   const sendMessage = useCallback(async (content: string): Promise<{ success: boolean; error?: string }> => {
