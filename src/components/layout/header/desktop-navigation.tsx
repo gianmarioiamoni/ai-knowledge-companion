@@ -19,6 +19,7 @@ export function DesktopNavigation({ isActivePath }: DesktopNavigationProps): JSX
     { href: '/documents', label: t('documents') },
     { href: '/tutors', label: t('tutors') },
     { href: '/dashboard', label: t('dashboard') },
+    { href: '/profile', label: t('profile') },
   ]
 
   return (

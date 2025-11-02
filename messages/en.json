@@ -348,5 +348,67 @@
         "subtitle": "Choose a conversation from the sidebar to start chatting"
       }
     }
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "subtitle": "Manage your account settings and preferences",
+    "avatar": {
+      "label": "Profile Picture",
+      "upload": "Upload Photo",
+      "uploading": "Uploading...",
+      "change": "Change photo",
+      "hint": "JPG, PNG or GIF. Max 5MB.",
+      "invalidType": "Please select an image file (JPG, PNG, or GIF)",
+      "tooLarge": "File size must be less than 5MB"
+    },
+    "form": {
+      "title": "Personal Information",
+      "description": "Update your personal details",
+      "email": "Email Address",
+      "emailHint": "Your email cannot be changed",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell us about yourself...",
+      "save": "Save Changes",
+      "saving": "Saving..."
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your password to keep your account secure",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "change": "Change Password",
+      "changing": "Changing...",
+      "tooShort": "Password must be at least 8 characters",
+      "noMatch": "Passwords do not match"
+    },
+    "delete": {
+      "title": "Delete Account",
+      "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+      "button": "Delete Account",
+      "confirmTitle": "Are you absolutely sure?",
+      "confirmDescription": "This action cannot be undone. This will permanently delete your account and remove all your data from our servers.",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "passwordRequired": "Password is required to delete your account",
+      "confirmation": "Type DELETE to confirm",
+      "confirmationHint": "Type DELETE in capital letters to confirm",
+      "confirmationRequired": "Please type DELETE to confirm deletion",
+      "confirmButton": "Yes, Delete My Account",
+      "cancel": "Cancel",
+      "deleting": "Deleting..."
+    },
+    "messages": {
+      "avatarUpdated": "Profile picture updated successfully",
+      "profileUpdated": "Profile updated successfully",
+      "passwordChanged": "Password changed successfully"
+    },
+    "error": {
+      "title": "Error Loading Profile",
+      "notFound": "Profile not found"
+    }
   }
 }

@@ -348,5 +348,67 @@
         "subtitle": "Scegli una conversazione dalla barra laterale per iniziare a chattare"
       }
     }
+  },
+  "profile": {
+    "title": "Impostazioni Profilo",
+    "subtitle": "Gestisci le impostazioni del tuo account e le preferenze",
+    "avatar": {
+      "label": "Foto Profilo",
+      "upload": "Carica Foto",
+      "uploading": "Caricamento...",
+      "change": "Cambia foto",
+      "hint": "JPG, PNG o GIF. Max 5MB.",
+      "invalidType": "Seleziona un file immagine (JPG, PNG o GIF)",
+      "tooLarge": "La dimensione del file deve essere inferiore a 5MB"
+    },
+    "form": {
+      "title": "Informazioni Personali",
+      "description": "Aggiorna i tuoi dati personali",
+      "email": "Indirizzo Email",
+      "emailHint": "La tua email non può essere modificata",
+      "fullName": "Nome Completo",
+      "fullNamePlaceholder": "Inserisci il tuo nome completo",
+      "bio": "Biografia",
+      "bioPlaceholder": "Raccontaci di te...",
+      "save": "Salva Modifiche",
+      "saving": "Salvataggio..."
+    },
+    "password": {
+      "title": "Cambia Password",
+      "description": "Aggiorna la tua password per mantenere sicuro il tuo account",
+      "newPassword": "Nuova Password",
+      "newPasswordPlaceholder": "Inserisci nuova password",
+      "confirmPassword": "Conferma Password",
+      "confirmPasswordPlaceholder": "Conferma nuova password",
+      "change": "Cambia Password",
+      "changing": "Modifica...",
+      "tooShort": "La password deve contenere almeno 8 caratteri",
+      "noMatch": "Le password non corrispondono"
+    },
+    "delete": {
+      "title": "Elimina Account",
+      "description": "Elimina permanentemente il tuo account e tutti i dati associati. Questa azione non può essere annullata.",
+      "button": "Elimina Account",
+      "confirmTitle": "Sei assolutamente sicuro?",
+      "confirmDescription": "Questa azione non può essere annullata. Questo eliminerà permanentemente il tuo account e rimuoverà tutti i tuoi dati dai nostri server.",
+      "password": "Password",
+      "passwordPlaceholder": "Inserisci la tua password",
+      "passwordRequired": "La password è richiesta per eliminare l'account",
+      "confirmation": "Digita DELETE per confermare",
+      "confirmationHint": "Digita DELETE in lettere maiuscole per confermare",
+      "confirmationRequired": "Digita DELETE per confermare l'eliminazione",
+      "confirmButton": "Sì, Elimina il Mio Account",
+      "cancel": "Annulla",
+      "deleting": "Eliminazione..."
+    },
+    "messages": {
+      "avatarUpdated": "Foto profilo aggiornata con successo",
+      "profileUpdated": "Profilo aggiornato con successo",
+      "passwordChanged": "Password modificata con successo"
+    },
+    "error": {
+      "title": "Errore nel Caricamento del Profilo",
+      "notFound": "Profilo non trovato"
+    }
   }
 }
