@@ -13,43 +13,46 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
       return { error: 'User not authenticated' };
     }
 
-    // Try to fetch tutor with documents (with fallback if relation fails)
-    let tutor: any = null;
-    let error: any = null;
-    
-    // First attempt: with documents
-    const result = await supabase
+    // Fetch tutor without complex joins (more reliable)
+    const { data: tutor, error } = await supabase
       .from('tutors')
-      .select(`
-        *,
-        tutor_documents(
-          document_id,
-          documents(
-            id,
-            name,
-            file_type
-          )
-        )
-      `)
+      .select('*')
       .eq('id', tutorId)
       .eq('owner_id', user.id)
       .single();
     
-    tutor = result.data;
-    error = result.error;
-
-    // Fallback: if the join fails, fetch without documents
-    if (error && error.code) {
-      console.warn('⚠️ getTutor: Failed to fetch with documents, trying without:', error.message);
-      const fallbackResult = await supabase
-        .from('tutors')
-        .select('*')
-        .eq('id', tutorId)
-        .eq('owner_id', user.id)
-        .single();
-      
-      tutor = fallbackResult.data;
-      error = fallbackResult.error;
+    // If tutor found, try to fetch linked documents separately
+    if (tutor && !error) {
+      try {
+        // Get tutor_documents relationships
+        const { data: tutorDocs } = await supabase
+          .from('tutor_documents')
+          .select('document_id')
+          .eq('tutor_id', tutorId);
+        
+        if (tutorDocs && tutorDocs.length > 0) {
+          const docIds = tutorDocs.map(td => td.document_id);
+          
+          // Fetch document details
+          const { data: documents } = await supabase
+            .from('documents')
+            .select('id, name, file_type')
+            .in('id', docIds);
+          
+          if (documents) {
+            // Attach documents to tutor in expected format
+            tutor.tutor_documents = tutorDocs.map(td => ({
+              document_id: td.document_id,
+              documents: documents.find(d => d.id === td.document_id)
+            }));
+            
+            console.log('📄 getTutor: Loaded documents:', documents.map(d => d.name));
+          }
+        }
+      } catch (docError) {
+        console.warn('⚠️ getTutor: Failed to load documents, continuing without:', docError);
+        // Continue without documents
+      }
     }
 
     if (error) {
