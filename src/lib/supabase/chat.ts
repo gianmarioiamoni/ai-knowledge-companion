@@ -157,6 +157,61 @@ export async function archiveConversation(
   }
 }
 
+export async function deleteAllConversations(
+  tutorId?: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const params = new URLSearchParams();
+    if (tutorId) params.append('tutor_id', tutorId);
+    
+    const response = await fetch(`/api/chat/conversations?${params.toString()}`, {
+      method: 'DELETE',
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      console.error("Delete all conversations error:", result);
+      return { success: false, error: result.error || 'Failed to delete conversations' };
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error("Delete all conversations exception:", error);
+    return { success: false, error: "Failed to delete conversations" };
+  }
+}
+
+export async function archiveAllConversations(
+  tutorId?: string
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    // For now, we'll implement this by getting all conversations and archiving them individually
+    // A more efficient solution would be to add a batch archive API endpoint
+    const params = new URLSearchParams();
+    if (tutorId) params.append('tutor_id', tutorId);
+    
+    const getResponse = await fetch(`/api/chat/conversations?${params.toString()}`);
+    const getResult = await getResponse.json();
+
+    if (!getResponse.ok || !getResult.conversations) {
+      return { success: false, error: 'Failed to get conversations' };
+    }
+
+    // Archive each conversation
+    const archivePromises = getResult.conversations.map((conv: any) => 
+      archiveConversation(conv.id)
+    );
+
+    await Promise.all(archivePromises);
+
+    return { success: true };
+  } catch (error) {
+    console.error("Archive all conversations exception:", error);
+    return { success: false, error: "Failed to archive conversations" };
+  }
+}
+
 // Message operations
 export async function createMessage(
   message: MessageInsert
@@ -287,6 +342,8 @@ export const chatService = {
   updateConversation,
   deleteConversation,
   archiveConversation,
+  deleteAllConversations,
+  archiveAllConversations,
   getMessages,
   sendMessage,
   transformConversationToChat,

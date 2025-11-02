@@ -4,14 +4,28 @@ import { JSX } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MoreHorizontal, X } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
+import { MoreHorizontal, X, Trash2, Archive } from 'lucide-react';
 
 interface ChatHeaderProps {
   conversationId: string;
   onClose?: () => void;
+  onDeleteAllConversations?: () => void;
+  onArchiveAllConversations?: () => void;
 }
 
-export function ChatHeader({ conversationId, onClose }: ChatHeaderProps): JSX.Element {
+export function ChatHeader({ 
+  conversationId, 
+  onClose, 
+  onDeleteAllConversations,
+  onArchiveAllConversations 
+}: ChatHeaderProps): JSX.Element {
   const t = useTranslations('chat');
 
   return (
@@ -34,9 +48,40 @@ export function ChatHeader({ conversationId, onClose }: ChatHeaderProps): JSX.El
       </div>
       
       <div className="flex items-center space-x-2">
-        <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            {onArchiveAllConversations && (
+              <>
+                <DropdownMenuItem
+                  onClick={onArchiveAllConversations}
+                  className="cursor-pointer"
+                >
+                  <Archive className="h-4 w-4 mr-2" />
+                  {t('header.menu.archiveAll')}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
+            {onDeleteAllConversations && (
+              <DropdownMenuItem
+                onClick={() => {
+                  if (confirm(t('header.menu.deleteAllConfirm'))) {
+                    onDeleteAllConversations();
+                  }
+                }}
+                className="cursor-pointer text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400"
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                {t('header.menu.deleteAll')}
+              </DropdownMenuItem>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
         {onClose && (
           <Button variant="ghost" size="sm" onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
             <X className="h-4 w-4" />

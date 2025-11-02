@@ -172,3 +172,46 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+// DELETE /api/chat/conversations - Delete all conversations (or all for a specific tutor)
+export async function DELETE(request: NextRequest) {
+  try {
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const tutorId = searchParams.get('tutor_id');
+
+    const serviceClient = createServiceClient();
+    
+    // Build delete query
+    let deleteQuery = serviceClient
+      .from('conversations')
+      .delete()
+      .eq('user_id', user.id);
+
+    // If tutor_id is specified, only delete conversations for that tutor
+    if (tutorId) {
+      deleteQuery = deleteQuery.eq('tutor_id', tutorId);
+    }
+
+    const { error } = await deleteQuery;
+
+    if (error) {
+      console.error('Delete all conversations error:', error);
+      return NextResponse.json({ error: 'Failed to delete conversations' }, { status: 500 });
+    }
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Delete all conversations API error:', error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Unknown error' },
+      { status: 500 }
+    );
+  }
+}

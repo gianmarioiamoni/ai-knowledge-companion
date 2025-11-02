@@ -323,6 +323,62 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
     }
   }, [loadMessages]);
 
+  // Delete all conversations
+  const deleteAllConversations = useCallback(async (): Promise<{ success: boolean; error?: string }> => {
+    if (!user) {
+      return { success: false, error: 'User not authenticated' };
+    }
+
+    try {
+      const result = await chatService.deleteAllConversations(tutorId);
+
+      if (result.error) {
+        setState(prev => ({ ...prev, error: result.error! }));
+        return { success: false, error: result.error };
+      }
+
+      setState(prev => ({
+        ...prev,
+        conversations: [],
+        currentConversation: null,
+        messages: [],
+      }));
+
+      return { success: true };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to delete all conversations';
+      setState(prev => ({ ...prev, error: errorMessage }));
+      return { success: false, error: errorMessage };
+    }
+  }, [user, tutorId]);
+
+  // Archive all conversations
+  const archiveAllConversations = useCallback(async (): Promise<{ success: boolean; error?: string }> => {
+    if (!user) {
+      return { success: false, error: 'User not authenticated' };
+    }
+
+    try {
+      const result = await chatService.archiveAllConversations(tutorId);
+
+      if (result.error) {
+        setState(prev => ({ ...prev, error: result.error! }));
+        return { success: false, error: result.error };
+      }
+
+      setState(prev => ({
+        ...prev,
+        conversations: prev.conversations.map(conv => ({ ...conv, is_archived: true })),
+      }));
+
+      return { success: true };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to archive all conversations';
+      setState(prev => ({ ...prev, error: errorMessage }));
+      return { success: false, error: errorMessage };
+    }
+  }, [user, tutorId]);
+
   // Clear error
   const clearError = useCallback(() => {
     setState(prev => ({ ...prev, error: null }));
@@ -340,6 +396,8 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
     sendMessage,
     deleteConversation,
     archiveConversation,
+    deleteAllConversations,
+    archiveAllConversations,
     setCurrentConversation,
     clearError,
   };

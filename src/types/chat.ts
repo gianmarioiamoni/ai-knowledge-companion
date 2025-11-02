@@ -111,6 +111,8 @@ export interface ChatActions {
   sendMessage: (content: string) => Promise<{ success: boolean; error?: string }>;
   deleteConversation: (conversationId: string) => Promise<{ success: boolean; error?: string }>;
   archiveConversation: (conversationId: string) => Promise<{ success: boolean; error?: string }>;
+  deleteAllConversations: () => Promise<{ success: boolean; error?: string }>;
+  archiveAllConversations: () => Promise<{ success: boolean; error?: string }>;
   setCurrentConversation: (conversationId: string | null) => void;
   clearError: () => void;
 }

@@ -107,7 +107,12 @@
   "chat": {
     "title": "Chatta con il Tutor AI",
     "header": {
-      "online": "Online"
+      "online": "Online",
+      "menu": {
+        "archiveAll": "Archivia Tutte le Conversazioni",
+        "deleteAll": "Elimina Tutte le Conversazioni",
+        "deleteAllConfirm": "Sei sicuro di voler eliminare TUTTE le conversazioni? Questa azione non può essere annullata."
+      }
     },
     "messages": {
       "empty": {
@@ -128,7 +133,13 @@
         "subtitle": "Inizia a chattare con il tuo tutor AI"
       },
       "noResults": "Nessuna conversazione trovata",
-      "noResultsDesc": "Prova un termine di ricerca diverso"
+      "noResultsDesc": "Prova un termine di ricerca diverso",
+      "menu": {
+        "archive": "Archivia",
+        "unarchive": "Ripristina",
+        "delete": "Elimina",
+        "deleteConfirm": "Sei sicuro di voler eliminare questa conversazione? Questa azione non può essere annullata."
+      }
     },
     "noConversation": {
       "title": "Seleziona una conversazione",

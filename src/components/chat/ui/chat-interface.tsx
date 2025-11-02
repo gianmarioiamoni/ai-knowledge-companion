@@ -29,6 +29,10 @@ export function ChatInterface({
     loadMessages,
     sendMessage,
     setCurrentConversation,
+    deleteConversation,
+    archiveConversation,
+    deleteAllConversations,
+    archiveAllConversations,
     clearError,
   } = useChat(tutorId, tutor, locale);
 
@@ -74,8 +78,8 @@ export function ChatInterface({
           conversations={conversations}
           currentConversationId={currentConversation}
           onSelectConversation={handleSelectConversation}
-          onDeleteConversation={() => {}} // TODO: Implement
-          onArchiveConversation={() => {}} // TODO: Implement
+          onDeleteConversation={deleteConversation}
+          onArchiveConversation={archiveConversation}
         />
       </div>
 
@@ -87,6 +91,8 @@ export function ChatInterface({
             <ChatHeader
               conversationId={currentConversation}
               onClose={onClose}
+              onDeleteAllConversations={deleteAllConversations}
+              onArchiveAllConversations={archiveAllConversations}
             />
 
             {/* Messages */}

@@ -6,13 +6,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 import { 
   Plus, 
   MessageSquare, 
   Archive, 
   Trash2, 
   MoreHorizontal,
-  Search
+  Search,
+  ArchiveRestore
 } from 'lucide-react';
 import type { ConversationListProps } from '@/types/chat';
 
@@ -160,17 +168,54 @@ export function ChatSidebar({
                           )}
                         </div>
                         
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            // TODO: Show conversation menu
-                          }}
-                        >
-                          <MoreHorizontal className="h-3 w-3" />
-                        </Button>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              <MoreHorizontal className="h-3 w-3" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuItem
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onArchiveConversation(conversation.id);
+                              }}
+                              className="cursor-pointer"
+                            >
+                              {conversation.is_archived ? (
+                                <>
+                                  <ArchiveRestore className="h-4 w-4 mr-2" />
+                                  {t('sidebar.menu.unarchive')}
+                                </>
+                              ) : (
+                                <>
+                                  <Archive className="h-4 w-4 mr-2" />
+                                  {t('sidebar.menu.archive')}
+                                </>
+                              )}
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                if (confirm(t('sidebar.menu.deleteConfirm'))) {
+                                  onDeleteConversation(conversation.id);
+                                }
+                              }}
+                              className="cursor-pointer text-red-600 dark:text-red-400 focus:text-red-600 dark:focus:text-red-400"
+                            >
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              {t('sidebar.menu.delete')}
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       </div>
                     </div>
                   </div>
