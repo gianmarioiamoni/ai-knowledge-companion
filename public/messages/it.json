@@ -135,10 +135,18 @@
       "noResults": "Nessuna conversazione trovata",
       "noResultsDesc": "Prova un termine di ricerca diverso",
       "menu": {
+        "rename": "Rinomina",
         "archive": "Archivia",
         "unarchive": "Ripristina",
         "delete": "Elimina",
-        "deleteConfirm": "Sei sicuro di voler eliminare questa conversazione? Questa azione non può essere annullata."
+        "deleteConfirm": "Sei sicuro di voler eliminare questa conversazione? Questa azione non può essere annullata.",
+        "renameDialog": {
+          "title": "Rinomina Conversazione",
+          "description": "Inserisci un nuovo nome per questa conversazione",
+          "placeholder": "Nome conversazione...",
+          "cancel": "Annulla",
+          "save": "Salva"
+        }
       }
     },
     "noConversation": {

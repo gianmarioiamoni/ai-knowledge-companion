@@ -6,6 +6,16 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +30,8 @@ import {
   Trash2, 
   MoreHorizontal,
   Search,
-  ArchiveRestore
+  ArchiveRestore,
+  Edit
 } from 'lucide-react';
 import type { ConversationListProps } from '@/types/chat';
 
@@ -28,11 +39,15 @@ export function ChatSidebar({
   conversations,
   currentConversationId,
   onSelectConversation,
+  onRenameConversation,
   onDeleteConversation,
   onArchiveConversation,
 }: ConversationListProps): JSX.Element {
   const t = useTranslations('chat');
   const [searchQuery, setSearchQuery] = useState('');
+  const [renameDialogOpen, setRenameDialogOpen] = useState(false);
+  const [renamingConversation, setRenamingConversation] = useState<{ id: string; title: string } | null>(null);
+  const [newTitle, setNewTitle] = useState('');
 
   const filteredConversations = conversations
     .filter(conv =>
@@ -43,6 +58,25 @@ export function ChatSidebar({
     .filter((conv, index, self) => 
       index === self.findIndex(c => c.id === conv.id)
     );
+
+  const handleOpenRenameDialog = (conversation: { id: string; title: string }) => {
+    setRenamingConversation(conversation);
+    setNewTitle(conversation.title);
+    setRenameDialogOpen(true);
+  };
+
+  const handleCloseRenameDialog = () => {
+    setRenameDialogOpen(false);
+    setRenamingConversation(null);
+    setNewTitle('');
+  };
+
+  const handleSaveRename = () => {
+    if (renamingConversation && newTitle.trim()) {
+      onRenameConversation(renamingConversation.id, newTitle.trim());
+      handleCloseRenameDialog();
+    }
+  };
 
   const formatLastMessage = (timestamp: string) => {
     const date = new Date(timestamp);
@@ -185,6 +219,17 @@ export function ChatSidebar({
                             <DropdownMenuItem
                               onClick={(e) => {
                                 e.stopPropagation();
+                                handleOpenRenameDialog({ id: conversation.id, title: conversation.title });
+                              }}
+                              className="cursor-pointer"
+                            >
+                              <Edit className="h-4 w-4 mr-2" />
+                              {t('sidebar.menu.rename')}
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 onArchiveConversation(conversation.id);
                               }}
                               className="cursor-pointer"
@@ -226,6 +271,44 @@ export function ChatSidebar({
           </div>
         )}
       </div>
+
+      {/* Rename Dialog */}
+      <Dialog open={renameDialogOpen} onOpenChange={setRenameDialogOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>{t('sidebar.menu.renameDialog.title')}</DialogTitle>
+            <DialogDescription>
+              {t('sidebar.menu.renameDialog.description')}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="conversation-title">
+                {t('sidebar.menu.renameDialog.placeholder')}
+              </Label>
+              <Input
+                id="conversation-title"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder={t('sidebar.menu.renameDialog.placeholder')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSaveRename();
+                  }
+                }}
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={handleCloseRenameDialog}>
+              {t('sidebar.menu.renameDialog.cancel')}
+            </Button>
+            <Button onClick={handleSaveRename} disabled={!newTitle.trim()}>
+              {t('sidebar.menu.renameDialog.save')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

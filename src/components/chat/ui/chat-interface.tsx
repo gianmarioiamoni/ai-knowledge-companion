@@ -29,6 +29,7 @@ export function ChatInterface({
     loadMessages,
     sendMessage,
     setCurrentConversation,
+    renameConversation,
     deleteConversation,
     archiveConversation,
     deleteAllConversations,
@@ -78,6 +79,7 @@ export function ChatInterface({
           conversations={conversations}
           currentConversationId={currentConversation}
           onSelectConversation={handleSelectConversation}
+          onRenameConversation={renameConversation}
           onDeleteConversation={deleteConversation}
           onArchiveConversation={archiveConversation}
         />

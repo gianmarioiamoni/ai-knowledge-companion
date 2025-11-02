@@ -109,6 +109,7 @@ export interface ChatActions {
   loadConversations: () => Promise<void>;
   loadMessages: (conversationId: string) => Promise<void>;
   sendMessage: (content: string) => Promise<{ success: boolean; error?: string }>;
+  renameConversation: (conversationId: string, newTitle: string) => Promise<{ success: boolean; error?: string }>;
   deleteConversation: (conversationId: string) => Promise<{ success: boolean; error?: string }>;
   archiveConversation: (conversationId: string) => Promise<{ success: boolean; error?: string }>;
   deleteAllConversations: () => Promise<{ success: boolean; error?: string }>;
@@ -158,6 +159,7 @@ export interface ConversationListProps {
   conversations: ChatConversation[];
   currentConversationId: string | null;
   onSelectConversation: (id: string) => void;
+  onRenameConversation: (id: string, newTitle: string) => void;
   onDeleteConversation: (id: string) => void;
   onArchiveConversation: (id: string) => void;
 }

@@ -250,6 +250,41 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
     }
   }, [user, state.currentConversation, tutorId]);
 
+  // Rename a conversation
+  const renameConversation = useCallback(async (conversationId: string, newTitle: string): Promise<{ success: boolean; error?: string }> => {
+    if (!user) {
+      return { success: false, error: 'User not authenticated' };
+    }
+
+    if (!newTitle.trim()) {
+      return { success: false, error: 'Title cannot be empty' };
+    }
+
+    try {
+      const result = await chatService.updateConversation(conversationId, { title: newTitle });
+
+      if (result.error) {
+        setState(prev => ({ ...prev, error: result.error! }));
+        return { success: false, error: result.error };
+      }
+
+      setState(prev => ({
+        ...prev,
+        conversations: prev.conversations.map(conv =>
+          conv.id === conversationId
+            ? { ...conv, title: newTitle }
+            : conv
+        ),
+      }));
+
+      return { success: true };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to rename conversation';
+      setState(prev => ({ ...prev, error: errorMessage }));
+      return { success: false, error: errorMessage };
+    }
+  }, [user]);
+
   // Delete a conversation
   const deleteConversation = useCallback(async (conversationId: string): Promise<{ success: boolean; error?: string }> => {
     if (!user) {
@@ -394,6 +429,7 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
     loadConversations,
     loadMessages,
     sendMessage,
+    renameConversation,
     deleteConversation,
     archiveConversation,
     deleteAllConversations,
