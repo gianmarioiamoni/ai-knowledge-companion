@@ -157,7 +157,7 @@ export function ChatSidebar({
                 <CardContent className="p-3">
                   <div className="flex items-start space-x-3">
                     <Avatar className="h-10 w-10 flex-shrink-0">
-                      <AvatarImage src={tutor.avatar_url} alt={tutor.name} />
+                      <AvatarImage src={tutor.avatar_url || undefined} alt={tutor.name} />
                       <AvatarFallback className="bg-gradient-to-br from-blue-500 to-purple-600 text-white text-sm">
                         {(() => {
                           try {
