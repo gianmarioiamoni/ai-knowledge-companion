@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useParams } from '@/i18n/navigation';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { ChatInterface } from '@/components/chat';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { getTutor } from '@/lib/supabase/tutors';
@@ -14,7 +14,7 @@ export default function ChatPage() {
   const searchParams = useSearchParams();
   const tutorId = searchParams.get('tutor') || '';
   const conversation = searchParams.get('conversation') || undefined;
-  const locale = (params.locale as string) || 'en';
+  const locale = (params?.locale as string) || 'en';
   
   const [tutor, setTutor] = useState<Tutor | null>(null);
   const [loading, setLoading] = useState(true);

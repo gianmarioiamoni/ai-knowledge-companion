@@ -158,6 +158,42 @@ export async function archiveConversation(
 }
 
 // Message operations
+export async function createMessage(
+  message: MessageInsert
+): Promise<{ data?: Message; error?: string }> {
+  try {
+    const supabase = createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (!user) {
+      return { error: 'Not authenticated' };
+    }
+
+    const { data, error } = await supabase
+      .from('messages')
+      .insert({
+        conversation_id: message.conversation_id,
+        role: message.role,
+        sender: message.sender,
+        content: message.content,
+        tokens: message.tokens_used || 0,
+        metadata: message.metadata || {}
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating message:', error);
+      return { error: error.message };
+    }
+
+    return { data };
+  } catch (error) {
+    console.error('Exception creating message:', error);
+    return { error: 'Failed to create message' };
+  }
+}
+
 export async function getMessages(
   query: MessageQueryInput
 ): Promise<{ data?: ChatMessage[]; error?: string }> {

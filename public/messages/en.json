@@ -269,6 +269,10 @@
     "form": {
         "createTitle": "Create New Tutor",
         "editTitle": "Edit Tutor",
+        "description": "Configure tutor settings and link documents to enable contextual responses.",
+        "createSubtitle": "Create a new personalized AI tutor",
+        "editSubtitle": "Edit your tutor settings",
+        "editBadge": "Edit",
         "saving": "Saving...",
         "create": "Create",
         "update": "Update",

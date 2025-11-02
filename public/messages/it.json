@@ -269,6 +269,10 @@
     "form": {
         "createTitle": "Crea Nuovo Tutor",
         "editTitle": "Modifica Tutor",
+        "description": "Configura le impostazioni del tutor e collega documenti per abilitare risposte contestuali.",
+        "createSubtitle": "Crea un nuovo tutor AI personalizzato",
+        "editSubtitle": "Modifica le impostazioni del tuo tutor",
+        "editBadge": "Modifica",
         "saving": "Salvataggio...",
         "create": "Crea",
         "update": "Aggiorna",
