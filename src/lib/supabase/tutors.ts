@@ -13,7 +13,12 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
       return { error: 'User not authenticated' };
     }
 
-    const { data: tutor, error } = await supabase
+    // Try to fetch tutor with documents (with fallback if relation fails)
+    let tutor: any = null;
+    let error: any = null;
+    
+    // First attempt: with documents
+    const result = await supabase
       .from('tutors')
       .select(`
         *,
@@ -29,10 +34,33 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
       .eq('id', tutorId)
       .eq('owner_id', user.id)
       .single();
+    
+    tutor = result.data;
+    error = result.error;
+
+    // Fallback: if the join fails, fetch without documents
+    if (error && error.code) {
+      console.warn('⚠️ getTutor: Failed to fetch with documents, trying without:', error.message);
+      const fallbackResult = await supabase
+        .from('tutors')
+        .select('*')
+        .eq('id', tutorId)
+        .eq('owner_id', user.id)
+        .single();
+      
+      tutor = fallbackResult.data;
+      error = fallbackResult.error;
+    }
 
     if (error) {
       console.error('❌ getTutor: Error fetching tutor:', error);
-      return { error: error.message };
+      console.error('❌ getTutor: Error details:', {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code
+      });
+      return { error: error.message || 'Failed to fetch tutor' };
     }
 
     if (!tutor) {
