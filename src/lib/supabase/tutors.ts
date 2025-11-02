@@ -32,22 +32,30 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
         
         if (tutorDocs && tutorDocs.length > 0) {
           const docIds = tutorDocs.map(td => td.document_id);
+          console.log('🔗 getTutor: Found', tutorDocs.length, 'linked documents, IDs:', docIds);
           
           // Fetch document details
-          const { data: documents } = await supabase
+          const { data: documents, error: docError } = await supabase
             .from('documents')
-            .select('id, name, file_type')
+            .select('id, title, mime_type')
             .in('id', docIds);
           
-          if (documents) {
+          if (docError) {
+            console.error('❌ getTutor: Error fetching documents:', docError);
+            console.error('❌ getTutor: Document IDs that failed:', docIds);
+          } else if (documents) {
             // Attach documents to tutor in expected format
             tutor.tutor_documents = tutorDocs.map(td => ({
               document_id: td.document_id,
               documents: documents.find(d => d.id === td.document_id)
             }));
             
-            console.log('📄 getTutor: Loaded documents:', documents.map(d => d.name));
+            console.log('📄 getTutor: Loaded', documents.length, 'documents:', documents.map(d => d.title));
+          } else {
+            console.warn('⚠️ getTutor: No documents returned');
           }
+        } else {
+          console.log('📭 getTutor: No linked documents found');
         }
       } catch (docError) {
         console.warn('⚠️ getTutor: Failed to load documents, continuing without:', docError);

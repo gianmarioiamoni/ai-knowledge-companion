@@ -107,7 +107,7 @@ function generateCapabilities(tutor: Tutor, locale: string): string {
     if (tutor.tutor_documents && tutor.tutor_documents.length > 0) {
       const documentNames = tutor.tutor_documents
         .slice(0, 3) // Show max 3 documents
-        .map(td => td.documents?.name)
+        .map(td => td.documents?.title)
         .filter(Boolean)
       
       if (documentNames.length > 0) {

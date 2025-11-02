@@ -42,8 +42,8 @@ export interface Tutor {
     document_id: string;
     documents?: {
       id: string;
-      name: string;
-      file_type: string;
+      title: string;
+      mime_type: string;
     };
   }>;
 }
