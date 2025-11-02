@@ -123,20 +123,21 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const validation = createConversationSchema.safeParse(body);
-
-    if (!validation.success) {
+    console.log('POST /api/chat/conversations - Received body:', body);
+    
+    // Manual validation as workaround for Zod bundling issue
+    if (!body.tutor_id || typeof body.tutor_id !== 'string') {
       return NextResponse.json(
-        { error: 'Invalid input data', details: validation.error.errors },
+        { error: 'Invalid input data: tutor_id is required' },
         { status: 400 }
       );
     }
 
     const conversationData = {
       user_id: user.id,
-      tutor_id: validation.data.tutor_id,
-      title: validation.data.title || 'New Conversation',
-      metadata: validation.data.metadata || {},
+      tutor_id: body.tutor_id,
+      title: body.title || 'New Conversation',
+      metadata: body.metadata || {},
     };
 
     const serviceClient = createServiceClient();
