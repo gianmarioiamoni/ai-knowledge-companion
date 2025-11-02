@@ -20,7 +20,7 @@ interface ProfileFormProps {
 export function ProfileForm({ profile, onSave, saving = false }: ProfileFormProps): JSX.Element {
   const t = useTranslations('profile')
   const [formData, setFormData] = useState({
-    full_name: profile.full_name || '',
+    full_name: profile.full_name || profile.display_name || '',
     bio: profile.bio || '',
   })
 
@@ -30,7 +30,7 @@ export function ProfileForm({ profile, onSave, saving = false }: ProfileFormProp
   }
 
   const hasChanges = 
-    formData.full_name !== (profile.full_name || '') ||
+    formData.full_name !== (profile.full_name || profile.display_name || '') ||
     formData.bio !== (profile.bio || '')
 
   return (

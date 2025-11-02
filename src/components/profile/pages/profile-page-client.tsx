@@ -141,7 +141,7 @@ export function ProfilePageClient({ locale }: ProfilePageClientProps): JSX.Eleme
             <CardContent className="p-6 sm:p-8">
               <AvatarUpload
                 currentUrl={profile.avatar_url}
-                userName={profile.full_name || profile.email}
+                userName={profile.full_name || profile.display_name || profile.email}
                 onUpload={handleAvatarUpload}
                 uploading={uploading}
               />
