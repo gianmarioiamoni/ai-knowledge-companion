@@ -26,10 +26,15 @@ export function ChatSidebar({
   const t = useTranslations('chat');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredConversations = conversations.filter(conv =>
-    conv.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    conv.tutor.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const filteredConversations = conversations
+    .filter(conv =>
+      conv.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      conv.tutor.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    // Deduplicate by ID (in case of state inconsistencies)
+    .filter((conv, index, self) => 
+      index === self.findIndex(c => c.id === conv.id)
+    );
 
   const formatLastMessage = (timestamp: string) => {
     const date = new Date(timestamp);
