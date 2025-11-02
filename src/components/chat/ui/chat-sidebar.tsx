@@ -7,7 +7,7 @@ import {
   SidebarEmpty, 
   ConversationsList, 
   RenameDialog 
-} from './chat-sidebar';
+} from './sidebar-components';
 import type { ConversationListProps } from '@/types/chat';
 
 /**
