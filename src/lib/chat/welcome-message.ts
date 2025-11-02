@@ -77,14 +77,18 @@ function generateCapabilities(tutor: Tutor, locale: string): string {
   
   const labels = {
     en: {
-      rag: `📚 **Knowledge Base**: I can search through ${tutor.total_documents || 0} linked documents`,
+      ragTitle: `📚 **Knowledge Base**`,
+      documentsCount: `I have access to ${tutor.total_documents || 0} specialized document${(tutor.total_documents || 0) !== 1 ? 's' : ''}`,
+      documentsAbout: `My expertise covers`,
       model: `🤖 **AI Model**: Powered by ${tutor.model}`,
       conversations: tutor.total_conversations 
         ? `💬 **Experience**: ${tutor.total_conversations} conversations completed`
         : null
     },
     it: {
-      rag: `📚 **Base di Conoscenza**: Posso cercare tra ${tutor.total_documents || 0} documenti collegati`,
+      ragTitle: `📚 **Base di Conoscenza**`,
+      documentsCount: `Ho accesso a ${tutor.total_documents || 0} documento${(tutor.total_documents || 0) !== 1 ? 'i' : ''} specializzato${(tutor.total_documents || 0) !== 1 ? 'i' : ''}`,
+      documentsAbout: `Le mie competenze coprono`,
       model: `🤖 **Modello AI**: Alimentato da ${tutor.model}`,
       conversations: tutor.total_conversations
         ? `💬 **Esperienza**: ${tutor.total_conversations} conversazioni completate`
@@ -94,20 +98,46 @@ function generateCapabilities(tutor: Tutor, locale: string): string {
   
   const l = labels[locale as keyof typeof labels] || labels.en
   
+  // RAG capabilities with document details
   if (tutor.use_rag && tutor.total_documents && tutor.total_documents > 0) {
-    capabilities.push(l.rag)
+    const ragInfo: string[] = [l.ragTitle]
+    ragInfo.push(`   ${l.documentsCount}`)
+    
+    // Add document names/topics if available
+    if (tutor.tutor_documents && tutor.tutor_documents.length > 0) {
+      const documentNames = tutor.tutor_documents
+        .slice(0, 3) // Show max 3 documents
+        .map(td => td.documents?.name)
+        .filter(Boolean)
+      
+      if (documentNames.length > 0) {
+        ragInfo.push(`   ${l.documentsAbout}:`)
+        documentNames.forEach(name => {
+          ragInfo.push(`   • ${name}`)
+        })
+        
+        if (tutor.tutor_documents.length > 3) {
+          const remaining = tutor.tutor_documents.length - 3
+          ragInfo.push(`   • ${locale === 'it' ? 'e altri' : 'and'} ${remaining} ${locale === 'it' ? 'altri' : 'more'}...`)
+        }
+      }
+    }
+    
+    capabilities.push(ragInfo.join('\n'))
   }
   
+  // AI Model
   if (tutor.model) {
     capabilities.push(l.model)
   }
   
+  // Experience
   if (l.conversations) {
     capabilities.push(l.conversations)
   }
   
   return capabilities.length > 0 
-    ? '**My Capabilities:**\n' + capabilities.join('\n')
+    ? '**My Capabilities:**\n' + capabilities.join('\n\n')
     : ''
 }
 

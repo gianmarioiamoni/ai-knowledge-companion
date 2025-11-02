@@ -17,7 +17,14 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
       .from('tutors')
       .select(`
         *,
-        tutor_documents(count)
+        tutor_documents(
+          document_id,
+          documents(
+            id,
+            name,
+            file_type
+          )
+        )
       `)
       .eq('id', tutorId)
       .eq('owner_id', user.id)

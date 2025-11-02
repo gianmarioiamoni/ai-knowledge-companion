@@ -36,6 +36,16 @@ export interface Tutor {
   total_messages: number;
   total_tokens_used: number;
   total_documents: number;
+  
+  // Relazioni (opzionali, caricati solo quando necessario)
+  tutor_documents?: Array<{
+    document_id: string;
+    documents?: {
+      id: string;
+      name: string;
+      file_type: string;
+    };
+  }>;
 }
 
 export interface TutorInsert {
