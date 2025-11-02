@@ -3,15 +3,17 @@ import { ProfilePageClient } from '@/components/profile/pages/profile-page-clien
 import type { JSX } from 'react'
 
 interface ProfilePageProps {
-  params: {
+  params: Promise<{
     locale: 'en' | 'it'
-  }
+  }>
 }
 
-export default function ProfilePage({ params }: ProfilePageProps): JSX.Element {
+export default async function ProfilePage({ params }: ProfilePageProps): Promise<JSX.Element> {
+  const { locale } = await params
+  
   return (
     <AuthGuard>
-      <ProfilePageClient locale={params.locale} />
+      <ProfilePageClient locale={locale} />
     </AuthGuard>
   )
 }

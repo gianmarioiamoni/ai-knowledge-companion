@@ -1,17 +1,24 @@
+import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
+import { ChevronRight } from 'lucide-react'
 import type { JSX } from 'react'
 
 interface UserInfoProps {
   user: {
     email?: string
   }
+  onClose: () => void
 }
 
-export function UserInfo({ user }: UserInfoProps): JSX.Element {
+export function UserInfo({ user, onClose }: UserInfoProps): JSX.Element {
   const t = useTranslations('navigation')
 
   return (
-    <div className="p-4 border-b bg-gray-50 dark:bg-gray-800/50 flex-shrink-0">
+    <Link 
+      href="/profile"
+      onClick={onClose}
+      className="block p-4 border-b bg-gray-50 dark:bg-gray-800/50 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+    >
       <div className="flex items-center gap-3">
         <div className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold">
           {user.email?.[0]?.toUpperCase() || 'U'}
@@ -24,8 +31,9 @@ export function UserInfo({ user }: UserInfoProps): JSX.Element {
             {t('profile')}
           </p>
         </div>
+        <ChevronRight className="h-5 w-5 text-gray-400 flex-shrink-0" />
       </div>
-    </div>
+    </Link>
   )
 }
 

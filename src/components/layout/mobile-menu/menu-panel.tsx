@@ -24,7 +24,7 @@ export function MenuPanel({ isOpen, user, pathname, onClose, onSignOut }: MenuPa
       <div className="flex flex-col h-full">
         <MenuHeader onClose={onClose} />
         
-        {user && <UserInfo user={user} />}
+        {user && <UserInfo user={user} onClose={onClose} />}
         
         <MenuNavigation user={user} pathname={pathname} />
         

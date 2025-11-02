@@ -73,41 +73,6 @@
     "apiCalls": "Chiamate API",
     "costEstimate": "Stima Costi"
   },
-  "tutors": {
-    "title": "Tutor AI",
-    "create": "Crea Nuovo Tutor",
-    "edit": "Modifica Tutor",
-    "delete": "Elimina Tutor",
-    "name": "Nome Tutor",
-    "description": "Descrizione",
-    "config": "Configurazione",
-    "tone": "Tono",
-    "language": "Lingua",
-    "maxTokens": "Token Massimi",
-    "temperature": "Temperatura",
-    "retrievalK": "Retrieval K",
-    "allowWebSearch": "Consenti Ricerca Web",
-    "systemInstructions": "Istruzioni di Sistema",
-    "visibility": "Visibilità",
-    "private": "Privato",
-    "public": "Pubblico",
-    "marketplace": "Marketplace",
-    "documents": "Documenti",
-    "addDocuments": "Aggiungi Documenti",
-    "removeDocument": "Rimuovi Documento",
-    "noDocuments": "Nessun documento collegato",
-    "tones": {
-      "friendly": "Amichevole",
-      "professional": "Professionale",
-      "casual": "Informale",
-      "academic": "Accademico"
-    },
-    "created": "Tutor creato con successo",
-    "updated": "Tutor aggiornato con successo",
-    "deleted": "Tutor eliminato con successo",
-    "nameRequired": "Nome tutor richiesto",
-    "descriptionRequired": "Descrizione richiesta"
-  },
   "documents": {
     "title": "Documenti",
     "upload": "Carica Documento",
@@ -287,75 +252,57 @@
       "lastUsed": "Ultimo utilizzo: {date}",
       "private": "Privato",
       "public": "Pubblico",
-      "unlisted": "Non elencato"
+      "unlisted": "Non in elenco",
+      "tooltips": {
+        "conversations": "{count} conversazioni",
+        "messages": "{count} messaggi",
+        "documents": "{count} documenti"
+      },
+      "menu": {
+        "edit": "Modifica",
+        "duplicate": "Duplica",
+        "share": "Condividi",
+        "toggleVisibility": "Cambia Visibilità",
+        "delete": "Elimina"
+      }
     },
-      "form": {
+    "form": {
         "createTitle": "Crea Nuovo Tutor",
         "editTitle": "Modifica Tutor",
-        "description": "Configura le impostazioni del tutor e collega i documenti per abilitare risposte contestuali.",
-        "createSubtitle": "Crea un nuovo tutor AI personalizzato",
-        "editSubtitle": "Modifica le impostazioni del tuo tutor",
-        "editBadge": "Modifica",
         "saving": "Salvataggio...",
         "create": "Crea",
         "update": "Aggiorna",
         "cancel": "Annulla",
-      "tabs": {
-        "basic": "Base",
-        "ai": "AI",
-        "rag": "RAG",
-        "visibility": "Visibilità"
-      },
       "sections": {
         "basicInfo": "Informazioni Base",
         "aiConfig": "Configurazioni AI",
         "ragConfig": "Configurazioni RAG",
-        "visibility": "Visibilità e Condivisione",
-        "systemPrompt": "Prompt di Sistema",
-        "documents": "Documenti Collegati",
-        "creativity": "Creatività",
-        "visibilityLevel": "Livello di Visibilità"
-      },
-      "visibilityLevels": {
-        "private": "Privato",
-        "public": "Pubblico",
-        "unlisted": "Non elencato"
+        "visibility": "Visibilità",
+        "systemPrompt": "System Prompt"
       },
       "fields": {
-        "name": "Nome Tutor *",
+        "name": "Nome *",
         "namePlaceholder": "Nome del tutor",
         "description": "Descrizione",
         "descriptionPlaceholder": "Descrizione del tutor...",
-        "avatarPreview": "Anteprima Avatar",
-        "avatarUrl": "URL Avatar (opzionale)",
+        "avatarUrl": "URL Avatar",
         "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
-        "aiModel": "Modello AI",
         "model": "Modello",
         "modelPlaceholder": "Seleziona modello",
-        "maxTokens": "Token Massimi",
-        "maxTokensHint": "Limite massimo di token per risposta",
-        "temperature": "Temperatura: {value}",
+        "maxTokens": "Max Tokens",
+        "temperature": "Temperature: {value}",
         "temperatureLabels": {
           "conservative": "Conservativo (0)",
-          "balanced": "Bilanciato",
           "creative": "Creativo (2)"
         },
-        "enableRag": "Abilita RAG",
-        "enableRagHint": "Usa i documenti per risposte più accurate e contestuali",
         "useRag": "Usa RAG per risposte contestuali",
         "maxContextChunks": "Max Chunk di Contesto",
-        "maxContextChunksHint": "Numero massimo di frammenti di documento da utilizzare",
-        "similarityThreshold": "Soglia di Similarità",
-        "similarityThresholdLabels": {
-          "low": "Bassa (0)",
-          "high": "Alta (1)"
-        },
-        "systemPromptHint": "Questo prompt definisce come il tutor si comporta e risponde alle domande",
+        "similarityThreshold": "Soglia Similarità: {value}",
         "visibility": "Livello di Visibilità",
         "visibilityOptions": {
-          "private": "Visibile solo a te",
-          "public": "Visibile a tutti nel Marketplace",
-          "unlisted": "Accessibile solo tramite link diretto"
+          "private": "Privato - Solo tu",
+          "public": "Pubblico - Visibile a tutti",
+          "unlisted": "Non elencato - Solo con link"
         },
         "systemPrompt": "Prompt di Sistema",
         "systemPromptPlaceholder": "Definisci il comportamento del tutor...",
@@ -400,6 +347,68 @@
         "title": "Seleziona una conversazione",
         "subtitle": "Scegli una conversazione dalla barra laterale per iniziare a chattare"
       }
+    }
+  },
+  "profile": {
+    "title": "Impostazioni Profilo",
+    "subtitle": "Gestisci le impostazioni del tuo account e le preferenze",
+    "avatar": {
+      "label": "Foto Profilo",
+      "upload": "Carica Foto",
+      "uploading": "Caricamento...",
+      "change": "Cambia foto",
+      "hint": "JPG, PNG o GIF. Max 5MB.",
+      "invalidType": "Seleziona un file immagine (JPG, PNG o GIF)",
+      "tooLarge": "La dimensione del file deve essere inferiore a 5MB"
+    },
+    "form": {
+      "title": "Informazioni Personali",
+      "description": "Aggiorna i tuoi dati personali",
+      "email": "Indirizzo Email",
+      "emailHint": "La tua email non può essere modificata",
+      "fullName": "Nome Completo",
+      "fullNamePlaceholder": "Inserisci il tuo nome completo",
+      "bio": "Biografia",
+      "bioPlaceholder": "Raccontaci di te...",
+      "save": "Salva Modifiche",
+      "saving": "Salvataggio..."
+    },
+    "password": {
+      "title": "Cambia Password",
+      "description": "Aggiorna la tua password per mantenere sicuro il tuo account",
+      "newPassword": "Nuova Password",
+      "newPasswordPlaceholder": "Inserisci nuova password",
+      "confirmPassword": "Conferma Password",
+      "confirmPasswordPlaceholder": "Conferma nuova password",
+      "change": "Cambia Password",
+      "changing": "Modifica...",
+      "tooShort": "La password deve contenere almeno 8 caratteri",
+      "noMatch": "Le password non corrispondono"
+    },
+    "delete": {
+      "title": "Elimina Account",
+      "description": "Elimina permanentemente il tuo account e tutti i dati associati. Questa azione non può essere annullata.",
+      "button": "Elimina Account",
+      "confirmTitle": "Sei assolutamente sicuro?",
+      "confirmDescription": "Questa azione non può essere annullata. Questo eliminerà permanentemente il tuo account e rimuoverà tutti i tuoi dati dai nostri server.",
+      "password": "Password",
+      "passwordPlaceholder": "Inserisci la tua password",
+      "passwordRequired": "La password è richiesta per eliminare l'account",
+      "confirmation": "Digita DELETE per confermare",
+      "confirmationHint": "Digita DELETE in lettere maiuscole per confermare",
+      "confirmationRequired": "Digita DELETE per confermare l'eliminazione",
+      "confirmButton": "Sì, Elimina il Mio Account",
+      "cancel": "Annulla",
+      "deleting": "Eliminazione..."
+    },
+    "messages": {
+      "avatarUpdated": "Foto profilo aggiornata con successo",
+      "profileUpdated": "Profilo aggiornato con successo",
+      "passwordChanged": "Password modificata con successo"
+    },
+    "error": {
+      "title": "Errore nel Caricamento del Profilo",
+      "notFound": "Profilo non trovato"
     }
   }
 }

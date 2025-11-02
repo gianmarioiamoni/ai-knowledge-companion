@@ -1,6 +1,6 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { FileText, Users, LayoutDashboard, UserCircle, type LucideIcon } from 'lucide-react'
+import { FileText, Users, LayoutDashboard, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { JSX } from 'react'
 
@@ -22,7 +22,6 @@ export function MenuNavigation({ user, pathname }: MenuNavigationProps): JSX.Ele
     { href: '/documents', icon: FileText, label: t('documents') },
     { href: '/tutors', icon: Users, label: t('tutors') },
     { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard') },
-    { href: '/profile', icon: UserCircle, label: t('profile') },
   ]
 
   return (

@@ -252,75 +252,57 @@
       "lastUsed": "Last used: {date}",
       "private": "Private",
       "public": "Public",
-      "unlisted": "Unlisted"
+      "unlisted": "Unlisted",
+      "tooltips": {
+        "conversations": "{count} conversations",
+        "messages": "{count} messages",
+        "documents": "{count} documents"
+      },
+      "menu": {
+        "edit": "Edit",
+        "duplicate": "Duplicate",
+        "share": "Share",
+        "toggleVisibility": "Toggle Visibility",
+        "delete": "Delete"
+      }
     },
-      "form": {
+    "form": {
         "createTitle": "Create New Tutor",
         "editTitle": "Edit Tutor",
-        "description": "Configure tutor settings and link documents to enable contextual responses.",
-        "createSubtitle": "Create a new personalized AI tutor",
-        "editSubtitle": "Edit your tutor settings",
-        "editBadge": "Edit",
         "saving": "Saving...",
         "create": "Create",
         "update": "Update",
         "cancel": "Cancel",
-      "tabs": {
-        "basic": "Basic",
-        "ai": "AI",
-        "rag": "RAG",
-        "visibility": "Visibility"
-      },
       "sections": {
         "basicInfo": "Basic Information",
         "aiConfig": "AI Configuration",
         "ragConfig": "RAG Configuration",
-        "visibility": "Visibility and Sharing",
-        "systemPrompt": "System Prompt",
-        "documents": "Linked Documents",
-        "creativity": "Creativity",
-        "visibilityLevel": "Visibility Level"
-      },
-      "visibilityLevels": {
-        "private": "Private",
-        "public": "Public",
-        "unlisted": "Unlisted"
+        "visibility": "Visibility",
+        "systemPrompt": "System Prompt"
       },
       "fields": {
-        "name": "Tutor Name *",
+        "name": "Name *",
         "namePlaceholder": "Tutor name",
         "description": "Description",
         "descriptionPlaceholder": "Tutor description...",
-        "avatarPreview": "Avatar Preview",
-        "avatarUrl": "Avatar URL (optional)",
+        "avatarUrl": "Avatar URL",
         "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
-        "aiModel": "AI Model",
         "model": "Model",
         "modelPlaceholder": "Select model",
         "maxTokens": "Max Tokens",
-        "maxTokensHint": "Maximum token limit for response",
         "temperature": "Temperature: {value}",
         "temperatureLabels": {
           "conservative": "Conservative (0)",
-          "balanced": "Balanced",
           "creative": "Creative (2)"
         },
-        "enableRag": "Enable RAG",
-        "enableRagHint": "Use documents for more accurate and contextual responses",
         "useRag": "Use RAG for contextual responses",
         "maxContextChunks": "Max Context Chunks",
-        "maxContextChunksHint": "Maximum number of document chunks to use",
-        "similarityThreshold": "Similarity Threshold",
-        "similarityThresholdLabels": {
-          "low": "Low (0)",
-          "high": "High (1)"
-        },
-        "systemPromptHint": "This prompt defines how the tutor behaves and responds to questions",
+        "similarityThreshold": "Similarity Threshold: {value}",
         "visibility": "Visibility Level",
         "visibilityOptions": {
-          "private": "Visible only to you",
-          "public": "Visible to everyone in the Marketplace",
-          "unlisted": "Accessible only via direct link"
+          "private": "Private - Only you",
+          "public": "Public - Visible to everyone",
+          "unlisted": "Unlisted - Only with link"
         },
         "systemPrompt": "System Prompt",
         "systemPromptPlaceholder": "Define the tutor's behavior...",
@@ -365,6 +347,68 @@
         "title": "Select a conversation",
         "subtitle": "Choose a conversation from the sidebar to start chatting"
       }
+    }
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "subtitle": "Manage your account settings and preferences",
+    "avatar": {
+      "label": "Profile Picture",
+      "upload": "Upload Photo",
+      "uploading": "Uploading...",
+      "change": "Change photo",
+      "hint": "JPG, PNG or GIF. Max 5MB.",
+      "invalidType": "Please select an image file (JPG, PNG, or GIF)",
+      "tooLarge": "File size must be less than 5MB"
+    },
+    "form": {
+      "title": "Personal Information",
+      "description": "Update your personal details",
+      "email": "Email Address",
+      "emailHint": "Your email cannot be changed",
+      "fullName": "Full Name",
+      "fullNamePlaceholder": "Enter your full name",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell us about yourself...",
+      "save": "Save Changes",
+      "saving": "Saving..."
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your password to keep your account secure",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm new password",
+      "change": "Change Password",
+      "changing": "Changing...",
+      "tooShort": "Password must be at least 8 characters",
+      "noMatch": "Passwords do not match"
+    },
+    "delete": {
+      "title": "Delete Account",
+      "description": "Permanently delete your account and all associated data. This action cannot be undone.",
+      "button": "Delete Account",
+      "confirmTitle": "Are you absolutely sure?",
+      "confirmDescription": "This action cannot be undone. This will permanently delete your account and remove all your data from our servers.",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "passwordRequired": "Password is required to delete your account",
+      "confirmation": "Type DELETE to confirm",
+      "confirmationHint": "Type DELETE in capital letters to confirm",
+      "confirmationRequired": "Please type DELETE to confirm deletion",
+      "confirmButton": "Yes, Delete My Account",
+      "cancel": "Cancel",
+      "deleting": "Deleting..."
+    },
+    "messages": {
+      "avatarUpdated": "Profile picture updated successfully",
+      "profileUpdated": "Profile updated successfully",
+      "passwordChanged": "Password changed successfully"
+    },
+    "error": {
+      "title": "Error Loading Profile",
+      "notFound": "Profile not found"
     }
   }
 }
