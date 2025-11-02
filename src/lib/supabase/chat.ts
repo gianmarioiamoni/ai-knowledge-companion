@@ -176,7 +176,7 @@ export async function createMessage(
         role: message.role,
         sender: message.sender,
         content: message.content,
-        tokens: message.tokens_used || 0,
+        tokens_used: message.tokens_used || 0,
         metadata: message.metadata || {}
       })
       .select()
