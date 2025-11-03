@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl'
 import { useRouter } from '@/i18n/navigation'
 import { useDashboard } from '@/hooks/use-dashboard'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
+import { ErrorPage } from '@/components/error'
 import { 
   StatsCard, 
   ActionCard, 
@@ -32,17 +33,12 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-red-600 dark:text-red-400 mb-4">
-            <svg className="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-semibold text-red-700 dark:text-red-300 mb-2">Error loading dashboard</h2>
-          <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
-        </div>
-      </div>
+      <ErrorPage
+        message={error}
+        title={t('error.title') || 'Error loading dashboard'}
+        severity="error"
+        showIcon
+      />
     )
   }
 

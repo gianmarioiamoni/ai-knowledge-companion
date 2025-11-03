@@ -4,9 +4,7 @@ import { JSX, useEffect, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import { MessageBubble } from './message-bubble';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { AlertCircle, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ErrorAlert } from '@/components/error';
 import type { ChatMessage } from '@/types/chat';
 
 interface ChatMessagesProps {
@@ -36,20 +34,13 @@ export function ChatMessages({
     <div className="h-full overflow-y-auto p-4 space-y-4">
       {/* Error Display */}
       {error && (
-        <Alert variant="destructive" className="mb-4">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription className="flex items-center justify-between">
-            <span>{error}</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onClearError}
-              className="text-destructive hover:text-destructive/80"
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </AlertDescription>
-        </Alert>
+        <ErrorAlert
+          message={error}
+          severity="error"
+          onDismiss={onClearError}
+          className="mb-4"
+          showIcon
+        />
       )}
 
       {/* Messages */}

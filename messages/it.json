@@ -71,7 +71,11 @@
     "totalDocuments": "Documenti Totali",
     "totalConversations": "Conversazioni Totali",
     "apiCalls": "Chiamate API",
-    "costEstimate": "Stima Costi"
+    "costEstimate": "Stima Costi",
+    "error": {
+      "title": "Errore nel Caricamento della Dashboard",
+      "message": "Impossibile caricare i dati della dashboard. Riprova più tardi."
+    }
   },
   "documents": {
     "title": "Documenti",
@@ -347,6 +351,10 @@
         "title": "Seleziona una conversazione",
         "subtitle": "Scegli una conversazione dalla barra laterale per iniziare a chattare"
       }
+    },
+    "errors": {
+      "loadingTitle": "Errore nel Caricamento dei Tutor",
+      "loadingMessage": "Impossibile caricare i tutor. Riprova più tardi."
     }
   },
   "profile": {

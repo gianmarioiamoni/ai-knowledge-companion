@@ -71,7 +71,11 @@
     "totalDocuments": "Total Documents",
     "totalConversations": "Total Conversations",
     "apiCalls": "API Calls",
-    "costEstimate": "Cost Estimate"
+    "costEstimate": "Cost Estimate",
+    "error": {
+      "title": "Error Loading Dashboard",
+      "message": "Failed to load dashboard data. Please try again later."
+    }
   },
   "documents": {
     "title": "Documents",
@@ -347,6 +351,10 @@
         "title": "Select a conversation",
         "subtitle": "Choose a conversation from the sidebar to start chatting"
       }
+    },
+    "errors": {
+      "loadingTitle": "Error Loading Tutors",
+      "loadingMessage": "Failed to load tutors. Please try again later."
     }
   },
   "profile": {
