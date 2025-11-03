@@ -2,12 +2,10 @@
 
 import { JSX } from 'react';
 import { useChatSidebar } from '@/hooks/use-chat-sidebar';
-import { 
-  SidebarHeader, 
-  SidebarEmpty, 
-  ConversationsList, 
-  RenameDialog 
-} from './sidebar-components';
+import { SidebarHeader } from './chat-sidebar/sidebar-header';
+import { SidebarEmpty } from './chat-sidebar/sidebar-empty';
+import { ConversationsList } from './chat-sidebar/conversations-list';
+import { RenameDialog } from './chat-sidebar/rename-dialog';
 import type { ConversationListProps } from '@/types/chat';
 
 /**
