@@ -30,11 +30,11 @@ export function Header({ locale }: HeaderProps): JSX.Element {
     } = useHeader()
 
     return (
-        <header className="sticky top-0 z-30 border-b bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
-            <div className="mx-auto px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
-                <div className="flex justify-between items-center gap-2 sm:gap-4">
-                    {/* Left: Mobile Menu + Logo + Desktop Navigation */}
-                    <div className="flex items-center gap-2 sm:gap-4 min-w-0">
+        <header className="sticky top-0 z-30 border-b bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 shadow-sm">
+            <div className="mx-auto max-w-7xl px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
+                <div className="flex items-center justify-between gap-4">
+                    {/* Left: Mobile Menu + Logo */}
+                    <div className="flex items-center gap-2 sm:gap-3">
                         {/* Mobile Menu - Only for authenticated users */}
                         {user && (
                             <MobileMenu
@@ -46,13 +46,17 @@ export function Header({ locale }: HeaderProps): JSX.Element {
 
                         {/* Logo */}
                         <Logo />
-
-                        {/* Desktop Navigation - Only for authenticated users */}
-                        {user && <DesktopNavigation isActivePath={isActivePath} />}
                     </div>
 
+                    {/* Center: Desktop Navigation - Only for authenticated users */}
+                    {user && (
+                        <div className="hidden md:flex flex-1 justify-center max-w-3xl">
+                            <DesktopNavigation isActivePath={isActivePath} />
+                        </div>
+                    )}
+
                     {/* Right: Language Switcher + User Actions */}
-                    <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 flex-shrink-0">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                         <LanguageSwitcher />
 
                         {/* Authenticated: User Menu | Guest: Auth Buttons */}

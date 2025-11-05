@@ -7,7 +7,7 @@ export default getRequestConfig(async ({ locale }) => {
   const actualLocale = locale || "en";
 
   // Read messages from file system
-  const messagesPath = join(process.cwd(), "public", "messages", `${actualLocale}.json`);
+  const messagesPath = join(process.cwd(), "messages", `${actualLocale}.json`);
   const messages = JSON.parse(readFileSync(messagesPath, "utf8"));
 
   return {

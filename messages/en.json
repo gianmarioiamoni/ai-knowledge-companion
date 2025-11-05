@@ -26,6 +26,7 @@
     "tutors": "Tutors",
     "documents": "Documents",
     "marketplace": "Marketplace",
+    "billing": "Billing",
     "settings": "Settings",
     "profile": "Profile",
     "login": "Login",
@@ -111,7 +112,11 @@
   "chat": {
     "title": "Chat with AI Tutor",
     "header": {
-      "online": "Online"
+      "online": "Online",
+      "menu": {
+        "archiveAll": "Archive All",
+        "deleteAll": "Delete All"
+      }
     },
     "messages": {
       "empty": {
@@ -132,7 +137,16 @@
         "subtitle": "Start chatting with your AI tutor"
       },
       "noResults": "No conversations found",
-      "noResultsDesc": "Try a different search term"
+      "noResultsDesc": "Try a different search term",
+      "menu": {
+        "renameDialog": {
+          "title": "Rename Conversation",
+          "description": "Enter a new name for this conversation",
+          "placeholder": "Conversation name",
+          "cancel": "Cancel",
+          "save": "Save"
+        }
+      }
     },
     "noConversation": {
       "title": "Select a conversation",
@@ -162,6 +176,8 @@
     "free": "Free",
     "paid": "Paid",
     "fork": "Fork",
+    "forking": "Forking...",
+    "loginToFork": "Login to Fork",
     "buy": "Buy",
     "preview": "Preview",
     "author": "Author",
@@ -170,7 +186,35 @@
     "price": "Price",
     "noTutors": "No tutors found",
     "forked": "Tutor forked successfully",
-    "purchased": "Tutor purchased successfully"
+    "purchased": "Tutor purchased successfully",
+    "tutorDetails": "Tutor Details",
+    "loadingTutorDetails": "Loading tutor information...",
+    "noDescription": "No description available",
+    "createdBy": "Created by",
+    "close": "Close",
+    "forkError": "Fork Failed",
+    "loginRequired": "Please login to fork this tutor"
+  },
+  "billing": {
+    "title": "Billing & Usage",
+    "subtitle": "Monitor your API usage and costs",
+    "apiCalls": "API Calls",
+    "tokens": "Tokens",
+    "cost": "Cost",
+    "used": "used",
+    "quotaReset": "Quota will reset on",
+    "last30Days": "Last 30 Days Summary",
+    "totalCalls": "Total Calls",
+    "totalTokens": "Total Tokens",
+    "totalCost": "Total Cost",
+    "alerts": {
+      "title": "Usage Alerts",
+      "noAlerts": "No alerts at this time"
+    },
+    "error": {
+      "title": "Error Loading Usage Data",
+      "message": "Failed to load billing information. Please try again later."
+    }
   },
   "settings": {
     "title": "Settings",
@@ -273,6 +317,7 @@
     "form": {
         "createTitle": "Create New Tutor",
         "editTitle": "Edit Tutor",
+        "description": "Configure your AI tutor with custom behavior and knowledge sources",
         "saving": "Saving...",
         "create": "Create",
         "update": "Update",

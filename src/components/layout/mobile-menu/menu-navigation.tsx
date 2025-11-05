@@ -1,6 +1,6 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { FileText, Users, LayoutDashboard, type LucideIcon } from 'lucide-react'
+import { FileText, Users, LayoutDashboard, Store, CreditCard, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { JSX } from 'react'
 
@@ -21,6 +21,8 @@ export function MenuNavigation({ user, pathname }: MenuNavigationProps): JSX.Ele
   const menuItems: MenuItem[] = [
     { href: '/documents', icon: FileText, label: t('documents') },
     { href: '/tutors', icon: Users, label: t('tutors') },
+    { href: '/marketplace', icon: Store, label: t('marketplace') },
+    { href: '/billing', icon: CreditCard, label: t('billing') },
     { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard') },
   ]
 
@@ -37,14 +39,20 @@ export function MenuNavigation({ user, pathname }: MenuNavigationProps): JSX.Ele
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors",
+                  "flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200",
                   isActive
-                    ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                    ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shadow-sm font-semibold"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium"
                 )}
               >
-                <Icon className="h-5 w-5 flex-shrink-0" />
-                <span className="font-medium">{item.label}</span>
+                <Icon className={cn(
+                  "h-5 w-5 flex-shrink-0 transition-transform",
+                  isActive && "scale-110"
+                )} />
+                <span>{item.label}</span>
+                {isActive && (
+                  <span className="ml-auto w-1 h-1 rounded-full bg-blue-600 dark:bg-blue-400" />
+                )}
               </Link>
             )
           })}

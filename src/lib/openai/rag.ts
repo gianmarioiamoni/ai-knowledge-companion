@@ -1,6 +1,7 @@
 import OpenAI from 'openai'
 import { searchSimilarChunks, searchTutorChunks, type SimilarityResult } from '@/lib/supabase/similarity-search'
 import { generateEmbedding } from './embeddings'
+import { logUsage } from '@/lib/supabase/billing'
 
 // Funzione per ottenere il client OpenAI
 function getOpenAIClient() {
@@ -139,6 +140,35 @@ ${context ? `Additional context: ${context}` : ''}`
     const cost = estimateCompletionCost(tokensUsed, 'gpt-4')
 
     console.log(`✅ RAG query completed: ${tokensUsed} tokens, $${cost.toFixed(4)} cost`)
+
+    // Log usage for billing tracking
+    if (userId) {
+      const usageResult = await logUsage({
+        user_id: userId,
+        tutor_id: tutorId || null,
+        action: 'completion',
+        api_calls: 1,
+        tokens_used: tokensUsed,
+        cost_estimate: cost,
+        metadata: {
+          model: 'gpt-4',
+          chunks_retrieved: searchResult.data.length,
+          question_length: question.length
+        }
+      })
+
+      if (usageResult.error) {
+        console.error('Failed to log usage:', usageResult.error)
+      } else if (usageResult.data) {
+        const quotaData = usageResult.data as any
+        console.log(`📊 Usage logged. Quota: ${quotaData.current_value || 'N/A'}/${quotaData.max_value || 'N/A'}`)
+        
+        // Check if quota exceeded
+        if (quotaData.within_quota === false) {
+          console.warn(`⚠️  User ${userId} has exceeded their ${quotaData.exceeded_type} quota!`)
+        }
+      }
+    }
 
     return {
       data: {

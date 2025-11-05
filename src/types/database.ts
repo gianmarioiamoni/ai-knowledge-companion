@@ -112,6 +112,16 @@ export interface Database {
           config: Record<string, any>
           version: number
           visibility: 'private' | 'public' | 'marketplace'
+          price: number
+          is_free: boolean
+          downloads_count: number
+          forks_count: number
+          rating_average: number
+          reviews_count: number
+          category: string | null
+          tags: string[]
+          featured: boolean
+          original_tutor_id: string | null
           created_at: string
           updated_at: string
         }
@@ -123,6 +133,16 @@ export interface Database {
           config?: Record<string, any>
           version?: number
           visibility?: 'private' | 'public' | 'marketplace'
+          price?: number
+          is_free?: boolean
+          downloads_count?: number
+          forks_count?: number
+          rating_average?: number
+          reviews_count?: number
+          category?: string | null
+          tags?: string[]
+          featured?: boolean
+          original_tutor_id?: string | null
           created_at?: string
           updated_at?: string
         }
@@ -134,6 +154,16 @@ export interface Database {
           config?: Record<string, any>
           version?: number
           visibility?: 'private' | 'public' | 'marketplace'
+          price?: number
+          is_free?: boolean
+          downloads_count?: number
+          forks_count?: number
+          rating_average?: number
+          reviews_count?: number
+          category?: string | null
+          tags?: string[]
+          featured?: boolean
+          original_tutor_id?: string | null
           updated_at?: string
         }
       }
@@ -234,6 +264,81 @@ export interface Database {
           cost_estimate?: number
         }
       }
+      tutor_reviews: {
+        Row: {
+          id: string
+          tutor_id: string
+          user_id: string
+          rating: number
+          review_text: string | null
+          helpful_count: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          tutor_id: string
+          user_id: string
+          rating: number
+          review_text?: string | null
+          helpful_count?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          tutor_id?: string
+          user_id?: string
+          rating?: number
+          review_text?: string | null
+          helpful_count?: number
+          updated_at?: string
+        }
+      }
+      tutor_forks: {
+        Row: {
+          id: string
+          original_tutor_id: string
+          forked_tutor_id: string
+          user_id: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          original_tutor_id: string
+          forked_tutor_id: string
+          user_id: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          original_tutor_id?: string
+          forked_tutor_id?: string
+          user_id?: string
+        }
+      }
+      tutor_views: {
+        Row: {
+          id: string
+          tutor_id: string
+          user_id: string | null
+          session_id: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          tutor_id: string
+          user_id?: string | null
+          session_id?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          tutor_id?: string
+          user_id?: string | null
+          session_id?: string | null
+        }
+      }
     }
   }
 }
@@ -246,6 +351,9 @@ export type TutorDocument = Database['public']['Tables']['tutor_documents']['Row
 export type Conversation = Database['public']['Tables']['conversations']['Row']
 export type Message = Database['public']['Tables']['messages']['Row']
 export type UsageLog = Database['public']['Tables']['usage_logs']['Row']
+export type TutorReview = Database['public']['Tables']['tutor_reviews']['Row']
+export type TutorFork = Database['public']['Tables']['tutor_forks']['Row']
+export type TutorView = Database['public']['Tables']['tutor_views']['Row']
 
 export interface TutorConfig {
   tone: 'friendly' | 'professional' | 'casual' | 'academic'
