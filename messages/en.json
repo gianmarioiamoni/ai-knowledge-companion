@@ -25,6 +25,8 @@
     "dashboard": "Dashboard",
     "tutors": "Tutors",
     "documents": "Documents",
+    "storage": "Storage",
+    "multimedia": "Multimedia",
     "marketplace": "Marketplace",
     "billing": "Billing",
     "settings": "Settings",
@@ -139,6 +141,9 @@
       "noResults": "No conversations found",
       "noResultsDesc": "Try a different search term",
       "menu": {
+        "rename": "Rename",
+        "archive": "Archive",
+        "delete": "Delete",
         "renameDialog": {
           "title": "Rename Conversation",
           "description": "Enter a new name for this conversation",
@@ -316,18 +321,31 @@
     },
     "form": {
         "createTitle": "Create New Tutor",
+        "createSubtitle": "Set up your personalized AI assistant",
         "editTitle": "Edit Tutor",
+        "editSubtitle": "Update your tutor's configuration",
+        "editBadge": "Editing",
         "description": "Configure your AI tutor with custom behavior and knowledge sources",
         "saving": "Saving...",
         "create": "Create",
         "update": "Update",
         "cancel": "Cancel",
+      "tabs": {
+        "basic": "Basic Info",
+        "ai": "AI Settings",
+        "rag": "RAG & Knowledge",
+        "visibility": "Visibility"
+      },
       "sections": {
         "basicInfo": "Basic Information",
         "aiConfig": "AI Configuration",
         "ragConfig": "RAG Configuration",
         "visibility": "Visibility",
-        "systemPrompt": "System Prompt"
+        "visibilityLevel": "Visibility Level",
+        "systemPrompt": "System Prompt",
+        "creativity": "Creativity",
+        "multimedia": "Multimedia",
+        "documents": "Documents"
       },
       "fields": {
         "name": "Name *",
@@ -336,17 +354,27 @@
         "descriptionPlaceholder": "Tutor description...",
         "avatarUrl": "Avatar URL",
         "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+        "avatarPreview": "Avatar Preview",
         "model": "Model",
+        "aiModel": "AI Model",
         "modelPlaceholder": "Select model",
         "maxTokens": "Max Tokens",
+        "maxTokensHint": "Maximum number of tokens in the response",
         "temperature": "Temperature: {value}",
         "temperatureLabels": {
           "conservative": "Conservative (0)",
           "creative": "Creative (2)"
         },
         "useRag": "Use RAG for contextual responses",
+        "enableRag": "Enable RAG",
+        "enableRagHint": "Use Retrieval Augmented Generation to provide context from documents",
         "maxContextChunks": "Max Context Chunks",
+        "maxContextChunksHint": "Maximum number of document chunks to use as context",
         "similarityThreshold": "Similarity Threshold: {value}",
+        "similarityThresholdLabels": {
+          "low": "Less Relevant (0.0)",
+          "high": "More Relevant (1.0)"
+        },
         "visibility": "Visibility Level",
         "visibilityOptions": {
           "private": "Private - Only you",
@@ -355,6 +383,7 @@
         },
         "systemPrompt": "System Prompt",
         "systemPromptPlaceholder": "Define the tutor's behavior...",
+        "systemPromptHint": "Instructions that define how the AI tutor should behave and respond",
         "documents": {
           "title": "Linked Documents",
           "selectPlaceholder": "Select a document to link",
@@ -364,6 +393,14 @@
           "noLinked": "No documents linked to this tutor",
           "noAvailable": "No available documents to link"
         }
+      },
+      "multimedia": "Multimedia",
+      "multimediaDescription": "Add audio, video, and images to enhance your tutor's knowledge base",
+      "noMultimedia": "No multimedia files associated yet",
+      "visibilityLevels": {
+        "private": "Private",
+        "public": "Public",
+        "unlisted": "Unlisted"
       }
     },
     "chat": {
@@ -462,6 +499,154 @@
     "error": {
       "title": "Error Loading Profile",
       "notFound": "Profile not found"
+    }
+  },
+  "multimedia": {
+    "title": "Multimedia",
+    "subtitle": "Manage your audio, video, and image files",
+    "tabs": {
+      "audio": "Audio",
+      "video": "Video",
+      "images": "Images",
+      "all": "All Files"
+    },
+    "upload": {
+      "title": "Upload Multimedia",
+      "dropzone": "Drag and drop files here, or click to browse",
+      "dragActive": "Drop files here...",
+      "selectFiles": "Select Files",
+      "uploading": "Uploading...",
+      "processing": "Processing...",
+      "success": "File uploaded successfully",
+      "error": "Upload failed",
+      "maxSize": "Max file size",
+      "supportedFormats": "Supported formats",
+      "audioFormats": "MP3, WAV, M4A, OGG, AAC, WebM",
+      "videoFormats": "MP4, MOV, AVI, WebM",
+      "imageFormats": "JPG, PNG, GIF, WebP"
+    },
+    "audio": {
+      "title": "Audio Files",
+      "description": "Upload audio files for transcription",
+      "upload": "Upload Audio",
+      "maxSize": "Max 100MB per file",
+      "transcribing": "Transcribing...",
+      "transcribed": "Transcribed",
+      "duration": "Duration",
+      "cost": "Cost",
+      "transcription": "Transcription",
+      "viewTranscription": "View Transcription",
+      "downloadTranscription": "Download Transcription"
+    },
+    "video": {
+      "title": "Video Files",
+      "description": "Upload video files for transcription",
+      "upload": "Upload Video",
+      "maxSize": "Max 500MB per file",
+      "comingSoon": "Coming Soon",
+      "notAvailable": "Video processing will be available in a future update"
+    },
+    "images": {
+      "title": "Image Files",
+      "description": "Upload images for OCR and analysis",
+      "upload": "Upload Images",
+      "maxSize": "Max 20MB per file",
+      "comingSoon": "Coming Soon",
+      "notAvailable": "Image processing will be available in a future update"
+    },
+    "list": {
+      "title": "Your Audio Files",
+      "empty": "No multimedia files yet",
+      "emptyDescription": "Upload audio files to get started",
+      "loading": "Loading files...",
+      "fileName": "File Name",
+      "type": "Type",
+      "size": "Size",
+      "status": "Status",
+      "duration": "Duration",
+      "uploaded": "Uploaded",
+      "actions": "Actions"
+    },
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "completed": "Completed",
+      "ready": "Ready",
+      "failed": "Failed",
+      "queued": "Queued",
+      "transcribing": "Transcribing"
+    },
+    "actions": {
+      "view": "View",
+      "download": "Download",
+      "delete": "Delete",
+      "retry": "Retry",
+      "associate": "Add to Tutor",
+      "viewDetails": "View Details"
+    },
+    "details": {
+      "title": "File Details",
+      "fileName": "File Name",
+      "fileSize": "File Size",
+      "mimeType": "File Type",
+      "uploadedAt": "Uploaded At",
+      "processedAt": "Processed At",
+      "duration": "Duration",
+      "transcriptionCost": "Transcription Cost",
+      "chunksCreated": "Text Chunks",
+      "status": "Status",
+      "transcription": "Transcription Text"
+    },
+    "delete": {
+      "title": "Delete File",
+      "message": "Are you sure you want to delete this file?",
+      "warning": "This action cannot be undone. The file and all associated data will be permanently removed.",
+      "confirm": "Delete",
+      "cancel": "Cancel",
+      "deleting": "Deleting...",
+      "success": "File deleted successfully",
+      "error": "Failed to delete file"
+    },
+    "errors": {
+      "uploadFailed": "Upload failed",
+      "fileTooLarge": "File is too large",
+      "unsupportedFormat": "File format not supported",
+      "processingFailed": "Processing failed",
+      "transcriptionFailed": "Transcription failed",
+      "noFile": "No file selected",
+      "fetchFailed": "Failed to load multimedia files",
+      "deleteFailed": "Failed to delete file"
+    },
+    "stats": {
+      "title": "Usage Statistics",
+      "totalFiles": "Total Files",
+      "totalSize": "Total Size",
+      "totalDuration": "Total Duration",
+      "totalCost": "Processing Cost",
+      "audioFiles": "Audio Files",
+      "videoFiles": "Video Files",
+      "imageFiles": "Image Files"
+    },
+    "filters": {
+      "all": "All Types",
+      "audio": "Audio",
+      "video": "Video",
+      "image": "Images",
+      "sortBy": "Sort By",
+      "newest": "Newest First",
+      "oldest": "Oldest First",
+      "name": "Name",
+      "size": "Size"
+    },
+    "progress": {
+      "uploading": "Uploading",
+      "processing": "Processing",
+      "transcribing": "Transcribing",
+      "analyzing": "Analyzing",
+      "chunking": "Creating chunks",
+      "embedding": "Generating embeddings",
+      "saving": "Saving",
+      "completed": "Completed"
     }
   }
 }

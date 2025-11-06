@@ -25,6 +25,8 @@
     "dashboard": "Dashboard",
     "tutors": "Tutor",
     "documents": "Documenti",
+    "storage": "Archivio",
+    "multimedia": "Multimedia",
     "marketplace": "Marketplace",
     "billing": "Fatturazione",
     "settings": "Impostazioni",
@@ -139,6 +141,9 @@
       "noResults": "Nessuna conversazione trovata",
       "noResultsDesc": "Prova un termine di ricerca diverso",
       "menu": {
+        "rename": "Rinomina",
+        "archive": "Archivia",
+        "delete": "Elimina",
         "renameDialog": {
           "title": "Rinomina Conversazione",
           "description": "Inserisci un nuovo nome per questa conversazione",
@@ -316,18 +321,31 @@
     },
     "form": {
         "createTitle": "Crea Nuovo Tutor",
+        "createSubtitle": "Configura il tuo assistente AI personalizzato",
         "editTitle": "Modifica Tutor",
+        "editSubtitle": "Aggiorna la configurazione del tutor",
+        "editBadge": "Modifica",
         "description": "Configura il tuo tutor AI con comportamento personalizzato e fonti di conoscenza",
         "saving": "Salvataggio...",
         "create": "Crea",
         "update": "Aggiorna",
         "cancel": "Annulla",
+      "tabs": {
+        "basic": "Info Base",
+        "ai": "Impostazioni AI",
+        "rag": "RAG e Conoscenza",
+        "visibility": "Visibilità"
+      },
       "sections": {
         "basicInfo": "Informazioni Base",
         "aiConfig": "Configurazioni AI",
         "ragConfig": "Configurazioni RAG",
         "visibility": "Visibilità",
-        "systemPrompt": "System Prompt"
+        "visibilityLevel": "Livello di Visibilità",
+        "systemPrompt": "Prompt di Sistema",
+        "creativity": "Creatività",
+        "multimedia": "Multimedia",
+        "documents": "Documenti"
       },
       "fields": {
         "name": "Nome *",
@@ -336,17 +354,27 @@
         "descriptionPlaceholder": "Descrizione del tutor...",
         "avatarUrl": "URL Avatar",
         "avatarUrlPlaceholder": "https://example.com/avatar.jpg",
+        "avatarPreview": "Anteprima Avatar",
         "model": "Modello",
+        "aiModel": "Modello AI",
         "modelPlaceholder": "Seleziona modello",
         "maxTokens": "Max Tokens",
+        "maxTokensHint": "Numero massimo di token nella risposta",
         "temperature": "Temperature: {value}",
         "temperatureLabels": {
           "conservative": "Conservativo (0)",
           "creative": "Creativo (2)"
         },
         "useRag": "Usa RAG per risposte contestuali",
+        "enableRag": "Abilita RAG",
+        "enableRagHint": "Usa la Generazione Aumentata da Recupero per fornire contesto dai documenti",
         "maxContextChunks": "Max Chunk di Contesto",
+        "maxContextChunksHint": "Numero massimo di chunk di documento da usare come contesto",
         "similarityThreshold": "Soglia Similarità: {value}",
+        "similarityThresholdLabels": {
+          "low": "Meno Rilevante (0.0)",
+          "high": "Più Rilevante (1.0)"
+        },
         "visibility": "Livello di Visibilità",
         "visibilityOptions": {
           "private": "Privato - Solo tu",
@@ -355,6 +383,7 @@
         },
         "systemPrompt": "Prompt di Sistema",
         "systemPromptPlaceholder": "Definisci il comportamento del tutor...",
+        "systemPromptHint": "Istruzioni che definiscono come il tutor AI deve comportarsi e rispondere",
         "documents": {
           "title": "Documenti Collegati",
           "selectPlaceholder": "Seleziona un documento da collegare",
@@ -364,6 +393,14 @@
           "noLinked": "Nessun documento collegato a questo tutor",
           "noAvailable": "Nessun documento disponibile da collegare"
         }
+      },
+      "multimedia": "Multimedia",
+      "multimediaDescription": "Aggiungi audio, video e immagini per arricchire la base di conoscenza del tutor",
+      "noMultimedia": "Nessun file multimedia associato",
+      "visibilityLevels": {
+        "private": "Privato",
+        "public": "Pubblico",
+        "unlisted": "Non in Elenco"
       }
     },
     "chat": {
@@ -462,6 +499,154 @@
     "error": {
       "title": "Errore nel Caricamento del Profilo",
       "notFound": "Profilo non trovato"
+    }
+  },
+  "multimedia": {
+    "title": "Multimedia",
+    "subtitle": "Gestisci i tuoi file audio, video e immagini",
+    "tabs": {
+      "audio": "Audio",
+      "video": "Video",
+      "images": "Immagini",
+      "all": "Tutti i File"
+    },
+    "upload": {
+      "title": "Carica Multimedia",
+      "dropzone": "Trascina i file qui o clicca per selezionare",
+      "dragActive": "Rilascia i file qui...",
+      "selectFiles": "Seleziona File",
+      "uploading": "Caricamento...",
+      "processing": "Elaborazione...",
+      "success": "File caricato con successo",
+      "error": "Caricamento fallito",
+      "maxSize": "Dimensione massima",
+      "supportedFormats": "Formati supportati",
+      "audioFormats": "MP3, WAV, M4A, OGG, AAC, WebM",
+      "videoFormats": "MP4, MOV, AVI, WebM",
+      "imageFormats": "JPG, PNG, GIF, WebP"
+    },
+    "audio": {
+      "title": "File Audio",
+      "description": "Carica file audio per la trascrizione",
+      "upload": "Carica Audio",
+      "maxSize": "Max 100MB per file",
+      "transcribing": "Trascrizione...",
+      "transcribed": "Trascritto",
+      "duration": "Durata",
+      "cost": "Costo",
+      "transcription": "Trascrizione",
+      "viewTranscription": "Visualizza Trascrizione",
+      "downloadTranscription": "Scarica Trascrizione"
+    },
+    "video": {
+      "title": "File Video",
+      "description": "Carica file video per la trascrizione",
+      "upload": "Carica Video",
+      "maxSize": "Max 500MB per file",
+      "comingSoon": "Prossimamente",
+      "notAvailable": "L'elaborazione video sarà disponibile in un aggiornamento futuro"
+    },
+    "images": {
+      "title": "File Immagine",
+      "description": "Carica immagini per OCR e analisi",
+      "upload": "Carica Immagini",
+      "maxSize": "Max 20MB per file",
+      "comingSoon": "Prossimamente",
+      "notAvailable": "L'elaborazione immagini sarà disponibile in un aggiornamento futuro"
+    },
+    "list": {
+      "title": "I Tuoi File Audio",
+      "empty": "Nessun file multimedia",
+      "emptyDescription": "Carica file audio per iniziare",
+      "loading": "Caricamento file...",
+      "fileName": "Nome File",
+      "type": "Tipo",
+      "size": "Dimensione",
+      "status": "Stato",
+      "duration": "Durata",
+      "uploaded": "Caricato",
+      "actions": "Azioni"
+    },
+    "status": {
+      "pending": "In Attesa",
+      "processing": "Elaborazione",
+      "completed": "Completato",
+      "ready": "Pronto",
+      "failed": "Fallito",
+      "queued": "In Coda",
+      "transcribing": "Trascrizione"
+    },
+    "actions": {
+      "view": "Visualizza",
+      "download": "Scarica",
+      "delete": "Elimina",
+      "retry": "Riprova",
+      "associate": "Aggiungi a Tutor",
+      "viewDetails": "Dettagli"
+    },
+    "details": {
+      "title": "Dettagli File",
+      "fileName": "Nome File",
+      "fileSize": "Dimensione File",
+      "mimeType": "Tipo File",
+      "uploadedAt": "Caricato Il",
+      "processedAt": "Elaborato Il",
+      "duration": "Durata",
+      "transcriptionCost": "Costo Trascrizione",
+      "chunksCreated": "Chunk di Testo",
+      "status": "Stato",
+      "transcription": "Testo Trascrizione"
+    },
+    "delete": {
+      "title": "Elimina File",
+      "message": "Sei sicuro di voler eliminare questo file?",
+      "warning": "Questa azione non può essere annullata. Il file e tutti i dati associati saranno rimossi definitivamente.",
+      "confirm": "Elimina",
+      "cancel": "Annulla",
+      "deleting": "Eliminazione...",
+      "success": "File eliminato con successo",
+      "error": "Impossibile eliminare il file"
+    },
+    "errors": {
+      "uploadFailed": "Caricamento fallito",
+      "fileTooLarge": "File troppo grande",
+      "unsupportedFormat": "Formato file non supportato",
+      "processingFailed": "Elaborazione fallita",
+      "transcriptionFailed": "Trascrizione fallita",
+      "noFile": "Nessun file selezionato",
+      "fetchFailed": "Impossibile caricare i file multimedia",
+      "deleteFailed": "Impossibile eliminare il file"
+    },
+    "stats": {
+      "title": "Statistiche Utilizzo",
+      "totalFiles": "File Totali",
+      "totalSize": "Dimensione Totale",
+      "totalDuration": "Durata Totale",
+      "totalCost": "Costo Elaborazione",
+      "audioFiles": "File Audio",
+      "videoFiles": "File Video",
+      "imageFiles": "File Immagine"
+    },
+    "filters": {
+      "all": "Tutti i Tipi",
+      "audio": "Audio",
+      "video": "Video",
+      "image": "Immagini",
+      "sortBy": "Ordina Per",
+      "newest": "Più Recenti",
+      "oldest": "Più Vecchi",
+      "name": "Nome",
+      "size": "Dimensione"
+    },
+    "progress": {
+      "uploading": "Caricamento",
+      "processing": "Elaborazione",
+      "transcribing": "Trascrizione",
+      "analyzing": "Analisi",
+      "chunking": "Creazione chunk",
+      "embedding": "Generazione embeddings",
+      "saving": "Salvataggio",
+      "completed": "Completato"
     }
   }
 }

@@ -1,0 +1,9 @@
+{
+  "crons": [
+    {
+      "path": "/api/multimedia/worker",
+      "schedule": "*/5 * * * *"
+    }
+  ]
+}
+

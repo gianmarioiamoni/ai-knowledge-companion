@@ -1,7 +1,7 @@
 import { cn } from '@/lib/utils'
 import { MenuHeader } from './menu-header'
 import { UserInfo } from './user-info'
-import { MenuNavigation } from './menu-navigation'
+import { MenuNavigationWithSubmenu } from './menu-navigation-with-submenu'
 import { MenuFooter } from './menu-footer'
 import type { JSX } from 'react'
 
@@ -26,7 +26,7 @@ export function MenuPanel({ isOpen, user, pathname, onClose, onSignOut }: MenuPa
         
         {user && <UserInfo user={user} onClose={onClose} />}
         
-        <MenuNavigation user={user} pathname={pathname} />
+        <MenuNavigationWithSubmenu user={user} pathname={pathname} onNavigate={onClose} />
         
         <MenuFooter user={user} onSignOut={onSignOut} onClose={onClose} />
       </div>

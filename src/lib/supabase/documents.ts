@@ -805,10 +805,11 @@ export async function deleteDocument(
 
 // Create document chunks
 export async function createDocumentChunks(
-  chunks: DocumentChunkInsert[]
+  chunks: DocumentChunkInsert[],
+  supabaseClient?: any
 ): Promise<{ error?: string }> {
   try {
-    const supabase = createClient();
+    const supabase = supabaseClient || createClient();
 
     const { error } = await (supabase as any)
       .from("document_chunks")

@@ -4,7 +4,8 @@ import { JSX } from 'react'
 import { LanguageSwitcher } from '@/components/language-switcher'
 import { MobileMenu } from './mobile-menu'
 import { useHeader } from '@/hooks/use-header'
-import { Logo, DesktopNavigation, UserMenu, AuthButtons } from './header/index'
+import { Logo, UserMenu, AuthButtons } from './header/index'
+import { DesktopNavigationWithSubmenu } from './header/desktop-navigation-with-submenu'
 
 interface HeaderProps {
     locale: string
@@ -51,7 +52,7 @@ export function Header({ locale }: HeaderProps): JSX.Element {
                     {/* Center: Desktop Navigation - Only for authenticated users */}
                     {user && (
                         <div className="hidden md:flex flex-1 justify-center max-w-3xl">
-                            <DesktopNavigation isActivePath={isActivePath} />
+                            <DesktopNavigationWithSubmenu isActivePath={isActivePath} />
                         </div>
                     )}
 

@@ -42,6 +42,15 @@ export interface Database {
           length_tokens: number | null
           visibility: 'private' | 'public'
           status: 'processing' | 'ready' | 'error'
+          // Multimedia fields
+          media_type: 'document' | 'audio' | 'video' | 'image'
+          duration_seconds: number | null
+          width: number | null
+          height: number | null
+          thumbnail_url: string | null
+          transcription_status: 'pending' | 'processing' | 'completed' | 'failed' | 'not_required'
+          transcription_text: string | null
+          transcription_cost: number | null
           created_at: string
           updated_at: string
         }
@@ -57,6 +66,15 @@ export interface Database {
           length_tokens?: number | null
           visibility?: 'private' | 'public'
           status?: 'processing' | 'ready' | 'error'
+          // Multimedia fields
+          media_type?: 'document' | 'audio' | 'video' | 'image'
+          duration_seconds?: number | null
+          width?: number | null
+          height?: number | null
+          thumbnail_url?: string | null
+          transcription_status?: 'pending' | 'processing' | 'completed' | 'failed' | 'not_required'
+          transcription_text?: string | null
+          transcription_cost?: number | null
           created_at?: string
           updated_at?: string
         }
@@ -72,6 +90,15 @@ export interface Database {
           length_tokens?: number | null
           visibility?: 'private' | 'public'
           status?: 'processing' | 'ready' | 'error'
+          // Multimedia fields
+          media_type?: 'document' | 'audio' | 'video' | 'image'
+          duration_seconds?: number | null
+          width?: number | null
+          height?: number | null
+          thumbnail_url?: string | null
+          transcription_status?: 'pending' | 'processing' | 'completed' | 'failed' | 'not_required'
+          transcription_text?: string | null
+          transcription_cost?: number | null
           updated_at?: string
         }
       }
@@ -339,6 +366,89 @@ export interface Database {
           session_id?: string | null
         }
       }
+      media_processing_queue: {
+        Row: {
+          id: string
+          document_id: string
+          user_id: string
+          media_type: 'audio' | 'video' | 'image'
+          status: 'queued' | 'processing' | 'completed' | 'failed' | 'cancelled'
+          progress_percent: number
+          processing_started_at: string | null
+          processing_completed_at: string | null
+          error_message: string | null
+          retry_count: number
+          max_retries: number
+          chunks_created: number
+          embeddings_generated: number
+          processing_cost: number | null
+          metadata: Record<string, any>
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          document_id: string
+          user_id: string
+          media_type: 'audio' | 'video' | 'image'
+          status?: 'queued' | 'processing' | 'completed' | 'failed' | 'cancelled'
+          progress_percent?: number
+          processing_started_at?: string | null
+          processing_completed_at?: string | null
+          error_message?: string | null
+          retry_count?: number
+          max_retries?: number
+          chunks_created?: number
+          embeddings_generated?: number
+          processing_cost?: number | null
+          metadata?: Record<string, any>
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          document_id?: string
+          user_id?: string
+          media_type?: 'audio' | 'video' | 'image'
+          status?: 'queued' | 'processing' | 'completed' | 'failed' | 'cancelled'
+          progress_percent?: number
+          processing_started_at?: string | null
+          processing_completed_at?: string | null
+          error_message?: string | null
+          retry_count?: number
+          max_retries?: number
+          chunks_created?: number
+          embeddings_generated?: number
+          processing_cost?: number | null
+          metadata?: Record<string, any>
+          updated_at?: string
+        }
+      }
+      tutor_multimedia: {
+        Row: {
+          id: string
+          tutor_id: string
+          document_id: string
+          display_order: number
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          tutor_id: string
+          document_id: string
+          display_order?: number
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          tutor_id?: string
+          document_id?: string
+          display_order?: number
+          updated_at?: string
+        }
+      }
     }
   }
 }
@@ -354,6 +464,8 @@ export type UsageLog = Database['public']['Tables']['usage_logs']['Row']
 export type TutorReview = Database['public']['Tables']['tutor_reviews']['Row']
 export type TutorFork = Database['public']['Tables']['tutor_forks']['Row']
 export type TutorView = Database['public']['Tables']['tutor_views']['Row']
+export type MediaProcessingQueue = Database['public']['Tables']['media_processing_queue']['Row']
+export type TutorMultimedia = Database['public']['Tables']['tutor_multimedia']['Row']
 
 export interface TutorConfig {
   tone: 'friendly' | 'professional' | 'casual' | 'academic'

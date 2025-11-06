@@ -91,7 +91,7 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
               </TabsTrigger>
               <TabsTrigger value="visibility" className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 px-0.5 sm:px-2 py-2 text-[10px] sm:text-sm">
                 <Eye className="h-4 w-4 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span className="truncate">Vis</span>
+                <span className="sm:inline truncate">{t('form.tabs.visibility')}</span>
               </TabsTrigger>
             </TabsList>
 
