@@ -261,6 +261,17 @@
     "title": "AI Knowledge Companion",
     "subtitle": "Costruisci il tuo tutor AI personale per qualsiasi materia",
     "description": "Carica documenti, crea tutor AI personalizzati e ottieni assistenza nell'apprendimento personalizzata basata sulla tua base di conoscenza.",
+    "marketplace": {
+      "title": "Esplora il Marketplace dei Tutor AI",
+      "description": "Scopri migliaia di tutor AI pre-costruiti creati dalla nostra community. Trova tutor per qualsiasi materia e inizia a imparare subito.",
+      "cta": "Esplora il Marketplace",
+      "noAccountRequired": "Nessun account richiesto • Naviga liberamente",
+      "stats": {
+        "tutors": "500+",
+        "downloads": "10K+",
+        "users": "5K+"
+      }
+    },
     "features": {
       "upload": {
         "title": "Carica i Tuoi Materiali",

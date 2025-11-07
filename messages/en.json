@@ -261,6 +261,17 @@
     "title": "AI Knowledge Companion",
     "subtitle": "Build your personal AI tutor for any subject",
     "description": "Upload documents, create custom AI tutors, and get personalized learning assistance powered by your own knowledge base.",
+    "marketplace": {
+      "title": "Explore AI Tutor Marketplace",
+      "description": "Discover thousands of pre-built AI tutors created by our community. Find tutors for any subject and start learning instantly.",
+      "cta": "Browse Marketplace",
+      "noAccountRequired": "No account required • Browse freely",
+      "stats": {
+        "tutors": "500+",
+        "downloads": "10K+",
+        "users": "5K+"
+      }
+    },
     "features": {
       "upload": {
         "title": "Upload Your Materials",

@@ -3,6 +3,7 @@
 import { JSX } from 'react'
 import { useTranslations } from 'next-intl'
 import { HeroSection } from '../sections/hero-section'
+import { MarketplaceSection } from '../sections/marketplace-section'
 import { FeaturesSection } from '../sections/features-section'
 
 export function LandingPageClient(): JSX.Element {
@@ -14,6 +15,18 @@ export function LandingPageClient(): JSX.Element {
     description: t('description'),
     ctaPrimary: t('cta.primary'),
     ctaSecondary: t('cta.secondary')
+  }
+
+  const marketplaceProps = {
+    title: t('marketplace.title'),
+    description: t('marketplace.description'),
+    cta: t('marketplace.cta'),
+    noAccountRequired: t('marketplace.noAccountRequired'),
+    stats: {
+      tutors: t('marketplace.stats.tutors'),
+      downloads: t('marketplace.stats.downloads'),
+      users: t('marketplace.stats.users')
+    }
   }
 
   const featuresProps = {
@@ -41,6 +54,7 @@ export function LandingPageClient(): JSX.Element {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <HeroSection {...heroProps} />
       <FeaturesSection {...featuresProps} />
+      <MarketplaceSection {...marketplaceProps} />
     </div>
   )
 }
