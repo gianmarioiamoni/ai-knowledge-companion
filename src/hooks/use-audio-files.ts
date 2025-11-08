@@ -23,7 +23,29 @@ export function useAudioFiles() {
       }
       
       const data = await response.json()
-      setFiles(data.documents || [])
+      const documents = data.documents || []
+      setFiles(documents)
+
+      // Auto-retry processing for stuck documents (same as documents hook)
+      const stuckDocuments = documents.filter(
+        (doc: MultimediaDocument) => doc.status === 'pending' || doc.status === 'processing'
+      )
+
+      if (stuckDocuments.length > 0) {
+        console.log(`🔄 Found ${stuckDocuments.length} stuck multimedia documents, triggering processing...`)
+        
+        // Trigger worker in background for each stuck document
+        // The worker processes jobs from the queue, so we just need to wake it up
+        fetch('/api/multimedia/worker', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }).catch((err) => {
+          console.warn('⚠️  Failed to trigger worker for stuck documents:', err)
+          // Don't fail - cron will pick it up eventually
+        })
+      }
     } catch (err) {
       console.error('Fetch audio files error:', err)
       setError(err instanceof Error ? err.message : 'Failed to load files')
@@ -70,6 +92,30 @@ export function useAudioFiles() {
   useEffect(() => {
     fetchFiles()
   }, [fetchFiles])
+
+  // Auto-refresh for processing files (polling)
+  useEffect(() => {
+    const hasProcessingFiles = files.some(
+      (file) => file.status === 'pending' || file.status === 'processing'
+    )
+
+    if (!hasProcessingFiles) {
+      return
+    }
+
+    console.log('📡 Setting up polling for processing files...')
+    
+    // Poll every 5 seconds while there are processing files
+    const intervalId = setInterval(() => {
+      console.log('🔄 Polling for file status updates...')
+      fetchFiles()
+    }, 5000)
+
+    return () => {
+      console.log('🛑 Stopping polling')
+      clearInterval(intervalId)
+    }
+  }, [files, fetchFiles])
 
   return {
     files,

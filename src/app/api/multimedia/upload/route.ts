@@ -124,11 +124,28 @@ export async function POST(request: NextRequest) {
       queueId,
     });
 
+    // Trigger processing immediately (don't wait for cron)
+    // This runs in background, so we don't wait for the result
+    if (queueId) {
+      console.log("🚀 Triggering immediate processing...");
+      
+      // Call worker API in background (fire and forget)
+      fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/multimedia/worker`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).catch((err) => {
+        console.warn("⚠️  Failed to trigger immediate processing:", err);
+        // Don't fail - cron will pick it up
+      });
+    }
+
     return NextResponse.json({
       success: true,
       documentId: document.id,
       queueId,
-      message: `${mediaType} file uploaded successfully. Processing queued.`,
+      message: `${mediaType} file uploaded successfully. Processing started.`,
     });
   } catch (error) {
     console.error("❌ Upload error:", error);
