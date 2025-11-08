@@ -47,9 +47,12 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
   }
 
   const handleCreateTutor = () => {
-    // Coming soon functionality
-    console.log('Create tutor - coming soon')
+    router.push('/tutors')
   }
+  
+  // Dynamic messages based on existing content
+  const hasTutors = stats.totalTutors > 0
+  const hasDocuments = stats.totalDocuments > 0
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
@@ -95,22 +98,22 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <ActionCard
-            title={t('uploadFirstDocument')}
-            description="Start building your knowledge base by uploading your first document."
+            title={hasDocuments ? t('uploadMoreDocuments') : t('uploadFirstDocument')}
+            description={hasDocuments ? t('uploadMoreDocumentsDesc') : t('uploadFirstDocumentDesc')}
             icon={Upload}
-            buttonText="Go to Documents"
+            buttonText={t('goToDocuments')}
             buttonIcon={FileText}
             onAction={handleGoToDocuments}
           />
 
           <ActionCard
-            title={t('createFirstTutor')}
-            description="Create your first AI tutor to start learning from your documents."
+            title={hasTutors ? t('createAnotherTutor') : t('createFirstTutor')}
+            description={hasTutors ? t('createAnotherTutorDesc') : t('createFirstTutorDesc')}
             icon={Bot}
-            buttonText="Coming Soon"
+            buttonText={hasTutors ? t('createTutor') : t('getStarted')}
             buttonIcon={Bot}
             onAction={handleCreateTutor}
-            disabled={true}
+            disabled={false}
           />
         </div>
 
