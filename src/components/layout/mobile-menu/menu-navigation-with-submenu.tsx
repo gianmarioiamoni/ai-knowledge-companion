@@ -1,6 +1,6 @@
 /**
  * Mobile Menu Navigation with Submenu Support
- * Supports nested menu items with collapsible sections
+ * Supports nested menu items with collapsible sections and role-based visibility
  */
 
 'use client'
@@ -8,14 +8,17 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { FileText, Users, LayoutDashboard, Store, CreditCard, FolderOpen, Music, ChevronDown, type LucideIcon } from 'lucide-react'
+import { FileText, Users, LayoutDashboard, Store, CreditCard, FolderOpen, Music, ChevronDown, Shield, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useRole } from '@/hooks/use-role'
 import type { JSX } from 'react'
 
 interface MenuSubItem {
   href: string
   icon: LucideIcon
   label: string
+  adminOnly?: boolean
+  superAdminOnly?: boolean
 }
 
 interface MenuItem {
@@ -23,6 +26,10 @@ interface MenuItem {
   icon: LucideIcon
   label: string
   subItems?: MenuSubItem[]
+  adminOnly?: boolean
+  superAdminOnly?: boolean
+  hideForUsers?: boolean
+  hideForAdmins?: boolean
 }
 
 interface MenuNavigationProps {
@@ -33,22 +40,44 @@ interface MenuNavigationProps {
 
 export function MenuNavigationWithSubmenu({ user, pathname, onNavigate }: MenuNavigationProps): JSX.Element {
   const t = useTranslations('navigation')
+  const { isAdmin, isSuperAdmin } = useRole()
   const [expandedItem, setExpandedItem] = useState<string | null>(null)
 
   const menuItems: MenuItem[] = [
+    // User menus - hidden for admins
     {
       icon: FolderOpen,
       label: t('storage'),
+      hideForAdmins: true,
       subItems: [
         { href: '/documents', icon: FileText, label: t('documents') },
         { href: '/multimedia', icon: Music, label: t('multimedia') },
       ],
     },
-    { href: '/tutors', icon: Users, label: t('tutors') },
-    { href: '/marketplace', icon: Store, label: t('marketplace') },
-    { href: '/billing', icon: CreditCard, label: t('billing') },
-    { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard') },
+    { href: '/tutors', icon: Users, label: t('tutors'), hideForAdmins: true },
+    { href: '/marketplace', icon: Store, label: t('marketplace'), hideForAdmins: true },
+    { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard'), hideForAdmins: true },
+    // Admin menu - only for admin/super_admin
+    {
+      icon: Shield,
+      label: t('admin'),
+      adminOnly: true,
+      subItems: [
+        { href: '/admin/dashboard', icon: LayoutDashboard, label: t('adminDashboard') },
+        { href: '/admin/users', icon: Users, label: t('adminUsers') },
+        { href: '/admin/billing', icon: CreditCard, label: t('adminBilling') },
+      ],
+    },
   ]
+
+  // Filter items based on role
+  const visibleItems = menuItems.filter((item) => {
+    if (item.superAdminOnly && !isSuperAdmin) return false
+    if (item.adminOnly && !isAdmin) return false
+    if (item.hideForUsers && !isAdmin) return false
+    if (item.hideForAdmins && isAdmin) return false
+    return true
+  })
 
   const isSubmenuActive = (subItems?: MenuSubItem[]) => {
     if (!subItems) return false
@@ -67,7 +96,7 @@ export function MenuNavigationWithSubmenu({ user, pathname, onNavigate }: MenuNa
     <nav className="flex-1 overflow-y-auto py-4">
       {user ? (
         <div className="space-y-1 px-2">
-          {menuItems.map((item) => {
+          {visibleItems.map((item) => {
             const Icon = item.icon
             const itemKey = item.href || item.label
             const hasSubItems = item.subItems && item.subItems.length > 0

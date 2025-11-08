@@ -1,6 +1,6 @@
 /**
  * Desktop Navigation with Submenu Support
- * Supports nested menu items with dropdown
+ * Supports nested menu items with dropdown and role-based visibility
  */
 
 'use client'
@@ -10,6 +10,7 @@ import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { cn } from '@/lib/utils'
 import { ChevronDown } from 'lucide-react'
+import { useRole } from '@/hooks/use-role'
 import type { JSX } from 'react'
 
 interface DesktopNavigationProps {
@@ -19,31 +20,58 @@ interface DesktopNavigationProps {
 interface NavSubItem {
   href: string
   label: string
+  adminOnly?: boolean
+  superAdminOnly?: boolean
 }
 
 interface NavItem {
   href?: string
   label: string
   subItems?: NavSubItem[]
+  adminOnly?: boolean
+  superAdminOnly?: boolean
+  hideForUsers?: boolean
+  hideForAdmins?: boolean
 }
 
 export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigationProps): JSX.Element {
   const t = useTranslations('navigation')
+  const { isAdmin, isSuperAdmin } = useRole()
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
   const navItems: NavItem[] = [
+    // User menus - hidden for admins
     {
       label: t('storage'),
+      hideForAdmins: true,
       subItems: [
         { href: '/documents', label: t('documents') },
         { href: '/multimedia', label: t('multimedia') },
       ],
     },
-    { href: '/tutors', label: t('tutors') },
-    { href: '/marketplace', label: t('marketplace') },
-    { href: '/billing', label: t('billing') },
-    { href: '/dashboard', label: t('dashboard') },
+    { href: '/tutors', label: t('tutors'), hideForAdmins: true },
+    { href: '/marketplace', label: t('marketplace'), hideForAdmins: true },
+    { href: '/dashboard', label: t('dashboard'), hideForAdmins: true },
+    // Admin menu - only for admin/super_admin
+    {
+      label: t('admin'),
+      adminOnly: true,
+      subItems: [
+        { href: '/admin/dashboard', label: t('adminDashboard') },
+        { href: '/admin/users', label: t('adminUsers') },
+        { href: '/admin/billing', label: t('adminBilling') },
+      ],
+    },
   ]
+
+  // Filter items based on role
+  const visibleItems = navItems.filter((item) => {
+    if (item.superAdminOnly && !isSuperAdmin) return false
+    if (item.adminOnly && !isAdmin) return false
+    if (item.hideForUsers && !isAdmin) return false
+    if (item.hideForAdmins && isAdmin) return false
+    return true
+  })
 
   const isSubmenuActive = (subItems?: NavSubItem[]) => {
     if (!subItems) return false
@@ -52,7 +80,7 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
 
   return (
     <nav className="hidden md:flex items-center gap-2 lg:gap-3">
-      {navItems.map((item, index) => {
+      {visibleItems.map((item, index) => {
         const key = item.href || item.label
         const hasSubItems = item.subItems && item.subItems.length > 0
         const isActive = item.href ? isActivePath(item.href) : isSubmenuActive(item.subItems)

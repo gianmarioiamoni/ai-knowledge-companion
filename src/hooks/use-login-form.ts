@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuth } from '@/hooks/use-auth'
 import { loginSchema, type LoginFormData } from '@/lib/schemas/auth'
+import { createClient } from '@/lib/supabase/client'
 
 export function useLoginForm() {
   const [isLoading, setIsLoading] = useState(false)
@@ -32,8 +33,29 @@ export function useLoginForm() {
         return { success: false, error: authError.message }
       }
 
-      console.log('Login success, redirecting with locale:', locale)
-      router.push('/dashboard')
+      // Check user role to determine redirect destination
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single()
+        
+        // Redirect admin/super_admin to admin dashboard
+        if (profile && (profile.role === 'admin' || profile.role === 'super_admin')) {
+          console.log('Admin login, redirecting to admin dashboard')
+          router.push('/admin/dashboard')
+        } else {
+          console.log('User login, redirecting to user dashboard')
+          router.push('/dashboard')
+        }
+      } else {
+        router.push('/dashboard')
+      }
+      
       return { success: true }
     } catch (err) {
       const errorMessage = 'An unexpected error occurred'

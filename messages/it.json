@@ -33,7 +33,11 @@
     "profile": "Profilo",
     "login": "Accedi",
     "signup": "Registrati",
-    "logout": "Esci"
+    "logout": "Esci",
+    "admin": "Amministrazione",
+    "adminDashboard": "Dashboard",
+    "adminUsers": "Utenti",
+    "adminBilling": "Fatturazione"
   },
   "auth": {
     "login": "Accedi",
@@ -658,6 +662,191 @@
       "embedding": "Generazione embeddings",
       "saving": "Salvataggio",
       "completed": "Completato"
+    }
+  },
+  "admin": {
+    "loading": "Caricamento...",
+    "unauthorized": {
+      "title": "Autenticazione Richiesta",
+      "description": "Devi effettuare l'accesso per visualizzare questa pagina.",
+      "loginButton": "Vai al Login"
+    },
+    "disabled": {
+      "title": "Account Disabilitato",
+      "description": "Il tuo account è stato disabilitato. Contatta il supporto."
+    },
+    "forbidden": {
+      "title": "Accesso Negato",
+      "adminRequired": "Questa pagina richiede privilegi di amministratore.",
+      "superAdminRequired": "Questa pagina richiede privilegi di super amministratore.",
+      "dashboardButton": "Vai alla Dashboard"
+    },
+    "dashboard": {
+      "title": "Dashboard Amministrazione",
+      "subtitle": "Panoramica del sistema e gestione",
+      "metrics": {
+        "totalUsers": "Utenti Totali",
+        "active": "attivi",
+        "totalCost": "Costo Totale",
+        "thisMonth": "Questo mese",
+        "activeUsers": "Utenti Attivi",
+        "withActivity": "Con attività",
+        "growth": "Crescita",
+        "vsLastMonth": "vs mese scorso"
+      },
+      "quickActions": {
+        "title": "Azioni Rapide",
+        "description": "Operazioni amministrative comuni",
+        "manageUsers": "Gestisci Utenti",
+        "viewBilling": "Visualizza Fatturazione",
+        "marketplace": "Marketplace"
+      },
+      "topUsers": {
+        "title": "Top Utenti per Costo",
+        "description": "Utenti con costi più elevati in questo periodo",
+        "calls": "chiamate"
+      },
+      "stats": {
+        "users": "Utenti per Ruolo",
+        "regularUsers": "Utenti Normali",
+        "admins": "Amministratori",
+        "superAdmins": "Super Amministratori",
+        "status": "Utenti per Stato",
+        "active": "Attivi",
+        "disabled": "Disabilitati",
+        "billing": "Riepilogo Fatturazione",
+        "avgCostPerUser": "Costo Medio/Utente",
+        "totalTokens": "Token Totali",
+        "totalCalls": "Chiamate API Totali"
+      }
+    },
+    "users": {
+      "title": "Gestione Utenti",
+      "subtitle": "Gestisci tutti gli utenti registrati",
+      "stats": {
+        "total": "Totali",
+        "active": "Attivi",
+        "disabled": "Disabilitati",
+        "admins": "Amministratori"
+      },
+      "filters": {
+        "title": "Filtri",
+        "search": "Cerca utenti...",
+        "role": "Tutti i ruoli",
+        "allRoles": "Tutti i ruoli",
+        "users": "Utenti",
+        "admins": "Amministratori",
+        "superAdmins": "Super Amministratori",
+        "status": "Tutti gli stati",
+        "allStatuses": "Tutti gli stati",
+        "activeOnly": "Attivi",
+        "disabledOnly": "Disabilitati",
+        "clear": "Cancella Filtri"
+      },
+      "table": {
+        "title": "Utenti",
+        "description": "Pagina {page} di {totalPages}",
+        "email": "Email",
+        "name": "Nome",
+        "role": "Ruolo",
+        "status": "Stato",
+        "cost": "Costo",
+        "tutors": "Tutor",
+        "actions": "Azioni",
+        "empty": "Nessun utente trovato"
+      },
+      "pagination": {
+        "previous": "Precedente",
+        "next": "Successivo",
+        "info": "Pagina {page} di {totalPages}"
+      },
+      "actions": {
+        "title": "Azioni",
+        "resetPassword": {
+          "label": "Reset Password",
+          "title": "Reset Password",
+          "confirm": "Inviare email di reset password a {email}?",
+          "success": "Email di reset password inviata",
+          "error": "Errore"
+        },
+        "disable": {
+          "label": "Disabilita",
+          "title": "Disabilita Utente",
+          "confirm": "Disabilitare utente {email}? Non potrà effettuare il login.",
+          "success": "Utente disabilitato",
+          "error": "Errore"
+        },
+        "enable": {
+          "label": "Abilita",
+          "title": "Abilita Utente",
+          "confirm": "Abilitare utente {email}?",
+          "success": "Utente abilitato",
+          "error": "Errore"
+        },
+        "delete": {
+          "label": "Elimina",
+          "title": "Elimina Utente",
+          "confirm": "Eliminare permanentemente utente {email}? Questa operazione non può essere annullata!",
+          "success": "Utente eliminato",
+          "error": "Errore"
+        },
+        "promote": {
+          "label": "Promuovi ad Admin",
+          "title": "Promuovi ad Admin",
+          "confirm": "Promuovere {email} a ruolo amministratore?",
+          "success": "Utente promosso ad amministratore",
+          "error": "Errore"
+        },
+        "demote": {
+          "label": "Declassa a Utente",
+          "title": "Declassa a Utente",
+          "confirm": "Declassare {email} da amministratore a utente?",
+          "success": "Amministratore declassato a utente",
+          "error": "Errore"
+        }
+      },
+      "dialog": {
+        "cancel": "Annulla",
+        "confirm": "Conferma"
+      }
+    },
+    "billing": {
+      "title": "Dashboard Fatturazione",
+      "subtitle": "Statistiche aggregate di fatturazione e utilizzo",
+      "loading": "Caricamento dati fatturazione...",
+      "noData": "Nessun dato disponibile",
+      "period": {
+        "day": "Ultime 24 Ore",
+        "week": "Ultimi 7 Giorni",
+        "month": "Questo Mese",
+        "year": "Quest'Anno"
+      },
+      "metrics": {
+        "totalCost": "Costo Totale",
+        "vsPrevious": "vs precedente",
+        "totalUsers": "Utenti Totali",
+        "active": "attivi",
+        "totalTokens": "Token Totali",
+        "avgCost": "Costo Medio/Utente",
+        "perActiveUser": "per utente attivo"
+      },
+      "topUsers": {
+        "title": "Top Utenti per Costo",
+        "description": "Utenti con costi più elevati nel periodo selezionato",
+        "empty": "Nessun dato di utilizzo",
+        "email": "Email",
+        "name": "Nome",
+        "cost": "Costo",
+        "tokens": "Token",
+        "calls": "Chiamate API"
+      },
+      "summary": {
+        "current": "Periodo Corrente",
+        "previous": "Periodo Precedente",
+        "cost": "Costo",
+        "tokens": "Token",
+        "calls": "Chiamate API"
+      }
     }
   }
 }

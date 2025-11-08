@@ -33,7 +33,11 @@
     "profile": "Profile",
     "login": "Login",
     "signup": "Sign Up",
-    "logout": "Logout"
+    "logout": "Logout",
+    "admin": "Admin",
+    "adminDashboard": "Dashboard",
+    "adminUsers": "Users",
+    "adminBilling": "Billing"
   },
   "auth": {
     "login": "Login",
@@ -658,6 +662,191 @@
       "embedding": "Generating embeddings",
       "saving": "Saving",
       "completed": "Completed"
+    }
+  },
+  "admin": {
+    "loading": "Loading...",
+    "unauthorized": {
+      "title": "Authentication Required",
+      "description": "You must be logged in to access this page.",
+      "loginButton": "Go to Login"
+    },
+    "disabled": {
+      "title": "Account Disabled",
+      "description": "Your account has been disabled. Please contact support."
+    },
+    "forbidden": {
+      "title": "Access Denied",
+      "adminRequired": "This page requires admin privileges.",
+      "superAdminRequired": "This page requires super admin privileges.",
+      "dashboardButton": "Go to Dashboard"
+    },
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "subtitle": "System overview and management",
+      "metrics": {
+        "totalUsers": "Total Users",
+        "active": "active",
+        "totalCost": "Total Cost",
+        "thisMonth": "This month",
+        "activeUsers": "Active Users",
+        "withActivity": "With activity",
+        "growth": "Growth",
+        "vsLastMonth": "vs last month"
+      },
+      "quickActions": {
+        "title": "Quick Actions",
+        "description": "Common administrative tasks",
+        "manageUsers": "Manage Users",
+        "viewBilling": "View Billing",
+        "marketplace": "Marketplace"
+      },
+      "topUsers": {
+        "title": "Top Users by Cost",
+        "description": "Users with highest costs this period",
+        "calls": "calls"
+      },
+      "stats": {
+        "users": "Users by Role",
+        "regularUsers": "Regular Users",
+        "admins": "Admins",
+        "superAdmins": "Super Admins",
+        "status": "Users by Status",
+        "active": "Active",
+        "disabled": "Disabled",
+        "billing": "Billing Summary",
+        "avgCostPerUser": "Avg Cost/User",
+        "totalTokens": "Total Tokens",
+        "totalCalls": "Total API Calls"
+      }
+    },
+    "users": {
+      "title": "User Management",
+      "subtitle": "Manage all registered users",
+      "stats": {
+        "total": "Total",
+        "active": "Active",
+        "disabled": "Disabled",
+        "admins": "Admins"
+      },
+      "filters": {
+        "title": "Filters",
+        "search": "Search users...",
+        "role": "All roles",
+        "allRoles": "All roles",
+        "users": "Users",
+        "admins": "Admins",
+        "superAdmins": "Super Admins",
+        "status": "All statuses",
+        "allStatuses": "All statuses",
+        "activeOnly": "Active",
+        "disabledOnly": "Disabled",
+        "clear": "Clear Filters"
+      },
+      "table": {
+        "title": "Users",
+        "description": "Page {page} of {totalPages}",
+        "email": "Email",
+        "name": "Name",
+        "role": "Role",
+        "status": "Status",
+        "cost": "Cost",
+        "tutors": "Tutors",
+        "actions": "Actions",
+        "empty": "No users found"
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next",
+        "info": "Page {page} of {totalPages}"
+      },
+      "actions": {
+        "title": "Actions",
+        "resetPassword": {
+          "label": "Reset Password",
+          "title": "Reset Password",
+          "confirm": "Send password reset email to {email}?",
+          "success": "Password reset email sent",
+          "error": "Error"
+        },
+        "disable": {
+          "label": "Disable",
+          "title": "Disable User",
+          "confirm": "Disable user {email}? They will not be able to login.",
+          "success": "User disabled",
+          "error": "Error"
+        },
+        "enable": {
+          "label": "Enable",
+          "title": "Enable User",
+          "confirm": "Enable user {email}?",
+          "success": "User enabled",
+          "error": "Error"
+        },
+        "delete": {
+          "label": "Delete",
+          "title": "Delete User",
+          "confirm": "Permanently delete user {email}? This cannot be undone!",
+          "success": "User deleted",
+          "error": "Error"
+        },
+        "promote": {
+          "label": "Promote to Admin",
+          "title": "Promote to Admin",
+          "confirm": "Promote {email} to admin role?",
+          "success": "User promoted to admin",
+          "error": "Error"
+        },
+        "demote": {
+          "label": "Demote to User",
+          "title": "Demote to User",
+          "confirm": "Demote {email} from admin to user role?",
+          "success": "Admin demoted to user",
+          "error": "Error"
+        }
+      },
+      "dialog": {
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      }
+    },
+    "billing": {
+      "title": "Billing Dashboard",
+      "subtitle": "Aggregated billing and usage statistics",
+      "loading": "Loading billing data...",
+      "noData": "No data available",
+      "period": {
+        "day": "Last 24 Hours",
+        "week": "Last 7 Days",
+        "month": "This Month",
+        "year": "This Year"
+      },
+      "metrics": {
+        "totalCost": "Total Cost",
+        "vsPrevious": "vs previous",
+        "totalUsers": "Total Users",
+        "active": "active",
+        "totalTokens": "Total Tokens",
+        "avgCost": "Avg Cost/User",
+        "perActiveUser": "per active user"
+      },
+      "topUsers": {
+        "title": "Top Users by Cost",
+        "description": "Users with highest costs in selected period",
+        "empty": "No usage data",
+        "email": "Email",
+        "name": "Name",
+        "cost": "Cost",
+        "tokens": "Tokens",
+        "calls": "API Calls"
+      },
+      "summary": {
+        "current": "Current Period",
+        "previous": "Previous Period",
+        "cost": "Cost",
+        "tokens": "Tokens",
+        "calls": "API Calls"
+      }
     }
   }
 }
