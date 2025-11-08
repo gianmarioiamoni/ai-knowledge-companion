@@ -88,6 +88,16 @@
     "totalConversations": "Conversazioni Totali",
     "apiCalls": "Chiamate API",
     "costEstimate": "Stima Costi",
+    "recentActivityTitle": "Attività Recenti",
+    "recentActivityDescActive": "Riepilogo delle tue attività recenti",
+    "recentActivityDescEmpty": "I tuoi ultimi documenti e conversazioni appariranno qui",
+    "recentActivityEmpty": "Nessuna attività ancora. Inizia caricando un documento!",
+    "activityDocuments": "Documenti",
+    "activityDocumentsDesc": "{count, plural, =1 {1 documento caricato} other {# documenti caricati}}",
+    "activityTutors": "Tutor AI",
+    "activityTutorsDesc": "{count, plural, =1 {1 tutor creato} other {# tutor creati}}",
+    "activityConversations": "Conversazioni",
+    "activityConversationsDesc": "{count, plural, =1 {1 conversazione avviata} other {# conversazioni avviate}}",
     "error": {
       "title": "Errore nel Caricamento della Dashboard",
       "message": "Impossibile caricare i dati della dashboard. Riprova più tardi."

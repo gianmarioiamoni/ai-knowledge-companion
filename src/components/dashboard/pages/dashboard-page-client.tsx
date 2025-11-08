@@ -53,6 +53,37 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
   // Dynamic messages based on existing content
   const hasTutors = stats.totalTutors > 0
   const hasDocuments = stats.totalDocuments > 0
+  const hasConversations = stats.totalConversations > 0
+  
+  // Check if user has any activity
+  const hasActivity = hasDocuments || hasTutors || hasConversations
+  
+  // Build activities array for Recent Activity section
+  const activities = []
+  if (hasDocuments) {
+    activities.push({
+      icon: FileText,
+      label: t('activityDocuments'),
+      value: stats.totalDocuments,
+      description: t('activityDocumentsDesc', { count: stats.totalDocuments })
+    })
+  }
+  if (hasTutors) {
+    activities.push({
+      icon: Bot,
+      label: t('activityTutors'),
+      value: stats.totalTutors,
+      description: t('activityTutorsDesc', { count: stats.totalTutors })
+    })
+  }
+  if (hasConversations) {
+    activities.push({
+      icon: MessageSquare,
+      label: t('activityConversations'),
+      value: stats.totalConversations,
+      description: t('activityConversationsDesc', { count: stats.totalConversations })
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
@@ -118,10 +149,12 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
         </div>
 
         <RecentActivity
-          title="Recent Activity"
-          description="Your latest documents and conversations will appear here."
-          emptyMessage="No activity yet. Start by uploading a document!"
+          title={t('recentActivityTitle')}
+          description={hasActivity ? t('recentActivityDescActive') : t('recentActivityDescEmpty')}
+          emptyMessage={t('recentActivityEmpty')}
           emptyIcon={FileText}
+          hasActivity={hasActivity}
+          activities={activities}
         />
       </div>
     </div>

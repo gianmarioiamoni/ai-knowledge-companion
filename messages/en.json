@@ -88,6 +88,16 @@
     "totalConversations": "Total Conversations",
     "apiCalls": "API Calls",
     "costEstimate": "Cost Estimate",
+    "recentActivityTitle": "Recent Activity",
+    "recentActivityDescActive": "Your latest activity summary",
+    "recentActivityDescEmpty": "Your latest documents and conversations will appear here",
+    "recentActivityEmpty": "No activity yet. Start by uploading a document!",
+    "activityDocuments": "Documents",
+    "activityDocumentsDesc": "{count, plural, =1 {1 document uploaded} other {# documents uploaded}}",
+    "activityTutors": "AI Tutors",
+    "activityTutorsDesc": "{count, plural, =1 {1 tutor created} other {# tutors created}}",
+    "activityConversations": "Conversations",
+    "activityConversationsDesc": "{count, plural, =1 {1 conversation started} other {# conversations started}}",
     "error": {
       "title": "Error Loading Dashboard",
       "message": "Failed to load dashboard data. Please try again later."
