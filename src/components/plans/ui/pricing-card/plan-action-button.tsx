@@ -10,6 +10,7 @@ import { Loader2 } from 'lucide-react'
 interface PlanActionButtonProps {
   isCurrentPlan: boolean
   isMostPopular: boolean
+  isSelected: boolean
   loading: boolean
   onSelect: () => void
   t: any
@@ -18,6 +19,7 @@ interface PlanActionButtonProps {
 export function PlanActionButton({ 
   isCurrentPlan, 
   isMostPopular, 
+  isSelected,
   loading, 
   onSelect, 
   t 
@@ -29,7 +31,7 @@ export function PlanActionButton({
         size="lg"
         onClick={onSelect}
         disabled={isCurrentPlan || loading}
-        variant={isMostPopular ? 'default' : 'outline'}
+        variant={isSelected ? 'default' : 'outline'}
       >
         {loading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
         {isCurrentPlan

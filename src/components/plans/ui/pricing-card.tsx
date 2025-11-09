@@ -90,6 +90,7 @@ export function PricingCard({
       <PlanActionButton 
         isCurrentPlan={isCurrentPlan}
         isMostPopular={isMostPopular}
+        isSelected={isSelected}
         loading={loading}
         onSelect={handleSelect}
         t={t}
