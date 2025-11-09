@@ -51,9 +51,28 @@ export interface UserSubscription {
   updated_at: string
 }
 
-export interface UserSubscriptionWithPlan extends UserSubscription {
-  plan: SubscriptionPlan
+export interface UserSubscriptionWithPlan {
+  // Subscription fields
+  subscription_id: string
+  user_id: string
+  plan_id: string
+  status: SubscriptionStatus
+  start_date: string
+  end_date: string
+  trial_end_date: string | null
+  billing_cycle: BillingCycle
   days_remaining: number
+  
+  // Plan fields (flat from SQL join)
+  plan_name: PlanName
+  plan_display_name: string
+  plan_description: string | null
+  price_monthly: number
+  price_yearly: number
+  max_tutors: number
+  max_documents: number
+  max_audio_files: number
+  max_video_files: number
 }
 
 export interface UsageLimit {
