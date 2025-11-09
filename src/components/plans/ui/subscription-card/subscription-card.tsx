@@ -15,23 +15,29 @@ import { useTranslations } from 'next-intl'
 import { Card, CardContent } from '@/components/ui/card'
 import { useSubscription } from '@/hooks/use-subscription'
 import { useSubscriptionCancellation } from '@/hooks/use-subscription-cancellation'
+import { useRole } from '@/hooks/use-role'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { EmptySubscriptionState } from './subscription-card/empty-subscription-state'
 import { SubscriptionHeader } from './subscription-card/subscription-header'
 import { SubscriptionDetails } from './subscription-card/subscription-details'
 import { UsageLimitsSection } from './subscription-card/usage-limits-section'
 import { SubscriptionActions } from './subscription-card/subscription-actions'
+import { AdminUnlimitedAccess } from './subscription-card/admin-unlimited-access'
 
 export function SubscriptionCard(): JSX.Element {
   const t = useTranslations('plans.subscription')
   
+  // Check user role
+  const { isAdmin, loading: roleLoading } = useRole()
+  
   // Data fetching
-  const { subscription, loading } = useSubscription()
+  const { subscription, loading: subscriptionLoading } = useSubscription()
   
   // Business logic (delegated to hook)
   const { cancelling, handleCancel } = useSubscriptionCancellation()
 
   // Loading state
+  const loading = roleLoading || subscriptionLoading
   if (loading) {
     return (
       <Card>
@@ -42,7 +48,22 @@ export function SubscriptionCard(): JSX.Element {
     )
   }
 
-  // Empty state
+  // Admin state - show unlimited access
+  if (isAdmin) {
+    return (
+      <AdminUnlimitedAccess
+        title={t('adminTitle')}
+        description={t('adminDesc')}
+        unlimitedText={t('usage.unlimitedAccess')}
+        tutorsLabel={t('../features.tutors')}
+        documentsLabel={t('../features.documents')}
+        audioFilesLabel={t('../features.audioFiles')}
+        videoFilesLabel={t('../features.videoFiles')}
+      />
+    )
+  }
+
+  // Empty state (for normal users without subscription)
   if (!subscription) {
     return (
       <EmptySubscriptionState

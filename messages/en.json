@@ -597,9 +597,12 @@
         "documents": "{current} of {max} documents",
         "audioFiles": "{current} of {max} audio files",
         "videoFiles": "{current} of {max} video files",
-        "unlimited": "Unlimited"
+        "unlimited": "Unlimited",
+        "unlimitedAccess": "Unlimited Access"
       },
-      "limitReached": "You've reached your plan limit for {resource}. Please upgrade to create more."
+      "limitReached": "You've reached your plan limit for {resource}. Please upgrade to create more.",
+      "adminTitle": "Administrator Access",
+      "adminDesc": "You have unlimited access to all features without subscription restrictions"
     }
   },
   "multimedia": {
