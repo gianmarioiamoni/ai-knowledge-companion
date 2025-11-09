@@ -31,8 +31,43 @@ import { SubscriptionActions } from './subscription-card/subscription-actions'
 import { AdminUnlimitedAccess } from './subscription-card/admin-unlimited-access'
 
 export function SubscriptionCard(): JSX.Element {
-  const t = useTranslations('plans.subscription')
+  const tSub = useTranslations('plans.subscription')
+  const tPlans = useTranslations('plans')
+  const tCommon = useTranslations('common')
   const state = useSubscriptionCardState()
+
+  // Prepare translation object with all needed keys
+  const translations = {
+    // Subscription keys
+    title: tSub('title'),
+    statusActive: tSub('statusActive'),
+    statusTrial: tSub('statusTrial'),
+    statusCancelled: tSub('statusCancelled'),
+    statusExpired: tSub('statusExpired'),
+    expiresOn: tSub('expiresOn'),
+    nextPayment: tSub('nextPayment'),
+    billingCycle: tSub('billingCycle'),
+    changePlan: tSub('changePlan'),
+    cancelPlan: tSub('cancelPlan'),
+    upgradePlan: tSub('upgradePlan'),
+    confirmCancel: tSub('confirmCancel'),
+    confirmCancelDesc: tSub('confirmCancelDesc'),
+    confirmButton: tSub('confirmButton'),
+    adminTitle: tSub('adminTitle'),
+    adminDesc: tSub('adminDesc'),
+    usageTitle: tSub('usage.title'),
+    usageUnlimited: tSub('usage.unlimited'),
+    usageUnlimitedAccess: tSub('usage.unlimitedAccess'),
+    // Plans keys
+    monthly: tPlans('monthly'),
+    yearly: tPlans('yearly'),
+    featuresTutors: tPlans('features.tutors'),
+    featuresDocuments: tPlans('features.documents'),
+    featuresAudioFiles: tPlans('features.audioFiles'),
+    featuresVideoFiles: tPlans('features.videoFiles'),
+    // Common keys
+    cancel: tCommon('cancel')
+  }
 
   // Loading state
   if (state.type === 'loading') {
@@ -47,12 +82,12 @@ export function SubscriptionCard(): JSX.Element {
 
   // Admin state
   if (state.type === 'admin') {
-    return <AdminUnlimitedAccess {...prepareAdminData(t)} />
+    return <AdminUnlimitedAccess {...prepareAdminData(translations)} />
   }
 
   // Empty state
   if (state.type === 'empty') {
-    return <EmptySubscriptionState {...prepareEmptyStateData(t)} />
+    return <EmptySubscriptionState {...prepareEmptyStateData(translations)} />
   }
 
   // Active subscription state
@@ -60,15 +95,15 @@ export function SubscriptionCard(): JSX.Element {
 
   return (
     <Card>
-      <SubscriptionHeader {...prepareHeaderData(subscription, t)} />
+      <SubscriptionHeader {...prepareHeaderData(subscription, translations, tSub)} />
 
       <CardContent className="space-y-4">
-        <SubscriptionDetails {...prepareDetailsData(subscription, t)} />
-        <UsageLimitsSection {...prepareUsageLimitsData(subscription, t)} />
+        <SubscriptionDetails {...prepareDetailsData(subscription, translations, tSub)} />
+        <UsageLimitsSection {...prepareUsageLimitsData(subscription, translations)} />
       </CardContent>
 
       <SubscriptionActions 
-        {...prepareActionsData(subscription, cancelling, handleCancel, t)} 
+        {...prepareActionsData(subscription, cancelling, handleCancel, translations)} 
       />
     </Card>
   )

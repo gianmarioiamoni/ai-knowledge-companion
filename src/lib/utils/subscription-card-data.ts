@@ -4,15 +4,44 @@
 
 import type { UserSubscriptionWithPlan, SubscriptionStatus } from '@/types/subscription'
 
+interface Translations {
+  title: string
+  statusActive: string
+  statusTrial: string
+  statusCancelled: string
+  statusExpired: string
+  expiresOn: string
+  nextPayment: string
+  billingCycle: string
+  changePlan: string
+  cancelPlan: string
+  upgradePlan: string
+  confirmCancel: string
+  confirmCancelDesc: string
+  confirmButton: string
+  adminTitle: string
+  adminDesc: string
+  usageTitle: string
+  usageUnlimited: string
+  usageUnlimitedAccess: string
+  monthly: string
+  yearly: string
+  featuresTutors: string
+  featuresDocuments: string
+  featuresAudioFiles: string
+  featuresVideoFiles: string
+  cancel: string
+}
+
 /**
- * Get status label translation key for a given subscription status
+ * Get status label for a given subscription status
  */
-export function getStatusLabelKey(status: SubscriptionStatus): string {
+export function getStatusLabel(status: SubscriptionStatus, translations: Translations): string {
   const statusMap: Record<SubscriptionStatus, string> = {
-    active: 'statusActive',
-    trial: 'statusTrial',
-    cancelled: 'statusCancelled',
-    expired: 'statusExpired'
+    active: translations.statusActive,
+    trial: translations.statusTrial,
+    cancelled: translations.statusCancelled,
+    expired: translations.statusExpired
   }
   return statusMap[status]
 }
@@ -22,15 +51,16 @@ export function getStatusLabelKey(status: SubscriptionStatus): string {
  */
 export function prepareHeaderData(
   subscription: UserSubscriptionWithPlan,
-  t: any
+  translations: Translations,
+  tSub: any
 ) {
   return {
     subscription,
-    title: t('title'),
-    statusLabel: t(getStatusLabelKey(subscription.status)),
-    monthlyText: t('../monthly'),
-    yearlyText: t('../yearly'),
-    trialText: t('statusTrial')
+    title: translations.title,
+    statusLabel: getStatusLabel(subscription.status, translations),
+    monthlyText: translations.monthly,
+    yearlyText: translations.yearly,
+    trialText: translations.statusTrial
   }
 }
 
@@ -39,16 +69,17 @@ export function prepareHeaderData(
  */
 export function prepareDetailsData(
   subscription: UserSubscriptionWithPlan,
-  t: any
+  translations: Translations,
+  tSub: any
 ) {
   return {
     subscription,
-    expiresOnText: t('expiresOn'),
-    nextPaymentText: t('nextPayment'),
-    billingCycleText: t('billingCycle'),
-    daysRemainingText: t('daysRemaining', { days: subscription.days_remaining }),
-    monthlyText: t('../monthly'),
-    yearlyText: t('../yearly')
+    expiresOnText: translations.expiresOn,
+    nextPaymentText: translations.nextPayment,
+    billingCycleText: translations.billingCycle,
+    daysRemainingText: tSub('daysRemaining', { days: subscription.days_remaining }),
+    monthlyText: translations.monthly,
+    yearlyText: translations.yearly
   }
 }
 
@@ -57,15 +88,15 @@ export function prepareDetailsData(
  */
 export function prepareUsageLimitsData(
   subscription: UserSubscriptionWithPlan,
-  t: any
+  translations: Translations
 ) {
   return {
     subscription,
-    title: t('usage.title'),
-    tutorsLabel: t('../features.tutors'),
-    documentsLabel: t('../features.documents'),
-    audioFilesLabel: t('../features.audioFiles'),
-    unlimitedText: t('usage.unlimited')
+    title: translations.usageTitle,
+    tutorsLabel: translations.featuresTutors,
+    documentsLabel: translations.featuresDocuments,
+    audioFilesLabel: translations.featuresAudioFiles,
+    unlimitedText: translations.usageUnlimited
   }
 }
 
@@ -76,43 +107,43 @@ export function prepareActionsData(
   subscription: UserSubscriptionWithPlan,
   cancelling: boolean,
   handleCancel: () => void,
-  t: any
+  translations: Translations
 ) {
   return {
     status: subscription.status,
     cancelling,
     onCancel: handleCancel,
-    changePlanText: t('changePlan'),
-    cancelPlanText: t('cancelPlan'),
-    confirmCancelTitle: t('confirmCancel'),
-    confirmCancelDesc: t('confirmCancelDesc'),
-    confirmButtonText: t('confirmButton'),
-    cancelText: t('../../../common.cancel')
+    changePlanText: translations.changePlan,
+    cancelPlanText: translations.cancelPlan,
+    confirmCancelTitle: translations.confirmCancel,
+    confirmCancelDesc: translations.confirmCancelDesc,
+    confirmButtonText: translations.confirmButton,
+    cancelText: translations.cancel
   }
 }
 
 /**
  * Prepare data for AdminUnlimitedAccess component
  */
-export function prepareAdminData(t: any) {
+export function prepareAdminData(translations: Translations) {
   return {
-    title: t('adminTitle'),
-    description: t('adminDesc'),
-    unlimitedText: t('usage.unlimitedAccess'),
-    tutorsLabel: t('../features.tutors'),
-    documentsLabel: t('../features.documents'),
-    audioFilesLabel: t('../features.audioFiles'),
-    videoFilesLabel: t('../features.videoFiles')
+    title: translations.adminTitle,
+    description: translations.adminDesc,
+    unlimitedText: translations.usageUnlimitedAccess,
+    tutorsLabel: translations.featuresTutors,
+    documentsLabel: translations.featuresDocuments,
+    audioFilesLabel: translations.featuresAudioFiles,
+    videoFilesLabel: translations.featuresVideoFiles
   }
 }
 
 /**
  * Prepare data for EmptySubscriptionState component
  */
-export function prepareEmptyStateData(t: any) {
+export function prepareEmptyStateData(translations: Translations) {
   return {
-    title: t('title'),
-    upgradePlanText: t('upgradePlan')
+    title: translations.title,
+    upgradePlanText: translations.upgradePlan
   }
 }
 
