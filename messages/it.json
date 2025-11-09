@@ -562,6 +562,27 @@
       "description": "Sei sul piano {plan}. {days, plural, =0 {Scade oggi} =1 {Scade tra 1 giorno} other {Scade tra # giorni}}."
     },
     "upgradeSuccess": "Piano aggiornato con successo!",
+    "payment": {
+      "processing": "Elaborazione pagamento...",
+      "redirecting": "Reindirizzamento al checkout...",
+      "success": "Pagamento effettuato!",
+      "cancelled": "Pagamento annullato",
+      "failed": "Pagamento fallito",
+      "secure": "Pagamento sicuro powered by Stripe",
+      "methodsAccepted": "Accettiamo carte di credito e PayPal",
+      "subscribe": "Abbonati Ora",
+      "manageSubscription": "Gestisci Abbonamento",
+      "openPortal": "Apri Portale Fatturazione",
+      "changePlan": "Cambia Piano",
+      "cancelSubscription": "Cancella Abbonamento",
+      "reactivateSubscription": "Riattiva Abbonamento",
+      "error": {
+        "title": "Errore Pagamento",
+        "generic": "Qualcosa è andato storto. Riprova.",
+        "noCustomer": "Nessun metodo di pagamento trovato. Abbonati prima ad un piano.",
+        "sessionFailed": "Creazione sessione pagamento fallita. Riprova."
+      }
+    },
     "upgradeError": "Impossibile aggiornare il piano. Riprova.",
     "cancelSuccess": "Abbonamento cancellato con successo.",
     "cancelError": "Impossibile cancellare l'abbonamento. Riprova.",

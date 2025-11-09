@@ -562,6 +562,27 @@
       "description": "You are on the {plan} plan. {days, plural, =0 {Expires today} =1 {Expires in 1 day} other {Expires in # days}}."
     },
     "upgradeSuccess": "Plan upgraded successfully!",
+    "payment": {
+      "processing": "Processing payment...",
+      "redirecting": "Redirecting to checkout...",
+      "success": "Payment successful!",
+      "cancelled": "Payment cancelled",
+      "failed": "Payment failed",
+      "secure": "Secure payment powered by Stripe",
+      "methodsAccepted": "We accept credit cards and PayPal",
+      "subscribe": "Subscribe Now",
+      "manageSubscription": "Manage Subscription",
+      "openPortal": "Open Billing Portal",
+      "changePlan": "Change Plan",
+      "cancelSubscription": "Cancel Subscription",
+      "reactivateSubscription": "Reactivate Subscription",
+      "error": {
+        "title": "Payment Error",
+        "generic": "Something went wrong. Please try again.",
+        "noCustomer": "No payment method found. Please subscribe to a plan first.",
+        "sessionFailed": "Failed to create payment session. Please try again."
+      }
+    },
     "upgradeError": "Failed to upgrade plan. Please try again.",
     "cancelSuccess": "Subscription cancelled successfully.",
     "cancelError": "Failed to cancel subscription. Please try again.",
