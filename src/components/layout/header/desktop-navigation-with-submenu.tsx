@@ -51,6 +51,7 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
     },
     { href: '/tutors', label: t('tutors'), hideForAdmins: true },
     { href: '/marketplace', label: t('marketplace'), hideForAdmins: true },
+    { href: '/plans', label: t('plans'), hideForAdmins: true },
     { href: '/dashboard', label: t('dashboard'), hideForAdmins: true },
     // Admin menu - only for admin/super_admin
     {

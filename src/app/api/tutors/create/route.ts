@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { createTutorSchema } from '@/lib/schemas/tutors';
 import { DEFAULT_TUTOR_CONFIG } from '@/types/tutors';
+import { enforceUsageLimit } from '@/lib/utils/usage-limits';
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,6 +34,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
+      );
+    }
+
+    // Check usage limits
+    try {
+      await enforceUsageLimit(user.id, 'tutors');
+    } catch (limitError) {
+      return NextResponse.json(
+        { error: limitError instanceof Error ? limitError.message : 'Usage limit reached' },
+        { status: 403 }
       );
     }
 

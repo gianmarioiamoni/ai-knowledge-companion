@@ -29,6 +29,7 @@
     "multimedia": "Multimedia",
     "marketplace": "Marketplace",
     "billing": "Billing",
+    "plans": "Plans",
     "settings": "Settings",
     "profile": "Profile",
     "login": "Login",
@@ -533,6 +534,72 @@
     "error": {
       "title": "Error Loading Profile",
       "notFound": "Profile not found"
+    }
+  },
+  "plans": {
+    "title": "Choose Your Plan",
+    "subtitle": "Select the perfect plan for your needs. Upgrade or downgrade anytime.",
+    "currentPlan": "Current Plan",
+    "mostPopular": "Most Popular",
+    "selectPlan": "Select Plan",
+    "processing": "Processing...",
+    "unlimited": "Unlimited",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "month": "month",
+    "year": "year",
+    "save": "Save",
+    "freeTrial": "{days} days free",
+    "features": {
+      "tutors": "AI Tutors",
+      "documents": "Documents",
+      "audioFiles": "Audio Files",
+      "videoFiles": "Video Files"
+    },
+    "currentPlanInfo": {
+      "title": "Your Current Subscription",
+      "description": "You are on the {plan} plan. {days, plural, =0 {Expires today} =1 {Expires in 1 day} other {Expires in # days}}."
+    },
+    "upgradeSuccess": "Plan upgraded successfully!",
+    "upgradeError": "Failed to upgrade plan. Please try again.",
+    "cancelSuccess": "Subscription cancelled successfully.",
+    "cancelError": "Failed to cancel subscription. Please try again.",
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "question1": "Can I change my plan anytime?",
+      "answer1": "Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately and we'll prorate any charges.",
+      "question2": "What happens when my trial ends?",
+      "answer2": "When your 30-day trial ends, you'll need to choose a paid plan to continue using the service. Your data will be preserved.",
+      "question3": "Can I cancel my subscription?",
+      "answer3": "Yes, you can cancel anytime. You'll continue to have access until the end of your current billing period."
+    },
+    "subscription": {
+      "title": "Current Subscription",
+      "status": "Status",
+      "plan": "Plan",
+      "billingCycle": "Billing Cycle",
+      "nextPayment": "Next Payment",
+      "expiresOn": "Expires On",
+      "daysRemaining": "{days, plural, =0 {Expires today} =1 {1 day remaining} other {# days remaining}}",
+      "statusActive": "Active",
+      "statusTrial": "Trial",
+      "statusCancelled": "Cancelled",
+      "statusExpired": "Expired",
+      "changePlan": "Change Plan",
+      "cancelPlan": "Cancel Subscription",
+      "upgradePlan": "Upgrade Plan",
+      "confirmCancel": "Are you sure you want to cancel your subscription?",
+      "confirmCancelDesc": "You will lose access to premium features at the end of your billing period.",
+      "confirmButton": "Yes, Cancel Subscription",
+      "usage": {
+        "title": "Plan Usage",
+        "tutors": "{current} of {max} tutors",
+        "documents": "{current} of {max} documents",
+        "audioFiles": "{current} of {max} audio files",
+        "videoFiles": "{current} of {max} video files",
+        "unlimited": "Unlimited"
+      },
+      "limitReached": "You've reached your plan limit for {resource}. Please upgrade to create more."
     }
   },
   "multimedia": {

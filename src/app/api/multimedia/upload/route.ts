@@ -5,6 +5,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { enforceUsageLimit } from "@/lib/utils/usage-limits";
 import {
   uploadMultimediaFile,
   createMultimediaDocument,
@@ -49,6 +50,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { success: false, error: `Unsupported file type: ${file.type}` },
         { status: 400 }
+      );
+    }
+
+    // Check usage limits based on media type
+    try {
+      await enforceUsageLimit(user.id, mediaType);
+    } catch (limitError) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: limitError instanceof Error ? limitError.message : "Usage limit reached" 
+        },
+        { status: 403 }
       );
     }
 

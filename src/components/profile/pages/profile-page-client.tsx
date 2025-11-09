@@ -4,6 +4,7 @@ import { JSX } from 'react'
 import { useProfile } from '@/hooks/use-profile'
 import { useTranslations } from 'next-intl'
 import { AvatarUpload, ProfileForm, PasswordChange, DeleteAccount } from '../ui'
+import { SubscriptionCard } from '@/components/plans/ui/subscription-card'
 import { Card, CardContent } from '@/components/ui/card'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { AlertCircle } from 'lucide-react'
@@ -154,6 +155,9 @@ export function ProfilePageClient({ locale }: ProfilePageClientProps): JSX.Eleme
             onSave={handleProfileSave}
             saving={saving}
           />
+
+          {/* Subscription Card */}
+          <SubscriptionCard />
 
           {/* Password Change */}
           <PasswordChange

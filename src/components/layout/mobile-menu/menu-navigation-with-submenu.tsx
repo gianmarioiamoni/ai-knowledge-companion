@@ -8,7 +8,7 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { FileText, Users, LayoutDashboard, Store, CreditCard, FolderOpen, Music, ChevronDown, Shield, type LucideIcon } from 'lucide-react'
+import { FileText, Users, LayoutDashboard, Store, CreditCard, FolderOpen, Music, ChevronDown, Shield, CreditCard as PlansIcon, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useRole } from '@/hooks/use-role'
 import type { JSX } from 'react'
@@ -56,6 +56,7 @@ export function MenuNavigationWithSubmenu({ user, pathname, onNavigate }: MenuNa
     },
     { href: '/tutors', icon: Users, label: t('tutors'), hideForAdmins: true },
     { href: '/marketplace', icon: Store, label: t('marketplace'), hideForAdmins: true },
+    { href: '/plans', icon: PlansIcon, label: t('plans'), hideForAdmins: true },
     { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard'), hideForAdmins: true },
     // Admin menu - only for admin/super_admin
     {
