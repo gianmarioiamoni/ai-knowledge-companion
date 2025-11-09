@@ -17,7 +17,9 @@ SET max_image_files = CASE name
 END,
 updated_at = NOW();
 
--- 3. Update get_user_subscription function to include max_image_files
+-- 3. Drop and recreate get_user_subscription function to include max_image_files
+DROP FUNCTION IF EXISTS get_user_subscription(UUID);
+
 CREATE OR REPLACE FUNCTION get_user_subscription(p_user_id UUID)
 RETURNS TABLE (
   subscription_id UUID,
@@ -81,7 +83,9 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 4. Update check_usage_limit function to support 'image' resource type
+-- 4. Drop and recreate check_usage_limit function to support 'image' resource type
+DROP FUNCTION IF EXISTS check_usage_limit(UUID, VARCHAR);
+
 CREATE OR REPLACE FUNCTION check_usage_limit(
   p_user_id UUID,
   p_resource_type VARCHAR -- 'tutors', 'documents', 'audio', 'video', 'image'
