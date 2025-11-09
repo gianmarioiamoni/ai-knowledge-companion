@@ -32,6 +32,11 @@ export function buildPlanFeatures(
       included: plan.max_audio_files > 0
     },
     {
+      name: t('features.imageFiles'),
+      value: plan.max_image_files,
+      included: plan.max_image_files > 0
+    },
+    {
       name: t('features.videoFiles'),
       value: plan.max_video_files,
       included: plan.max_video_files > 0

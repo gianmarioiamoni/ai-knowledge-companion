@@ -64,6 +64,7 @@ export function SubscriptionCard(): JSX.Element {
     featuresTutors: tPlans('features.tutors'),
     featuresDocuments: tPlans('features.documents'),
     featuresAudioFiles: tPlans('features.audioFiles'),
+    featuresImageFiles: tPlans('features.imageFiles'),
     featuresVideoFiles: tPlans('features.videoFiles'),
     // Common keys
     cancel: tCommon('cancel')

@@ -554,6 +554,7 @@
       "tutors": "AI Tutors",
       "documents": "Documents",
       "audioFiles": "Audio Files",
+      "imageFiles": "Image Files",
       "videoFiles": "Video Files"
     },
     "currentPlanInfo": {
@@ -596,6 +597,7 @@
         "tutors": "{current} of {max} tutors",
         "documents": "{current} of {max} documents",
         "audioFiles": "{current} of {max} audio files",
+        "imageFiles": "{current} of {max} image files",
         "videoFiles": "{current} of {max} video files",
         "unlimited": "Unlimited",
         "unlimitedAccess": "Unlimited Access"

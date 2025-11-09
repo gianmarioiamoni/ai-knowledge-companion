@@ -21,6 +21,7 @@ export interface SubscriptionPlan {
   max_documents: number
   max_audio_files: number
   max_video_files: number
+  max_image_files: number
   
   // Features
   trial_days: number
@@ -73,6 +74,7 @@ export interface UserSubscriptionWithPlan {
   max_documents: number
   max_audio_files: number
   max_video_files: number
+  max_image_files: number
 }
 
 export interface UsageLimit {

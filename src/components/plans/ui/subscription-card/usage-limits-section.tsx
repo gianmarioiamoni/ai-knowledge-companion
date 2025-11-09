@@ -12,6 +12,7 @@ interface UsageLimitsSectionProps {
   tutorsLabel: string
   documentsLabel: string
   audioFilesLabel: string
+  imageFilesLabel: string
   unlimitedText: string
 }
 
@@ -21,13 +22,15 @@ export function UsageLimitsSection({
   tutorsLabel,
   documentsLabel,
   audioFilesLabel,
+  imageFilesLabel,
   unlimitedText
 }: UsageLimitsSectionProps): JSX.Element {
   // TODO: Replace with actual usage data when available
   const currentUsage = {
     tutors: 0,
     documents: 0,
-    audio: 0
+    audio: 0,
+    images: 0
   }
 
   return (
@@ -58,6 +61,17 @@ export function UsageLimitsSection({
           label={audioFilesLabel}
           current={currentUsage.audio}
           max={subscription.max_audio_files}
+          isUnlimited={false}
+          unlimitedText={unlimitedText}
+        />
+      )}
+
+      {/* Image Files */}
+      {subscription.max_image_files > 0 && (
+        <UsageItem
+          label={imageFilesLabel}
+          current={currentUsage.images}
+          max={subscription.max_image_files}
           isUnlimited={false}
           unlimitedText={unlimitedText}
         />

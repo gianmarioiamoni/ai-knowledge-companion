@@ -29,6 +29,7 @@ interface Translations {
   featuresTutors: string
   featuresDocuments: string
   featuresAudioFiles: string
+  featuresImageFiles: string
   featuresVideoFiles: string
   cancel: string
 }
@@ -96,6 +97,7 @@ export function prepareUsageLimitsData(
     tutorsLabel: translations.featuresTutors,
     documentsLabel: translations.featuresDocuments,
     audioFilesLabel: translations.featuresAudioFiles,
+    imageFilesLabel: translations.featuresImageFiles,
     unlimitedText: translations.usageUnlimited
   }
 }
