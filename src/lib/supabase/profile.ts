@@ -136,6 +136,7 @@ export async function deleteAccount(password: string): Promise<{ error?: string 
       return { error: result.error }
     }
 
+    // Success - the session has been cleared by the API
     return {}
   } catch (error) {
     console.error('Delete account exception:', error)

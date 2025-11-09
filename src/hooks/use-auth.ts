@@ -3,20 +3,41 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
+import { useRouter } from "@/i18n/navigation";
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
     // Get initial session
     const getInitialSession = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setLoading(false);
+      try {
+        const {
+          data: { session },
+          error
+        } = await supabase.auth.getSession();
+        
+        // If we get a 403 error, the user account has been deleted
+        // Clear the session and redirect to login
+        if (error && error.message.includes('403')) {
+          console.warn('⚠️  User account deleted or session invalid, clearing local session...')
+          await supabase.auth.signOut()
+          router.push('/login')
+          setUser(null)
+          setLoading(false)
+          return
+        }
+        
+        setUser(session?.user ?? null);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error getting initial session:', err)
+        setUser(null)
+        setLoading(false)
+      }
     };
 
     getInitialSession();
@@ -25,12 +46,18 @@ export function useAuth() {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user ?? null);
+      // Handle specific auth events
+      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+        setUser(null)
+        router.push('/login')
+      } else {
+        setUser(session?.user ?? null);
+      }
       setLoading(false);
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase.auth]);
+  }, [supabase.auth, router]);
 
   const signIn = async (email: string, password: string) => {
     const { data, error } = await supabase.auth.signInWithPassword({

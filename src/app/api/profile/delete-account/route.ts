@@ -33,6 +33,10 @@ export async function DELETE(request: Request) {
       )
     }
 
+    // CRITICAL: Sign out the user to clear the session
+    // This prevents 403 errors from trying to access a deleted user
+    await supabase.auth.signOut()
+
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error('Account deletion exception:', error)

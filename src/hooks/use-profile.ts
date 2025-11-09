@@ -80,8 +80,9 @@ export function useProfile() {
       return { success: false, error: deleteError }
     }
     
-    // Redirect to home page
-    router.push('/')
+    // Account deleted successfully - session has been cleared by the API
+    // Redirect to login page to ensure clean state
+    router.push('/login')
     return { success: true }
   }, [router])
 
