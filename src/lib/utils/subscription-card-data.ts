@@ -107,20 +107,11 @@ export function prepareUsageLimitsData(
  */
 export function prepareActionsData(
   subscription: UserSubscriptionWithPlan,
-  cancelling: boolean,
-  handleCancel: () => void,
   translations: Translations
 ) {
   return {
     status: subscription.status,
-    cancelling,
-    onCancel: handleCancel,
     changePlanText: translations.changePlan,
-    cancelPlanText: translations.cancelPlan,
-    confirmCancelTitle: translations.confirmCancel,
-    confirmCancelDesc: translations.confirmCancelDesc,
-    confirmButtonText: translations.confirmButton,
-    cancelText: translations.cancel
   }
 }
 

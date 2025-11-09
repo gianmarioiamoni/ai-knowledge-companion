@@ -104,7 +104,7 @@ export function SubscriptionCard(): JSX.Element {
       </CardContent>
 
       <SubscriptionActions 
-        {...prepareActionsData(subscription, cancelling, handleCancel, translations)} 
+        {...prepareActionsData(subscription, translations)} 
       />
     </Card>
   )

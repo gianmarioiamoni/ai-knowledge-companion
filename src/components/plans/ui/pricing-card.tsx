@@ -88,9 +88,12 @@ export function PricingCard({
       </CardContent>
 
       <PlanActionButton 
+        planName={plan.name}
+        billingCycle={billingCycle}
         isCurrentPlan={isCurrentPlan}
         isMostPopular={isMostPopular}
         isSelected={isSelected}
+        isFree={currentPricing.isFree}
         loading={loading}
         onSelect={handleSelect}
         t={t}

@@ -6,6 +6,7 @@ import { useRouter } from '@/i18n/navigation'
 import { useDashboard } from '@/hooks/use-dashboard'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { ErrorPage } from '@/components/error'
+import { PaymentStatus } from '@/components/stripe'
 import { 
   StatsCard, 
   ActionCard, 
@@ -88,6 +89,9 @@ export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.E
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-4 sm:py-6 lg:py-8">
       <div className="mx-auto px-3 sm:px-4 lg:px-6 max-w-7xl">
+        {/* Payment Status Alert */}
+        <PaymentStatus />
+
         <WelcomeHeader
           title={t('title')}
           welcomeMessage={t('welcome')}
