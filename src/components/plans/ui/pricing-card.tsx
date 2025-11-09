@@ -27,6 +27,7 @@ interface PricingCardProps {
   plan: SubscriptionPlan
   isCurrentPlan?: boolean
   isMostPopular?: boolean
+  isSelected?: boolean
   onSelectPlan: (planName: string, billingCycle: 'monthly' | 'yearly' | null) => Promise<void>
   t: any // Translation function
 }
@@ -35,6 +36,7 @@ export function PricingCard({
   plan,
   isCurrentPlan = false,
   isMostPopular = false,
+  isSelected = false,
   onSelectPlan,
   t
 }: PricingCardProps): JSX.Element {
@@ -56,9 +58,10 @@ export function PricingCard({
 
   return (
     <Card className={cn(
-      "relative flex flex-col",
-      isMostPopular && "border-primary shadow-lg scale-105",
-      isCurrentPlan && "border-green-500"
+      "relative flex flex-col transition-all duration-200 cursor-pointer",
+      isSelected && "border-primary shadow-lg scale-105",
+      isCurrentPlan && "border-green-500",
+      !isSelected && !isCurrentPlan && "hover:shadow-md"
     )}>
       <PlanBadges 
         isMostPopular={isMostPopular}
