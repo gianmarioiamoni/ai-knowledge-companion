@@ -4,6 +4,7 @@
  */
 
 import OpenAI from "openai";
+import { extractAudioFromVideo } from "@/lib/utils/video-audio-extractor";
 import type {
   TranscriptionOptions,
   TranscriptionResult,
@@ -171,6 +172,72 @@ export async function transcribeAudioFromStorage(
         error instanceof Error
           ? error.message
           : "Failed to download and transcribe from storage",
+    };
+  }
+}
+
+/**
+ * Transcribe video file from Supabase storage (extracts audio first)
+ */
+export async function transcribeVideoFromStorage(
+  supabaseClient: any,
+  bucket: string,
+  storagePath: string,
+  fileName: string,
+  options: TranscriptionOptions = {}
+): Promise<TranscriptionResult> {
+  try {
+    console.log("📦 Downloading video from storage:", { bucket, storagePath });
+
+    // Download video file from Supabase storage
+    const { data, error } = await supabaseClient.storage
+      .from(bucket)
+      .download(storagePath);
+
+    if (error) {
+      throw new Error(`Failed to download from storage: ${error.message}`);
+    }
+
+    // Convert Blob to Buffer
+    const arrayBuffer = await data.arrayBuffer();
+    const videoBuffer = Buffer.from(arrayBuffer);
+
+    console.log(`🎬 Video downloaded: ${(videoBuffer.length / 1024 / 1024).toFixed(2)} MB`);
+    console.log("🔊 Extracting audio from video...");
+
+    // Extract audio from video
+    const extractionResult = await extractAudioFromVideo(videoBuffer, {
+      format: 'mp3',
+      bitrate: '128k',
+      sampleRate: 44100,
+    });
+
+    if (extractionResult.error || !extractionResult.audioBuffer) {
+      throw new Error(extractionResult.error || "Failed to extract audio from video");
+    }
+
+    console.log(`✅ Audio extracted: ${(extractionResult.audioBuffer.length / 1024 / 1024).toFixed(2)} MB`);
+
+    // Check if extracted audio is under Whisper limit (25MB)
+    const MAX_WHISPER_SIZE = 25 * 1024 * 1024; // 25MB
+    if (extractionResult.audioBuffer.length > MAX_WHISPER_SIZE) {
+      throw new Error(
+        `Extracted audio (${(extractionResult.audioBuffer.length / 1024 / 1024).toFixed(2)} MB) ` +
+        `exceeds Whisper API limit (25 MB). Try a shorter video or lower quality audio extraction.`
+      );
+    }
+
+    // Transcribe extracted audio
+    const audioFileName = fileName.replace(/\.[^/.]+$/, '.mp3');
+    return await transcribeAudio(extractionResult.audioBuffer, audioFileName, options);
+  } catch (error) {
+    console.error("❌ Video transcription error:", error);
+    return {
+      text: "",
+      error:
+        error instanceof Error
+          ? error.message
+          : "Failed to transcribe video",
     };
   }
 }

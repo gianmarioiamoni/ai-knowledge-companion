@@ -22,6 +22,34 @@ Upload → Queue → Worker → Transcription → Chunking → Embeddings → Re
 
 ---
 
+## **📋 Prerequisites**
+
+### **FFmpeg (Required for Video Transcription)**
+
+Video transcription requires FFmpeg to extract audio from video files before sending to Whisper API.
+
+**Check if installed**:
+```bash
+node scripts/verify-ffmpeg.js
+```
+
+**Install FFmpeg**:
+
+- **macOS**: `brew install ffmpeg`
+- **Ubuntu/Debian**: `sudo apt install ffmpeg`
+- **CentOS/RHEL**: `sudo yum install ffmpeg`
+- **Docker**: Add `RUN apt-get install -y ffmpeg` to Dockerfile
+
+**Why needed?**
+- Whisper API has a 25MB file size limit
+- Videos are often 50-500MB
+- FFmpeg extracts audio (~5-10MB) which fits under the limit
+- 48MB video → 5MB audio (MP3, 128kbps)
+
+For detailed setup, see [`docs/VIDEO_TRANSCRIPTION_SETUP.md`](docs/VIDEO_TRANSCRIPTION_SETUP.md).
+
+---
+
 ## **🚀 Setup Options**
 
 ### **Option 1: Development - Auto-Processing Hook** ⚡

@@ -12,7 +12,7 @@ import { Card } from '@/components/ui/card'
 import { Music, Video, Image as ImageIcon, AlertCircle } from 'lucide-react'
 import { AudioUploadSection } from '../sections/audio-upload-section'
 import { ImageUploadSection } from '../sections/image-upload-section'
-import { ComingSoonSection } from '../ui/coming-soon-section'
+import { VideoUploadSection } from '../sections/video-upload-section'
 import type { JSX } from 'react'
 
 export function MultimediaPageClient(): JSX.Element {
@@ -42,7 +42,7 @@ export function MultimediaPageClient(): JSX.Element {
             <ImageIcon className="h-4 w-4" />
             <span className="hidden sm:inline">{t('tabs.images')}</span>
           </TabsTrigger>
-          <TabsTrigger value="video" className="flex items-center gap-2" disabled>
+          <TabsTrigger value="video" className="flex items-center gap-2">
             <Video className="h-4 w-4" />
             <span className="hidden sm:inline">{t('tabs.video')}</span>
           </TabsTrigger>
@@ -58,13 +58,9 @@ export function MultimediaPageClient(): JSX.Element {
           <ImageUploadSection />
         </TabsContent>
 
-        {/* Video Tab - Coming Soon */}
+        {/* Video Tab */}
         <TabsContent value="video" className="mt-6">
-          <ComingSoonSection
-            icon={Video}
-            title={t('video.title')}
-            description={t('video.notAvailable')}
-          />
+          <VideoUploadSection />
         </TabsContent>
       </Tabs>
     </div>

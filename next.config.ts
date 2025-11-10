@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Disable source maps in development for Chrome compatibility
   productionBrowserSourceMaps: false,
+  // Allow large file uploads (500MB for videos)
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '500mb',
+    },
+  },
   webpack: (config, { dev, isServer }) => {
     // Fix webpack cache warnings in development
     if (dev && !isServer) {

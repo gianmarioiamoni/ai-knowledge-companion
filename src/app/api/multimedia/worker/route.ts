@@ -16,6 +16,7 @@ import {
 } from "@/lib/supabase/multimedia";
 import {
   transcribeAudioFromStorage,
+  transcribeVideoFromStorage,
 } from "@/lib/openai/transcription";
 import {
   analyzeImageFromStorage,
@@ -121,7 +122,42 @@ export async function POST(request: NextRequest) {
           break;
 
         case "video":
-          throw new Error("Video processing not yet implemented");
+          console.log("🎬 Transcribing video (extracting audio first)...");
+          await updateProcessingJobStatus(queue_id, "processing", 25, undefined, supabase);
+
+          // Video transcription: extract audio first, then transcribe
+          // This allows videos >25MB as long as extracted audio is <25MB
+          const videoTranscriptionResult = await transcribeVideoFromStorage(
+            supabase,
+            "videos", // videos bucket
+            storage_path,
+            document.title,
+            {
+              language: undefined, // auto-detect
+              temperature: 0,
+            }
+          );
+
+          if (videoTranscriptionResult.error) {
+            throw new Error(videoTranscriptionResult.error);
+          }
+
+          extractedText = videoTranscriptionResult.text;
+          processingCost = videoTranscriptionResult.cost || 0;
+
+          await updateDocumentTranscription(
+            document_id,
+            {
+              transcriptionStatus: "completed",
+              transcriptionText: extractedText,
+              transcriptionCost: processingCost,
+            },
+            supabase
+          );
+
+          console.log("✅ Video transcription completed");
+          break;
+
 
         case "image":
           console.log("🖼️  Analyzing image with Vision API...");
