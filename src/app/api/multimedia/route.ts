@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error }, { status: 500 });
     }
 
-    return NextResponse.json({ documents });
+    return NextResponse.json({ files: documents });
   } catch (error) {
     console.error("Get multimedia error:", error);
     return NextResponse.json(

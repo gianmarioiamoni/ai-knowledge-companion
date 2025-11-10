@@ -40,7 +40,14 @@ export async function checkUsageLimit(
       }
     }
     
-    return data[0]
+    // Map snake_case from database to camelCase for TypeScript
+    const dbResult = data[0]
+    return {
+      canCreate: dbResult.can_create,
+      currentCount: dbResult.current_count,
+      maxAllowed: dbResult.max_allowed,
+      message: dbResult.message
+    }
   } catch (error) {
     console.error('Exception checking usage limit:', error)
     return {

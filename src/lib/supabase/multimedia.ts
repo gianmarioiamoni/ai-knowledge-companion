@@ -4,6 +4,7 @@
  */
 
 import { createClient } from "@/lib/supabase/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   MultimediaDocument,
   MediaType,
@@ -14,6 +15,10 @@ import type {
   TranscriptionStatus,
 } from "@/types/multimedia";
 import type { Database } from "@/types/database";
+
+// Type for Supabase client - using SupabaseClient without specific Database constraints
+// to allow compatibility between server and browser clients
+type SupabaseClientType = SupabaseClient<Database>;
 
 type MediaProcessingQueueInsert =
   Database["public"]["Tables"]["media_processing_queue"]["Insert"];
@@ -31,7 +36,7 @@ export async function uploadMultimediaFile(
   file: File,
   userId: string,
   mediaType: MediaType,
-  supabaseClient?: any
+  supabaseClient?: SupabaseClientType
 ): Promise<{ path: string; error?: string }> {
   try {
     const supabase = supabaseClient || createClient();
@@ -80,7 +85,7 @@ export async function uploadMultimediaFile(
 /**
  * Get bucket name for media type
  */
-function getBucketForMediaType(mediaType: MediaType): string {
+export function getBucketForMediaType(mediaType: MediaType): string {
   switch (mediaType) {
     case "audio":
       return "audio";
@@ -112,13 +117,14 @@ export async function createMultimediaDocument(
     width?: number;
     height?: number;
   },
-  supabaseClient?: any
+  supabaseClient?: SupabaseClientType
 ): Promise<{ document?: MultimediaDocument; error?: string }> {
   try {
     const supabase = supabaseClient || createClient();
 
     const { data: document, error } = await supabase
       .from("documents")
+      // @ts-ignore - Supabase auto-generated types have table marked as 'never'
       .insert({
         owner_id: data.userId,
         title: data.fileName,
@@ -138,22 +144,25 @@ export async function createMultimediaDocument(
 
     if (error) {
       console.error("❌ Document creation error:", error);
-      return { error: error.message };
+      return { error: (error as { message: string }).message };
     }
 
+    // Type assertion for document due to Supabase generated types
+    const doc = document as Record<string, unknown>;
+    
     return {
       document: {
-        ...document,
+        ...doc,
         chunksCount: 0,
-        createdAt: document.created_at,
-        updatedAt: document.updated_at,
-        userId: document.owner_id,
-        fileName: document.title,
-        fileSize: document.file_size || 0,
-        storagePath: document.storage_path,
-        mediaType: document.media_type,
-        transcriptionStatus: document.transcription_status,
-        mimeType: document.mime_type,
+        createdAt: doc.created_at,
+        updatedAt: doc.updated_at,
+        userId: doc.owner_id,
+        fileName: doc.title,
+        fileSize: (doc.file_size as number) || 0,
+        storagePath: doc.storage_path,
+        mediaType: doc.media_type,
+        transcriptionStatus: doc.transcription_status,
+        mimeType: doc.mime_type,
       } as MultimediaDocument,
     };
   } catch (error) {
@@ -170,7 +179,7 @@ export async function createMultimediaDocument(
 export async function getUserMultimediaDocuments(
   userId: string,
   mediaType?: MediaType,
-  supabaseClient?: any
+  supabaseClient?: SupabaseClientType
 ): Promise<{ documents: MultimediaDocument[]; error?: string }> {
   try {
     const supabase = supabaseClient || createClient();
@@ -189,23 +198,33 @@ export async function getUserMultimediaDocuments(
       return { documents: [], error: error.message };
     }
 
-    const documents: MultimediaDocument[] = data.map((doc: any) => ({
+    type DocumentRow = Database["public"]["Tables"]["documents"]["Row"] & {
+      document_chunks?: Array<{ count: number }>;
+    };
+
+    const documents: MultimediaDocument[] = data.map((doc: DocumentRow) => ({
       id: doc.id,
       userId: doc.owner_id,
       fileName: doc.title,
       fileSize: doc.file_size || 0,
       mimeType: doc.mime_type,
       storagePath: doc.storage_path,
-      mediaType: doc.media_type,
-      durationSeconds: doc.duration_seconds,
-      width: doc.width,
-      height: doc.height,
-      thumbnailUrl: doc.thumbnail_url,
-      transcriptionStatus: doc.transcription_status,
-      transcriptionText: doc.transcription_text,
-      transcriptionCost: doc.transcription_cost,
+      mediaType: doc.media_type as MediaType,
+      durationSeconds: doc.duration_seconds ?? undefined,
+      width: doc.width ?? undefined,
+      height: doc.height ?? undefined,
+      thumbnailUrl: doc.thumbnail_url ?? undefined,
+      transcriptionStatus: (doc.transcription_status as TranscriptionStatus) ?? undefined,
+      transcriptionText: doc.transcription_text ?? undefined,
+      transcriptionCost: doc.transcription_cost ?? undefined,
       chunksCount: doc.document_chunks?.[0]?.count || 0,
-      status: doc.status,
+      // Map database status to MultimediaDocument status
+      status: (() => {
+        const dbStatus = doc.status as string;
+        if (dbStatus === 'completed') return 'ready';
+        if (dbStatus === 'error') return 'failed';
+        return dbStatus as MultimediaDocument['status'];
+      })(),
       createdAt: doc.created_at,
       updatedAt: doc.updated_at,
       processedAt: doc.updated_at,
@@ -231,13 +250,14 @@ export async function updateDocumentTranscription(
     transcriptionText?: string;
     transcriptionCost?: number;
   },
-  supabaseClient?: any
+  supabaseClient?: SupabaseClientType
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const supabase = supabaseClient || createClient();
 
     const { error } = await supabase
       .from("documents")
+      // @ts-ignore - Supabase auto-generated types have table marked as 'never'
       .update({
         transcription_status: data.transcriptionStatus,
         transcription_text: data.transcriptionText,
@@ -272,12 +292,16 @@ export async function updateDocumentTranscription(
  */
 export async function deleteMultimediaDocument(
   documentId: string,
-  userId: string
+  userId: string,
+  supabaseClient?: SupabaseClientType
 ): Promise<{ success: boolean; error?: string }> {
   try {
-    const supabase = createClient();
+    const supabase = supabaseClient || createClient();
+
+    console.log(`🗑️  Deleting multimedia document: ${documentId}`);
 
     // First get document to know storage path and media type
+    // @ts-ignore - Supabase auto-generated types have table marked as 'never'
     const { data: document, error: fetchError } = await supabase
       .from("documents")
       .select("storage_path, media_type")
@@ -286,18 +310,32 @@ export async function deleteMultimediaDocument(
       .single();
 
     if (fetchError || !document) {
+      console.error("❌ Document not found:", fetchError);
       return { success: false, error: "Document not found" };
     }
 
+    // Type assertion for document properties
+    const doc = document as { storage_path: string; media_type: string };
+
+    console.log(`📁 Document found:`, {
+      id: documentId,
+      storage_path: doc.storage_path,
+      media_type: doc.media_type,
+    });
+
     // Delete from storage
-    const bucket = getBucketForMediaType(document.media_type as MediaType);
+    const bucket = getBucketForMediaType(doc.media_type as MediaType);
+    console.log(`🗑️  Deleting from storage bucket: ${bucket}, path: ${doc.storage_path}`);
+    
     const { error: storageError } = await supabase.storage
       .from(bucket)
-      .remove([document.storage_path]);
+      .remove([doc.storage_path]);
 
     if (storageError) {
       console.warn("⚠️  Storage delete warning:", storageError);
       // Continue anyway - document may have already been deleted
+    } else {
+      console.log("✅ Storage file deleted");
     }
 
     // Delete from database (cascade will handle related records)
@@ -312,6 +350,7 @@ export async function deleteMultimediaDocument(
       return { success: false, error: deleteError.message };
     }
 
+    console.log("✅ Document deleted from database");
     return { success: true };
   } catch (error) {
     console.error("Delete document exception:", error);
@@ -333,34 +372,45 @@ export async function queueMultimediaProcessing(
   documentId: string,
   userId: string,
   mediaType: MediaType,
-  supabaseClient?: any
+  supabaseClient?: SupabaseClientType
 ): Promise<{ queueId?: string; error?: string }> {
   try {
     const supabase = supabaseClient || createClient();
 
+    // Validate that media type is processable (not "document")
+    if (mediaType === "document") {
+      return { error: "Document type cannot be queued for media processing" };
+    }
+
     const queueData: MediaProcessingQueueInsert = {
       document_id: documentId,
       user_id: userId,
-      media_type: mediaType,
+      media_type: mediaType as "audio" | "video" | "image",
       status: "queued",
       progress_percent: 0,
       retry_count: 0,
       max_retries: 3,
     };
 
-    const { data, error } = await supabase
-      .from("media_processing_queue")
-      .insert(queueData)
-      .select()
-      .single();
+    const { data, error } = await (
+      supabase
+        .from("media_processing_queue")
+        // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+        .insert(queueData)
+        .select()
+        .single()
+    );
 
     if (error) {
       console.error("❌ Queue creation error:", error);
       return { error: error.message };
     }
 
-    console.log("✅ Processing queued:", data.id);
-    return { queueId: data.id };
+    // Type assertion for queue data
+    const queueRecord = data as { id: string };
+
+    console.log("✅ Processing queued:", queueRecord.id);
+    return { queueId: queueRecord.id };
   } catch (error) {
     console.error("Queue creation exception:", error);
     return {
@@ -396,18 +446,33 @@ export async function getProcessingStatus(
       return { error: error.message };
     }
 
+    // Type assertion for queue data
+    const queueData = data as {
+      id: string;
+      document_id: string;
+      user_id: string;
+      media_type: string;
+      status: string;
+      progress_percent: number;
+      error_message: string | null;
+      retry_count: number;
+      created_at: string;
+      processing_started_at: string | null;
+      processing_completed_at: string | null;
+    };
+
     const job: ProcessingJob = {
-      queueId: data.id,
-      documentId: data.document_id,
-      userId: data.user_id,
-      mediaType: data.media_type as MediaType,
-      status: data.status as ProcessingStatus,
-      progressPercent: data.progress_percent,
-      errorMessage: data.error_message || undefined,
-      retryCount: data.retry_count,
-      createdAt: data.created_at,
-      startedAt: data.processing_started_at || undefined,
-      completedAt: data.processing_completed_at || undefined,
+      queueId: queueData.id,
+      documentId: queueData.document_id,
+      userId: queueData.user_id,
+      mediaType: queueData.media_type as MediaType,
+      status: queueData.status as ProcessingStatus,
+      progressPercent: queueData.progress_percent,
+      errorMessage: queueData.error_message || undefined,
+      retryCount: queueData.retry_count,
+      createdAt: queueData.created_at,
+      startedAt: queueData.processing_started_at || undefined,
+      completedAt: queueData.processing_completed_at || undefined,
     };
 
     return { job };
@@ -427,12 +492,13 @@ export async function updateProcessingJobStatus(
   status: ProcessingStatus,
   progressPercent?: number,
   errorMessage?: string,
-  supabaseClient?: any
+  supabaseClient?: SupabaseClientType
 ): Promise<{ success: boolean; error?: string }> {
   try {
     const supabase = supabaseClient || createClient();
 
-    const updateData: any = {
+    type QueueUpdate = Partial<Database["public"]["Tables"]["media_processing_queue"]["Update"]>;
+    const updateData: QueueUpdate = {
       status,
       updated_at: new Date().toISOString(),
     };
@@ -453,10 +519,13 @@ export async function updateProcessingJobStatus(
       updateData.processing_completed_at = new Date().toISOString();
     }
 
-    const { error } = await supabase
-      .from("media_processing_queue")
-      .update(updateData)
-      .eq("id", queueId);
+    const { error } = await (
+      supabase
+        .from("media_processing_queue")
+        // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+        .update(updateData)
+        .eq("id", queueId)
+    );
 
     if (error) {
       console.error("❌ Update queue status error:", error);
@@ -495,7 +564,10 @@ export async function associateMultimediaWithTutor(
       .order("display_order", { ascending: false })
       .limit(1);
 
-    let startOrder = existing && existing.length > 0 ? existing[0].display_order + 1 : 0;
+    // Type assertion for existing data
+    const existingData = existing as Array<{ display_order: number }> | null;
+
+    let startOrder = existingData && existingData.length > 0 ? existingData[0].display_order + 1 : 0;
 
     // Insert associations
     const associations: TutorMultimediaInsert[] = documentIds.map(
@@ -506,10 +578,13 @@ export async function associateMultimediaWithTutor(
       })
     );
 
-    const { data, error } = await supabase
-      .from("tutor_multimedia")
-      .insert(associations)
-      .select();
+    const { data, error } = await (
+      supabase
+        .from("tutor_multimedia")
+        // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+        .insert(associations)
+        .select()
+    );
 
     if (error) {
       console.error("❌ Associate multimedia error:", error);
@@ -555,11 +630,15 @@ export async function getTutorMultimedia(
       return { items: [], error: error.message };
     }
 
-    const items: TutorMultimediaItem[] = data.map((item: any) => ({
+    type TutorMultimediaRow = Database["public"]["Tables"]["tutor_multimedia"]["Row"] & {
+      documents: Database["public"]["Tables"]["documents"]["Row"];
+    };
+
+    const items: TutorMultimediaItem[] = data.map((item: TutorMultimediaRow) => ({
       id: item.id,
       tutorId: item.tutor_id,
       documentId: item.document_id,
-      displayOrder: item.display_order,
+      displayOrder: item.display_order ?? 0,
       createdAt: item.created_at,
       document: {
         id: item.documents.id,
@@ -652,20 +731,28 @@ export async function getUserMultimediaStats(
       return { error: error.message };
     }
 
+    // Type assertion for stats data
+    const statsData = data as Array<{
+      media_type: string;
+      file_size: number | null;
+      duration_seconds: number | null;
+      transcription_cost: number | null;
+    }>;
+
     const stats: MultimediaStats = {
-      totalFiles: data.length,
+      totalFiles: statsData.length,
       byType: {
-        audio: data.filter((d) => d.media_type === "audio").length,
-        video: data.filter((d) => d.media_type === "video").length,
-        image: data.filter((d) => d.media_type === "image").length,
+        audio: statsData.filter((d) => d.media_type === "audio").length,
+        video: statsData.filter((d) => d.media_type === "video").length,
+        image: statsData.filter((d) => d.media_type === "image").length,
       },
-      totalSize: data.reduce((sum, d) => sum + (d.file_size || 0), 0),
-      totalDuration: data.reduce((sum, d) => sum + (d.duration_seconds || 0), 0),
-      processingCost: data.reduce(
+      totalSize: statsData.reduce((sum, d) => sum + (d.file_size || 0), 0),
+      totalDuration: statsData.reduce((sum, d) => sum + (d.duration_seconds || 0), 0),
+      processingCost: statsData.reduce(
         (sum, d) => sum + (d.transcription_cost || 0),
         0
       ),
-      storageUsed: data.reduce((sum, d) => sum + (d.file_size || 0), 0),
+      storageUsed: statsData.reduce((sum, d) => sum + (d.file_size || 0), 0),
     };
 
     return { stats };

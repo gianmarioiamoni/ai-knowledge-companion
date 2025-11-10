@@ -8,7 +8,7 @@ import { deleteMultimediaDocument } from "@/lib/supabase/multimedia";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const supabase = await createClient();
@@ -18,21 +18,28 @@ export async function DELETE(
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
+      console.error("❌ Unauthorized delete attempt");
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const { id } = await params;
+    console.log(`📥 DELETE request for multimedia: ${id} by user: ${user.id}`);
+
     const { success, error } = await deleteMultimediaDocument(
-      params.id,
-      user.id
+      id,
+      user.id,
+      supabase
     );
 
     if (error) {
+      console.error("❌ Delete failed:", error);
       return NextResponse.json({ error }, { status: 500 });
     }
 
+    console.log("✅ Delete successful");
     return NextResponse.json({ success });
   } catch (error) {
-    console.error("Delete multimedia error:", error);
+    console.error("❌ Delete multimedia exception:", error);
     return NextResponse.json(
       {
         error:

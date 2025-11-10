@@ -22,14 +22,26 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
-import { useImageFiles } from '@/hooks/use-image-files'
 import type { MultimediaDocument } from '@/types/multimedia'
 
-export function ImageFilesSection(): JSX.Element {
+interface ImageFilesSectionProps {
+  files: MultimediaDocument[]
+  loading: boolean
+  error: string | null
+  deleteFile: (id: string) => Promise<void>
+  hasProcessingFiles: boolean
+}
+
+export function ImageFilesSection({ 
+  files, 
+  loading, 
+  error, 
+  deleteFile, 
+  hasProcessingFiles 
+}: ImageFilesSectionProps): JSX.Element {
   const t = useTranslations('multimedia.image')
   const tCommon = useTranslations('common')
 
-  const { files, loading, error, deleteFile, hasProcessingFiles } = useImageFiles()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [fileToDelete, setFileToDelete] = useState<MultimediaDocument | null>(null)
   const [deleting, setDeleting] = useState(false)

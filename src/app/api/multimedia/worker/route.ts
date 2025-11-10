@@ -17,6 +17,9 @@ import {
 import {
   transcribeAudioFromStorage,
 } from "@/lib/openai/transcription";
+import {
+  analyzeImageFromStorage,
+} from "@/lib/openai/vision";
 import { chunkDocument } from "@/lib/workers/document-chunker";
 import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
 import { createDocumentChunks } from "@/lib/supabase/documents";
@@ -121,7 +124,39 @@ export async function POST(request: NextRequest) {
           throw new Error("Video processing not yet implemented");
 
         case "image":
-          throw new Error("Image processing not yet implemented");
+          console.log("🖼️  Analyzing image with Vision API...");
+          await updateProcessingJobStatus(queue_id, "processing", 25, undefined, supabase);
+
+          const visionResult = await analyzeImageFromStorage(
+            supabase,
+            "images",
+            storage_path,
+            {
+              detail: "high", // High detail for better analysis
+              maxTokens: 1500,
+              language: "en", // You can make this configurable
+            }
+          );
+
+          if (visionResult.error) {
+            throw new Error(visionResult.error);
+          }
+
+          extractedText = visionResult.text;
+          processingCost = visionResult.cost || 0;
+
+          await updateDocumentTranscription(
+            document_id,
+            {
+              transcriptionStatus: "completed",
+              transcriptionText: extractedText,
+              transcriptionCost: processingCost,
+            },
+            supabase
+          );
+
+          console.log("✅ Image analysis completed");
+          break;
 
         default:
           throw new Error(`Unsupported media type: ${media_type}`);

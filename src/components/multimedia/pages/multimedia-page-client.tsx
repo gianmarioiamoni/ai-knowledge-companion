@@ -38,19 +38,24 @@ export function MultimediaPageClient(): JSX.Element {
             <Music className="h-4 w-4" />
             <span className="hidden sm:inline">{t('tabs.audio')}</span>
           </TabsTrigger>
-          <TabsTrigger value="video" className="flex items-center gap-2" disabled>
-            <Video className="h-4 w-4" />
-            <span className="hidden sm:inline">{t('tabs.video')}</span>
-          </TabsTrigger>
           <TabsTrigger value="images" className="flex items-center gap-2">
             <ImageIcon className="h-4 w-4" />
             <span className="hidden sm:inline">{t('tabs.images')}</span>
+          </TabsTrigger>
+          <TabsTrigger value="video" className="flex items-center gap-2" disabled>
+            <Video className="h-4 w-4" />
+            <span className="hidden sm:inline">{t('tabs.video')}</span>
           </TabsTrigger>
         </TabsList>
 
         {/* Audio Tab */}
         <TabsContent value="audio" className="mt-6">
           <AudioUploadSection />
+        </TabsContent>
+
+        {/* Images Tab */}
+        <TabsContent value="images" className="mt-6">
+          <ImageUploadSection />
         </TabsContent>
 
         {/* Video Tab - Coming Soon */}
@@ -60,11 +65,6 @@ export function MultimediaPageClient(): JSX.Element {
             title={t('video.title')}
             description={t('video.notAvailable')}
           />
-        </TabsContent>
-
-        {/* Images Tab */}
-        <TabsContent value="images" className="mt-6">
-          <ImageUploadSection />
         </TabsContent>
       </Tabs>
     </div>

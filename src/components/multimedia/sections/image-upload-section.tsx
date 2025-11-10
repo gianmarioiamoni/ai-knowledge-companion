@@ -11,7 +11,7 @@ import { ImageFilesSection } from './image-files-section'
 import { useImageFiles } from '@/hooks/use-image-files'
 
 export function ImageUploadSection(): JSX.Element {
-  const { refetch } = useImageFiles()
+  const { files, loading, error, refetch, deleteFile, hasProcessingFiles } = useImageFiles()
 
   return (
     <div className="space-y-6">
@@ -19,7 +19,13 @@ export function ImageUploadSection(): JSX.Element {
       <ImageUploader onUploadComplete={refetch} />
 
       {/* Uploaded Images List */}
-      <ImageFilesSection />
+      <ImageFilesSection 
+        files={files}
+        loading={loading}
+        error={error}
+        deleteFile={deleteFile}
+        hasProcessingFiles={hasProcessingFiles}
+      />
     </div>
   )
 }

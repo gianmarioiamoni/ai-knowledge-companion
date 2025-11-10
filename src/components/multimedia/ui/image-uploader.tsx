@@ -135,9 +135,13 @@ export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Ele
       const allSucceeded = results.every(r => r)
 
       if (allSucceeded) {
-        // Clear images and notify parent
+        // Clear images first
         setImages([])
-        onUploadComplete?.()
+        
+        // Wait a bit before refreshing to ensure DB updates are complete
+        setTimeout(() => {
+          onUploadComplete?.()
+        }, 1500)
       } else {
         setGlobalError('Some uploads failed. Please retry.')
       }
