@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react'
+import { useParams } from 'next/navigation'
 import { getStripeClientPromise } from '@/lib/stripe/client'
 
 export interface CheckoutParams {
@@ -20,19 +21,24 @@ export interface UseStripeCheckoutReturn {
 export function useStripeCheckout(): UseStripeCheckoutReturn {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const params = useParams()
+  const locale = params?.locale || 'en'
 
-  const createCheckoutSession = async (params: CheckoutParams) => {
+  const createCheckoutSession = async (checkoutParams: CheckoutParams) => {
     setLoading(true)
     setError(null)
 
     try {
-      // Call API to create checkout session
+      // Call API to create checkout session (include locale)
       const response = await fetch('/api/stripe/create-checkout-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(params),
+        body: JSON.stringify({
+          ...checkoutParams,
+          locale,
+        }),
       })
 
       if (!response.ok) {

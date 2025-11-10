@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json()
-    const { planName, billingCycle } = body
+    const { planName, billingCycle, locale = 'en' } = body
 
     // Validate input
     if (!planName || !billingCycle) {
@@ -55,10 +55,10 @@ export async function POST(request: NextRequest) {
       .eq('id', user.id)
       .single()
 
-    // Create URLs for success and cancel
+    // Create URLs for success and cancel (with locale)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const successUrl = `${baseUrl}/dashboard?payment=success`
-    const cancelUrl = `${baseUrl}/plans?payment=cancelled`
+    const successUrl = `${baseUrl}/${locale}/dashboard?payment=success`
+    const cancelUrl = `${baseUrl}/${locale}/plans?payment=cancelled`
 
     // Create checkout session
     const session = await createCheckoutSession({
