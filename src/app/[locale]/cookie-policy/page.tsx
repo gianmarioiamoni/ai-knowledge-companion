@@ -4,8 +4,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('legal.cookiePolicy')
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'legal.cookiePolicy' })
   
   return {
     title: t('pageTitle'),
@@ -13,8 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function CookiePolicyPage() {
-  const t = useTranslations('legal.cookiePolicy')
+export default async function CookiePolicyPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'legal.cookiePolicy' })
 
   return (
     <div className="container max-w-4xl py-12 px-4 md:px-6 lg:px-8">

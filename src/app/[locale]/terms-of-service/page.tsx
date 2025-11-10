@@ -2,8 +2,9 @@ import { useTranslations } from 'next-intl'
 import { getTranslations } from 'next-intl/server'
 import type { Metadata } from 'next'
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations('legal.terms')
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'legal.terms' })
   
   return {
     title: t('pageTitle'),
@@ -11,8 +12,9 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export default function TermsOfServicePage() {
-  const t = useTranslations('legal.terms')
+export default async function TermsOfServicePage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale } = await params
+  const t = await getTranslations({ locale, namespace: 'legal.terms' })
 
   return (
     <div className="container max-w-4xl py-12 px-4 md:px-6 lg:px-8">
