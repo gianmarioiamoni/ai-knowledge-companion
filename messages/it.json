@@ -682,6 +682,25 @@
       "comingSoon": "Prossimamente",
       "notAvailable": "L'elaborazione video sarà disponibile in un aggiornamento futuro"
     },
+    "image": {
+      "title": "Carica Immagini",
+      "description": "Carica e gestisci i tuoi file immagine per l'analisi AI",
+      "dragDrop": "Trascina le immagini qui",
+      "or": "oppure",
+      "browse": "Sfoglia File",
+      "dropHere": "Rilascia le immagini qui",
+      "supportedFormats": "Formati supportati",
+      "uploading": "Caricamento...",
+      "uploadAll": "Carica Tutti",
+      "yourImages": "Le Tue Immagini",
+      "noImages": "Nessuna immagine",
+      "imagesCount": "immagini",
+      "noImagesYet": "Nessuna immagine caricata",
+      "uploadFirst": "Carica la tua prima immagine per iniziare",
+      "processingNotice": "Alcune immagini sono in elaborazione. Questa pagina si aggiornerà automaticamente.",
+      "deleteConfirmTitle": "Elimina Immagine",
+      "deleteConfirmDescription": "Sei sicuro di voler eliminare questa immagine? Questa azione non può essere annullata."
+    },
     "images": {
       "title": "File Immagine",
       "description": "Carica immagini per OCR e analisi",

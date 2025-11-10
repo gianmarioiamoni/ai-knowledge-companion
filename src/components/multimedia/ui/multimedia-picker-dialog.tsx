@@ -18,7 +18,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Badge } from '@/components/ui/badge'
-import { Music, Loader2 } from 'lucide-react'
+import { Music, Image as ImageIcon, Video, Loader2 } from 'lucide-react'
 import { formatFileSize, formatDuration } from '@/types/multimedia'
 import type { MultimediaDocument } from '@/types/multimedia'
 import type { JSX } from 'react'
@@ -131,6 +131,33 @@ export function MultimediaPickerDialog({
               {files.map((file) => {
                 const isSelected = selectedIds.includes(file.id)
                 const isReady = file.transcriptionStatus === 'completed'
+                
+                // Choose icon based on media type
+                const getMediaIcon = (mediaType: string) => {
+                  switch (mediaType) {
+                    case 'audio':
+                      return <Music className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                    case 'image':
+                      return <ImageIcon className="h-5 w-5 text-green-600 dark:text-green-400" />
+                    case 'video':
+                      return <Video className="h-5 w-5 text-purple-600 dark:text-purple-400" />
+                    default:
+                      return <Music className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                  }
+                }
+                
+                const getBgColor = (mediaType: string) => {
+                  switch (mediaType) {
+                    case 'audio':
+                      return 'bg-blue-100 dark:bg-blue-900/30'
+                    case 'image':
+                      return 'bg-green-100 dark:bg-green-900/30'
+                    case 'video':
+                      return 'bg-purple-100 dark:bg-purple-900/30'
+                    default:
+                      return 'bg-blue-100 dark:bg-blue-900/30'
+                  }
+                }
 
                 return (
                   <div
@@ -154,8 +181,8 @@ export function MultimediaPickerDialog({
                     />
 
                     <div className="flex-shrink-0">
-                      <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                        <Music className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                      <div className={`w-10 h-10 ${getBgColor(file.mediaType)} rounded-lg flex items-center justify-center`}>
+                        {getMediaIcon(file.mediaType)}
                       </div>
                     </div>
 
