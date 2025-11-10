@@ -4,14 +4,23 @@
 
 The SQL migration scripts must be executed **in numerical order** to avoid dependency errors.
 
+## ✅ How the Multimedia System Works
+
+The multimedia system **extends the existing `documents` table** rather than creating a separate table:
+- The `documents` table has `media_type` column ('document', 'audio', 'video', 'image')
+- Audio files are stored in the `audio` bucket
+- Image files are stored in the `images` bucket
+- Processing metadata is stored in `media_processing_queue` table
+- Tutor associations are stored in `tutor_multimedia` table
+
 ## Prerequisites for Image Support
 
 Before running `31_image_support.sql`, you **must** have executed these scripts:
 
 ### 1. Multimedia Base Schema (REQUIRED)
 ```sql
-19_multimedia_schema.sql       -- Creates multimedia_documents table
-20_multimedia_storage.sql      -- Creates storage buckets and policies
+19_multimedia_schema.sql       -- Extends documents table with media_type, adds media_processing_queue
+20_multimedia_storage.sql      -- Creates audio bucket and storage policies
 21_fix_multimedia_rls.sql      -- Fixes RLS policies for multimedia
 ```
 
@@ -23,7 +32,7 @@ Before running `31_image_support.sql`, you **must** have executed these scripts:
 
 ### 3. Image Support (FINAL)
 ```sql
-31_image_support.sql           -- Adds images bucket and policies
+31_image_support.sql           -- Adds images bucket, policies, and indexes
 ```
 
 ## Step-by-Step Guide
@@ -71,17 +80,21 @@ Execute all scripts in numerical order:
    31_image_support.sql            -- ✅ Run this last
    ```
 
-### If You Already Have Multimedia
+### If You Already Have Audio Working
 
-If you already have the `multimedia_documents` table (check with `\d multimedia_documents`):
+If you already have audio files working (script 19-21 already executed):
 
-1. Check if you have these scripts executed:
+1. Check what you have:
    ```sql
-   -- Check if table exists
+   -- Check if documents table has media_type column
    SELECT EXISTS (
-     SELECT FROM information_schema.tables 
-     WHERE table_name = 'multimedia_documents'
+     SELECT FROM information_schema.columns 
+     WHERE table_name = 'documents' 
+     AND column_name = 'media_type'
    );
+   
+   -- Check if audio bucket exists
+   SELECT * FROM storage.buckets WHERE name = 'audio';
    
    -- Check if max_image_files column exists
    SELECT EXISTS (
@@ -91,13 +104,13 @@ If you already have the `multimedia_documents` table (check with `\d multimedia_
    );
    ```
 
-2. If table exists but you're missing `max_image_files`:
+2. If you have audio working but not image limits:
    ```sql
    27_add_image_files_support.sql  -- Run this first
    31_image_support.sql            -- Then run this
    ```
 
-3. If table doesn't exist:
+3. If documents table doesn't have media_type:
    ```sql
    19_multimedia_schema.sql        -- Run this first
    20_multimedia_storage.sql       -- Then this
@@ -106,70 +119,95 @@ If you already have the `multimedia_documents` table (check with `\d multimedia_
    31_image_support.sql            -- Finally this
    ```
 
-## Error: "relation multimedia_documents does not exist"
+## Common Errors
+
+### Error: "relation multimedia_documents does not exist"
+
+**This error means the script is looking for the wrong table.**
+
+**Context:** There is NO `multimedia_documents` table. The system uses the existing `documents` table with a `media_type` column.
+
+**Solution:**
+- ✅ Script 31 has been fixed to use `documents` table
+- ✅ Make sure you're running the latest version of `31_image_support.sql`
+
+If you still see this error:
+1. Check which script is throwing it
+2. Verify the script references `documents` table, not `multimedia_documents`
+3. Run script 19 if `media_type` column doesn't exist in `documents`
+
+### Error: "column media_type does not exist"
 
 **This means you haven't run script 19 yet.**
 
-### Solution:
-1. Open Supabase SQL Editor
-2. Execute in this exact order:
-   ```sql
-   -- Step 1: Create multimedia base schema
-   19_multimedia_schema.sql
-   
-   -- Step 2: Setup storage
-   20_multimedia_storage.sql
-   
-   -- Step 3: Fix RLS policies
-   21_fix_multimedia_rls.sql
-   
-   -- Step 4: (Optional but recommended)
-   22_fix_worker_function.sql
-   23_update_audio_bucket_mime_types.sql
-   
-   -- Step 5: Add subscription support for images
-   27_add_image_files_support.sql
-   
-   -- Step 6: Finally, add images support
-   31_image_support.sql
-   ```
+**Solution:**
+Execute these scripts in order:
+```sql
+19_multimedia_schema.sql        -- Adds media_type to documents table
+20_multimedia_storage.sql       -- Creates audio bucket
+21_fix_multimedia_rls.sql       -- Fixes RLS
+27_add_image_files_support.sql  -- Adds image limits
+31_image_support.sql            -- Adds image support
+```
 
 ## Verification After Each Script
 
 After running each script, verify it succeeded:
 
 ```sql
--- Check if multimedia_documents table exists
-SELECT EXISTS (
-  SELECT FROM information_schema.tables 
-  WHERE table_name = 'multimedia_documents'
-);
+-- Check if documents table has media_type column
+SELECT column_name, data_type 
+FROM information_schema.columns 
+WHERE table_name = 'documents' 
+AND column_name = 'media_type';
 
--- Check if audio bucket exists
-SELECT * FROM storage.buckets WHERE name = 'audio';
+-- Check storage buckets
+SELECT name, public, file_size_limit 
+FROM storage.buckets 
+WHERE name IN ('audio', 'images');
 
 -- Check if max_image_files exists
 SELECT column_name, data_type 
 FROM information_schema.columns 
 WHERE table_name = 'subscription_plans' 
 AND column_name = 'max_image_files';
+
+-- Check if media_processing_queue exists
+SELECT EXISTS (
+  SELECT FROM information_schema.tables 
+  WHERE table_name = 'media_processing_queue'
+);
 ```
 
 ## Quick Check: What Have I Already Run?
 
-Run this query to see what tables exist:
+Run this query to see what multimedia support exists:
 
 ```sql
+-- Check documents table structure
+SELECT column_name, data_type 
+FROM information_schema.columns 
+WHERE table_name = 'documents'
+AND column_name IN ('media_type', 'duration_seconds', 'transcription_status', 'width', 'height')
+ORDER BY column_name;
+
+-- Check storage buckets
+SELECT name FROM storage.buckets ORDER BY name;
+
+-- Check multimedia tables
 SELECT table_name 
 FROM information_schema.tables 
 WHERE table_schema = 'public'
+AND table_name IN ('media_processing_queue', 'tutor_multimedia', 'subscription_plans')
 ORDER BY table_name;
 ```
 
-Key tables for image support:
-- ✅ `multimedia_documents` (from script 19)
-- ✅ `subscription_plans` (from script 25)
-- ✅ `user_subscriptions` (from script 25)
+Key components for image support:
+- ✅ `documents` table with `media_type` column (from script 19)
+- ✅ `media_processing_queue` table (from script 19)
+- ✅ `audio` bucket (from script 20)
+- ✅ `images` bucket (from script 31 + manual creation)
+- ✅ `subscription_plans.max_image_files` column (from script 27)
 
 ## Common Issues
 
@@ -204,13 +242,13 @@ After running SQL scripts, you must **manually create** storage buckets in Supab
 
 Before running `31_image_support.sql`, ensure:
 
-- [ ] Script 19 executed (multimedia_documents table exists)
-- [ ] Script 20 executed (audio bucket exists)
+- [ ] Script 19 executed (`documents` table has `media_type` column)
+- [ ] Script 20 executed (`audio` bucket exists)
 - [ ] Script 21 executed (RLS policies fixed)
-- [ ] Script 25 executed (subscription_plans table exists)
-- [ ] Script 27 executed (max_image_files column exists)
-- [ ] Images bucket created manually in Supabase Storage UI
-- [ ] Now you can run script 31
+- [ ] Script 25 executed (`subscription_plans` table exists)
+- [ ] Script 27 executed (`max_image_files` column exists in `subscription_plans`)
+- [ ] `images` bucket created manually in Supabase Storage UI
+- [ ] Now you can run script 31 safely
 
 ## Need Help?
 
