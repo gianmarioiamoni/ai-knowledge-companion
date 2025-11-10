@@ -530,6 +530,44 @@
       "cancel": "Annulla",
       "deleting": "Eliminazione..."
     },
+    "dataManagement": {
+      "gdprNotice": "🇪🇺 Secondo il GDPR, hai il diritto di accedere, esportare ed eliminare i tuoi dati personali in qualsiasi momento.",
+      "export": {
+        "title": "Esporta i Tuoi Dati",
+        "description": "Scarica una copia completa di tutti i tuoi dati in formato JSON",
+        "includes": "La tua esportazione includerà:",
+        "profile": "Informazioni account e profilo",
+        "tutors": "Tutor AI che hai creato",
+        "documents": "Documenti e file caricati",
+        "conversations": "Conversazioni chat e messaggi",
+        "multimedia": "File audio, video e immagini",
+        "subscription": "Informazioni abbonamento e fatturazione",
+        "button": "Esporta i Miei Dati",
+        "exporting": "Esportazione...",
+        "downloaded": "I tuoi dati sono stati scaricati con successo!",
+        "exportSuccess": "Dati esportati con successo",
+        "exportError": "Impossibile esportare i dati. Riprova."
+      },
+      "delete": {
+        "title": "Elimina Account",
+        "description": "Elimina permanentemente il tuo account e tutti i dati associati",
+        "warning": "⚠️ Questa azione è permanente e non può essere annullata!",
+        "willBeDeleted": "Questo eliminerà permanentemente:",
+        "profile": "Il tuo account e profilo",
+        "tutors": "Tutti i tutor AI che hai creato",
+        "documents": "Tutti i documenti caricati",
+        "conversations": "Tutte le conversazioni chat",
+        "multimedia": "Tutti i file multimediali",
+        "subscription": "Il tuo abbonamento (nessun rimborso per il tempo rimanente)",
+        "button": "Elimina il Mio Account",
+        "confirmTitle": "Sei assolutamente sicuro?",
+        "confirmDescription": "Questa azione non può essere annullata. Tutti i tuoi dati saranno eliminati permanentemente dai nostri server.",
+        "confirmWarning": "Clicca il pulsante qui sotto per procedere con l'eliminazione dell'account.",
+        "confirmButton": "Sì, Elimina il Mio Account",
+        "deleteSuccess": "Il tuo account è stato eliminato",
+        "deleteError": "Impossibile eliminare l'account. Contatta il supporto."
+      }
+    },
     "messages": {
       "avatarUpdated": "Foto profilo aggiornata con successo",
       "profileUpdated": "Profilo aggiornato con successo",
@@ -1056,5 +1094,285 @@
       "notSet": "Non hai ancora impostato le tue preferenze sui cookie.",
       "expires": "Il tuo consenso scade il {date}."
     }
+  },
+  "legal": {
+    "privacy": {
+      "pageTitle": "Privacy Policy | AI Knowledge Companion",
+      "pageDescription": "Scopri come raccogliamo, utilizziamo e proteggiamo i tuoi dati personali in conformità con il GDPR",
+      "title": "Privacy Policy",
+      "lastUpdated": "Ultimo Aggiornamento",
+      "intro": {
+        "title": "Introduzione",
+        "content": "In AI Knowledge Companion, rispettiamo la tua privacy e ci impegniamo a proteggere i tuoi dati personali. Questa Privacy Policy spiega come raccogliamo, utilizziamo, divulghiamo e proteggiamo le tue informazioni quando utilizzi il nostro servizio, in conformità con il Regolamento Generale sulla Protezione dei Dati (GDPR) e altre leggi applicabili sulla protezione dei dati."
+      },
+      "dataCollected": {
+        "title": "Dati che Raccogliamo",
+        "account": {
+          "title": "Informazioni Account",
+          "email": "Indirizzo email (per creazione account e comunicazioni)",
+          "name": "Nome o username (per personalizzazione)",
+          "password": "Password (criptata e conservata in modo sicuro)"
+        },
+        "usage": {
+          "title": "Dati di Utilizzo",
+          "documents": "Documenti che carichi",
+          "tutors": "Tutor AI che crei",
+          "conversations": "Conversazioni chat con i tutor",
+          "multimedia": "File multimediali (audio, video, immagini)"
+        },
+        "technical": {
+          "title": "Dati Tecnici",
+          "ip": "Indirizzo IP e informazioni dispositivo",
+          "browser": "Tipo e versione browser",
+          "cookies": "Cookie e tecnologie di tracciamento simili"
+        }
+      },
+      "howWeUse": {
+        "title": "Come Utilizziamo i Tuoi Dati",
+        "provide": "Per fornire e mantenere il nostro servizio",
+        "improve": "Per migliorare e personalizzare la tua esperienza",
+        "communicate": "Per comunicare con te riguardo aggiornamenti del servizio",
+        "security": "Per rilevare e prevenire frodi e problemi di sicurezza",
+        "legal": "Per adempiere agli obblighi legali"
+      },
+      "legalBasis": {
+        "title": "Base Giuridica del Trattamento (GDPR)",
+        "contract": {
+          "title": "Esecuzione del Contratto",
+          "content": "Trattiamo i tuoi dati per eseguire il nostro contratto con te (fornire il servizio di tutoraggio AI)."
+        },
+        "consent": {
+          "title": "Consenso",
+          "content": "Per funzionalità opzionali come i cookie analitici, chiediamo il tuo consenso esplicito."
+        },
+        "legitimate": {
+          "title": "Interesse Legittimo",
+          "content": "Trattiamo i dati per i nostri interessi commerciali legittimi (es. prevenzione frodi, miglioramento del servizio)."
+        }
+      },
+      "dataSharing": {
+        "title": "Condivisione Dati e Terze Parti",
+        "openai": "OpenAI: Per l'elaborazione AI (soggetto alla privacy policy di OpenAI)",
+        "supabase": "Supabase: Per database e autenticazione (soggetto alla privacy policy di Supabase)",
+        "stripe": "Stripe: Per elaborazione pagamenti (soggetto alla privacy policy di Stripe)",
+        "hosting": "Provider hosting: Per infrastruttura (soggetti alle loro privacy policy)"
+      },
+      "yourRights": {
+        "title": "I Tuoi Diritti secondo il GDPR",
+        "access": {
+          "title": "Diritto di Accesso",
+          "content": "Puoi richiedere una copia dei tuoi dati personali"
+        },
+        "rectification": {
+          "title": "Diritto di Rettifica",
+          "content": "Puoi correggere dati inesatti"
+        },
+        "erasure": {
+          "title": "Diritto alla Cancellazione",
+          "content": "Puoi richiedere la cancellazione dei tuoi dati"
+        },
+        "portability": {
+          "title": "Diritto alla Portabilità",
+          "content": "Puoi esportare i tuoi dati in formato leggibile"
+        },
+        "restriction": {
+          "title": "Diritto di Limitazione",
+          "content": "Puoi richiedere di limitare il trattamento dei tuoi dati"
+        },
+        "objection": {
+          "title": "Diritto di Opposizione",
+          "content": "Puoi opporti a certi tipi di trattamento"
+        },
+        "withdraw": {
+          "title": "Diritto di Revocare il Consenso",
+          "content": "Puoi revocare il consenso in qualsiasi momento"
+        }
+      },
+      "dataRetention": {
+        "title": "Conservazione dei Dati",
+        "content": "Conserviamo i tuoi dati personali solo per il tempo necessario agli scopi indicati in questa Privacy Policy, o come richiesto dalla legge. Quando elimini il tuo account, cancelliamo permanentemente i tuoi dati personali entro 30 giorni, tranne dove dobbiamo conservarli per conformità legale."
+      },
+      "security": {
+        "title": "Sicurezza dei Dati",
+        "content": "Implementiamo misure tecniche e organizzative appropriate per proteggere i tuoi dati personali da accesso non autorizzato, alterazione, divulgazione o distruzione. Questo include crittografia, autenticazione sicura, audit di sicurezza regolari e controlli di accesso."
+      },
+      "cookies": {
+        "title": "Cookie e Tracciamento",
+        "content": "Utilizziamo cookie e tecnologie simili come descritto nella nostra Cookie Policy. Puoi gestire le tue preferenze sui cookie in qualsiasi momento tramite il nostro banner di consenso cookie."
+      },
+      "children": {
+        "title": "Privacy dei Minori",
+        "content": "Il nostro servizio non è destinato a utenti di età inferiore ai 16 anni. Non raccogliamo consapevolmente dati personali da minori. Se ritieni che abbiamo raccolto dati da un minore, contattaci immediatamente."
+      },
+      "changes": {
+        "title": "Modifiche a Questa Policy",
+        "content": "Potremmo aggiornare questa Privacy Policy di tanto in tanto. Ti informeremo di modifiche significative via email o tramite un avviso prominente sul nostro servizio. Il tuo uso continuato dopo le modifiche costituisce accettazione della policy aggiornata."
+      },
+      "contact": {
+        "title": "Contattaci",
+        "content": "Se hai domande su questa Privacy Policy o desideri esercitare i tuoi diritti GDPR, contattaci:"
+      }
+    },
+    "terms": {
+      "pageTitle": "Termini di Servizio | AI Knowledge Companion",
+      "pageDescription": "Termini e condizioni per l'utilizzo del servizio AI Knowledge Companion",
+      "title": "Termini di Servizio",
+      "lastUpdated": "Ultimo Aggiornamento",
+      "intro": {
+        "title": "Introduzione",
+        "content": "Benvenuto in AI Knowledge Companion. Questi Termini di Servizio regolano l'utilizzo della nostra piattaforma di tutoraggio potenziata dall'AI. Accedendo o utilizzando il nostro servizio, accetti di essere vincolato da questi termini."
+      },
+      "acceptance": {
+        "title": "Accettazione dei Termini",
+        "content": "Creando un account e utilizzando il nostro servizio, riconosci di aver letto, compreso e accettato di essere vincolato da questi Termini di Servizio e dalla nostra Privacy Policy. Se non sei d'accordo, non utilizzare il nostro servizio."
+      },
+      "service": {
+        "title": "Descrizione del Servizio",
+        "content": "AI Knowledge Companion fornisce una piattaforma di tutoraggio potenziata dall'AI dove gli utenti possono caricare documenti, creare tutor AI personalizzati e impegnarsi in conversazioni educative. Il servizio utilizza modelli AI avanzati per fornire assistenza nell'apprendimento."
+      },
+      "account": {
+        "title": "Responsabilità dell'Account",
+        "accurate": "Devi fornire informazioni accurate e complete quando crei un account",
+        "security": "Sei responsabile del mantenimento della sicurezza delle credenziali del tuo account",
+        "unauthorized": "Devi notificarci immediatamente qualsiasi accesso non autorizzato",
+        "responsibility": "Sei responsabile di tutte le attività che si verificano con il tuo account"
+      },
+      "restrictions": {
+        "title": "Usi Proibiti",
+        "illegal": "Utilizzare il servizio per scopi illegali o non autorizzati",
+        "abuse": "Molestare, abusare o danneggiare altri utenti",
+        "interference": "Interferire o interrompere il servizio o i server",
+        "automated": "Utilizzare sistemi automatizzati o bot senza permesso",
+        "rights": "Violare qualsiasi diritto di proprietà intellettuale",
+        "resell": "Rivendere o ridistribuire il servizio senza autorizzazione"
+      },
+      "content": {
+        "title": "Contenuti e Proprietà Intellettuale",
+        "yourContent": {
+          "title": "I Tuoi Contenuti",
+          "content": "Mantieni la proprietà dei contenuti che carichi. Caricando contenuti, ci concedi una licenza per elaborare, archiviare e visualizzarli secondo necessità per fornire il servizio. Sei responsabile di assicurarti di avere i diritti per caricare i tuoi contenuti."
+        },
+        "ourContent": {
+          "title": "I Nostri Contenuti",
+          "content": "Il servizio, inclusi il suo design, funzionalità e caratteristiche, è di proprietà di AI Knowledge Companion ed è protetto dalle leggi sulla proprietà intellettuale. Non puoi copiare, modificare o creare opere derivate senza il nostro permesso."
+        }
+      },
+      "payments": {
+        "title": "Abbonamenti e Pagamenti",
+        "billing": "Le tariffe di abbonamento vengono fatturate in anticipo su base mensile o annuale",
+        "cancellation": "Puoi annullare il tuo abbonamento in qualsiasi momento dalle impostazioni del tuo account",
+        "refunds": "I rimborsi sono forniti caso per caso a nostra discrezione",
+        "changes": "Potremmo modificare i prezzi degli abbonamenti con un preavviso di 30 giorni"
+      },
+      "termination": {
+        "title": "Terminazione",
+        "content": "Possiamo sospendere o terminare il tuo account se violi questi Termini di Servizio, ti impegni in attività fraudolente o per qualsiasi altro motivo a nostra discrezione. Puoi eliminare il tuo account in qualsiasi momento dalle impostazioni del tuo account."
+      },
+      "disclaimer": {
+        "title": "Esclusione di Garanzie",
+        "content": "Il servizio è fornito \"così com'è\" senza garanzie di alcun tipo. Non garantiamo l'accuratezza, completezza o affidabilità dei contenuti generati dall'AI. Il servizio è solo per scopi educativi e non dovrebbe sostituire consulenza professionale."
+      },
+      "liability": {
+        "title": "Limitazione di Responsabilità",
+        "content": "Nella massima misura consentita dalla legge, AI Knowledge Companion non sarà responsabile per danni indiretti, incidentali, speciali o consequenziali derivanti dall'uso del servizio. La nostra responsabilità totale non supererà l'importo che ci hai pagato negli ultimi 12 mesi."
+      },
+      "changes": {
+        "title": "Modifiche ai Termini",
+        "content": "Potremmo aggiornare questi Termini di Servizio di tanto in tanto. Ti informeremo di modifiche significative via email o tramite un avviso sul servizio. Il tuo uso continuato dopo le modifiche costituisce accettazione."
+      },
+      "law": {
+        "title": "Legge Applicabile",
+        "content": "Questi Termini di Servizio sono regolati dalle leggi dell'Unione Europea e del paese in cui opera il servizio. Eventuali controversie saranno risolte nei tribunali appropriati."
+      },
+      "contact": {
+        "title": "Contattaci",
+        "content": "Se hai domande su questi Termini di Servizio, contattaci:"
+      }
+    },
+    "cookiePolicy": {
+      "pageTitle": "Cookie Policy | AI Knowledge Companion",
+      "pageDescription": "Scopri come utilizziamo i cookie e tecnologie simili",
+      "title": "Cookie Policy",
+      "lastUpdated": "Ultimo Aggiornamento",
+      "intro": {
+        "title": "Introduzione",
+        "content": "Questa Cookie Policy spiega come AI Knowledge Companion utilizza i cookie e tecnologie simili per riconoscerti quando visiti il nostro servizio. Spiega cosa sono queste tecnologie, perché le utilizziamo e i tuoi diritti per controllarne l'uso."
+      },
+      "whatAreCookies": {
+        "title": "Cosa sono i Cookie?",
+        "content": "I cookie sono piccoli file di testo che vengono posizionati sul tuo dispositivo quando visiti un sito web. Sono ampiamente utilizzati per far funzionare i siti web in modo più efficiente e fornire informazioni ai proprietari dei siti. I cookie possono essere \"persistenti\" (rimangono dopo aver chiuso il browser) o \"di sessione\" (eliminati quando chiudi il browser)."
+      },
+      "categories": {
+        "title": "Tipi di Cookie che Utilizziamo",
+        "necessary": {
+          "title": "Cookie Necessari (Sempre Attivi)",
+          "description": "Questi cookie sono essenziali per il corretto funzionamento del sito web. Abilitano funzionalità di base come sicurezza, autenticazione e gestione della rete.",
+          "examples": "Esempi: Autenticazione di sessione, token di sicurezza, bilanciamento del carico"
+        },
+        "analytics": {
+          "title": "Cookie Analitici (Opzionali)",
+          "description": "Questi cookie ci aiutano a capire come i visitatori interagiscono con il nostro sito web raccogliendo e segnalando informazioni in modo anonimo. Questo ci aiuta a migliorare il servizio.",
+          "examples": "Esempi: Visualizzazioni di pagina, percorsi utente, tracciamento errori, metriche prestazioni"
+        },
+        "preferences": {
+          "title": "Cookie di Preferenze (Opzionali)",
+          "description": "Questi cookie consentono al nostro sito web di ricordare le scelte che fai (come la tua preferenza di lingua o regione) e fornire funzionalità migliorate e più personalizzate.",
+          "examples": "Esempi: Selezione lingua, preferenze tema, personalizzazioni UI"
+        },
+        "marketing": {
+          "title": "Cookie di Marketing (Opzionali)",
+          "description": "Questi cookie vengono utilizzati per tracciare i visitatori sui siti web per visualizzare annunci pertinenti e coinvolgenti. Attualmente non utilizziamo cookie di marketing.",
+          "examples": "Esempi: Personalizzazione annunci, tracciamento campagne, pixel di conversione (attualmente non utilizzati)"
+        }
+      },
+      "thirdParty": {
+        "title": "Cookie di Terze Parti",
+        "content": "Oltre ai nostri cookie, possiamo utilizzare cookie di terze parti da partner fidati:",
+        "supabase": "Servizi di autenticazione e database",
+        "stripe": "Elaborazione pagamenti",
+        "vercel": "Hosting e ottimizzazione prestazioni"
+      },
+      "managing": {
+        "title": "Gestione delle Preferenze sui Cookie",
+        "content": "Puoi gestire le tue preferenze sui cookie in qualsiasi momento tramite il nostro banner di consenso cookie. Puoi:",
+        "banner": "Clicca qui sotto per aprire le impostazioni cookie:",
+        "openSettings": "Gestisci Preferenze Cookie"
+      },
+      "browser": {
+        "title": "Controlli del Browser",
+        "content": "La maggior parte dei browser web ti consente di controllare i cookie tramite le loro impostazioni. Puoi impostare il tuo browser per rifiutare i cookie o eliminare determinati cookie. Nota che disabilitare i cookie necessari può influire sulla funzionalità del servizio."
+      },
+      "updates": {
+        "title": "Aggiornamenti a Questa Policy",
+        "content": "Potremmo aggiornare questa Cookie Policy di tanto in tanto per riflettere cambiamenti nelle nostre pratiche o per motivi legali. Ti informeremo di modifiche significative tramite il nostro servizio."
+      },
+      "contact": {
+        "title": "Contattaci",
+        "content": "Se hai domande sul nostro utilizzo dei cookie, contattaci:"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Il Tuo Assistente AI Personale per l'Apprendimento",
+    "product": {
+      "title": "Prodotto",
+      "dashboard": "Dashboard",
+      "tutors": "Tutor AI",
+      "documents": "Documenti",
+      "plans": "Piani e Prezzi"
+    },
+    "support": {
+      "title": "Supporto",
+      "profile": "Il Mio Profilo",
+      "contact": "Contattaci"
+    },
+    "legal": {
+      "title": "Legale",
+      "privacy": "Privacy Policy",
+      "terms": "Termini di Servizio",
+      "cookies": "Cookie Policy"
+    },
+    "rights": "Tutti i diritti riservati.",
+    "gdprCompliant": "🇪🇺 Conforme al GDPR"
   }
 }

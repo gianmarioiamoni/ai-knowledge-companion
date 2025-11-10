@@ -5,6 +5,7 @@ import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Header } from '@/components/layout/header'
+import { Footer } from '@/components/layout/footer'
 import { Toaster } from '@/components/ui/sonner'
 import { CookieConsentBanner } from '@/components/cookies/cookie-consent-banner'
 import '../globals.css'
@@ -50,6 +51,9 @@ export default async function LocaleLayout({
             <main id="main-content" className="flex-1">
               {children}
             </main>
+
+            {/* Footer */}
+            <Footer />
           </div>
           <Toaster />
           <CookieConsentBanner />

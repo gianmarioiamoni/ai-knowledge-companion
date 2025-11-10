@@ -530,6 +530,44 @@
       "cancel": "Cancel",
       "deleting": "Deleting..."
     },
+    "dataManagement": {
+      "gdprNotice": "🇪🇺 Under GDPR, you have the right to access, export, and delete your personal data at any time.",
+      "export": {
+        "title": "Export Your Data",
+        "description": "Download a complete copy of all your data in JSON format",
+        "includes": "Your export will include:",
+        "profile": "Account and profile information",
+        "tutors": "AI tutors you've created",
+        "documents": "Uploaded documents and files",
+        "conversations": "Chat conversations and messages",
+        "multimedia": "Audio, video, and image files",
+        "subscription": "Subscription and billing information",
+        "button": "Export My Data",
+        "exporting": "Exporting...",
+        "downloaded": "Your data has been downloaded successfully!",
+        "exportSuccess": "Data exported successfully",
+        "exportError": "Failed to export data. Please try again."
+      },
+      "delete": {
+        "title": "Delete Account",
+        "description": "Permanently delete your account and all associated data",
+        "warning": "⚠️ This action is permanent and cannot be undone!",
+        "willBeDeleted": "This will permanently delete:",
+        "profile": "Your account and profile",
+        "tutors": "All AI tutors you've created",
+        "documents": "All uploaded documents",
+        "conversations": "All chat conversations",
+        "multimedia": "All multimedia files",
+        "subscription": "Your subscription (no refunds for remaining time)",
+        "button": "Delete My Account",
+        "confirmTitle": "Are you absolutely sure?",
+        "confirmDescription": "This action cannot be undone. All your data will be permanently deleted from our servers.",
+        "confirmWarning": "Click the button below to proceed with account deletion.",
+        "confirmButton": "Yes, Delete My Account",
+        "deleteSuccess": "Your account has been deleted",
+        "deleteError": "Failed to delete account. Please contact support."
+      }
+    },
     "messages": {
       "avatarUpdated": "Profile picture updated successfully",
       "profileUpdated": "Profile updated successfully",
@@ -1056,5 +1094,285 @@
       "notSet": "You have not set your cookie preferences yet.",
       "expires": "Your consent expires on {date}."
     }
+  },
+  "legal": {
+    "privacy": {
+      "pageTitle": "Privacy Policy | AI Knowledge Companion",
+      "pageDescription": "Learn how we collect, use, and protect your personal data in compliance with GDPR",
+      "title": "Privacy Policy",
+      "lastUpdated": "Last Updated",
+      "intro": {
+        "title": "Introduction",
+        "content": "At AI Knowledge Companion, we respect your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our service, in compliance with the General Data Protection Regulation (GDPR) and other applicable data protection laws."
+      },
+      "dataCollected": {
+        "title": "Data We Collect",
+        "account": {
+          "title": "Account Information",
+          "email": "Email address (for account creation and communication)",
+          "name": "Name or username (for personalization)",
+          "password": "Password (encrypted and securely stored)"
+        },
+        "usage": {
+          "title": "Usage Data",
+          "documents": "Documents you upload",
+          "tutors": "AI tutors you create",
+          "conversations": "Chat conversations with tutors",
+          "multimedia": "Multimedia files (audio, video, images)"
+        },
+        "technical": {
+          "title": "Technical Data",
+          "ip": "IP address and device information",
+          "browser": "Browser type and version",
+          "cookies": "Cookies and similar tracking technologies"
+        }
+      },
+      "howWeUse": {
+        "title": "How We Use Your Data",
+        "provide": "To provide and maintain our service",
+        "improve": "To improve and personalize your experience",
+        "communicate": "To communicate with you about service updates",
+        "security": "To detect and prevent fraud and security issues",
+        "legal": "To comply with legal obligations"
+      },
+      "legalBasis": {
+        "title": "Legal Basis for Processing (GDPR)",
+        "contract": {
+          "title": "Contract Performance",
+          "content": "We process your data to perform our contract with you (providing the AI tutoring service)."
+        },
+        "consent": {
+          "title": "Consent",
+          "content": "For optional features like analytics cookies, we ask for your explicit consent."
+        },
+        "legitimate": {
+          "title": "Legitimate Interest",
+          "content": "We process data for our legitimate business interests (e.g., fraud prevention, improving our service)."
+        }
+      },
+      "dataSharing": {
+        "title": "Data Sharing and Third Parties",
+        "openai": "OpenAI: For AI processing (subject to OpenAI's privacy policy)",
+        "supabase": "Supabase: For database and authentication (subject to Supabase's privacy policy)",
+        "stripe": "Stripe: For payment processing (subject to Stripe's privacy policy)",
+        "hosting": "Hosting providers: For infrastructure (subject to their privacy policies)"
+      },
+      "yourRights": {
+        "title": "Your Rights Under GDPR",
+        "access": {
+          "title": "Right to Access",
+          "content": "You can request a copy of your personal data"
+        },
+        "rectification": {
+          "title": "Right to Rectification",
+          "content": "You can correct inaccurate data"
+        },
+        "erasure": {
+          "title": "Right to Erasure",
+          "content": "You can request deletion of your data"
+        },
+        "portability": {
+          "title": "Right to Data Portability",
+          "content": "You can export your data in a machine-readable format"
+        },
+        "restriction": {
+          "title": "Right to Restriction",
+          "content": "You can request we limit processing of your data"
+        },
+        "objection": {
+          "title": "Right to Object",
+          "content": "You can object to certain types of processing"
+        },
+        "withdraw": {
+          "title": "Right to Withdraw Consent",
+          "content": "You can withdraw consent at any time"
+        }
+      },
+      "dataRetention": {
+        "title": "Data Retention",
+        "content": "We retain your personal data only as long as necessary for the purposes set out in this Privacy Policy, or as required by law. When you delete your account, we permanently delete your personal data within 30 days, except where we must retain it for legal compliance."
+      },
+      "security": {
+        "title": "Data Security",
+        "content": "We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. This includes encryption, secure authentication, regular security audits, and access controls."
+      },
+      "cookies": {
+        "title": "Cookies and Tracking",
+        "content": "We use cookies and similar technologies as described in our Cookie Policy. You can manage your cookie preferences at any time through our cookie consent banner."
+      },
+      "children": {
+        "title": "Children's Privacy",
+        "content": "Our service is not intended for users under 16 years of age. We do not knowingly collect personal data from children. If you believe we have collected data from a child, please contact us immediately."
+      },
+      "changes": {
+        "title": "Changes to This Policy",
+        "content": "We may update this Privacy Policy from time to time. We will notify you of significant changes by email or through a prominent notice on our service. Your continued use after changes constitutes acceptance of the updated policy."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "If you have questions about this Privacy Policy or wish to exercise your GDPR rights, please contact us:"
+      }
+    },
+    "terms": {
+      "pageTitle": "Terms of Service | AI Knowledge Companion",
+      "pageDescription": "Terms and conditions for using the AI Knowledge Companion service",
+      "title": "Terms of Service",
+      "lastUpdated": "Last Updated",
+      "intro": {
+        "title": "Introduction",
+        "content": "Welcome to AI Knowledge Companion. These Terms of Service govern your use of our AI-powered tutoring platform. By accessing or using our service, you agree to be bound by these terms."
+      },
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "content": "By creating an account and using our service, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service and our Privacy Policy. If you do not agree, please do not use our service."
+      },
+      "service": {
+        "title": "Service Description",
+        "content": "AI Knowledge Companion provides an AI-powered tutoring platform where users can upload documents, create personalized AI tutors, and engage in educational conversations. The service uses advanced AI models to provide learning assistance."
+      },
+      "account": {
+        "title": "Account Responsibilities",
+        "accurate": "You must provide accurate and complete information when creating an account",
+        "security": "You are responsible for maintaining the security of your account credentials",
+        "unauthorized": "You must notify us immediately of any unauthorized access",
+        "responsibility": "You are responsible for all activities that occur under your account"
+      },
+      "restrictions": {
+        "title": "Prohibited Uses",
+        "illegal": "Use the service for any illegal or unauthorized purpose",
+        "abuse": "Harass, abuse, or harm other users",
+        "interference": "Interfere with or disrupt the service or servers",
+        "automated": "Use automated systems or bots without permission",
+        "rights": "Violate any intellectual property rights",
+        "resell": "Resell or redistribute the service without authorization"
+      },
+      "content": {
+        "title": "Content and Intellectual Property",
+        "yourContent": {
+          "title": "Your Content",
+          "content": "You retain ownership of content you upload. By uploading content, you grant us a license to process, store, and display it as necessary to provide the service. You are responsible for ensuring you have the rights to upload your content."
+        },
+        "ourContent": {
+          "title": "Our Content",
+          "content": "The service, including its design, features, and functionality, is owned by AI Knowledge Companion and is protected by intellectual property laws. You may not copy, modify, or create derivative works without our permission."
+        }
+      },
+      "payments": {
+        "title": "Subscriptions and Payments",
+        "billing": "Subscription fees are billed in advance on a monthly or annual basis",
+        "cancellation": "You can cancel your subscription at any time from your account settings",
+        "refunds": "Refunds are provided on a case-by-case basis at our discretion",
+        "changes": "We may change subscription prices with 30 days' notice"
+      },
+      "termination": {
+        "title": "Termination",
+        "content": "We may suspend or terminate your account if you violate these Terms of Service, engage in fraudulent activity, or for any other reason at our discretion. You may delete your account at any time from your account settings."
+      },
+      "disclaimer": {
+        "title": "Disclaimer of Warranties",
+        "content": "The service is provided \"as is\" without warranties of any kind. We do not guarantee the accuracy, completeness, or reliability of AI-generated content. The service is for educational purposes only and should not replace professional advice."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "content": "To the maximum extent permitted by law, AI Knowledge Companion shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the service. Our total liability shall not exceed the amount you paid us in the past 12 months."
+      },
+      "changes": {
+        "title": "Changes to Terms",
+        "content": "We may update these Terms of Service from time to time. We will notify you of significant changes by email or through a notice on the service. Your continued use after changes constitutes acceptance."
+      },
+      "law": {
+        "title": "Governing Law",
+        "content": "These Terms of Service are governed by the laws of the European Union and the country where the service is operated. Any disputes shall be resolved in the appropriate courts."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "If you have questions about these Terms of Service, please contact us:"
+      }
+    },
+    "cookiePolicy": {
+      "pageTitle": "Cookie Policy | AI Knowledge Companion",
+      "pageDescription": "Learn about how we use cookies and similar technologies",
+      "title": "Cookie Policy",
+      "lastUpdated": "Last Updated",
+      "intro": {
+        "title": "Introduction",
+        "content": "This Cookie Policy explains how AI Knowledge Companion uses cookies and similar technologies to recognize you when you visit our service. It explains what these technologies are, why we use them, and your rights to control their use."
+      },
+      "whatAreCookies": {
+        "title": "What Are Cookies?",
+        "content": "Cookies are small text files that are placed on your device when you visit a website. They are widely used to make websites work more efficiently and provide information to website owners. Cookies can be \"persistent\" (remain after you close your browser) or \"session\" (deleted when you close your browser)."
+      },
+      "categories": {
+        "title": "Types of Cookies We Use",
+        "necessary": {
+          "title": "Necessary Cookies (Always Active)",
+          "description": "These cookies are essential for the website to function properly. They enable core functionality such as security, authentication, and network management.",
+          "examples": "Examples: Session authentication, security tokens, load balancing"
+        },
+        "analytics": {
+          "title": "Analytics Cookies (Optional)",
+          "description": "These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously. This helps us improve the service.",
+          "examples": "Examples: Page views, user paths, error tracking, performance metrics"
+        },
+        "preferences": {
+          "title": "Preference Cookies (Optional)",
+          "description": "These cookies allow our website to remember choices you make (such as your language preference or region) and provide enhanced, more personalized features.",
+          "examples": "Examples: Language selection, theme preferences, UI customizations"
+        },
+        "marketing": {
+          "title": "Marketing Cookies (Optional)",
+          "description": "These cookies are used to track visitors across websites to display relevant and engaging advertisements. We currently do not use marketing cookies.",
+          "examples": "Examples: Ad personalization, campaign tracking, conversion pixels (not currently used)"
+        }
+      },
+      "thirdParty": {
+        "title": "Third-Party Cookies",
+        "content": "In addition to our own cookies, we may use third-party cookies from trusted partners:",
+        "supabase": "Authentication and database services",
+        "stripe": "Payment processing",
+        "vercel": "Hosting and performance optimization"
+      },
+      "managing": {
+        "title": "Managing Your Cookie Preferences",
+        "content": "You can manage your cookie preferences at any time through our cookie consent banner. You can:",
+        "banner": "Click below to open cookie settings:",
+        "openSettings": "Manage Cookie Preferences"
+      },
+      "browser": {
+        "title": "Browser Controls",
+        "content": "Most web browsers allow you to control cookies through their settings. You can set your browser to refuse cookies or delete certain cookies. Please note that disabling necessary cookies may affect the functionality of the service."
+      },
+      "updates": {
+        "title": "Updates to This Policy",
+        "content": "We may update this Cookie Policy from time to time to reflect changes in our practices or for legal reasons. We will notify you of significant changes through our service."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "If you have questions about our use of cookies, please contact us:"
+      }
+    }
+  },
+  "footer": {
+    "tagline": "Your Personal AI Learning Assistant",
+    "product": {
+      "title": "Product",
+      "dashboard": "Dashboard",
+      "tutors": "AI Tutors",
+      "documents": "Documents",
+      "plans": "Plans & Pricing"
+    },
+    "support": {
+      "title": "Support",
+      "profile": "My Profile",
+      "contact": "Contact Us"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookie Policy"
+    },
+    "rights": "All rights reserved.",
+    "gdprCompliant": "🇪🇺 GDPR Compliant"
   }
 }
