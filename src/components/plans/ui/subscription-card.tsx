@@ -29,15 +29,21 @@ import { SubscriptionDetails } from './subscription-card/subscription-details'
 import { UsageLimitsSection } from './subscription-card/usage-limits-section'
 import { SubscriptionActions } from './subscription-card/subscription-actions'
 import { AdminUnlimitedAccess } from './subscription-card/admin-unlimited-access'
+import { ScheduledPlanBanner } from './subscription-card/scheduled-plan-banner'
 
 export function SubscriptionCard(): JSX.Element {
   const tSub = useTranslations('plans.subscription')
   const tPlans = useTranslations('plans')
   const tCommon = useTranslations('common')
+  const tScheduled = useTranslations('plans.scheduledChange')
   const state = useSubscriptionCardState()
 
   // Prepare translation object with all needed keys
   const translations = {
+    // Scheduled change keys
+    scheduledChangeTitle: tScheduled('title'),
+    scheduledChangeDescription: tScheduled('description'),
+    effectiveDate: tScheduled('effectiveDate'),
     // Subscription keys
     title: tSub('title'),
     statusActive: tSub('statusActive'),
@@ -96,12 +102,29 @@ export function SubscriptionCard(): JSX.Element {
   
   // Check if user has a Stripe subscription (has stripe_subscription_id)
   const hasStripeSubscription = !!subscription.stripe_subscription_id
+  
+  // Check if there's a scheduled plan change
+  const hasScheduledChange = !!subscription.scheduled_plan_id
 
   return (
     <Card>
       <SubscriptionHeader {...prepareHeaderData(subscription, translations, tSub)} />
 
       <CardContent className="space-y-4">
+        {/* Show scheduled plan change banner if applicable */}
+        {hasScheduledChange && subscription.scheduled_plan_display_name && subscription.scheduled_change_date && (
+          <ScheduledPlanBanner
+            scheduledPlanName={subscription.scheduled_plan_display_name}
+            scheduledBillingCycle={subscription.scheduled_billing_cycle || 'monthly'}
+            scheduledChangeDate={subscription.scheduled_change_date}
+            currentPlanName={subscription.plan_display_name}
+            currentBillingCycle={subscription.billing_cycle}
+            titleText={translations.scheduledChangeTitle || 'Scheduled Plan Change'}
+            descriptionText={translations.scheduledChangeDescription || 'Your plan will change from {current} to {scheduled}'}
+            effectiveDateText={translations.effectiveDate || 'Effective Date'}
+          />
+        )}
+        
         <SubscriptionDetails {...prepareDetailsData(subscription, translations, tSub)} />
         <UsageLimitsSection {...prepareUsageLimitsData(subscription, translations)} />
       </CardContent>

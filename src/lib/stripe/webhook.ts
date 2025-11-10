@@ -57,6 +57,13 @@ export async function handleSubscriptionUpdated(
 
   try {
     await syncSubscriptionToDatabase(subscription)
+    
+    // Check if there's a scheduled plan change
+    if (subscription.schedule) {
+      console.log('📅 Subscription has a schedule:', subscription.schedule)
+      // The schedule details will be handled in subscription_schedule events
+    }
+    
     console.log('✅ Subscription update synced to database')
   } catch (error) {
     console.error('❌ Error syncing subscription update:', error)
@@ -118,6 +125,43 @@ export async function handleInvoicePaid(
       .eq('stripe_subscription_id', subscriptionId)
 
     console.log('✅ Payment info updated in database')
+    
+    // Check for proration (plan change mid-cycle)
+    const hasProration = invoice.lines.data.some(line => line.proration)
+    if (hasProration) {
+      const prorationAmount = invoice.lines.data
+        .filter(line => line.proration)
+        .reduce((sum, line) => sum + (line.amount / 100), 0)
+      
+      console.log('💵 Proration detected:', prorationAmount, invoice.currency.toUpperCase())
+      
+      // Store proration info in a metadata field or separate table for notification
+      // For now, we'll log it - the frontend can detect upgrades via webhook metadata
+      const { data: subscription } = await supabase
+        .from('user_subscriptions')
+        .select('user_id')
+        .eq('stripe_subscription_id', subscriptionId)
+        .single()
+      
+      if (subscription?.user_id) {
+        // Store proration notification in profiles metadata
+        await supabase
+          .from('profiles')
+          .update({
+            metadata: {
+              last_proration: {
+                amount: prorationAmount,
+                currency: invoice.currency.toUpperCase(),
+                date: new Date().toISOString(),
+                invoice_id: invoice.id
+              }
+            }
+          })
+          .eq('id', subscription.user_id)
+        
+        console.log('✅ Proration info stored for user:', subscription.user_id)
+      }
+    }
   } catch (error) {
     console.error('❌ Error updating payment info:', error)
   }

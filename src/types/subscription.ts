@@ -69,6 +69,13 @@ export interface UserSubscriptionWithPlan {
   stripe_price_id?: string | null
   stripe_payment_method?: string | null
   
+  // Scheduled plan change fields
+  scheduled_plan_id?: string | null
+  scheduled_plan_name?: PlanName | null
+  scheduled_plan_display_name?: string | null
+  scheduled_billing_cycle?: BillingCycle | null
+  scheduled_change_date?: string | null
+  
   // Plan fields (flat from SQL join)
   plan_name: PlanName
   plan_display_name: string

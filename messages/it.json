@@ -576,12 +576,21 @@
       "changePlan": "Cambia Piano",
       "cancelSubscription": "Cancella Abbonamento",
       "reactivateSubscription": "Riattiva Abbonamento",
+      "prorationTitle": "Addebito Proporzionale Applicato",
+      "prorationDescription": "Ti è stato addebitato {currency} {amount} per i giorni rimanenti del ciclo di fatturazione.",
       "error": {
         "title": "Errore Pagamento",
         "generic": "Qualcosa è andato storto. Riprova.",
         "noCustomer": "Nessun metodo di pagamento trovato. Abbonati prima ad un piano.",
         "sessionFailed": "Creazione sessione pagamento fallita. Riprova."
       }
+    },
+    "scheduledChange": {
+      "title": "Cambio Piano Programmato",
+      "description": "Il tuo piano cambierà da {current} a {scheduled}",
+      "effectiveDate": "Data Effettiva",
+      "currentBenefitsNote": "I vantaggi del tuo piano attuale rimarranno attivi fino alla data del cambio.",
+      "upgradeNote": "Ti verrà addebitato un importo proporzionale per i giorni rimanenti quando effettuerai l'upgrade."
     },
     "upgradeError": "Impossibile aggiornare il piano. Riprova.",
     "cancelSuccess": "Abbonamento cancellato con successo.",

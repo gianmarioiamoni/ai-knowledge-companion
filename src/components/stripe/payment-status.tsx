@@ -9,7 +9,8 @@ import { JSX, useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
-import { CheckCircle2, XCircle, Info } from 'lucide-react'
+import { CheckCircle2, XCircle, Info, DollarSign } from 'lucide-react'
+import { useProrationInfo } from '@/hooks/use-proration-info'
 
 type PaymentStatus = 'success' | 'cancelled' | 'failed' | null
 
@@ -18,6 +19,7 @@ export function PaymentStatus(): JSX.Element | null {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [status, setStatus] = useState<PaymentStatus>(null)
+  const { prorationInfo, clearProrationInfo } = useProrationInfo()
 
   useEffect(() => {
     const paymentParam = searchParams.get('payment')
@@ -45,12 +47,30 @@ export function PaymentStatus(): JSX.Element | null {
     router.replace(newUrl)
   }
 
-  if (!status) {
+  if (!status && !prorationInfo) {
     return null
   }
 
   return (
-    <div className="mb-6">
+    <div className="mb-6 space-y-4">
+      {/* Proration notification (shown for upgrades) */}
+      {prorationInfo && (
+        <Alert className="border-blue-500 bg-blue-50 dark:bg-blue-950">
+          <DollarSign className="h-4 w-4 text-blue-600" />
+          <AlertTitle className="text-blue-600">
+            {t('prorationTitle') || 'Prorated Charge Applied'}
+          </AlertTitle>
+          <AlertDescription className="text-blue-700 dark:text-blue-400">
+            {t('prorationDescription')
+              ?.replace('{amount}', `${prorationInfo.amount.toFixed(2)}`)
+              ?.replace('{currency}', prorationInfo.currency) || 
+              `You've been charged ${prorationInfo.currency} ${prorationInfo.amount.toFixed(2)} for the remaining days of this billing cycle.`
+            }
+          </AlertDescription>
+        </Alert>
+      )}
+      
+      {/* Payment status messages */}
       {status === 'success' && (
         <Alert className="border-green-500 bg-green-50 dark:bg-green-950">
           <CheckCircle2 className="h-4 w-4 text-green-600" />

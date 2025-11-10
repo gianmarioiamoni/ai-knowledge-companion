@@ -576,12 +576,21 @@
       "changePlan": "Change Plan",
       "cancelSubscription": "Cancel Subscription",
       "reactivateSubscription": "Reactivate Subscription",
+      "prorationTitle": "Prorated Charge Applied",
+      "prorationDescription": "You've been charged {currency} {amount} for the remaining days of this billing cycle.",
       "error": {
         "title": "Payment Error",
         "generic": "Something went wrong. Please try again.",
         "noCustomer": "No payment method found. Please subscribe to a plan first.",
         "sessionFailed": "Failed to create payment session. Please try again."
       }
+    },
+    "scheduledChange": {
+      "title": "Scheduled Plan Change",
+      "description": "Your plan will change from {current} to {scheduled}",
+      "effectiveDate": "Effective Date",
+      "currentBenefitsNote": "Your current plan benefits will remain active until the change date.",
+      "upgradeNote": "You'll be charged a prorated amount for the remaining days when upgrading."
     },
     "upgradeError": "Failed to upgrade plan. Please try again.",
     "cancelSuccess": "Subscription cancelled successfully.",
