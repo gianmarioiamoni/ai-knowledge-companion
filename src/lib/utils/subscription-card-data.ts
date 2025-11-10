@@ -107,11 +107,14 @@ export function prepareUsageLimitsData(
  */
 export function prepareActionsData(
   subscription: UserSubscriptionWithPlan,
+  hasStripeSubscription: boolean,
   translations: Translations
 ) {
   return {
     status: subscription.status,
+    hasStripeSubscription,
     changePlanText: translations.changePlan,
+    manageSubscriptionText: translations.manageSubscription || 'Manage Subscription',
   }
 }
 

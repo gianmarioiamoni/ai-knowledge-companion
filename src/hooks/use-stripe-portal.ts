@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react'
+import { useParams } from 'next/navigation'
 
 export interface UseStripePortalReturn {
   openCustomerPortal: () => Promise<void>
@@ -14,18 +15,21 @@ export interface UseStripePortalReturn {
 export function useStripePortal(): UseStripePortalReturn {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const params = useParams()
+  const locale = params?.locale || 'en'
 
   const openCustomerPortal = async () => {
     setLoading(true)
     setError(null)
 
     try {
-      // Call API to create portal session
+      // Call API to create portal session (include locale)
       const response = await fetch('/api/stripe/create-portal-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ locale }),
       })
 
       if (!response.ok) {

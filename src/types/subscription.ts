@@ -64,6 +64,11 @@ export interface UserSubscriptionWithPlan {
   billing_cycle: BillingCycle
   days_remaining: number
   
+  // Stripe fields
+  stripe_subscription_id?: string | null
+  stripe_price_id?: string | null
+  stripe_payment_method?: string | null
+  
   // Plan fields (flat from SQL join)
   plan_name: PlanName
   plan_display_name: string

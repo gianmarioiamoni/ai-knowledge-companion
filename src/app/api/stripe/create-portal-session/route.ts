@@ -22,6 +22,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Parse request body for locale
+    const body = await request.json()
+    const { locale = 'en' } = body
+
     // Get user's Stripe customer ID
     const { data: profile } = await supabase
       .from('profiles')
@@ -36,9 +40,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create return URL
+    // Create return URL (with locale)
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const returnUrl = `${baseUrl}/profile?tab=subscription`
+    const returnUrl = `${baseUrl}/${locale}/profile?tab=subscription`
 
     // Create portal session
     const session = await createCustomerPortalSession(
