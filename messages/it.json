@@ -1007,5 +1007,54 @@
         "calls": "Chiamate API"
       }
     }
+  },
+  "cookies": {
+    "banner": {
+      "title": "Consenso Cookie",
+      "description": "Utilizziamo i cookie per migliorare la tua esperienza. Puoi personalizzare le tue preferenze o accettare tutti i cookie.",
+      "necessaryOnly": "Solo Necessari",
+      "acceptAll": "Accetta Tutti",
+      "rejectAll": "Rifiuta Tutti",
+      "customize": "Personalizza",
+      "savePreferences": "Salva Preferenze"
+    },
+    "categories": {
+      "necessary": {
+        "title": "Cookie Necessari",
+        "description": "Questi cookie sono essenziali per il corretto funzionamento del sito web. Abilitano funzionalità di base come sicurezza, autenticazione e accessibilità.",
+        "alwaysOn": "Sempre Attivi"
+      },
+      "analytics": {
+        "title": "Cookie Analitici",
+        "description": "Questi cookie ci aiutano a capire come i visitatori interagiscono con il nostro sito web raccogliendo e riportando informazioni in modo anonimo.",
+        "examples": "Google Analytics, Plausible"
+      },
+      "preferences": {
+        "title": "Cookie di Preferenza",
+        "description": "Questi cookie permettono al sito web di ricordare le scelte che fai (come lingua o tema) per fornire funzionalità migliorate e più personalizzate.",
+        "examples": "Lingua, Tema, Layout"
+      },
+      "marketing": {
+        "title": "Cookie di Marketing",
+        "description": "Questi cookie vengono utilizzati per tracciare i visitatori attraverso i siti web per visualizzare annunci pertinenti e coinvolgenti per i singoli utenti.",
+        "examples": "Google Ads, Facebook Pixel"
+      }
+    },
+    "modal": {
+      "title": "Preferenze Cookie",
+      "description": "Utilizziamo diversi tipi di cookie per ottimizzare la tua esperienza sul nostro sito web. Puoi scegliere quali categorie di cookie desideri consentire.",
+      "close": "Chiudi"
+    },
+    "links": {
+      "privacyPolicy": "Privacy Policy",
+      "moreInfo": "Maggiori Informazioni",
+      "learnMore": "Scopri di Più"
+    },
+    "status": {
+      "accepted": "Hai accettato tutti i cookie.",
+      "customized": "Hai personalizzato le tue preferenze sui cookie.",
+      "notSet": "Non hai ancora impostato le tue preferenze sui cookie.",
+      "expires": "Il tuo consenso scade il {date}."
+    }
   }
 }

@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Header } from '@/components/layout/header'
 import { Toaster } from '@/components/ui/sonner'
+import { CookieConsentBanner } from '@/components/cookies/cookie-consent-banner'
 import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -51,6 +52,7 @@ export default async function LocaleLayout({
             </main>
           </div>
           <Toaster />
+          <CookieConsentBanner />
         </NextIntlClientProvider>
       </body>
     </html>
