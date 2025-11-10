@@ -194,14 +194,9 @@ export function generateBreadcrumbSchema(
 }
 
 /**
- * Helper to inject structured data into page
+ * Note: Use StructuredDataWrapper component from '@/components/seo' to inject JSON-LD
+ * Example:
+ * import { StructuredDataWrapper } from '@/components/seo'
+ * <StructuredDataWrapper data={schema} />
  */
-export function StructuredData({ data }: { data: string }) {
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: data }}
-    />
-  )
-}
 

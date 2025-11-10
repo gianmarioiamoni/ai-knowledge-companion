@@ -12,6 +12,5 @@ export {
   generateOfferSchema,
   generateFAQSchema,
   generateBreadcrumbSchema,
-  StructuredData,
 } from './structured-data'
 
