@@ -18,6 +18,11 @@
 -- );
 
 -- 2. Storage policies for images bucket
+-- Drop existing policies if they exist (to allow re-running this script)
+DROP POLICY IF EXISTS "Users can view own images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can upload own images" ON storage.objects;
+DROP POLICY IF EXISTS "Users can delete own images" ON storage.objects;
+
 -- Enable read access for authenticated users (images they own)
 CREATE POLICY "Users can view own images"
 ON storage.objects FOR SELECT
