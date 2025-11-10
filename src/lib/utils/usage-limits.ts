@@ -4,7 +4,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 
-export type ResourceType = 'tutors' | 'documents' | 'audio' | 'video'
+export type ResourceType = 'tutors' | 'documents' | 'audio' | 'video' | 'image'
 
 export interface LimitCheckResult {
   canCreate: boolean

@@ -248,23 +248,24 @@ export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Ele
             ))}
 
             {/* Upload All Button */}
-            <Button
-              onClick={handleUploadAll}
-              disabled={uploading}
-              className="w-full"
-            >
-              {uploading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  {t('uploading')}
-                </>
-              ) : (
-                <>
-                  <Upload className="mr-2 h-4 w-4" />
-                  {t('uploadAll')} ({images.length})
-                </>
-              )}
-            </Button>
+            <div className="flex justify-center">
+              <Button
+                onClick={handleUploadAll}
+                disabled={uploading}
+              >
+                {uploading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    {t('uploading')}
+                  </>
+                ) : (
+                  <>
+                    <Upload className="mr-2 h-4 w-4" />
+                    {t('uploadAll')} ({images.length})
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         )}
       </CardContent>
