@@ -44,6 +44,15 @@ export function ScheduledPlanBanner({
   const isUpgrade = scheduledRank > currentRank
   const isDowngrade = scheduledRank < currentRank
 
+  // Format current and scheduled plan strings with billing cycle
+  const currentPlanFormatted = `${currentPlanName} (${currentBillingCycle})`
+  const scheduledPlanFormatted = `${scheduledPlanName} (${scheduledBillingCycle})`
+  
+  // Manually replace placeholders in description
+  const finalDescription = descriptionText
+    .replace('{current}', currentPlanFormatted)
+    .replace('{scheduled}', scheduledPlanFormatted)
+
   return (
     <Alert className="border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-950/50">
       <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
@@ -52,9 +61,7 @@ export function ScheduledPlanBanner({
       </AlertTitle>
       <AlertDescription className="text-blue-800 dark:text-blue-200 space-y-2">
         <div>
-          {descriptionText
-            .replace('{current}', `${currentPlanName} (${currentBillingCycle})`)
-            .replace('{scheduled}', `${scheduledPlanName} (${scheduledBillingCycle})`)}
+          {finalDescription}
         </div>
         <div className="flex items-center gap-2 text-sm font-medium">
           <Calendar className="h-3.5 w-3.5" />

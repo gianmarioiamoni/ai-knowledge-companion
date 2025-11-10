@@ -40,10 +40,6 @@ export function SubscriptionCard(): JSX.Element {
 
   // Prepare translation object with all needed keys
   const translations = {
-    // Scheduled change keys
-    scheduledChangeTitle: tScheduled('title'),
-    scheduledChangeDescription: tScheduled('description'),
-    effectiveDate: tScheduled('effectiveDate'),
     // Subscription keys
     title: tSub('title'),
     statusActive: tSub('statusActive'),
@@ -119,9 +115,9 @@ export function SubscriptionCard(): JSX.Element {
             scheduledChangeDate={subscription.scheduled_change_date}
             currentPlanName={subscription.plan_display_name}
             currentBillingCycle={subscription.billing_cycle}
-            titleText={translations.scheduledChangeTitle || 'Scheduled Plan Change'}
-            descriptionText={translations.scheduledChangeDescription || 'Your plan will change from {current} to {scheduled}'}
-            effectiveDateText={translations.effectiveDate || 'Effective Date'}
+            titleText={tScheduled('title')}
+            descriptionText={tScheduled('description')}
+            effectiveDateText={tScheduled('effectiveDate')}
           />
         )}
         

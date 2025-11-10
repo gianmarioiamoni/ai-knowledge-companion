@@ -26,7 +26,7 @@ export function SubscriptionActions({
   const isActive = status === 'active' || status === 'trial'
 
   return (
-    <CardFooter className="flex flex-col sm:flex-row gap-3">
+    <CardFooter className="flex justify-center">
       {/* 
         Smart Button Logic:
         - If user has Stripe subscription: Show "Manage Subscription" (Stripe Portal)
@@ -36,24 +36,18 @@ export function SubscriptionActions({
       */}
       {isActive && hasStripeSubscription ? (
         // User paid via Stripe - show Portal button
-        <div className="flex-1 w-full">
-          <PortalButton 
-            variant="default"
-            className="w-full"
-          />
-        </div>
+        <PortalButton 
+          variant="default"
+        />
       ) : (
         // User on trial or manual plan - show Change Plan button
-        <div className="flex-1 w-full">
-          <Button 
-            variant="default"
-            size="lg"
-            className="w-full"
-            onClick={() => router.push('/plans')}
-          >
-            {changePlanText}
-          </Button>
-        </div>
+        <Button 
+          variant="default"
+          size="lg"
+          onClick={() => router.push('/plans')}
+        >
+          {changePlanText}
+        </Button>
       )}
     </CardFooter>
   )
