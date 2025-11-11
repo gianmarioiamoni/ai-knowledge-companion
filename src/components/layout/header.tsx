@@ -51,9 +51,9 @@ export function Header({ locale }: HeaderProps): JSX.Element {
 
                     {/* Center: Desktop Navigation - Only for authenticated users */}
                     {user && (
-                        <div className="hidden md:flex flex-1 justify-center max-w-3xl">
+                        <nav className="hidden md:flex flex-1 justify-center max-w-3xl" aria-label="Main navigation">
                             <DesktopNavigationWithSubmenu isActivePath={isActivePath} />
-                        </div>
+                        </nav>
                     )}
 
                     {/* Right: Language Switcher + User Actions */}

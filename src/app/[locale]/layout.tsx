@@ -43,6 +43,11 @@ export default async function LocaleLayout({
     <html lang={locale}>
       <body className={inter.className}>
         <NextIntlClientProvider messages={messages} locale={locale}>
+          {/* Skip to main content link for keyboard users */}
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
+          
           {/* Wrapper for blur effect - excludes mobile menu */}
           <div id="app-blur-target" className="min-h-screen flex flex-col">
             <Header locale={locale} />
