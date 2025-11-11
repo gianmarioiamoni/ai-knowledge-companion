@@ -14,21 +14,23 @@ import { bootstrapSuperAdmin, verifySuperAdmin } from '@/lib/auth/bootstrap-supe
 
 export async function POST(request: NextRequest) {
   try {
-    // Security: Only allow this route to be called in development or by super admin
-    const isDevelopment = process.env.NODE_ENV === 'development'
+    // Security: Require bootstrap secret in all environments
+    // This prevents accidental super admin creation
+    const authHeader = request.headers.get('authorization')
+    const bootstrapSecret = process.env.BOOTSTRAP_SECRET
     
-    if (!isDevelopment) {
-      // In production, verify the request is from the app itself or super admin
-      // You could add a secret token here for additional security
-      const authHeader = request.headers.get('authorization')
-      const bootstrapSecret = process.env.BOOTSTRAP_SECRET
-      
-      if (bootstrapSecret && authHeader !== `Bearer ${bootstrapSecret}`) {
-        return NextResponse.json(
-          { error: 'Unauthorized' },
-          { status: 401 }
-        )
-      }
+    if (!bootstrapSecret) {
+      return NextResponse.json(
+        { error: 'Bootstrap secret not configured. Set BOOTSTRAP_SECRET in environment variables.' },
+        { status: 500 }
+      )
+    }
+    
+    if (authHeader !== `Bearer ${bootstrapSecret}`) {
+      return NextResponse.json(
+        { error: 'Unauthorized. Valid bootstrap secret required.' },
+        { status: 401 }
+      )
     }
 
     // Execute bootstrap

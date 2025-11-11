@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { withSuperAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { processDocumentBuffer } from '@/lib/workers/document-processor'
 
 export const runtime = 'nodejs'
 
-export async function POST(request: NextRequest) {
+export const POST = withSuperAdmin(async (request: NextRequest, { roleInfo }) => {
   try {
     const { documentId } = await request.json()
     
@@ -76,4 +77,4 @@ export async function POST(request: NextRequest) {
       error: `Reprocessing failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
     }, { status: 500 })
   }
-}
+})
