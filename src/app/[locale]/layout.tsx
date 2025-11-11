@@ -18,8 +18,82 @@ export function generateStaticParams() {
 }
 
 export const metadata: Metadata = {
-  title: 'AI Knowledge Companion',
-  description: 'Your Personal Learning Assistant - Build your own AI tutor',
+  title: {
+    default: 'AI Knowledge Companion',
+    template: '%s | AI Knowledge Companion'
+  },
+  description: 'Your Personal Learning Assistant - Build your own AI tutor with RAG capabilities, document processing, and intelligent chat',
+  keywords: ['AI', 'Learning', 'Tutor', 'RAG', 'Knowledge Management', 'Education', 'OpenAI', 'LangChain'],
+  authors: [{ name: 'AI Knowledge Companion Team' }],
+  creator: 'AI Knowledge Companion',
+  publisher: 'AI Knowledge Companion',
+  
+  // Manifest for PWA
+  manifest: '/manifest.json',
+  
+  // Icons and Favicon
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/icons/icon-32x32.svg', sizes: '32x32', type: 'image/svg+xml' },
+      { url: '/icons/icon-16x16.svg', sizes: '16x16', type: 'image/svg+xml' },
+    ],
+    apple: [
+      { url: '/icons/icon-180x180.svg', sizes: '180x180', type: 'image/svg+xml' },
+    ],
+  },
+  
+  // Open Graph
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: 'https://ai-knowledge-companion.vercel.app',
+    title: 'AI Knowledge Companion',
+    description: 'Your Personal Learning Assistant - Build your own AI tutor with RAG capabilities',
+    siteName: 'AI Knowledge Companion',
+    images: [
+      {
+        url: '/icons/icon-512x512.svg',
+        width: 512,
+        height: 512,
+        alt: 'AI Knowledge Companion Logo',
+      },
+    ],
+  },
+  
+  // Twitter Card
+  twitter: {
+    card: 'summary',
+    title: 'AI Knowledge Companion',
+    description: 'Your Personal Learning Assistant - Build your own AI tutor',
+    images: ['/icons/icon-512x512.svg'],
+  },
+  
+  // Additional Meta Tags
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  
+  // Viewport
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
+  
+  // Theme Color
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#3b82f6' },
+    { media: '(prefers-color-scheme: dark)', color: '#1e40af' },
+  ],
 }
 
 export default async function LocaleLayout({
