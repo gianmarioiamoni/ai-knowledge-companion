@@ -25,6 +25,7 @@ A modern, full-stack platform that transforms documents, audio, video, and image
 - [🔧 Technology Stack](#-technology-stack)
 - [🎯 Key Characteristics](#-key-characteristics)
 - [🚀 Quick Start](#-quick-start)
+- [🌐 Deployment](#-deployment)
 - [⚙️ Environment Variables](#️-environment-variables)
 - [📂 Project Structure](#-project-structure)
 - [🏗️ Architecture](#️-architecture)
@@ -299,6 +300,61 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+## 🌐 Deployment
+
+### Deploy to Vercel (Recommended)
+
+The easiest way to deploy AI Knowledge Companion is using [Vercel](https://vercel.com/).
+
+#### Quick Deploy
+
+1. **Generate deployment secrets**
+```bash
+./scripts/generate-secrets.sh
+```
+
+2. **Push to GitHub**
+```bash
+git push origin main
+```
+
+3. **Import to Vercel**
+   - Go to https://vercel.com/new
+   - Import your GitHub repository
+   - Configure environment variables (see checklist below)
+   - Deploy!
+
+#### 📋 Complete Deployment Guide
+
+For a comprehensive step-by-step deployment guide with all configurations:
+- **Quick Reference**: [`DEPLOYMENT_QUICK_REF.md`](./DEPLOYMENT_QUICK_REF.md)
+- **Full Guide**: [`docs/setup/VERCEL_DEPLOY_GUIDE.md`](./docs/setup/VERCEL_DEPLOY_GUIDE.md)
+- **Checklist**: [`.vercel-deploy-checklist.md`](./.vercel-deploy-checklist.md)
+
+#### 🔐 Generated Secrets (Example)
+The `generate-secrets.sh` script will create unique secrets for:
+- `NEXTAUTH_SECRET` - Authentication
+- `BOOTSTRAP_SECRET` - Super admin creation
+
+#### ⚙️ Post-Deploy Configuration
+
+After deployment, you'll need to:
+1. Update `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` with your Vercel URL
+2. Configure Supabase redirect URLs
+3. Setup Stripe webhook endpoint
+4. Bootstrap super admin account
+
+See the full deployment guide for detailed instructions.
+
+#### 🔄 Continuous Deployment
+
+Once configured, every push to `main` automatically deploys to production:
+```bash
+git push origin main  # ← Auto-deploys!
+```
 
 ---
 
