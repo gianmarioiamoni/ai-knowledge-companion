@@ -29,6 +29,9 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
+  // Base URL for resolving relative URLs (required for Open Graph images)
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  
   title: {
     default: 'AI Knowledge Companion',
     template: '%s | AI Knowledge Companion'
