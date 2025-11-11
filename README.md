@@ -6,8 +6,14 @@ A modern, full-stack platform that transforms documents, audio, video, and image
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
 [![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-purple)](https://openai.com/)
+[![LangChain](https://img.shields.io/badge/LangChain-JS-blue)](https://js.langchain.com/)
+[![Stripe](https://img.shields.io/badge/Stripe-Payments-008CDD)](https://stripe.com/)
+[![JWT](https://img.shields.io/badge/JWT-Auth-000000)](https://jwt.io/)
+[![i18n](https://img.shields.io/badge/i18n-next--intl-blue)](https://next-intl-docs.vercel.app/)
+[![Zod](https://img.shields.io/badge/Zod-Validation-3E67B1)](https://zod.dev/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 ---
@@ -24,8 +30,6 @@ A modern, full-stack platform that transforms documents, audio, video, and image
 - [🏗️ Architecture](#️-architecture)
 - [📚 Documentation](#-documentation)
 - [🛠️ Development](#️-development)
-- [🚢 Deployment](#-deployment)
-- [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
 
 ---
@@ -649,78 +653,6 @@ export statement
 - **Component Tests**: React components with Testing Library
 - **E2E Tests**: Critical user flows with Playwright
 - **Target Coverage**: 80%+
-
----
-
-## 🚢 Deployment
-
-### Vercel (Recommended)
-
-1. **Connect Repository**
-   - Import project in Vercel dashboard
-   - Select the repository
-
-2. **Configure Environment Variables**
-   - Add all variables from `.env.local`
-   - Ensure production URLs are set
-
-3. **Deploy**
-   - Push to main branch for automatic deployment
-   - Preview deployments on pull requests
-
-### Supabase
-
-- Database and Auth are managed by Supabase
-- No additional deployment needed
-- Automatic scaling and backups
-
-### Environment-Specific Configuration
-
-**Development:**
-- Use `.env.local` for local development
-- Enable debug mode
-- Use test Stripe keys
-
-**Production:**
-- Use Vercel environment variables
-- Enable production mode
-- Use live Stripe keys
-- Setup custom domain
-- Enable analytics
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please follow these guidelines:
-
-### Getting Started
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes
-4. Write/update tests
-5. Run linting and tests
-6. Commit your changes (`git commit -m 'Add amazing feature'`)
-7. Push to the branch (`git push origin feature/amazing-feature`)
-8. Open a Pull Request
-
-### Pull Request Guidelines
-
-- Provide clear description of changes
-- Include tests for new features
-- Update documentation as needed
-- Follow existing code style
-- Ensure all tests pass
-- Keep commits atomic and well-described
-
-### Code Review Process
-
-1. Automated checks must pass
-2. At least one approval required
-3. Address review comments
-4. Squash commits if needed
-5. Merge when approved
 
 ---
 
