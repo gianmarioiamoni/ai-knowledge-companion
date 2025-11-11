@@ -21,7 +21,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     if (tutorId) {
-      getTutor(tutorId).then(({ data, error }) => {
+      getTutor(tutorId).then(({ data }) => {
         if (data) setTutor(data);
         setLoading(false);
       });

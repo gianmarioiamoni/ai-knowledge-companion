@@ -119,7 +119,7 @@ export async function parseDocumentFromBuffer(
       case "text/markdown": {
         try {
           // Usa LangChain TextLoader per consistenza con altri loader
-          const { TextLoader } = await import("@langchain/community/document_loaders/fs/text");
+          const { TextLoader } = await import("langchain/document_loaders/fs/text");
           
           const blob = new Blob([buffer], { 
             type: mimeType 
@@ -154,7 +154,7 @@ export async function parseDocumentFromBuffer(
       case "application/pdf": {
         try {
           // Usa LangChain WebPDFLoader per estrarre testo robustamente
-          const { WebPDFLoader } = await import("@langchain/community/document_loaders/web/pdf");
+          const { WebPDFLoader } = await import("langchain/document_loaders/web/pdf");
           
           const blob = new Blob([buffer], { type: "application/pdf" });
           const loader = new WebPDFLoader(blob, { parsedItemSeparator: "\n\n" });
@@ -181,7 +181,7 @@ export async function parseDocumentFromBuffer(
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
         try {
           // Usa LangChain DocxLoader per estrarre testo da DOC/DOCX
-          const { DocxLoader } = await import("@langchain/community/document_loaders/fs/docx");
+          const { DocxLoader } = await import("langchain/document_loaders/fs/docx");
           
           const blob = new Blob([buffer], { 
             type: mimeType 
@@ -213,7 +213,7 @@ export async function parseDocumentFromBuffer(
       case "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
         try {
           // Usa LangChain PPTXLoader per estrarre testo da PPTX
-          const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
+          const { PPTXLoader } = await import("langchain/document_loaders/fs/pptx");
           
           const blob = new Blob([buffer], { 
             type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" 

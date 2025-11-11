@@ -56,7 +56,7 @@ interface BillingAggregated {
   }
 }
 
-export const GET = withAdmin(async (request: NextRequest, { roleInfo }) => {
+export const GET = withAdmin(async (request: NextRequest) => {
   try {
     const { searchParams } = new URL(request.url)
     const period = searchParams.get('period') || 'month'
