@@ -36,10 +36,10 @@ export default async function PlansPage({ params }: { params: Promise<{ locale: 
 
   // Generate structured data for pricing plans
   const structuredData = [
-    generateOfferSchema('Free Plan', '0', 'USD', locale),
-    generateOfferSchema('Starter Plan', '9.99', 'USD', locale),
-    generateOfferSchema('Pro Plan', '19.99', 'USD', locale),
-    generateOfferSchema('Enterprise Plan', '49.99', 'USD', locale),
+    generateOfferSchema('Free Plan', '0', 'EUR', locale),
+    generateOfferSchema('Starter Plan', '9.99', 'EUR', locale),
+    generateOfferSchema('Pro Plan', '19.99', 'EUR', locale),
+    generateOfferSchema('Enterprise Plan', '49.99', 'EUR', locale),
   ]
 
   return (

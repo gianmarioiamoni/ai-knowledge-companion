@@ -28,7 +28,7 @@ export function PriceDisplay({
   if (isFree) {
     return (
       <div className="text-center">
-        <div className="text-4xl font-bold">$0</div>
+        <div className="text-4xl font-bold">€0</div>
         <div className="text-sm text-muted-foreground mt-1">
           {t('freeTrial', { days: trialDays })}
         </div>
@@ -46,7 +46,7 @@ export function PriceDisplay({
       />
 
       <div className="text-4xl font-bold">
-        ${price}
+        €{price}
         <span className="text-lg font-normal text-muted-foreground">
           /{billingCycle === 'monthly' ? t('month') : t('year')}
         </span>
@@ -54,7 +54,7 @@ export function PriceDisplay({
 
       {billingCycle === 'yearly' && pricePerMonth && (
         <div className="text-sm text-muted-foreground mt-1">
-          ${pricePerMonth}/{t('month')} • {t('save')} ${savings}
+          €{pricePerMonth}/{t('month')} • {t('save')} €{savings}
         </div>
       )}
     </div>
