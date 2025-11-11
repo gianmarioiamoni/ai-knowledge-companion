@@ -37,6 +37,8 @@
     "plans": "Plans",
     "settings": "Settings",
     "profile": "Profile",
+    "auth": "Authentication",
+    "users": "Users",
     "login": "Login",
     "signup": "Sign Up",
     "logout": "Logout",

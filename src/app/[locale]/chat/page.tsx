@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter } from '@/i18n/navigation';
 import { useParams, useSearchParams } from 'next/navigation';
 import { ChatInterface } from '@/components/chat';
@@ -8,7 +8,7 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { getTutor } from '@/lib/supabase/tutors';
 import type { Tutor } from '@/types/tutors';
 
-export default function ChatPage() {
+function ChatPageContent() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
@@ -56,5 +56,17 @@ export default function ChatPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    }>
+      <ChatPageContent />
+    </Suspense>
   );
 }
