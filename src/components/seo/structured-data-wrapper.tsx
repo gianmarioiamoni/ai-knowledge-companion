@@ -1,12 +1,13 @@
 /**
  * Structured Data Wrapper Component
  * Injects JSON-LD structured data into pages
+ * Server-side rendered for SEO
  */
 
 import { JSX } from 'react'
 
 interface StructuredDataWrapperProps {
-  data: string | string[]
+  data: object | object[]
 }
 
 export function StructuredDataWrapper({ data }: StructuredDataWrapperProps): JSX.Element {
@@ -16,9 +17,9 @@ export function StructuredDataWrapper({ data }: StructuredDataWrapperProps): JSX
     <>
       {dataArray.map((schema, index) => (
         <script
-          key={index}
+          key={`structured-data-${index}`}
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: schema }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
         />
       ))}
     </>
