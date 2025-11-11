@@ -44,6 +44,15 @@
     "adminUsers": "Users",
     "adminBilling": "Billing"
   },
+  "breadcrumb": {
+    "ariaLabel": "Breadcrumb navigation",
+    "goToHome": "Go to home page",
+    "auth": "Authentication",
+    "chat": "Chat",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "termsOfService": "Terms of Service"
+  },
   "auth": {
     "login": "Login",
     "signup": "Sign Up",

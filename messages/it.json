@@ -44,6 +44,15 @@
     "adminUsers": "Utenti",
     "adminBilling": "Fatturazione"
   },
+  "breadcrumb": {
+    "ariaLabel": "Navigazione breadcrumb",
+    "goToHome": "Vai alla home page",
+    "auth": "Autenticazione",
+    "chat": "Chat",
+    "privacyPolicy": "Privacy Policy",
+    "cookiePolicy": "Cookie Policy",
+    "termsOfService": "Termini di Servizio"
+  },
   "auth": {
     "login": "Accedi",
     "signup": "Registrati",

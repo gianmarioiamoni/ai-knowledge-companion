@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import { routing } from '@/i18n/routing'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
+import { Breadcrumb } from '@/components/layout/breadcrumb'
 import { Toaster } from '@/components/ui/sonner'
 import { CookieConsentBanner } from '@/components/cookies/cookie-consent-banner'
 import '../globals.css'
@@ -51,6 +52,9 @@ export default async function LocaleLayout({
           {/* Wrapper for blur effect - excludes mobile menu */}
           <div id="app-blur-target" className="min-h-screen flex flex-col">
             <Header locale={locale} />
+            
+            {/* Breadcrumb navigation */}
+            <Breadcrumb locale={locale} />
 
             {/* Main content */}
             <main id="main-content" className="flex-1">
