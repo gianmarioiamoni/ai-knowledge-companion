@@ -14,6 +14,16 @@ const nextConfig: NextConfig = {
       bodySizeLimit: '500mb',
     },
   },
+  // Image optimization configuration
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
+    ],
+  },
   webpack: (config, { dev, isServer }) => {
     // Fix webpack cache warnings in development
     if (dev && !isServer) {

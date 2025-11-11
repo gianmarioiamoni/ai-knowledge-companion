@@ -1,4 +1,5 @@
 import { JSX } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/navigation'
 
@@ -10,6 +11,10 @@ interface HeroSectionProps {
   ctaSecondary: string
 }
 
+/**
+ * Hero section with background image and overlay
+ * Features a visually striking background representing AI and learning
+ */
 export function HeroSection({
   title,
   subtitle,
@@ -18,29 +23,62 @@ export function HeroSection({
   ctaSecondary
 }: HeroSectionProps): JSX.Element {
   return (
-    <div className="container mx-auto px-4 py-16">
-      <div className="text-center max-w-4xl mx-auto">
-        <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-6">
-          {title}
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-          {subtitle}
-        </p>
-        <p className="text-lg text-gray-500 dark:text-gray-400 mb-12 max-w-2xl mx-auto">
-          {description}
-        </p>
+    <div className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
+      {/* Background Image with Next.js Image optimization */}
+      <Image
+        src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2832&auto=format&fit=crop"
+        alt="AI and learning background - neural network and digital knowledge"
+        fill
+        priority
+        className="object-cover object-center"
+        sizes="100vw"
+        quality={90}
+      />
+      
+      {/* Gradient Overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85 dark:from-background/98 dark:via-background/95 dark:to-background/90" />
+      
+      {/* Additional subtle gradient for depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" />
+      
+      {/* Content Container */}
+      <div className="container relative z-10 mx-auto px-4 py-16 md:py-24">
+        <div className="text-center max-w-4xl mx-auto">
+          {/* Title with enhanced visibility */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {title}
+          </h1>
+          
+          {/* Subtitle */}
+          <p className="text-xl sm:text-2xl text-foreground/90 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-150">
+            {subtitle}
+          </p>
+          
+          {/* Description */}
+          <p className="text-base sm:text-lg text-muted-foreground mb-12 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+            {description}
+          </p>
 
-        <div className="flex gap-4 justify-center flex-col sm:flex-row">
-          <Link href="/auth/signup">
-            <Button size="lg" className="text-lg px-8 py-3 w-full sm:w-auto">
-              {ctaPrimary}
-            </Button>
-          </Link>
-          <Link href="/auth/login">
-            <Button variant="outline" size="lg" className="text-lg px-8 py-3 w-full sm:w-auto">
-              {ctaSecondary}
-            </Button>
-          </Link>
+          {/* CTA Buttons with enhanced visibility */}
+          <div className="flex gap-4 justify-center flex-col sm:flex-row animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
+            <Link href="/auth/signup">
+              <Button 
+                size="lg" 
+                className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                {ctaPrimary}
+              </Button>
+            </Link>
+            <Link href="/auth/login">
+              <Button 
+                variant="outline" 
+                size="lg" 
+                className="text-lg px-8 py-3 w-full sm:w-auto shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 bg-background/80 backdrop-blur-sm"
+              >
+                {ctaSecondary}
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
