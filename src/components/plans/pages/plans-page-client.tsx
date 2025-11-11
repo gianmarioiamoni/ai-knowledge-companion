@@ -6,21 +6,30 @@
  * - Manage loading state
  * - Delegate rendering to specialized components
  * - Delegate logic to custom hooks
+ * 
+ * SSR Support:
+ * - Accepts initialSubscription from server-side
+ * - No loading spinner if subscription data is pre-fetched
  */
 
 'use client'
 
 import { JSX } from 'react'
+import type { UserSubscription } from '@/types/subscription'
 import { usePlans } from '@/hooks/use-plans'
 import { useSubscription } from '@/hooks/use-subscription'
 import { usePlanSelection } from '@/hooks/use-plan-selection'
 import { PlansHeader, CurrentPlanBanner, PricingGrid, FAQSection } from '../sections'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 
-export function PlansPageClient(): JSX.Element {
+interface PlansPageClientProps {
+  initialSubscription?: UserSubscription | null
+}
+
+export function PlansPageClient({ initialSubscription }: PlansPageClientProps): JSX.Element {
   // Data fetching
   const { plans, loading: plansLoading } = usePlans()
-  const { subscription, loading: subLoading } = useSubscription()
+  const { subscription, loading: subLoading } = useSubscription(initialSubscription)
   
   // Business logic
   const { handleSelectPlan } = usePlanSelection()

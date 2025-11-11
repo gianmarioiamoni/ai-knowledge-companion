@@ -1,5 +1,6 @@
-import { AuthGuard } from '@/components/auth/auth-guard'
+import { redirect } from 'next/navigation'
 import { ProfilePageClient } from '@/components/profile/pages/profile-page-client'
+import { getUserServer } from '@/lib/auth'
 import type { JSX } from 'react'
 
 interface ProfilePageProps {
@@ -11,10 +12,13 @@ interface ProfilePageProps {
 export default async function ProfilePage({ params }: ProfilePageProps): Promise<JSX.Element> {
   const { locale } = await params
   
-  return (
-    <AuthGuard>
-      <ProfilePageClient locale={locale} />
-    </AuthGuard>
-  )
+  // Server-side authentication check
+  const { user } = await getUserServer()
+  
+  if (!user) {
+    redirect(`/${locale}/auth/login`)
+  }
+  
+  return <ProfilePageClient locale={locale} />
 }
 

@@ -1,6 +1,7 @@
 import { JSX } from 'react'
 import type { Metadata } from 'next'
-import { LandingPageClient } from '@/components/landing'
+import { getTranslations } from 'next-intl/server'
+import { HeroSection, FeaturesSection, MarketplaceSection } from '@/components/landing/sections'
 import { StructuredDataWrapper } from '@/components/seo'
 import { 
   generateLandingMetadata,
@@ -16,6 +17,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }): Promise<JSX.Element> {
   const { locale } = await params
+  
+  // Server-side translations
+  const t = await getTranslations({ locale, namespace: 'landing' })
 
   // Generate structured data for SEO
   const structuredData = [
@@ -27,7 +31,46 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
   return (
     <>
       <StructuredDataWrapper data={structuredData} />
-      <LandingPageClient />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+        <HeroSection
+          title={t('title')}
+          subtitle={t('subtitle')}
+          description={t('description')}
+          ctaPrimary={t('cta.primary')}
+          ctaSecondary={t('cta.secondary')}
+        />
+        <FeaturesSection
+          features={{
+            upload: {
+              title: t('features.upload.title'),
+              description: t('features.upload.description')
+            },
+            customize: {
+              title: t('features.customize.title'),
+              description: t('features.customize.description')
+            },
+            learn: {
+              title: t('features.learn.title'),
+              description: t('features.learn.description')
+            },
+            share: {
+              title: t('features.share.title'),
+              description: t('features.share.description')
+            }
+          }}
+        />
+        <MarketplaceSection
+          title={t('marketplace.title')}
+          description={t('marketplace.description')}
+          cta={t('marketplace.cta')}
+          noAccountRequired={t('marketplace.noAccountRequired')}
+          stats={{
+            tutors: t('marketplace.stats.tutors'),
+            downloads: t('marketplace.stats.downloads'),
+            users: t('marketplace.stats.users')
+          }}
+        />
+      </div>
     </>
   )
 }

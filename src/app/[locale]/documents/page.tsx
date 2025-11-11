@@ -1,6 +1,7 @@
 import { JSX } from 'react'
+import { redirect } from 'next/navigation'
 import { DocumentsPageClient } from '@/components/documents'
-import { AuthGuard } from '@/components/auth/auth-guard'
+import { getUserServer } from '@/lib/auth'
 
 interface DocumentsPageProps {
   params: Promise<{ locale: string }>
@@ -8,10 +9,13 @@ interface DocumentsPageProps {
 
 export default async function DocumentsPage({ params }: DocumentsPageProps): Promise<JSX.Element> {
   const { locale } = await params
+  
+  // Server-side authentication check
+  const { user } = await getUserServer()
+  
+  if (!user) {
+    redirect(`/${locale}/auth/login`)
+  }
 
-  return (
-    <AuthGuard requireAuth={true}>
-      <DocumentsPageClient locale={locale as 'en' | 'it'} />
-    </AuthGuard>
-  )
+  return <DocumentsPageClient locale={locale as 'en' | 'it'} />
 }

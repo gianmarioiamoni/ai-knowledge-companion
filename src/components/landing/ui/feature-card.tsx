@@ -1,5 +1,3 @@
-'use client'
-
 import { JSX } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { LucideIcon } from 'lucide-react'

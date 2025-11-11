@@ -1,5 +1,6 @@
 /**
  * Plans Page - Main entry point with SEO optimization
+ * SSR-optimized page structure
  */
 
 import { JSX } from 'react'

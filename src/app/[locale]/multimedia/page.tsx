@@ -3,14 +3,24 @@
  * Sprint 5: Audio support (active), Video/Image (coming soon)
  */
 
-import { AuthGuard } from "@/components/auth/auth-guard";
+import { redirect } from 'next/navigation'
 import { MultimediaPageClient } from "@/components/multimedia/pages/multimedia-page-client";
+import { getUserServer } from '@/lib/auth'
 
-export default function MultimediaPage() {
-  return (
-    <AuthGuard>
-      <MultimediaPageClient />
-    </AuthGuard>
-  );
+interface MultimediaPageProps {
+  params: Promise<{ locale: string }>
+}
+
+export default async function MultimediaPage({ params }: MultimediaPageProps) {
+  const { locale } = await params
+  
+  // Server-side authentication check
+  const { user } = await getUserServer()
+  
+  if (!user) {
+    redirect(`/${locale}/auth/login`)
+  }
+  
+  return <MultimediaPageClient />
 }
 

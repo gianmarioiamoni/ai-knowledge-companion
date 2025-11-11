@@ -1,5 +1,3 @@
-'use client'
-
 import { JSX } from 'react'
 import { Upload, Settings, MessageCircle, Share2 } from 'lucide-react'
 import { FeatureCard } from '../ui/feature-card'

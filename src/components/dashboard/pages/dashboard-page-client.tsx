@@ -3,7 +3,7 @@
 import { JSX } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from '@/i18n/navigation'
-import { useDashboard } from '@/hooks/use-dashboard'
+import { useDashboard, type DashboardStats } from '@/hooks/use-dashboard'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { ErrorPage } from '@/components/error'
 import { PaymentStatus } from '@/components/stripe'
@@ -17,12 +17,13 @@ import { FileText, Bot, MessageSquare, Upload } from 'lucide-react'
 
 interface DashboardPageClientProps {
   locale: 'en' | 'it'
+  initialStats?: DashboardStats
 }
 
-export function DashboardPageClient({ locale }: DashboardPageClientProps): JSX.Element {
+export function DashboardPageClient({ locale, initialStats }: DashboardPageClientProps): JSX.Element {
   const t = useTranslations('dashboard')
   const router = useRouter()
-  const { stats, isLoading, user, error } = useDashboard()
+  const { stats, isLoading, user, error } = useDashboard(initialStats)
 
   if (isLoading || !user) {
     return (

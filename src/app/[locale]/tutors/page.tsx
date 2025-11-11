@@ -1,6 +1,7 @@
 import { JSX } from 'react'
+import { redirect } from 'next/navigation'
 import { TutorsPageClient } from "@/components/tutors/pages/tutors-page-client";
-import { AuthGuard } from '@/components/auth/auth-guard'
+import { getUserServer } from '@/lib/auth'
 
 interface TutorsPageProps {
   params: Promise<{ locale: string }>
@@ -8,10 +9,13 @@ interface TutorsPageProps {
 
 export default async function TutorsPage({ params }: TutorsPageProps): Promise<JSX.Element> {
   const { locale } = await params
+  
+  // Server-side authentication check
+  const { user } = await getUserServer()
+  
+  if (!user) {
+    redirect(`/${locale}/auth/login`)
+  }
 
-  return (
-    <AuthGuard requireAuth={true}>
-      <TutorsPageClient locale={locale as 'en' | 'it'} />
-    </AuthGuard>
-  )
+  return <TutorsPageClient locale={locale as 'en' | 'it'} />
 }
