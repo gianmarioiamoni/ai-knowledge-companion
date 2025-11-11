@@ -1,226 +1,756 @@
-# AI Knowledge Companion
+# 🤖 AI Knowledge Companion
 
-Una piattaforma web dove un utente carica materiali (PDF, link, note), il sistema crea embeddings e consente di interrogare un "tutor AI" personalizzato che risponde con conoscenza limitata al materiale caricato; ogni tutor è configurabile e può essere condiviso o venduto.
+> **Your Personal AI Learning Assistant** - Build custom AI tutors powered by your own knowledge base using RAG (Retrieval-Augmented Generation).
 
-## Documentazione del Progetto
+A modern, full-stack platform that transforms documents, audio, video, and images into interactive AI tutors. Upload your materials, create specialized AI assistants, and share them in a marketplace.
 
-### 📋 File di Riferimento per Claude AI
-- **[CLAUDE.md](./CLAUDE.md)** - Specifiche complete del progetto, architettura e convenzioni
-- **[docs/ADR.md](./docs/ADR.md)** - Architecture Decision Records e pattern di sviluppo
-- **[docs/API.md](./docs/API.md)** - Contratti API completi e specifiche endpoint
+[![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://www.typescriptlang.org/)
+[![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-green)](https://supabase.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4-purple)](https://openai.com/)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
-### 🎯 Per Sviluppatori
-Leggere sempre `CLAUDE.md` per comprendere:
-- Architettura completa del sistema
-- Convenzioni di codice obbligatorie
-- Schema database dettagliato
-- Pipeline RAG e configurazioni
-- Milestones e acceptance criteria
+---
 
-## Tech Stack
+## 📑 Table of Contents
 
-- **Frontend**: Next.js 15 (App Router), React 19, TypeScript
-- **UI**: Tailwind CSS, shadcn/ui, Radix UI
-- **Backend**: Next.js API Routes
-- **Database**: Supabase (PostgreSQL + Auth + Storage + pgvector)
-- **AI**: OpenAI (Embeddings + Chat Completions)
-- **Testing**: Vitest, Testing Library
-- **Package Manager**: pnpm
+- [✨ Features](#-features)
+- [🧠 AI Technology Stack](#-ai-technology-stack)
+- [🔧 Technology Stack](#-technology-stack)
+- [🎯 Key Characteristics](#-key-characteristics)
+- [🚀 Quick Start](#-quick-start)
+- [⚙️ Environment Variables](#️-environment-variables)
+- [📂 Project Structure](#-project-structure)
+- [🏗️ Architecture](#️-architecture)
+- [📚 Documentation](#-documentation)
+- [🛠️ Development](#️-development)
+- [🚢 Deployment](#-deployment)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
-## Caratteristiche Principali (MVP)
+---
 
-- ✅ Autenticazione utenti (email/password + magic link via Supabase Auth)
-- ✅ Upload e gestione materiali (PDF, txt, link) su Supabase Storage
-- ✅ Parsing e chunking dei documenti, creazione embeddings (OpenAI Embeddings)
-- ✅ Retrieval-augmented generation (RAG) per rispondere a domande sul materiale
-- ✅ Interfaccia per creare + configurare "Tutor" (tono, livello, lingua, permissività)
-- ✅ Salvataggio cronologia conversazioni + log uso
-- ✅ Condivisione pubblica / marketplace di tutor
+## ✨ Features
 
-## Setup del Progetto
+### 🎓 Core Features
 
-### Prerequisiti
+- **📚 Multi-Format Document Support**
+  - PDF, TXT, DOCX, Markdown
+  - Audio transcription (MP3, WAV, M4A, OGG, AAC, WebM)
+  - Video processing with audio extraction (MP4, MOV, AVI, WebM)
+  - Image OCR and analysis (JPG, PNG, GIF, WebP)
 
-- Node.js 18+ 
-- pnpm
-- Account Supabase
-- API Key OpenAI
+- **🤖 AI-Powered Tutors**
+  - Create unlimited custom AI tutors
+  - Configure personality, tone, and teaching style
+  - RAG-based contextual responses from your documents
+  - Multi-document knowledge bases per tutor
 
-### Installazione
+- **💬 Intelligent Chat Interface**
+  - Real-time conversations with AI tutors
+  - Source citation and context tracking
+  - Conversation history and management
+  - Multi-language support (EN/IT)
 
-1. Clona il repository:
+- **🏪 Marketplace**
+  - Share tutors publicly
+  - Discover community-created tutors
+  - Fork and customize existing tutors
+  - Usage tracking and analytics
+
+### 🔐 Platform Features
+
+- **🔒 Authentication & Authorization**
+  - Email/password authentication
+  - Magic link login
+  - Role-based access control (User, Admin, Super Admin)
+  - Secure session management with Supabase Auth
+
+- **💳 Subscription & Billing**
+  - Stripe integration for payments
+  - Multiple subscription tiers (Free, Pro, Enterprise)
+  - Usage tracking and limits
+  - Automatic proration and plan changes
+
+- **♿ Accessibility & Compliance**
+  - WCAG 2.1 Level AA compliant
+  - EAA (European Accessibility Act) ready
+  - GDPR compliant with data export/deletion
+  - Cookie consent management
+  - Multi-language support with next-intl
+
+- **🎨 Modern UI/UX**
+  - Responsive design (mobile, tablet, desktop)
+  - Dark mode support
+  - Accessible navigation with breadcrumbs
+  - Beautiful UI with Tailwind CSS and shadcn/ui
+
+---
+
+## 🧠 AI Technology Stack
+
+### Core AI Technologies
+
+#### **OpenAI API Integration**
+- **GPT-4/GPT-4 Turbo** for chat completions
+- **text-embedding-ada-002** for document embeddings
+- **Whisper API** for audio transcription
+- **GPT-4 Vision** for image analysis and OCR
+- Token usage tracking and cost optimization
+
+#### **RAG (Retrieval-Augmented Generation)**
+- Custom RAG pipeline implementation
+- Vector similarity search with pgvector
+- Context-aware document retrieval
+- Configurable similarity thresholds
+- Source attribution and citation
+
+#### **LangChain Integration**
+- **@langchain/textsplitters** for intelligent document chunking
+- Semantic chunking with overlap
+- **@langchain/community** for document loaders
+- Support for multiple document formats
+
+#### **Vector Database**
+- **pgvector** extension on PostgreSQL
+- 1536-dimensional embedding vectors
+- Cosine similarity search
+- Optimized indexing for fast retrieval
+
+#### **Document Processing Pipeline**
+```
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│   Upload     │───▶│   Parse      │───▶│   Chunk      │
+│ (Multi-media)│    │ (Extractors) │    │ (LangChain)  │
+└──────────────┘    └──────────────┘    └──────────────┘
+                                                │
+                                                ▼
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│    Query     │◀───│   Vector DB  │◀───│  Embeddings  │
+│   (Chat)     │    │  (pgvector)  │    │   (OpenAI)   │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
+
+### Media Processing
+
+- **Audio**: Automatic transcription with Whisper API
+- **Video**: Audio extraction with ffmpeg + Whisper transcription
+- **Images**: GPT-4 Vision for OCR and content analysis
+- **Documents**: pdf-parse, mammoth, officeparser for text extraction
+
+---
+
+## 🔧 Technology Stack
+
+### Frontend
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router, React Server Components)
+- **UI Library**: [React 19](https://react.dev/)
+- **Language**: [TypeScript 5](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/)
+- **Component Library**: [shadcn/ui](https://ui.shadcn.com/), [Radix UI](https://www.radix-ui.com/)
+- **Icons**: [Lucide Icons](https://lucide.dev/)
+- **Forms**: [React Hook Form](https://react-hook-form.com/) + [Zod](https://zod.dev/)
+- **i18n**: [next-intl](https://next-intl-docs.vercel.app/)
+
+### Backend
+- **API**: Next.js API Routes (Server Actions)
+- **Database**: [Supabase](https://supabase.com/) (PostgreSQL 15)
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
+- **Vector Search**: pgvector extension
+
+### AI & ML
+- **LLM**: [OpenAI API](https://openai.com/) (GPT-4, GPT-4 Turbo)
+- **Embeddings**: OpenAI text-embedding-ada-002
+- **Transcription**: Whisper API
+- **Vision**: GPT-4 Vision API
+- **Text Processing**: [LangChain](https://js.langchain.com/)
+- **Document Parsing**: pdf-parse, mammoth, officeparser
+- **Media Processing**: ffmpeg (fluent-ffmpeg)
+
+### Payments & Subscriptions
+- **Payment Gateway**: [Stripe](https://stripe.com/)
+- **Subscription Management**: Stripe Subscriptions
+- **Webhook Handling**: Stripe webhooks for real-time updates
+
+### DevOps & Tools
+- **Package Manager**: [pnpm](https://pnpm.io/)
+- **Linting**: [ESLint 9](https://eslint.org/)
+- **Testing**: [Jest](https://jestjs.io/), [React Testing Library](https://testing-library.com/)
+- **Git Hooks**: Pre-commit security checks
+- **Deployment**: [Vercel](https://vercel.com/) (recommended)
+
+---
+
+## 🎯 Key Characteristics
+
+### 🏛️ Architecture Principles
+
+- **SOLID Principles**: Clean, maintainable, and scalable code
+- **Functional Programming**: Pure functions, immutability, no classes
+- **Test-Driven Development**: Comprehensive test coverage
+- **Single Responsibility**: Modular components with clear responsibilities
+- **Type Safety**: Full TypeScript coverage with strict mode
+
+### 🚀 Performance
+
+- **Server-Side Rendering**: Fast initial page loads
+- **React Server Components**: Reduced client-side JavaScript
+- **Edge Runtime**: Low-latency API responses
+- **Optimistic UI Updates**: Smooth user experience
+- **Efficient Caching**: Smart data fetching strategies
+
+### 🔒 Security
+
+- **Row-Level Security**: Database-level access control
+- **API Key Protection**: Environment variable management
+- **Git Hooks**: Automatic secret detection
+- **HTTPS Only**: Secure data transmission
+- **CSRF Protection**: Built-in security measures
+
+### ♿ Accessibility
+
+- **WCAG 2.1 Level AA**: Full compliance
+- **Semantic HTML**: Proper document structure
+- **ARIA Labels**: Screen reader support
+- **Keyboard Navigation**: Full keyboard accessibility
+- **Focus Management**: Logical tab order
+
+### 🌍 Internationalization
+
+- **Multi-language Support**: English and Italian
+- **RTL Support**: Ready for right-to-left languages
+- **Localized Content**: Complete translations
+- **Dynamic Language Switching**: In-app language selection
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- **Node.js** 18+ ([Download](https://nodejs.org/))
+- **pnpm** ([Install](https://pnpm.io/installation))
+- **Supabase Account** ([Sign Up](https://supabase.com/))
+- **OpenAI API Key** ([Get Key](https://platform.openai.com/api-keys))
+- **Stripe Account** ([Sign Up](https://stripe.com/)) - For payments
+
+### Installation
+
+1. **Clone the repository**
 ```bash
-git clone <repository-url>
+git clone https://github.com/yourusername/ai-knowledge-companion.git
 cd ai-knowledge-companion
 ```
 
-2. Installa le dipendenze:
+2. **Install dependencies**
 ```bash
 pnpm install
 ```
 
-3. Installa i git hooks di sicurezza:
+3. **Setup Git hooks** (security)
 ```bash
 ./scripts/setup-git-hooks.sh
 ```
 
-4. Configura le variabili d'ambiente:
+4. **Configure environment variables**
 ```bash
 cp env.example .env.local
 ```
 
-Modifica `.env.local` con le tue credenziali:
-- Supabase URL e Keys
-- OpenAI API Key
+Edit `.env.local` with your credentials (see [Environment Variables](#️-environment-variables))
 
-⚠️ **IMPORTANTE**: 
-- `.env.local` è automaticamente escluso da git per sicurezza
-- Non committare mai file contenenti API keys o credenziali
-- Usa `env.example` come template per documentare le variabili necessarie
+⚠️ **IMPORTANT**: Never commit `.env.local` or API keys to git!
 
-5. Setup del database Supabase:
-- Crea un nuovo progetto su [Supabase](https://supabase.com)
-- Abilita l'estensione pgvector nel Database
-- Esegui le migrazioni SQL (vedi `/sql/migrations/`)
+5. **Setup Supabase Database**
 
-6. Avvia il server di sviluppo:
+a. Create a new project on [Supabase](https://supabase.com/)
+
+b. Enable pgvector extension:
+```sql
+CREATE EXTENSION IF NOT EXISTS vector;
+```
+
+c. Run SQL migrations in order:
+```bash
+# See docs/SQL_MIGRATION_ORDER.md for the correct order
+```
+
+Or use the Supabase dashboard SQL editor to run files in `/sql/`
+
+6. **Setup Stripe** (optional, for payments)
+
+a. Create products and prices in [Stripe Dashboard](https://dashboard.stripe.com/)
+
+b. Copy price IDs to `.env.local`
+
+c. Setup webhook endpoint:
+```bash
+stripe listen --forward-to localhost:3000/api/webhooks/stripe
+```
+
+7. **Start development server**
 ```bash
 pnpm dev
 ```
 
-## Struttura del Progetto
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-```
-src/
-├── app/                    # Next.js App Router pages
-│   ├── auth/              # Pagine autenticazione
-│   ├── dashboard/         # Dashboard utente
-│   ├── tutors/           # Gestione tutor
-│   ├── documents/        # Gestione documenti
-│   └── marketplace/      # Marketplace pubblico
-├── components/            # Componenti React
-│   ├── auth/             # Componenti autenticazione
-│   ├── documents/        # Componenti documenti
-│   ├── tutors/           # Componenti tutor
-│   ├── chat/             # Interfaccia chat
-│   └── ui/               # Componenti UI base (shadcn)
-├── lib/                  # Utilities e configurazioni
-│   ├── supabase/         # Client Supabase
-│   ├── openai/           # Client OpenAI
-│   └── utils/            # Utility functions
-├── types/                # Definizioni TypeScript
-├── hooks/                # Custom React hooks
-└── workers/              # Background jobs
-```
+---
 
-## Scripts Disponibili
+## ⚙️ Environment Variables
+
+### Required Variables
 
 ```bash
-pnpm dev          # Avvia il server di sviluppo
-pnpm build        # Build per produzione
-pnpm start        # Avvia il server di produzione
-pnpm lint         # Esegue ESLint
-pnpm test         # Esegue i test con Vitest
-pnpm test:watch   # Esegue i test in modalità watch
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL=          # Your Supabase project URL
+NEXT_PUBLIC_SUPABASE_ANON_KEY=     # Supabase anonymous key (public)
+SUPABASE_SERVICE_ROLE_KEY=         # Supabase service role key (secret)
+
+# OpenAI Configuration
+OPENAI_API_KEY=                    # Your OpenAI API key
+
+# Next.js Configuration
+NEXTAUTH_SECRET=                   # Random secret (generate with: openssl rand -base64 32)
+NEXTAUTH_URL=                      # Your app URL (http://localhost:3000 in dev)
+NEXT_PUBLIC_SITE_URL=              # Public site URL (same as NEXTAUTH_URL)
+
+# Environment
+NODE_ENV=                          # development | production | test
 ```
 
-## Convenzioni di Sviluppo
+### Optional Variables (Payments)
 
-### Stile del Codice
+```bash
+# Stripe Configuration
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=  # Stripe publishable key (public)
+STRIPE_SECRET_KEY=                   # Stripe secret key (secret)
+STRIPE_WEBHOOK_SECRET=               # Stripe webhook signing secret
 
-- **TypeScript**: strict mode abilitato
-- **React Components**: `function ComponentName(): JSX.Element {}`
-- **Naming**: camelCase per variabili, PascalCase per componenti
-- **Directory**: lowercase con dash (es. `auth-wizard`)
+# Stripe Price IDs (from Stripe Dashboard)
+STRIPE_PRICE_PRO_MONTHLY=            # Pro plan monthly price ID
+STRIPE_PRICE_PRO_YEARLY=             # Pro plan yearly price ID
+STRIPE_PRICE_ENTERPRISE_MONTHLY=     # Enterprise monthly price ID
+STRIPE_PRICE_ENTERPRISE_YEARLY=      # Enterprise yearly price ID
+```
 
-### Principi di Sviluppo
+### Optional Variables (Admin Setup)
 
-- **SOLID Principles**: Applicati in tutto il codebase
-- **TDD**: Test-driven development quando possibile
-- **Functional Programming**: Preferire funzioni pure e immutabilità
-- **Clean Code**: Codice leggibile e manutenibile
+```bash
+# Super Admin Configuration (for initial setup)
+ADMIN_EMAIL=                       # Super admin email
+ADMIN_PASSWORD=                    # Super admin password (secure!)
+BOOTSTRAP_SECRET=                  # Secret token for admin creation endpoint
+```
 
-### Testing
+### Optional Variables (Monitoring)
 
-- Unit tests per utilities e business logic
-- Integration tests per API routes
-- E2E tests per flussi critici
-- Coverage target: 80%+
+```bash
+# Analytics & Monitoring
+NEXT_PUBLIC_VERCEL_ANALYTICS_ID=   # Vercel Analytics ID
+SENTRY_DSN=                        # Sentry error tracking DSN
+```
 
-## Architettura
+📖 See [`env.example`](./env.example) for a complete template.
+
+---
+
+## 📂 Project Structure
+
+```
+ai-knowledge-companion/
+├── src/
+│   ├── app/                        # Next.js App Router
+│   │   ├── [locale]/              # Internationalized routes
+│   │   │   ├── auth/              # Authentication pages
+│   │   │   ├── dashboard/         # User dashboard
+│   │   │   ├── tutors/           # Tutor management
+│   │   │   ├── documents/        # Document management
+│   │   │   ├── multimedia/       # Media files management
+│   │   │   ├── marketplace/      # Public marketplace
+│   │   │   ├── billing/          # Billing & subscriptions
+│   │   │   ├── admin/            # Admin panel
+│   │   │   └── profile/          # User profile
+│   │   ├── api/                  # API Routes
+│   │   │   ├── auth/             # Auth endpoints
+│   │   │   ├── chat/             # Chat endpoints
+│   │   │   ├── webhooks/         # Webhook handlers
+│   │   │   └── ...
+│   │   └── globals.css           # Global styles
+│   ├── components/               # React components
+│   │   ├── auth/                # Auth components
+│   │   ├── chat/                # Chat interface
+│   │   ├── documents/           # Document components
+│   │   ├── tutors/              # Tutor components
+│   │   ├── multimedia/          # Media components
+│   │   ├── layout/              # Layout components
+│   │   ├── ui/                  # Base UI components (shadcn)
+│   │   ├── cookies/             # Cookie consent
+│   │   └── seo/                 # SEO components
+│   ├── lib/                     # Shared utilities
+│   │   ├── openai/              # OpenAI API integration
+│   │   │   ├── embeddings.ts   # Embedding generation
+│   │   │   ├── rag.ts           # RAG implementation
+│   │   │   ├── transcription.ts # Whisper API
+│   │   │   └── vision.ts        # GPT-4 Vision
+│   │   ├── supabase/            # Supabase client & queries
+│   │   │   ├── client.ts        # Client initialization
+│   │   │   ├── server.ts        # Server-side client
+│   │   │   ├── documents.ts     # Document operations
+│   │   │   ├── tutors.ts        # Tutor operations
+│   │   │   ├── chat.ts          # Chat operations
+│   │   │   ├── similarity-search.ts # Vector search
+│   │   │   └── multimedia.ts    # Media operations
+│   │   ├── stripe/              # Stripe integration
+│   │   ├── workers/             # Background jobs
+│   │   │   ├── document-parser.ts   # Document parsing
+│   │   │   ├── document-chunker.ts  # Text chunking
+│   │   │   └── document-processor.ts # Processing pipeline
+│   │   ├── seo/                 # SEO utilities
+│   │   ├── auth/                # Auth helpers
+│   │   └── utils/               # General utilities
+│   ├── types/                   # TypeScript types
+│   │   ├── database.ts          # Supabase database types
+│   │   ├── openai.ts            # OpenAI types
+│   │   └── ...
+│   ├── hooks/                   # Custom React hooks
+│   ├── i18n/                    # Internationalization
+│   └── messages/                # Translation files
+├── public/                      # Static files
+│   ├── icons/                  # PWA icons
+│   └── ...
+├── docs/                        # Documentation
+│   ├── implementation/         # Implementation docs
+│   ├── setup/                  # Setup guides
+│   ├── refactoring/            # Refactoring docs
+│   ├── archive/                # Archived docs
+│   ├── ADR.md                  # Architecture decisions
+│   ├── API.md                  # API documentation
+│   └── ...
+├── sql/                         # Database migrations
+├── scripts/                     # Utility scripts
+├── test-files/                  # Test assets
+└── ...
+```
+
+---
+
+## 🏗️ Architecture
 
 ### RAG Pipeline
 
-1. **Upload**: File salvato su Supabase Storage
-2. **Parsing**: Estrazione testo (PDF, plain text)
-3. **Chunking**: Divisione in chunk da 500-800 token con overlap
-4. **Embedding**: Creazione embeddings con OpenAI
-5. **Storage**: Salvataggio in PostgreSQL con pgvector
-6. **Query**: Similarity search + GPT completion
+The Retrieval-Augmented Generation pipeline processes documents in several stages:
+
+```
+1. UPLOAD
+   ↓
+   User uploads file → Supabase Storage
+
+2. PARSE
+   ↓
+   Extract text from document
+   - PDF: pdf-parse
+   - DOCX: mammoth / officeparser
+   - Audio: Whisper API transcription
+   - Video: ffmpeg + Whisper
+   - Images: GPT-4 Vision OCR
+
+3. CHUNK
+   ↓
+   Split text into semantic chunks
+   - LangChain RecursiveCharacterTextSplitter
+   - 500-800 tokens per chunk
+   - 100-200 token overlap
+   - Preserve context and meaning
+
+4. EMBED
+   ↓
+   Generate vector embeddings
+   - OpenAI text-embedding-ada-002
+   - 1536-dimensional vectors
+   - Batch processing for efficiency
+
+5. STORE
+   ↓
+   Save to PostgreSQL with pgvector
+   - document_chunks table
+   - Vector index for fast search
+   - Metadata and source tracking
+
+6. QUERY (RAG)
+   ↓
+   a. User asks question
+   b. Generate embedding for question
+   c. Vector similarity search (pgvector)
+   d. Retrieve top-k relevant chunks
+   e. Build context from chunks
+   f. Send to GPT-4 with system prompt
+   g. Return answer with source citations
+```
 
 ### Database Schema
 
-Vedi `src/types/database.ts` per lo schema completo:
+**Key Tables:**
+- `profiles` - User profiles and settings
+- `documents` - Uploaded documents metadata
+- `document_chunks` - Text chunks with embeddings (vector)
+- `tutors` - AI tutor configurations
+- `conversations` - Chat conversations
+- `messages` - Individual messages
+- `usage_logs` - API usage tracking
+- `subscriptions` - Stripe subscription data
 
-- `profiles`: Profili utente
-- `documents`: Documenti caricati
-- `document_chunks`: Chunk con embeddings
-- `tutors`: Configurazioni tutor
-- `conversations`: Cronologia chat
-- `messages`: Messaggi singoli
-- `usage_logs`: Tracking utilizzo
+See [`src/types/database.ts`](./src/types/database.ts) for complete schema.
 
-## Deployment
+### Security Architecture
 
-### Vercel (Raccomandato)
+- **Row-Level Security (RLS)**: All tables have RLS policies
+- **Service Role**: Used only for admin operations
+- **Anon Key**: Public operations with user context
+- **API Route Protection**: Middleware for auth checks
+- **Environment Variables**: Secrets never exposed to client
 
-1. Collega il repository a Vercel
-2. Configura le environment variables
-3. Deploy automatico su push
+---
+
+## 📚 Documentation
+
+### 📖 Core Documentation
+
+| Document | Description |
+|----------|-------------|
+| [CLAUDE.md](./CLAUDE.md) | Complete project specifications for AI assistants |
+| [ADR.md](./docs/ADR.md) | Architecture Decision Records |
+| [API.md](./docs/API.md) | API contracts and endpoint specifications |
+
+### 🔧 Setup Guides
+
+| Guide | Description |
+|-------|-------------|
+| [Supabase Setup](./docs/setup/SUPABASE_SETUP.md) | Database configuration and migrations |
+| [Authorization Setup](./docs/AUTHORIZATION_SETUP.md) | Auth and RLS configuration |
+| [Super Admin Setup](./docs/SUPER_ADMIN_SETUP.md) | Creating super admin accounts |
+| [Worker Setup](./docs/setup/WORKER_SETUP.md) | Background job configuration |
+
+### 🎨 Implementation Details
+
+| Document | Description |
+|----------|-------------|
+| [Breadcrumb Navigation](./docs/implementation/BREADCRUMB_SRP_IMPLEMENTATION.md) | SRP architecture for breadcrumbs |
+| [Multimedia Support](./docs/implementation/MULTIMEDIA_IMPLEMENTATION_COMPLETE.md) | Audio, video, and image processing |
+| [Image Processing](./docs/implementation/IMAGE_PROCESSING_COMPLETE.md) | OCR and image analysis |
+| [GDPR Compliance](./docs/implementation/GDPR_IMPLEMENTATION_COMPLETE.md) | Privacy and data protection |
+| [SEO Optimization](./docs/implementation/SEO_IMPLEMENTATION_COMPLETE.md) | Search engine optimization |
+| [Video Processing](./docs/implementation/VIDEO_AUDIO_EXTRACTION_COMPLETE.md) | Video transcription pipeline |
+
+### 💳 Payments & Billing
+
+| Document | Description |
+|----------|-------------|
+| [Stripe Integration](./docs/STRIPE_INTEGRATION_GUIDE.md) | Complete Stripe setup guide |
+| [Stripe Implementation Status](./docs/STRIPE_IMPLEMENTATION_STATUS.md) | Current implementation state |
+| [Scheduled Plans](./docs/SCHEDULED_PLANS_AND_PRORATION.md) | Plan changes and proration |
+| [Admin Exemptions](./docs/ADMIN_SUBSCRIPTION_EXEMPTION.md) | Admin subscription handling |
+
+### ♿ Accessibility & Compliance
+
+| Document | Description |
+|----------|-------------|
+| [EAA/WCAG Compliance](./docs/EAA_WCAG_COMPLIANCE.md) | Accessibility standards compliance |
+| [GDPR Compliance](./docs/GDPR_COMPLIANCE.md) | Data protection regulations |
+| [Cookie Consent](./docs/COOKIE_CONSENT.md) | Cookie policy and consent |
+
+### 🎨 Code Quality & Refactoring
+
+| Document | Description |
+|----------|-------------|
+| [SRP Refactoring](./docs/SRP_REFACTORING.md) | Single Responsibility Principle guide |
+| [Cookie Consent Refactoring](./docs/refactoring/COOKIE_CONSENT_SRP_REFACTORING.md) | Cookie consent SRP implementation |
+| [Footer Refactoring](./docs/refactoring/FOOTER_SRP_REFACTORING.md) | Footer component SRP implementation |
+| [Testing Checklist](./docs/TESTING_CHECKLIST_REFACTORING.md) | Testing guidelines |
+
+### 🔍 SEO & Performance
+
+| Document | Description |
+|----------|-------------|
+| [SEO Optimization](./docs/SEO_OPTIMIZATION.md) | SEO best practices |
+| [SEO Testing Guide](./docs/SEO_TESTING_GUIDE.md) | SEO testing procedures |
+
+### 📦 Archived Documentation
+
+Older implementation notes and debug sessions are available in [`docs/archive/`](./docs/archive/)
+
+---
+
+## 🛠️ Development
+
+### Available Scripts
+
+```bash
+# Development
+pnpm dev              # Start development server (http://localhost:3000)
+pnpm build            # Build for production
+pnpm start            # Start production server
+pnpm lint             # Run ESLint
+pnpm lint:fix         # Fix ESLint errors
+
+# Testing
+pnpm test             # Run tests
+pnpm test:watch       # Run tests in watch mode
+pnpm test:coverage    # Run tests with coverage report
+
+# Database
+pnpm db:migrate       # Run database migrations
+pnpm db:seed          # Seed database with sample data
+
+# Utilities
+pnpm type-check       # TypeScript type checking
+pnpm format           # Format code with Prettier
+```
+
+### Code Conventions
+
+#### TypeScript Style
+```typescript
+// ✅ Good: Function declaration with explicit return type
+export function calculateEmbedding(text: string): Promise<number[]> {
+  // ...
+}
+
+// ✅ Good: React component
+export function DocumentCard({ document }: DocumentCardProps): JSX.Element {
+  return <div>...</div>
+}
+
+// ❌ Bad: Class-based (use functions only)
+export class DocumentService { }
+```
+
+#### Naming Conventions
+- **Components**: PascalCase (`DocumentCard`, `ChatInterface`)
+- **Functions**: camelCase (`calculateEmbedding`, `fetchDocuments`)
+- **Constants**: UPPER_SNAKE_CASE (`MAX_FILE_SIZE`, `API_BASE_URL`)
+- **Directories**: kebab-case (`auth-wizard`, `document-parser`)
+
+#### File Organization
+```typescript
+// Component file structure
+import statements
+types/interfaces
+helper functions
+main component
+export statement
+```
+
+### Testing Guidelines
+
+- **Unit Tests**: Pure functions and utilities
+- **Integration Tests**: API routes and database operations
+- **Component Tests**: React components with Testing Library
+- **E2E Tests**: Critical user flows with Playwright
+- **Target Coverage**: 80%+
+
+---
+
+## 🚢 Deployment
+
+### Vercel (Recommended)
+
+1. **Connect Repository**
+   - Import project in Vercel dashboard
+   - Select the repository
+
+2. **Configure Environment Variables**
+   - Add all variables from `.env.local`
+   - Ensure production URLs are set
+
+3. **Deploy**
+   - Push to main branch for automatic deployment
+   - Preview deployments on pull requests
 
 ### Supabase
 
-- Database e Auth gestiti da Supabase
-- Storage per file uploads
-- Edge Functions per background jobs (opzionale)
+- Database and Auth are managed by Supabase
+- No additional deployment needed
+- Automatic scaling and backups
 
-## Roadmap
+### Environment-Specific Configuration
 
-### Sprint 1 - Documents Flow (2 settimane)
-- [ ] Upload UI + storage
-- [ ] Worker: parsing + chunking
-- [ ] Document list + preview
+**Development:**
+- Use `.env.local` for local development
+- Enable debug mode
+- Use test Stripe keys
 
-### Sprint 2 - Embeddings + RAG (2 settimane)
-- [ ] Integrate OpenAI Embeddings
-- [ ] pgvector setup
-- [ ] Retrieval endpoint + chat UI
+**Production:**
+- Use Vercel environment variables
+- Enable production mode
+- Use live Stripe keys
+- Setup custom domain
+- Enable analytics
 
-### Sprint 3 - Tutors + Conversation (2 settimane)
-- [ ] Tutor CRUD + config UI
-- [ ] Conversation history
-- [ ] Source citation display
+---
 
-### Sprint 4 - Marketplace + Polish (2-3 settimane)
-- [ ] Marketplace pages
-- [ ] Usage tracking + billing
-- [ ] Deploy + monitoring
+## 🤝 Contributing
 
-## Contribuire
+We welcome contributions! Please follow these guidelines:
 
-1. Fork il repository
-2. Crea un branch per la feature (`git checkout -b feature/amazing-feature`)
-3. Commit le modifiche (`git commit -m 'Add amazing feature'`)
-4. Push al branch (`git push origin feature/amazing-feature`)
-5. Apri una Pull Request
+### Getting Started
 
-## Licenza
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Make your changes
+4. Write/update tests
+5. Run linting and tests
+6. Commit your changes (`git commit -m 'Add amazing feature'`)
+7. Push to the branch (`git push origin feature/amazing-feature`)
+8. Open a Pull Request
 
-MIT License - vedi `LICENSE` per dettagli.
+### Pull Request Guidelines
 
-## Supporto
+- Provide clear description of changes
+- Include tests for new features
+- Update documentation as needed
+- Follow existing code style
+- Ensure all tests pass
+- Keep commits atomic and well-described
 
-Per domande o supporto:
-- Apri un issue su GitHub
-- Consulta la documentazione in `/docs`
-- Controlla le FAQ nel wiki
+### Code Review Process
+
+1. Automated checks must pass
+2. At least one approval required
+3. Address review comments
+4. Squash commits if needed
+5. Merge when approved
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 📧 Support & Contact
+
+- **Issues**: [GitHub Issues](https://github.com/yourusername/ai-knowledge-companion/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/yourusername/ai-knowledge-companion/discussions)
+- **Documentation**: [`/docs`](./docs)
+- **Email**: support@ai-knowledge-companion.com
+
+---
+
+## 🌟 Acknowledgments
+
+- [OpenAI](https://openai.com/) for GPT-4 and embeddings API
+- [Supabase](https://supabase.com/) for the amazing backend platform
+- [Vercel](https://vercel.com/) for seamless deployment
+- [Next.js](https://nextjs.org/) team for the fantastic framework
+- [LangChain](https://js.langchain.com/) for RAG utilities
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful components
+- The open-source community for incredible tools and libraries
+
+---
+
+**Built with ❤️ using Next.js, OpenAI, and Supabase**
+
+⭐ **Star us on GitHub** if you find this project helpful!
