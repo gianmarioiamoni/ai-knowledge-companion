@@ -23,6 +23,8 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+    // Configure allowed quality values for images
+    qualities: [75, 80, 90, 95, 100],
   },
   // Security headers
   async headers() {

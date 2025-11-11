@@ -1,5 +1,5 @@
 import { Inter } from 'next/font/google'
-import { Metadata } from 'next'
+import { Metadata, Viewport } from 'next'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { notFound } from 'next/navigation'
@@ -15,6 +15,17 @@ const inter = Inter({ subsets: ['latin'] })
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }))
+}
+
+// Viewport configuration (separated from metadata in Next.js 15)
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#3b82f6' },
+    { media: '(prefers-color-scheme: dark)', color: '#1e40af' },
+  ],
 }
 
 export const metadata: Metadata = {
@@ -81,19 +92,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  
-  // Viewport
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 5,
-  },
-  
-  // Theme Color
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#3b82f6' },
-    { media: '(prefers-color-scheme: dark)', color: '#1e40af' },
-  ],
 }
 
 export default async function LocaleLayout({
