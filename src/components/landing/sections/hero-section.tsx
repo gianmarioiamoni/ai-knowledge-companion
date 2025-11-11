@@ -26,8 +26,8 @@ export function HeroSection({
     <div className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
       {/* Background Image with Next.js Image optimization */}
       <Image
-        src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2832&auto=format&fit=crop"
-        alt="AI and learning background - neural network and digital knowledge"
+        src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2865&auto=format&fit=crop"
+        alt="Digital brain and AI - artificial intelligence and knowledge representation"
         fill
         priority
         className="object-cover object-center"
@@ -36,10 +36,10 @@ export function HeroSection({
       />
       
       {/* Gradient Overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85 dark:from-background/98 dark:via-background/95 dark:to-background/90" />
+      <div className="absolute inset-0 bg-gradient-to-br from-background/70 via-background/60 to-background/50 dark:from-background/85 dark:via-background/75 dark:to-background/65" />
       
       {/* Additional subtle gradient for depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background/50 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent" />
       
       {/* Content Container */}
       <div className="container relative z-10 mx-auto px-4 py-16 md:py-24">
