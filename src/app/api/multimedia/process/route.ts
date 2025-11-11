@@ -19,8 +19,10 @@ import { chunkDocument } from "@/lib/workers/document-chunker";
 import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
 import { createDocumentChunks } from "@/lib/supabase/documents";
 import type { DocumentChunk } from "@/lib/workers/document-chunker";
+import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
+import { sanitizeLog } from "@/lib/utils/log-sanitizer";
 
-export async function POST(request: NextRequest) {
+export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
   try {
     // This endpoint processes a specific document
     // In production, this would be called by a background worker (BullMQ, Inngest, etc.)
@@ -266,7 +268,7 @@ export async function POST(request: NextRequest) {
       processingCost: totalCost,
     });
   } catch (error) {
-    console.error("❌ Processing error:", error);
+    console.error("❌ Processing error:", sanitizeLog(error));
     return NextResponse.json(
       {
         success: false,
@@ -275,5 +277,5 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});
 

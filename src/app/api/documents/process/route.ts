@@ -3,8 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { processDocumentBuffer } from '@/lib/workers/document-processor'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
+import { withRateLimit } from '@/lib/middleware/rate-limit-guard'
+import { sanitizeLog } from '@/lib/utils/log-sanitizer'
 
-export async function POST(request: NextRequest) {
+export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
   try {
     const { documentId } = await request.json()
 
@@ -77,7 +79,7 @@ export async function POST(request: NextRequest) {
         .eq('id', documentId)
 
       if (updateError) {
-        console.error('Failed to update document status:', updateError)
+        console.error('Failed to update document status:', sanitizeLog(updateError))
       }
 
       return NextResponse.json({
@@ -104,10 +106,10 @@ export async function POST(request: NextRequest) {
       )
     }
   } catch (error) {
-    console.error('Document processing API error:', error)
+    console.error('Document processing API error:', sanitizeLog(error))
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     )
   }
-}
+});

@@ -3,9 +3,11 @@ import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { chatRequestSchema } from '@/lib/schemas/chat';
 import { queryTutorRAG } from '@/lib/openai/rag';
+import { withRateLimit } from '@/lib/middleware/rate-limit-guard';
+import { sanitizeLog } from '@/lib/utils/log-sanitizer';
 
-// POST /api/chat/send - Send message with RAG
-export async function POST(request: NextRequest) {
+// POST /api/chat/send - Send message with RAG (with rate limiting and log sanitization)
+export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
   try {
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -54,7 +56,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (userMessageError) {
-      console.error('Save user message error:', userMessageError);
+      console.error('Save user message error:', sanitizeLog(userMessageError));
       return NextResponse.json({ error: 'Failed to save user message' }, { status: 500 });
     }
 
@@ -88,7 +90,7 @@ export async function POST(request: NextRequest) {
 
         totalTokensUsed = ragResponse.tokens_used;
       } catch (ragError) {
-        console.error('RAG generation error:', ragError);
+        console.error('RAG generation error:', sanitizeLog(ragError));
         // Fallback to simple response without RAG
         ragResponse = {
           answer: "I apologize, but I'm having trouble accessing my knowledge base right now. Please try again later.",
@@ -128,7 +130,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (assistantMessageError) {
-      console.error('Save assistant message error:', assistantMessageError);
+      console.error('Save assistant message error:', sanitizeLog(assistantMessageError));
       return NextResponse.json({ error: 'Failed to save assistant message' }, { status: 500 });
     }
 
@@ -145,7 +147,7 @@ export async function POST(request: NextRequest) {
         .insert(ragContextData);
 
       if (ragContextError) {
-        console.error('Save RAG context error:', ragContextError);
+        console.error('Save RAG context error:', sanitizeLog(ragContextError));
         // Don't fail the request for this error
       }
     }
@@ -169,10 +171,10 @@ export async function POST(request: NextRequest) {
       model: ragResponse.model,
     });
   } catch (error) {
-    console.error('Send message API error:', error);
+    console.error('Send message API error:', sanitizeLog(error));
     return NextResponse.json(
       { error: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
-}
+});

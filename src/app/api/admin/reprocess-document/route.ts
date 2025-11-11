@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withSuperAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { processDocumentBuffer } from '@/lib/workers/document-processor'
+import { sanitizeLog } from '@/lib/utils/log-sanitizer'
 
 export const runtime = 'nodejs'
 
@@ -72,7 +73,7 @@ export const POST = withSuperAdmin(async (request: NextRequest, { roleInfo }) =>
     })
 
   } catch (error) {
-    console.error('Reprocess document error:', error)
+    console.error('Reprocess document error:', sanitizeLog(error))
     return NextResponse.json({ 
       error: `Reprocessing failed: ${error instanceof Error ? error.message : 'Unknown error'}` 
     }, { status: 500 })

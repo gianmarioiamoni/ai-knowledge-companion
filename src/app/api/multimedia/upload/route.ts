@@ -15,8 +15,10 @@ import {
   getMediaTypeFromMimeType,
   getFileSizeLimit,
 } from "@/types/multimedia";
+import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
+import { sanitizeLog } from "@/lib/utils/log-sanitizer";
 
-export async function POST(request: NextRequest) {
+export const POST = withRateLimit('upload', async (request: NextRequest, { roleInfo }) => {
   try {
     // Authenticate user
     const supabase = await createClient();
@@ -78,12 +80,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`📤 Uploading ${mediaType} file:`, {
+    console.log(`📤 Uploading ${mediaType} file:`, sanitizeLog({
       fileName: file.name,
       size: file.size,
       type: file.type,
       userId: user.id,
-    });
+    }));
 
     // Upload to storage (pass authenticated supabase client)
     const { path, error: uploadError } = await uploadMultimediaFile(
@@ -129,7 +131,7 @@ export async function POST(request: NextRequest) {
     );
 
     if (queueError) {
-      console.warn("⚠️  Failed to queue processing:", queueError);
+      console.warn("⚠️  Failed to queue processing:", sanitizeLog(queueError));
       // Don't fail the request - processing can be retried
     }
 
@@ -150,7 +152,7 @@ export async function POST(request: NextRequest) {
           'Content-Type': 'application/json',
         },
       }).catch((err) => {
-        console.warn("⚠️  Failed to trigger immediate processing:", err);
+        console.warn("⚠️  Failed to trigger immediate processing:", sanitizeLog(err));
         // Don't fail - cron will pick it up
       });
     }
@@ -162,7 +164,7 @@ export async function POST(request: NextRequest) {
       message: `${mediaType} file uploaded successfully. Processing started.`,
     });
   } catch (error) {
-    console.error("❌ Upload error:", error);
+    console.error("❌ Upload error:", sanitizeLog(error));
     return NextResponse.json(
       {
         success: false,
@@ -171,5 +173,5 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});
 

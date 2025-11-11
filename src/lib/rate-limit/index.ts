@@ -1,157 +1,135 @@
 /**
- * Rate Limiting Module
+ * Rate Limiting Implementation
  * 
  * Provides rate limiting functionality using Upstash Redis.
  * Uses sliding window algorithm for accurate rate limiting.
- * 
- * @see https://upstash.com/docs/redis/features/ratelimiting
  */
 
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
-import { RATE_LIMITS, getRateLimit, parseWindow, type RateLimitConfig } from './config'
+import { NextRequest } from 'next/server'
+import { getRateLimit, parseWindow } from './config'
 
-/**
- * Redis client instance (singleton)
- */
+// Initialize Redis client
 let redis: Redis | null = null
+let isRedisAvailable = false
 
-/**
- * Rate limiters cache (one per config type)
- */
-const limiters = new Map<string, Ratelimit>()
+try {
+  const redisUrl = process.env.UPSTASH_REDIS_REST_URL
+  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN
 
-/**
- * Get or create Redis client
- */
-function getRedisClient(): Redis {
-  if (!redis) {
-    const url = process.env.UPSTASH_REDIS_REST_URL
-    const token = process.env.UPSTASH_REDIS_REST_TOKEN
-
-    if (!url || !token) {
-      throw new Error(
-        'UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set in environment variables'
-      )
-    }
-
+  if (redisUrl && redisToken) {
     redis = new Redis({
-      url,
-      token,
+      url: redisUrl,
+      token: redisToken,
     })
+    isRedisAvailable = true
+    console.log('✅ Redis initialized for rate limiting')
+  } else {
+    console.warn('⚠️  Upstash Redis not configured. Rate limiting will be disabled.')
+    console.warn('   Set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN in your .env.local')
   }
-
-  return redis
+} catch (error) {
+  console.error('❌ Failed to initialize Redis:', error)
+  isRedisAvailable = false
 }
 
+// Cache for rate limiters (avoid recreating)
+const rateLimiters = new Map<string, Ratelimit>()
+
 /**
- * Get or create rate limiter for a specific configuration
+ * Get or create a rate limiter for a specific type and role
  */
-function getRateLimiter(config: RateLimitConfig): Ratelimit {
-  const key = `${config.limit}:${config.window}`
-
-  if (!limiters.has(key)) {
-    const redis = getRedisClient()
-
-    limiters.set(
-      key,
-      new Ratelimit({
-        redis,
-        limiter: Ratelimit.slidingWindow(config.limit, config.window),
-        analytics: true, // Track metrics
-        prefix: 'ratelimit', // Redis key prefix
-      })
-    )
+function getRateLimiter(type: string, role?: string): Ratelimit | null {
+  if (!redis || !isRedisAvailable) {
+    return null
   }
 
-  return limiters.get(key)!
+  const key = `${type}:${role || 'user'}`
+  
+  if (rateLimiters.has(key)) {
+    return rateLimiters.get(key)!
+  }
+
+  const config = getRateLimit(type as any, role)
+  const windowMs = parseWindow(config.window)
+
+  const limiter = new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(config.limit, `${windowMs}ms`),
+    analytics: true,
+    prefix: `ratelimit:${type}`,
+  })
+
+  rateLimiters.set(key, limiter)
+  return limiter
 }
 
 /**
  * Rate limit result
  */
 export interface RateLimitResult {
-  /**
-   * Whether the request is allowed
-   */
   success: boolean
-
-  /**
-   * Maximum requests allowed
-   */
   limit: number
-
-  /**
-   * Requests remaining in current window
-   */
   remaining: number
-
-  /**
-   * Unix timestamp (seconds) when the limit resets
-   */
   reset: number
-
-  /**
-   * Milliseconds until reset
-   */
   retryAfter: number
 }
 
 /**
  * Check rate limit for an identifier
  * 
- * @param identifier - Unique identifier (user ID, IP address, etc.)
- * @param type - Rate limit type (auth, ai, upload, admin, api)
+ * @param identifier - Unique identifier (user ID or IP address)
+ * @param type - Rate limit type
  * @param role - User role (for role-based limits)
  * @returns Rate limit result
- * 
- * @example
- * ```typescript
- * const result = await checkRateLimit(userId, 'ai', 'admin')
- * if (!result.success) {
- *   return Response.json({ error: 'Too many requests' }, { status: 429 })
- * }
- * ```
  */
 export async function checkRateLimit(
   identifier: string,
-  type: keyof typeof RATE_LIMITS = 'api',
+  type: string,
   role?: string
 ): Promise<RateLimitResult> {
-  try {
-    // Check if rate limiting is bypassed (development only)
-    if (process.env.BYPASS_RATE_LIMIT === 'true') {
-      console.warn('[RATE_LIMIT] Bypassed for development')
-      return {
-        success: true,
-        limit: 999999,
-        remaining: 999999,
-        reset: Date.now() + 60000,
-        retryAfter: 0,
-      }
+  // If Redis is not available, allow all requests
+  if (!redis || !isRedisAvailable) {
+    return {
+      success: true,
+      limit: 999999,
+      remaining: 999999,
+      reset: Date.now() + 60000,
+      retryAfter: 0,
     }
+  }
 
-    const config = getRateLimit(type, role)
-    const limiter = getRateLimiter(config)
+  const limiter = getRateLimiter(type, role)
+  
+  if (!limiter) {
+    // Fallback if limiter creation fails
+    return {
+      success: true,
+      limit: 999999,
+      remaining: 999999,
+      reset: Date.now() + 60000,
+      retryAfter: 0,
+    }
+  }
 
+  try {
     const result = await limiter.limit(identifier)
-
+    
     return {
       success: result.success,
       limit: result.limit,
       remaining: result.remaining,
       reset: result.reset,
-      retryAfter: Math.max(0, result.reset * 1000 - Date.now()),
+      retryAfter: result.success ? 0 : (result.reset - Date.now()),
     }
   } catch (error) {
-    // Log error but don't block request on rate limit failure
-    console.error('[RATE_LIMIT] Error checking rate limit:', error)
-
-    // Fail open - allow the request
+    console.error('[RATE_LIMIT] Check failed:', error)
+    // On error, allow request (fail open)
     return {
       success: true,
-      limit: 0,
-      remaining: 0,
+      limit: 999999,
+      remaining: 999999,
       reset: Date.now() + 60000,
       retryAfter: 0,
     }
@@ -159,40 +137,32 @@ export async function checkRateLimit(
 }
 
 /**
- * Get identifier from request
- * Uses user ID if authenticated, otherwise uses IP address
- * 
- * @param request - Next.js request
- * @param userId - Optional user ID (if authenticated)
- * @returns Identifier string
+ * Get identifier for rate limiting
+ * Uses user ID if available, falls back to IP address
  */
-export function getIdentifier(request: Request, userId?: string): string {
+export function getIdentifier(request: NextRequest, userId?: string): string {
   if (userId) {
     return `user:${userId}`
   }
 
-  // Get IP from various headers (Vercel, Cloudflare, etc.)
-  const headers = new Headers(request.headers)
-  const ip =
-    headers.get('x-forwarded-for')?.split(',')[0].trim() ||
-    headers.get('x-real-ip') ||
-    headers.get('cf-connecting-ip') ||
-    'anonymous'
-
+  // Get IP address from various headers (handle proxies)
+  const forwarded = request.headers.get('x-forwarded-for')
+  const realIp = request.headers.get('x-real-ip')
+  const cfConnecting = request.headers.get('cf-connecting-ip')
+  
+  const ip = cfConnecting || realIp || forwarded?.split(',')[0] || 'unknown'
+  
   return `ip:${ip}`
 }
 
 /**
- * Create rate limit response headers
- * 
- * @param result - Rate limit result
- * @returns Headers object
+ * Create rate limit headers for HTTP response
  */
 export function createRateLimitHeaders(result: RateLimitResult): Record<string, string> {
   return {
     'X-RateLimit-Limit': result.limit.toString(),
     'X-RateLimit-Remaining': result.remaining.toString(),
-    'X-RateLimit-Reset': result.reset.toString(),
+    'X-RateLimit-Reset': new Date(result.reset).toISOString(),
     ...(result.retryAfter > 0 && {
       'Retry-After': Math.ceil(result.retryAfter / 1000).toString(),
     }),
@@ -200,25 +170,29 @@ export function createRateLimitHeaders(result: RateLimitResult): Record<string, 
 }
 
 /**
- * Reset rate limit for an identifier (admin function)
+ * Reset rate limit for an identifier (for testing or admin override)
  * 
  * @param identifier - Identifier to reset
  * @param type - Rate limit type
  */
 export async function resetRateLimit(
   identifier: string,
-  type: keyof typeof RATE_LIMITS = 'api'
+  type: string
 ): Promise<void> {
+  if (!redis || !isRedisAvailable) {
+    return
+  }
+
   try {
-    const redis = getRedisClient()
-    const config = RATE_LIMITS[type]
-    const key = `ratelimit:${config.limit}:${config.window}:${identifier}`
-
-    await redis.del(key)
-
-    console.log(`[RATE_LIMIT] Reset for ${identifier} (${type})`)
+    const keys = await redis.keys(`ratelimit:${type}:*:${identifier}`)
+    if (keys.length > 0) {
+      await redis.del(...keys)
+    }
   } catch (error) {
-    console.error('[RATE_LIMIT] Error resetting rate limit:', error)
+    console.error('[RATE_LIMIT] Reset failed:', error)
   }
 }
 
+// Export configuration
+export { RATE_LIMITS, ROLE_MULTIPLIERS, getRateLimit } from './config'
+export type { RateLimitConfig } from './config'

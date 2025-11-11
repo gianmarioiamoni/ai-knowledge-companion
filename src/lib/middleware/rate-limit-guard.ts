@@ -24,7 +24,7 @@ import { getCurrentUserRole } from '@/lib/auth/roles'
 
 type RouteHandler = (
   request: NextRequest,
-  context?: { rateLimitResult: RateLimitResult }
+  context?: { rateLimitResult: RateLimitResult; roleInfo: any }
 ) => Promise<NextResponse> | NextResponse
 
 /**
@@ -85,7 +85,7 @@ export function withRateLimit(
       }
 
       // Execute handler
-      const response = await handler(request, { rateLimitResult: result })
+      const response = await handler(request, { rateLimitResult: result, roleInfo })
 
       // Add rate limit headers to response
       Object.entries(headers).forEach(([key, value]) => {
