@@ -20,7 +20,7 @@ import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
 import { createDocumentChunks } from "@/lib/supabase/documents";
 import type { DocumentChunk } from "@/lib/workers/document-chunker";
 import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
-import { sanitizeLog } from "@/lib/utils/log-sanitizer";
+import { sanitize } from "@/lib/utils/log-sanitizer";
 
 export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
   try {
@@ -268,7 +268,7 @@ export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo 
       processingCost: totalCost,
     });
   } catch (error) {
-    console.error("❌ Processing error:", sanitizeLog(error));
+    console.error("❌ Processing error:", sanitize(error));
     return NextResponse.json(
       {
         success: false,

@@ -7,12 +7,12 @@ import { JSX } from 'react'
 import type { Metadata } from 'next'
 import { PlansPageClient } from '@/components/plans/pages/plans-page-client'
 import { StructuredDataWrapper } from '@/components/seo'
-import { generateMetadata, generateOfferSchema } from '@/lib/seo'
+import { generateMetadata as generateSeoMetadata, generateOfferSchema } from '@/lib/seo'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
   
-  return generateMetadata({
+  return generateSeoMetadata({
     title: locale === 'en' ? 'Pricing Plans' : 'Piani Tariffari',
     description: locale === 'en'
       ? 'Choose the perfect AI Knowledge Companion plan for your learning needs. Free trial available. Flexible monthly and yearly subscriptions.'

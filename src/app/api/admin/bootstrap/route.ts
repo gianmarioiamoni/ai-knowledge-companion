@@ -11,7 +11,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { bootstrapSuperAdmin, verifySuperAdmin } from '@/lib/auth/bootstrap-super-admin'
-import { sanitizeLog } from '@/lib/utils/log-sanitizer'
+import { sanitize } from '@/lib/utils/log-sanitizer'
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
       superAdminId: result.superAdminId
     })
   } catch (error) {
-    console.error('❌ Bootstrap API error:', sanitizeLog(error))
+    console.error('❌ Bootstrap API error:', sanitize(error))
     return NextResponse.json(
       {
         success: false,

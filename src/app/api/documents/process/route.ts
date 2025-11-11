@@ -4,7 +4,7 @@ import { processDocumentBuffer } from '@/lib/workers/document-processor'
 import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { withRateLimit } from '@/lib/middleware/rate-limit-guard'
-import { sanitizeLog } from '@/lib/utils/log-sanitizer'
+import { sanitize } from '@/lib/utils/log-sanitizer'
 
 export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
   try {
@@ -79,7 +79,7 @@ export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo 
         .eq('id', documentId)
 
       if (updateError) {
-        console.error('Failed to update document status:', sanitizeLog(updateError))
+        console.error('Failed to update document status:', sanitize(updateError))
       }
 
       return NextResponse.json({
@@ -106,7 +106,7 @@ export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo 
       )
     }
   } catch (error) {
-    console.error('Document processing API error:', sanitizeLog(error))
+    console.error('Document processing API error:', sanitize(error))
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

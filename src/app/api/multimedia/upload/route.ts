@@ -16,7 +16,7 @@ import {
   getFileSizeLimit,
 } from "@/types/multimedia";
 import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
-import { sanitizeLog } from "@/lib/utils/log-sanitizer";
+import { sanitize } from "@/lib/utils/log-sanitizer";
 
 export const POST = withRateLimit('upload', async (request: NextRequest, { roleInfo }) => {
   try {
@@ -80,7 +80,7 @@ export const POST = withRateLimit('upload', async (request: NextRequest, { roleI
       );
     }
 
-    console.log(`📤 Uploading ${mediaType} file:`, sanitizeLog({
+    console.log(`📤 Uploading ${mediaType} file:`, sanitize({
       fileName: file.name,
       size: file.size,
       type: file.type,
@@ -131,7 +131,7 @@ export const POST = withRateLimit('upload', async (request: NextRequest, { roleI
     );
 
     if (queueError) {
-      console.warn("⚠️  Failed to queue processing:", sanitizeLog(queueError));
+      console.warn("⚠️  Failed to queue processing:", sanitize(queueError));
       // Don't fail the request - processing can be retried
     }
 
@@ -152,7 +152,7 @@ export const POST = withRateLimit('upload', async (request: NextRequest, { roleI
           'Content-Type': 'application/json',
         },
       }).catch((err) => {
-        console.warn("⚠️  Failed to trigger immediate processing:", sanitizeLog(err));
+        console.warn("⚠️  Failed to trigger immediate processing:", sanitize(err));
         // Don't fail - cron will pick it up
       });
     }
@@ -164,7 +164,7 @@ export const POST = withRateLimit('upload', async (request: NextRequest, { roleI
       message: `${mediaType} file uploaded successfully. Processing started.`,
     });
   } catch (error) {
-    console.error("❌ Upload error:", sanitizeLog(error));
+    console.error("❌ Upload error:", sanitize(error));
     return NextResponse.json(
       {
         success: false,
