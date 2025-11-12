@@ -72,11 +72,12 @@ export async function getDashboardStatsServer(
         }),
       
       // Count API calls (from billing_tracking)
+      // Note: .maybeSingle() returns null if no row exists, instead of throwing error
       supabase
         .from('billing_tracking')
         .select('api_calls')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()  // 🔥 CHANGED: Use maybeSingle() to handle new users without billing record
     ])
 
     // Check for errors
@@ -92,6 +93,9 @@ export async function getDashboardStatsServer(
     if (messagesResult.error) {
       console.error('[Dashboard SSR] Error counting messages:', messagesResult.error)
     }
+    if (apiCallsResult.error) {
+      console.error('[Dashboard SSR] Error fetching API calls:', apiCallsResult.error)
+    }
 
     // Aggregate stats
     const stats: DashboardStats = {
@@ -99,7 +103,7 @@ export async function getDashboardStatsServer(
       totalTutors: tutorsResult.count || 0,
       totalConversations: conversationsResult.count || 0,
       totalMessages: messagesResult.count || 0,
-      apiCalls: apiCallsResult.data?.api_calls || 0,
+      apiCalls: apiCallsResult.data?.api_calls || 0,  // Will be 0 for new users
     }
 
     return { data: stats }
