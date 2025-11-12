@@ -42,9 +42,6 @@ export const metadata: Metadata = {
   creator: 'AI Knowledge Companion',
   publisher: 'AI Knowledge Companion',
   
-  // Manifest for PWA
-  manifest: '/manifest.json',
-  
   // Icons and Favicon
   icons: {
     icon: [
