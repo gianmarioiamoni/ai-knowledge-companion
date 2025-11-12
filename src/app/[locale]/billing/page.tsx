@@ -3,6 +3,9 @@ import { redirect } from 'next/navigation'
 import { BillingPageClient } from '@/components/billing/pages/billing-page-client'
 import { getUserServer } from '@/lib/auth'
 
+// Force dynamic rendering - this page uses cookies() for auth
+export const dynamic = 'force-dynamic'
+
 interface BillingPageProps {
   params: Promise<{ locale: string }>
 }

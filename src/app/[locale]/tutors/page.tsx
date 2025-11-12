@@ -3,6 +3,9 @@ import { redirect } from 'next/navigation'
 import { TutorsPageClient } from "@/components/tutors/pages/tutors-page-client";
 import { getUserServer } from '@/lib/auth'
 
+// Force dynamic rendering - this page uses cookies() for auth
+export const dynamic = 'force-dynamic'
+
 interface TutorsPageProps {
   params: Promise<{ locale: string }>
 }

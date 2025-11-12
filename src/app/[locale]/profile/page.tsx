@@ -3,6 +3,9 @@ import { ProfilePageClient } from '@/components/profile/pages/profile-page-clien
 import { getUserServer } from '@/lib/auth'
 import type { JSX } from 'react'
 
+// Force dynamic rendering - this page uses cookies() for auth
+export const dynamic = 'force-dynamic'
+
 interface ProfilePageProps {
   params: Promise<{
     locale: 'en' | 'it'

@@ -7,6 +7,9 @@ import { redirect } from 'next/navigation'
 import { MultimediaPageClient } from "@/components/multimedia/pages/multimedia-page-client";
 import { getUserServer } from '@/lib/auth'
 
+// Force dynamic rendering - this page uses cookies() for auth
+export const dynamic = 'force-dynamic'
+
 interface MultimediaPageProps {
   params: Promise<{ locale: string }>
 }

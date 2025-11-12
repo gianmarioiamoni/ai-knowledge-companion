@@ -4,6 +4,9 @@ import { DashboardPageClient } from '@/components/dashboard'
 import { getUserServer } from '@/lib/auth'
 import { getDashboardStatsServer } from '@/lib/supabase/dashboard-server'
 
+// Force dynamic rendering - this page uses cookies() for auth
+export const dynamic = 'force-dynamic'
+
 interface DashboardPageProps {
   params: Promise<{ locale: string }>
 }

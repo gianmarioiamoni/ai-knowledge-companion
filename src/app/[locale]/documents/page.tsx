@@ -3,7 +3,10 @@ import { redirect } from 'next/navigation'
 import { DocumentsPageClient } from '@/components/documents'
 import { getUserServer } from '@/lib/auth'
 
-interface DocumentsPageProps {
+// Force dynamic rendering - this page uses cookies() for auth
+export const dynamic = 'force-dynamic'
+
+interface DocumentsPageProps{
   params: Promise<{ locale: string }>
 }
 
