@@ -5,7 +5,7 @@ import { humanizeSlug } from './humanize-slug'
 
 export interface BreadcrumbItem {
   label: string
-  href: string
+  href: string | null  // null for non-linkable intermediate segments
   isCurrentPage: boolean
 }
 
@@ -28,6 +28,19 @@ export const useBreadcrumbItems = ({ locale }: UseBreadcrumbItemsProps): Breadcr
   const tBreadcrumb = useTranslations('breadcrumb')
 
   return useMemo((): BreadcrumbItem[] => {
+    // Segments that don't have their own page and should not be links
+    const nonLinkableSegments = new Set(['auth', 'admin'])
+    
+    /**
+     * Checks if a segment should be rendered as a link
+     * Some intermediate segments (like 'auth') don't have their own page
+     */
+    const isSegmentLinkable = (segment: string, isLast: boolean): boolean => {
+      // Current page is never a link
+      if (isLast) return false
+      // Check if segment is in the non-linkable list
+      return !nonLinkableSegments.has(segment)
+    }
     /**
      * Gets the translated label for a route segment
      * Uses intelligent fallback strategy for automatic translation
@@ -81,10 +94,11 @@ export const useBreadcrumbItems = ({ locale }: UseBreadcrumbItemsProps): Breadcr
     segments.forEach((segment, index) => {
       currentPath += `/${segment}`
       const isLast = index === segments.length - 1
+      const isLinkable = isSegmentLinkable(segment, isLast)
       
       items.push({
         label: getSegmentLabel(segment),
-        href: currentPath,
+        href: isLinkable ? currentPath : null,  // null for non-linkable segments
         isCurrentPage: isLast
       })
     })

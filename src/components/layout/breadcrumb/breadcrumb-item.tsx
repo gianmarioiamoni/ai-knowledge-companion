@@ -4,14 +4,14 @@ import { useTranslations } from 'next-intl'
 
 interface BreadcrumbItemProps {
   label: string
-  href: string
+  href: string | null  // null for non-linkable segments
   isCurrentPage: boolean
   isHome: boolean
 }
 
 /**
  * Individual breadcrumb item component
- * Handles rendering of a single breadcrumb link or current page indicator
+ * Handles rendering of a single breadcrumb link, current page, or non-linkable segment
  */
 export const BreadcrumbItem = ({ 
   label, 
@@ -21,11 +21,12 @@ export const BreadcrumbItem = ({
 }: BreadcrumbItemProps) => {
   const tBreadcrumb = useTranslations('breadcrumb')
 
-  if (isCurrentPage) {
+  // Current page or non-linkable segment - render as plain text
+  if (isCurrentPage || !href) {
     return (
       <span 
         className="font-medium text-foreground truncate max-w-[200px]"
-        aria-current="page"
+        aria-current={isCurrentPage ? "page" : undefined}
       >
         {isHome && (
           <Home className="h-3 w-3 inline mr-1" aria-hidden="true" />
@@ -35,6 +36,7 @@ export const BreadcrumbItem = ({
     )
   }
 
+  // Linkable segment - render as link
   return (
     <Link
       href={href}
