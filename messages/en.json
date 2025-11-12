@@ -45,7 +45,10 @@
     "admin": "Admin",
     "adminDashboard": "Dashboard",
     "adminUsers": "Users",
-    "adminBilling": "Billing"
+    "adminBilling": "Billing",
+    "privacy-policy": "Privacy Policy",
+    "terms-of-service": "Terms of Service",
+    "cookie-policy": "Cookie Policy"
   },
   "breadcrumb": {
     "ariaLabel": "Breadcrumb navigation",

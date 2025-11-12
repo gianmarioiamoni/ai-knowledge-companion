@@ -104,12 +104,11 @@ const nextConfig: NextConfig = {
     ]
   },
   webpack: (config, { dev, isServer }) => {
+    // Disable cache completely to avoid snapshot issues
+    config.cache = false;
+
     // Fix webpack cache warnings in development
     if (dev && !isServer) {
-      config.cache = {
-        type: "memory",
-      };
-
       // Chrome compatibility fixes
       config.resolve = {
         ...config.resolve,
@@ -125,6 +124,39 @@ const nextConfig: NextConfig = {
         chunkIds: "named",
       };
     }
+
+    // LangChain optimization for production build
+    if (!dev && isServer) {
+      // Mark LangChain as external for server-side to avoid bundling issues
+      config.externals = config.externals || [];
+      config.externals.push({
+        '@langchain/community': 'commonjs @langchain/community',
+        '@langchain/core': 'commonjs @langchain/core',
+        'langchain': 'commonjs langchain',
+      });
+    }
+
+    // Optimize build performance
+    if (!dev) {
+      config.optimization = {
+        ...config.optimization,
+        minimize: true,
+        // Split chunks to avoid large bundles
+        splitChunks: {
+          ...config.optimization?.splitChunks,
+          cacheGroups: {
+            ...config.optimization?.splitChunks?.cacheGroups,
+            langchain: {
+              test: /[\\/]node_modules[\\/](@langchain|langchain)[\\/]/,
+              name: 'langchain',
+              chunks: 'all',
+              priority: 10,
+            },
+          },
+        },
+      };
+    }
+
     return config;
   },
 };

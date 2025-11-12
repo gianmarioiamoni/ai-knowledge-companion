@@ -45,7 +45,10 @@
     "admin": "Amministrazione",
     "adminDashboard": "Dashboard",
     "adminUsers": "Utenti",
-    "adminBilling": "Fatturazione"
+    "adminBilling": "Fatturazione",
+    "privacy-policy": "Privacy Policy",
+    "terms-of-service": "Termini di Servizio",
+    "cookie-policy": "Cookie Policy"
   },
   "breadcrumb": {
     "ariaLabel": "Navigazione breadcrumb",

@@ -136,11 +136,9 @@ export async function parseDocumentFromBuffer(
       }
       case "application/pdf": {
         try {
-          // TODO: Re-enable LangChain loaders (Issue #fix-1)
-          throw new Error('PDF parsing temporarily disabled');
-          // const { WebPDFLoader } = await import("langchain/document_loaders/web/pdf");
+          const { WebPDFLoader } = await import("@langchain/community/document_loaders/web/pdf");
           
-          const blob = new Blob([buffer], { type: "application/pdf" });
+          const blob = new Blob([new Uint8Array(buffer)], { type: "application/pdf" });
           const loader = new WebPDFLoader(blob, { parsedItemSeparator: "\n\n" });
           const docs = await loader.load();
           const combined = docs
@@ -164,11 +162,9 @@ export async function parseDocumentFromBuffer(
       case "application/msword":
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
         try {
-          // TODO: Re-enable LangChain loaders (Issue #fix-1)
-          throw new Error('DOCX parsing temporarily disabled');
-          // const { DocxLoader } = await import("langchain/document_loaders/fs/docx");
+          const { DocxLoader } = await import("@langchain/community/document_loaders/fs/docx");
           
-          const blob = new Blob([buffer], { 
+          const blob = new Blob([new Uint8Array(buffer)], { 
             type: mimeType 
           });
           
@@ -197,11 +193,9 @@ export async function parseDocumentFromBuffer(
       }
       case "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
         try {
-          // TODO: Re-enable LangChain loaders (Issue #fix-1)
-          throw new Error('PPTX parsing temporarily disabled');
-          // const { PPTXLoader } = await import("langchain/document_loaders/fs/pptx");
+          const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
           
-          const blob = new Blob([buffer], { 
+          const blob = new Blob([new Uint8Array(buffer)], { 
             type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" 
           });
           
