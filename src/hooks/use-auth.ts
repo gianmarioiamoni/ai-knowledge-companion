@@ -100,7 +100,8 @@ export function useAuth() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/${currentLocale}/dashboard`,
+        // CRITICAL: Must redirect to callback route to exchange OAuth code for session
+        redirectTo: `${window.location.origin}/${currentLocale}/auth/callback`,
       },
     });
     return { data, error };
