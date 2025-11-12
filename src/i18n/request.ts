@@ -1,14 +1,14 @@
 import { getRequestConfig } from "next-intl/server";
-import { readFileSync } from "fs";
-import { join } from "path";
 
+// Static imports for Vercel serverless compatibility
+// Using dynamic imports with webpack magic comments to ensure they're included in the build
 export default getRequestConfig(async ({ locale }) => {
   // Use the locale parameter directly if provided, otherwise default to 'en'
   const actualLocale = locale || "en";
 
-  // Read messages from file system
-  const messagesPath = join(process.cwd(), "messages", `${actualLocale}.json`);
-  const messages = JSON.parse(readFileSync(messagesPath, "utf8"));
+  // Import messages statically (will be bundled by webpack)
+  // This works in both development and Vercel production
+  const messages = (await import(`../../messages/${actualLocale}.json`)).default;
 
   return {
     locale: actualLocale,
