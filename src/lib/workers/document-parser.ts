@@ -118,29 +118,12 @@ export async function parseDocumentFromBuffer(
       case "text/plain":
       case "text/markdown": {
         try {
-          // Usa LangChain TextLoader per consistenza con altri loader
-          const { TextLoader } = await import("langchain/document_loaders/fs/text");
-          
-          const blob = new Blob([buffer], { 
-            type: mimeType 
-          });
-          
-          const loader = new TextLoader(blob);
-          const docs = await loader.load();
-          const combined = docs
-            .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
-            .filter(Boolean)
-            .join("\n\n");
-
-          text = combined;
-          metadata = {
-            title: filename.replace(/\.(txt|md)$/i, ""),
-            wordCount: countWords(text),
-            charCount: text.length,
-          };
+          // TODO: Re-enable LangChain loaders after fixing import paths (Issue #fix-1)
+          // Temporary: LangChain disabled, using fallback parser
+          throw new Error('LangChain temporarily disabled - using fallback');
         } catch (error) {
-          console.warn('TXT/MD parsing failed (LangChain):', error);
-          // Fallback to simple parsing
+          console.warn('TXT/MD parsing (using fallback):', error instanceof Error ? error.message : 'Unknown error');
+          // Fallback to simple parsing (always used now)
           const content = buffer.toString("utf8");
           text = content;
           metadata = {
@@ -153,8 +136,9 @@ export async function parseDocumentFromBuffer(
       }
       case "application/pdf": {
         try {
-          // Usa LangChain WebPDFLoader per estrarre testo robustamente
-          const { WebPDFLoader } = await import("langchain/document_loaders/web/pdf");
+          // TODO: Re-enable LangChain loaders (Issue #fix-1)
+          throw new Error('PDF parsing temporarily disabled');
+          // const { WebPDFLoader } = await import("langchain/document_loaders/web/pdf");
           
           const blob = new Blob([buffer], { type: "application/pdf" });
           const loader = new WebPDFLoader(blob, { parsedItemSeparator: "\n\n" });
@@ -180,8 +164,9 @@ export async function parseDocumentFromBuffer(
       case "application/msword":
       case "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
         try {
-          // Usa LangChain DocxLoader per estrarre testo da DOC/DOCX
-          const { DocxLoader } = await import("langchain/document_loaders/fs/docx");
+          // TODO: Re-enable LangChain loaders (Issue #fix-1)
+          throw new Error('DOCX parsing temporarily disabled');
+          // const { DocxLoader } = await import("langchain/document_loaders/fs/docx");
           
           const blob = new Blob([buffer], { 
             type: mimeType 
@@ -212,8 +197,9 @@ export async function parseDocumentFromBuffer(
       }
       case "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
         try {
-          // Usa LangChain PPTXLoader per estrarre testo da PPTX
-          const { PPTXLoader } = await import("langchain/document_loaders/fs/pptx");
+          // TODO: Re-enable LangChain loaders (Issue #fix-1)
+          throw new Error('PPTX parsing temporarily disabled');
+          // const { PPTXLoader } = await import("langchain/document_loaders/fs/pptx");
           
           const blob = new Blob([buffer], { 
             type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" 
@@ -267,7 +253,9 @@ export async function parseDocumentFromBuffer(
  */
 async function parseTextFile(file: File): Promise<ParsedDocument> {
   try {
-    const { TextLoader } = await import("@langchain/community/document_loaders/fs/text");
+    // TODO: Re-enable LangChain loaders (Issue #fix-1)
+    throw new Error('File-based text parsing temporarily disabled');
+    // const { TextLoader } = await import("@langchain/community/document_loaders/fs/text");
     
     const loader = new TextLoader(file);
     const docs = await loader.load();
@@ -305,7 +293,9 @@ async function parseTextFile(file: File): Promise<ParsedDocument> {
  */
 async function parsePPTXFile(file: File): Promise<ParsedDocument> {
   try {
-    const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
+    // TODO: Re-enable LangChain loaders (Issue #fix-1)
+    throw new Error('File-based PPTX parsing temporarily disabled');
+    // const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
     
     const loader = new PPTXLoader(file);
     const docs = await loader.load();
@@ -334,7 +324,9 @@ async function parsePPTXFile(file: File): Promise<ParsedDocument> {
  */
 async function parseDocFile(file: File): Promise<ParsedDocument> {
   try {
-    const { DocxLoader } = await import("@langchain/community/document_loaders/fs/docx");
+    // TODO: Re-enable LangChain loaders (Issue #fix-1)
+    throw new Error('File-based DOCX parsing temporarily disabled');
+    // const { DocxLoader } = await import("@langchain/community/document_loaders/fs/docx");
     
     // Determina il tipo di file
     const isDoc = file.name.toLowerCase().endsWith('.doc');
