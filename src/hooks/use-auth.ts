@@ -25,7 +25,7 @@ export function useAuth() {
         if (error && error.message.includes('403')) {
           console.warn('⚠️  User account deleted or session invalid, clearing local session...')
           await supabase.auth.signOut()
-          router.push('/login')
+          router.push('/auth/login')
           setUser(null)
           setLoading(false)
           return
@@ -49,7 +49,7 @@ export function useAuth() {
       // Handle specific auth events
       if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
         setUser(null)
-        router.push('/login')
+        router.push('/auth/login')
       } else {
         setUser(session?.user ?? null);
       }

@@ -71,13 +71,9 @@ export async function getDashboardStatsServer(
             .in('conversation_id', conversationIds)
         }),
       
-      // Count API calls (from billing_tracking)
-      // Note: .maybeSingle() returns null if no row exists, instead of throwing error
-      supabase
-        .from('billing_tracking')
-        .select('api_calls')
-        .eq('user_id', userId)
-        .maybeSingle()  // 🔥 CHANGED: Use maybeSingle() to handle new users without billing record
+      // TODO: Count API calls when billing_tracking table is created
+      // For now, return a resolved promise with 0
+      Promise.resolve({ data: null, error: null })
     ])
 
     // Check for errors
@@ -93,9 +89,7 @@ export async function getDashboardStatsServer(
     if (messagesResult.error) {
       console.error('[Dashboard SSR] Error counting messages:', messagesResult.error)
     }
-    if (apiCallsResult.error) {
-      console.error('[Dashboard SSR] Error fetching API calls:', apiCallsResult.error)
-    }
+    // Note: API calls query removed - billing_tracking table doesn't exist yet
 
     // Aggregate stats
     const stats: DashboardStats = {
@@ -103,7 +97,7 @@ export async function getDashboardStatsServer(
       totalTutors: tutorsResult.count || 0,
       totalConversations: conversationsResult.count || 0,
       totalMessages: messagesResult.count || 0,
-      apiCalls: apiCallsResult.data?.api_calls || 0,  // Will be 0 for new users
+      apiCalls: 0,  // TODO: Implement when billing_tracking table exists
     }
 
     return { data: stats }

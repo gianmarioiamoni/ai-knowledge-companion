@@ -31,15 +31,15 @@ export function useProrationInfo() {
         return
       }
 
-      // Get user's profile with metadata
+      // Get user's profile with settings (JSONB column)
       const { data: profile } = await supabase
         .from('profiles')
-        .select('metadata')
+        .select('settings')
         .eq('id', user.id)
         .single()
 
-      if (profile?.metadata?.last_proration) {
-        const proration = profile.metadata.last_proration
+      if (profile?.settings?.last_proration) {
+        const proration = profile.settings.last_proration
         
         // Only show if it's recent (within last 10 minutes)
         const prorationDate = new Date(proration.date)
