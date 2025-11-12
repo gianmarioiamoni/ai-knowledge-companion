@@ -43,21 +43,23 @@ export async function updateSession(request: NextRequest) {
     '/auth/callback',
   ]
   
-  // Extract the path without locale
+  // Extract the locale and path
+  const localeMatch = request.nextUrl.pathname.match(/^\/([a-z]{2})/)
+  const locale = localeMatch ? localeMatch[1] : 'en' // default to 'en' if no locale
   const pathWithoutLocale = request.nextUrl.pathname.replace(/^\/[a-z]{2}/, '') || '/'
   const isPublicRoute = publicRoutes.includes(pathWithoutLocale)
 
-  // If no user and trying to access protected route, redirect to login
+  // If no user and trying to access protected route, redirect to login (with locale)
   if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone()
-    url.pathname = '/auth/login'
+    url.pathname = `/${locale}/auth/login`
     return NextResponse.redirect(url)
   }
 
-  // If user is authenticated and trying to access auth pages, redirect to dashboard
+  // If user is authenticated and trying to access auth pages, redirect to dashboard (with locale)
   if (user && (pathWithoutLocale === '/auth/login' || pathWithoutLocale === '/auth/signup')) {
     const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
+    url.pathname = `/${locale}/dashboard`
     return NextResponse.redirect(url)
   }
 
