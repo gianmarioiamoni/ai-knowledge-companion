@@ -6,7 +6,6 @@
  */
 
 import { createClient } from '@/lib/supabase/server'
-import type { User } from '@supabase/supabase-js'
 
 export interface DashboardStats {
   totalDocuments: number
@@ -33,8 +32,7 @@ export async function getDashboardStatsServer(
       documentsResult,
       tutorsResult,
       conversationsResult,
-      messagesResult,
-      apiCallsResult
+      messagesResult
     ] = await Promise.all([
       // Count documents
       supabase

@@ -19,7 +19,7 @@ interface WebPage {
   inLanguage: string
 }
 
-interface Product {
+interface _Product {
   name: string
   description: string
   offers: {

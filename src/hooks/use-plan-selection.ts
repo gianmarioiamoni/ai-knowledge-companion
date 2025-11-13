@@ -30,7 +30,7 @@ export function usePlanSelection() {
         } else {
           toast.error(result.error || t('upgradeError'))
         }
-      } catch (error) {
+      } catch (_error) {
         toast.error(t('upgradeError'))
       } finally {
         setUpgrading(false)

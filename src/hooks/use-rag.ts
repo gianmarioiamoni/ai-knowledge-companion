@@ -57,7 +57,7 @@ export function useRAG(options: UseRAGOptions = {}) {
       }
 
       return result
-    } catch (err) {
+    } catch (_err) {
       const errorMessage = 'An unexpected error occurred during RAG query'
       setError(errorMessage)
       return {

@@ -39,7 +39,7 @@ export function withAuth(handler: RouteHandler) {
       const roleInfo = await requireAuth()
 
       return await handler(request, { roleInfo })
-    } catch (error) {
+    } catch (_error) {
       const message = error instanceof Error ? error.message : 'Authentication required'
 
       return NextResponse.json(
@@ -64,7 +64,7 @@ export function withAdmin(handler: RouteHandler) {
       const roleInfo = await requireAdmin()
 
       return await handler(request, { roleInfo })
-    } catch (error) {
+    } catch (_error) {
       const message = error instanceof Error ? error.message : 'Admin access required'
 
       // Check if it's an auth error or permission error
@@ -94,7 +94,7 @@ export function withSuperAdmin(handler: RouteHandler) {
       const roleInfo = await requireSuperAdmin()
 
       return await handler(request, { roleInfo })
-    } catch (error) {
+    } catch (_error) {
       const message = error instanceof Error ? error.message : 'Super admin access required'
 
       // Check if it's an auth error or permission error
@@ -129,7 +129,7 @@ export function withOptionalAuth(
       const roleInfo = await getCurrentUserRole()
 
       return await handler(request, { roleInfo })
-    } catch (error) {
+    } catch (_error) {
       // If error getting role info, continue with null
       return await handler(request, { roleInfo: null })
     }
@@ -215,7 +215,7 @@ export function withErrorHandler(handler: RouteHandler) {
   return async (request: NextRequest, context: RouteContext): Promise<NextResponse> => {
     try {
       return await handler(request, context)
-    } catch (error) {
+    } catch (_error) {
       console.error('API Route Error:', error)
 
       const message = error instanceof Error ? error.message : 'Internal server error'

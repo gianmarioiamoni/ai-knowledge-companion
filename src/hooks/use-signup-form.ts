@@ -45,7 +45,7 @@ export function useSignupForm() {
         router.push('/dashboard')
         return { success: true, requiresConfirmation: false }
       }
-    } catch (err) {
+    } catch (_err) {
       const errorMessage = 'An unexpected error occurred'
       setError(errorMessage)
       return { success: false, error: errorMessage }
@@ -67,7 +67,7 @@ export function useSignupForm() {
       }
 
       return { success: true }
-    } catch (err) {
+    } catch (_err) {
       const errorMessage = 'An unexpected error occurred'
       setError(errorMessage)
       return { success: false, error: errorMessage }

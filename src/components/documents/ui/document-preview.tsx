@@ -221,7 +221,7 @@ export function DocumentPreview({
                                 </div>
                             ) : (
                                 <div className="space-y-4">
-                                    {chunks.map((chunk, index) => (
+                                    {chunks.map((chunk) => (
                                         <div
                                             key={chunk.id}
                                             className="border border-gray-200 dark:border-gray-700 rounded-lg p-4"

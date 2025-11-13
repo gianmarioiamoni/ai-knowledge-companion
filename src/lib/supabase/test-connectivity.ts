@@ -8,7 +8,7 @@ export async function testSupabaseConnectivity() {
 
     // Test 1: Basic connection
     console.log("1️⃣ Testing basic connection...");
-    const { data: healthCheck, error: healthError } = await supabase
+    const { error: healthError } = await supabase
       .from("profiles")
       .select("id")
       .limit(1);
@@ -35,7 +35,7 @@ export async function testSupabaseConnectivity() {
 
     // Test 3: Documents bucket specific test
     console.log("3️⃣ Testing documents bucket...");
-    const { data: files, error: filesError } = await supabase.storage
+    const { error: filesError } = await supabase.storage
       .from("documents")
       .list("", { limit: 1 });
 

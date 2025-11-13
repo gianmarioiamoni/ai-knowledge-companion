@@ -57,7 +57,7 @@ export function useLoginForm() {
       }
       
       return { success: true }
-    } catch (err) {
+    } catch (_err) {
       const errorMessage = 'An unexpected error occurred'
       setError(errorMessage)
       return { success: false, error: errorMessage }
@@ -85,7 +85,7 @@ export function useLoginForm() {
 
       setError(t('checkEmail'))
       return { success: true }
-    } catch (err) {
+    } catch (_err) {
       const errorMessage = 'An unexpected error occurred'
       setError(errorMessage)
       return { success: false, error: errorMessage }
@@ -107,7 +107,7 @@ export function useLoginForm() {
       }
 
       return { success: true }
-    } catch (err) {
+    } catch (_err) {
       const errorMessage = 'An unexpected error occurred'
       setError(errorMessage)
       return { success: false, error: errorMessage }

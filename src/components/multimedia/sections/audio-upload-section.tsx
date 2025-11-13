@@ -15,7 +15,7 @@ import type { JSX } from 'react'
 
 export function AudioUploadSection(): JSX.Element {
   const t = useTranslations('multimedia.audio')
-  const { files, isLoading, error, uploadFile, refreshFiles, deleteFile } = useAudioFiles()
+  const { files, isLoading, error, refreshFiles, deleteFile } = useAudioFiles()
 
   return (
     <div className="space-y-6">

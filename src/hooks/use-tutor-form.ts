@@ -8,7 +8,7 @@ interface UseTutorFormProps {
   loading?: boolean;
 }
 
-export function useTutorForm({ tutor, onSubmit, onCancel, loading = false }: UseTutorFormProps) {
+export function useTutorForm({ tutor, onSubmit, loading = false }: UseTutorFormProps) {
   const [formData, setFormData] = useState<TutorInsert>({
     name: tutor?.name || '',
     description: tutor?.description || '',

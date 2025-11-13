@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/client";
 import type { Database } from "@/types/database";
 import {
-  DocumentUpload,
   SupportedMimeType,
   MAX_FILE_SIZE,
 } from "@/types/documents";

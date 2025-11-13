@@ -1,6 +1,5 @@
 import OpenAI from 'openai'
 import { searchSimilarChunks, searchTutorChunks, type SimilarityResult } from '@/lib/supabase/similarity-search'
-import { generateEmbedding } from './embeddings'
 import { logUsage, type QuotaCheckResult } from '@/lib/supabase/billing'
 
 // Funzione per ottenere il client OpenAI

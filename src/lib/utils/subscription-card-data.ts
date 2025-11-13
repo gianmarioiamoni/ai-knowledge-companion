@@ -55,7 +55,7 @@ export function getStatusLabel(status: SubscriptionStatus, translations: Transla
 export function prepareHeaderData(
   subscription: UserSubscriptionWithPlan,
   translations: Translations,
-  tSub: TranslationFunctionWithParams
+  _tSub: TranslationFunctionWithParams
 ) {
   return {
     subscription,

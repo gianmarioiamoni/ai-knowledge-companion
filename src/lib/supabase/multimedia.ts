@@ -59,7 +59,7 @@ export async function uploadMultimediaFile(
     });
 
     // Upload file directly (works better with user-level RLS)
-    const { data: uploadData, error: uploadError } = await supabase.storage
+    const { error: uploadError } = await supabase.storage
       .from(bucket)
       .upload(filePath, file, {
         contentType: file.type,

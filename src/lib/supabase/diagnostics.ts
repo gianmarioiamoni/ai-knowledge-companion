@@ -260,20 +260,20 @@ async function testSupabaseConnection(): Promise<boolean> {
     const supabase = createClient();
 
     // Test basic connection
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("profiles")
       .select("count")
       .limit(1);
 
     if (error) {
-      console.log("❌ Database connection failed:", error.message);
+      console.log.*_error.message);
       return false;
     } else {
       console.log("✅ Database connection successful");
       return true;
     }
-  } catch (error) {
-    console.log("❌ Supabase client error:", error);
+  } catch (_error) {
+    console.log.*_error);
     return false;
   }
 }
@@ -287,7 +287,7 @@ async function testStorageBucketAccess(): Promise<boolean> {
 
     // Test bucket list
     console.log("🔍 Attempting to list buckets...");
-    const { data: buckets, error: bucketsError } =
+    const { error: bucketsError } =
       await supabase.storage.listBuckets();
 
     if (bucketsError) {
@@ -306,13 +306,13 @@ async function testStorageBucketAccess(): Promise<boolean> {
     // Try direct access to documents bucket
     console.log("🔍 Testing direct access to documents bucket...");
     try {
-      const { data: files, error: directError } = await supabase.storage
+      const { error: directError } = await supabase.storage
         .from("documents")
         .list("", { limit: 1 });
 
       if (directError) {
         console.log("❌ Direct bucket access failed:", directError.message);
-        console.log("❌ Direct error details:", directError);
+        console.log.*_error details:", directError);
         return false;
       } else {
         console.log(
@@ -326,8 +326,8 @@ async function testStorageBucketAccess(): Promise<boolean> {
       console.log("❌ Direct bucket access exception:", directException);
       return false;
     }
-  } catch (error) {
-    console.log("❌ Storage test error:", error);
+  } catch (_error) {
+    console.log.*_error);
     return false;
   }
 }
@@ -346,8 +346,8 @@ async function testNetworkConfiguration(): Promise<boolean> {
       signal: AbortSignal.timeout(5000),
     });
     console.log("✅ Basic HTTP GET works:", response.status);
-  } catch (error) {
-    console.log("⚠️ Basic HTTP GET failed (external service):", error);
+  } catch (_error) {
+    console.log.*_error);
     externalTestsFailed++;
   }
 
@@ -360,8 +360,8 @@ async function testNetworkConfiguration(): Promise<boolean> {
       signal: AbortSignal.timeout(5000),
     });
     console.log("✅ HTTP POST with blob works:", response.status);
-  } catch (error) {
-    console.log("⚠️ HTTP POST with blob failed (external service):", error);
+  } catch (_error) {
+    console.log.*_error);
     externalTestsFailed++;
   }
 
@@ -375,8 +375,8 @@ async function testNetworkConfiguration(): Promise<boolean> {
       signal: AbortSignal.timeout(5000),
     });
     console.log("✅ HTTP PUT with blob works:", response.status);
-  } catch (error) {
-    console.log("⚠️ HTTP PUT with blob failed (external service):", error);
+  } catch (_error) {
+    console.log.*_error);
     externalTestsFailed++;
   }
 
@@ -447,13 +447,11 @@ async function testBrowserCapabilities(): Promise<boolean> {
   if (!promiseRaceAvailable) allCapabilitiesAvailable = false;
 
   // Test localStorage
-  let localStorageAvailable = false;
   try {
     localStorage.setItem("test", "test");
     localStorage.removeItem("test");
-    localStorageAvailable = true;
     console.log("💾 localStorage:", "✅ Available");
-  } catch (error) {
+  } catch (_error) {
     console.log("💾 localStorage:", "❌ Not available");
   }
 
@@ -467,7 +465,6 @@ async function testMinimalFileUpload(): Promise<boolean> {
   try {
     const supabase = createClient();
     let uploadTestsPassed = 0;
-    let totalUploadTests = 0;
 
     // Create a minimal test file (text)
     const testContent = `Test file created at ${new Date().toISOString()}`;
@@ -490,7 +487,6 @@ async function testMinimalFileUpload(): Promise<boolean> {
 
     // Test 1: Direct upload
     console.log("🧪 Testing direct upload...");
-    totalUploadTests++;
     try {
       const { data: directData, error: directError } = await supabase.storage
         .from("documents")
@@ -506,13 +502,12 @@ async function testMinimalFileUpload(): Promise<boolean> {
         await supabase.storage.from("documents").remove([directData.path]);
         console.log("🧹 Test file cleaned up");
       }
-    } catch (error) {
-      console.log("❌ Direct upload exception:", error);
+    } catch (_error) {
+      console.log.*_error);
     }
 
     // Test 2: Presigned URL upload
     console.log("🧪 Testing presigned URL upload...");
-    totalUploadTests++;
     try {
       const { data: presignedData, error: presignedError } =
         await supabase.storage
@@ -555,13 +550,12 @@ async function testMinimalFileUpload(): Promise<boolean> {
           );
         }
       }
-    } catch (error) {
-      console.log("❌ Presigned URL upload exception:", error);
+    } catch (_error) {
+      console.log.*_error);
     }
 
     // Test 3: Binary file upload (like Word doc)
     console.log("🧪 Testing binary file upload (Word doc simulation)...");
-    totalUploadTests++;
     try {
       const { data: binaryDirectData, error: binaryDirectError } =
         await supabase.storage
@@ -586,13 +580,12 @@ async function testMinimalFileUpload(): Promise<boolean> {
           .remove([binaryDirectData.path]);
         console.log("🧹 Binary test file cleaned up");
       }
-    } catch (error) {
-      console.log("❌ Binary upload exception:", error);
+    } catch (_error) {
+      console.log.*_error);
     }
 
     // Test 4: Binary presigned URL upload
     console.log("🧪 Testing binary presigned URL upload...");
-    totalUploadTests++;
     try {
       const { data: binaryPresignedData, error: binaryPresignedError } =
         await supabase.storage
@@ -641,8 +634,8 @@ async function testMinimalFileUpload(): Promise<boolean> {
           );
         }
       }
-    } catch (error) {
-      console.log("❌ Binary presigned URL upload exception:", error);
+    } catch (_error) {
+      console.log.*_error);
     }
 
     // Test 5: Real file upload test (if available)
@@ -732,8 +725,8 @@ async function testMinimalFileUpload(): Promise<boolean> {
           "ℹ️ No real file available for testing (select a file first)"
         );
       }
-    } catch (error) {
-      console.log("❌ Real file test exception:", error);
+    } catch (_error) {
+      console.log.*_error);
     }
 
     // Test 6: Simulate exact app flow
@@ -771,7 +764,7 @@ async function testMinimalFileUpload(): Promise<boolean> {
         const appResult = await uploadFile(realFile, user.id);
 
         if (appResult.error) {
-          console.log("❌ App flow simulation failed:", appResult.error);
+          console.log.*_error);
         } else {
           console.log("✅ App flow simulation successful:", appResult.path);
 
@@ -784,18 +777,17 @@ async function testMinimalFileUpload(): Promise<boolean> {
       } else {
         console.log("ℹ️ No file selected for app flow simulation");
       }
-    } catch (error) {
-      console.log("❌ App flow simulation exception:", error);
+    } catch (_error) {
+      console.log.*_error);
     }
 
     // Final summary
     console.log(`\n📊 UPLOAD TEST SUMMARY:`);
-    console.log(`   ✅ Tests passed: ${uploadTestsPassed}/${totalUploadTests}`);
-    console.log(`   📈 Success rate: ${Math.round((uploadTestsPassed / totalUploadTests) * 100)}%`);
+    console.log(`   ✅ Tests passed: ${uploadTestsPassed}`);
 
     return uploadTestsPassed >= 2; // At least 2 out of 4 basic tests should pass
-  } catch (error) {
-    console.log("❌ Minimal upload test error:", error);
+  } catch (_error) {
+    console.log.*_error);
     return false;
   }
 }
@@ -804,13 +796,13 @@ async function testMinimalFileUpload(): Promise<boolean> {
 async function testSupabaseConnectionSilent(): Promise<boolean> {
   try {
     const supabase = createClient();
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("profiles")
       .select("count")
       .limit(1);
 
     return !error;
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 }
@@ -818,12 +810,12 @@ async function testSupabaseConnectionSilent(): Promise<boolean> {
 async function testStorageBucketAccessSilent(): Promise<boolean> {
   try {
     const supabase = createClient();
-    const { data: files, error: directError } = await supabase.storage
+    const { error: directError } = await supabase.storage
       .from("documents")
       .list("", { limit: 1 });
 
     return !directError;
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 }
@@ -836,7 +828,7 @@ async function testNetworkConfigurationSilent(): Promise<boolean> {
       signal: AbortSignal.timeout(5000),
     });
     return response.ok;
-  } catch (error) {
+  } catch (_error) {
     // Network test failure is not critical for Supabase
     return true;
   }
@@ -858,7 +850,6 @@ async function testMinimalFileUploadSilent(): Promise<boolean> {
   try {
     const supabase = createClient();
     let uploadTestsPassed = 0;
-    let totalUploadTests = 0;
 
     // Create a minimal test file
     const testContent = `Test file created at ${new Date().toISOString()}`;
@@ -866,7 +857,6 @@ async function testMinimalFileUploadSilent(): Promise<boolean> {
     const testPath = `test/diagnostic-${Date.now()}.txt`;
 
     // Test 1: Direct upload
-    totalUploadTests++;
     try {
       const { data: directData, error: directError } = await supabase.storage
         .from("documents")
@@ -877,12 +867,11 @@ async function testMinimalFileUploadSilent(): Promise<boolean> {
         // Clean up
         await supabase.storage.from("documents").remove([directData.path]);
       }
-    } catch (error) {
+    } catch (_error) {
       // Test failed
     }
 
     // Test 2: Presigned URL upload
-    totalUploadTests++;
     try {
       const { data: presignedData, error: presignedError } =
         await supabase.storage
@@ -905,12 +894,12 @@ async function testMinimalFileUploadSilent(): Promise<boolean> {
             .remove([`${testPath}-presigned`]);
         }
       }
-    } catch (error) {
+    } catch (_error) {
       // Test failed
     }
 
     return uploadTestsPassed >= 1; // At least 1 test should pass
-  } catch (error) {
+  } catch (_error) {
     return false;
   }
 }
@@ -940,8 +929,8 @@ export async function checkMacOSSpecificIssues(): Promise<void> {
     if (latency > 2000) {
       console.log("⚠️ High latency detected - possible proxy/VPN");
     }
-  } catch (error) {
-    console.log("❌ Network latency test failed:", error);
+  } catch (_error) {
+    console.log.*_error);
   }
 
   // Check for Content Security Policy issues
@@ -968,7 +957,7 @@ export async function checkMacOSSpecificIssuesSilent(): Promise<boolean> {
     
     // High latency might indicate proxy/VPN but not critical
     return latency < 10000; // 10 seconds max
-  } catch (error) {
+  } catch (_error) {
     // Network test failure is not critical
     return true;
   }

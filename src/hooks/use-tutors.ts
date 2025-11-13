@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import type { Tutor, TutorInsert, TutorUpdate, TutorWithDocuments } from "@/types/tutors";
+import type { Tutor, TutorInsert, TutorUpdate } from "@/types/tutors";
 import * as tutorsService from "@/lib/supabase/tutors";
 import { useAuth } from "./use-auth";
 

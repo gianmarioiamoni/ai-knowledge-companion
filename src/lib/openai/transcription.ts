@@ -312,7 +312,7 @@ function getMimeTypeFromFileName(fileName: string): string {
  * Extract audio metadata (duration, etc.) from buffer
  * Note: This is a placeholder - for full implementation, use a library like 'music-metadata'
  */
-export async function getAudioMetadata(buffer: Buffer): Promise<{
+export async function getAudioMetadata(_buffer: Buffer): Promise<{
   duration?: number;
   bitrate?: number;
   sampleRate?: number;
@@ -366,7 +366,7 @@ export async function validateAudioFile(
  */
 export async function splitAudioIntoChunks(
   buffer: Buffer,
-  chunkDurationSeconds: number = 600 // 10 minutes per chunk
+  _chunkDurationSeconds: number = 600 // 10 minutes per chunk
 ): Promise<Buffer[]> {
   // TODO: Implement audio splitting using ffmpeg or similar
   // For now, return single chunk (the whole file)

@@ -1,5 +1,4 @@
 import { createClient } from './client';
-import { createServiceClient } from './service';
 import type { 
   Conversation, 
   ConversationWithTutor, 
@@ -12,8 +11,6 @@ import type {
   ConversationQueryInput,
   MessageQueryInput
 } from '@/types/chat';
-
-const supabase = createClient();
 
 // Conversation CRUD operations
 export async function createConversation(

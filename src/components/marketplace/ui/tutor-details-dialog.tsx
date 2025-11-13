@@ -10,12 +10,12 @@ import { useTranslations } from 'next-intl'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { Star, Download, Eye, GitFork, AlertCircle } from 'lucide-react'
+import { Star, Eye, GitFork, AlertCircle } from 'lucide-react'
 import { useTutorDetails } from '@/hooks/use-marketplace'
 import { useForkTutor } from '@/hooks/use-marketplace-actions'
 import { useRouter } from '@/i18n/navigation'
 import { useAuth } from '@/hooks/use-auth'
-import { ErrorMessage } from '@/components/auth/ui/error-message'
+
 
 interface TutorDetailsDialogProps {
   tutorId: string
@@ -24,7 +24,6 @@ interface TutorDetailsDialogProps {
 }
 
 export function TutorDetailsDialog({ tutorId, open, onClose }: TutorDetailsDialogProps): JSX.Element {
-  const t = useTranslations('marketplace')
   const router = useRouter()
   const { user } = useAuth()
   const { data, isLoading } = useTutorDetails(open ? tutorId : null)

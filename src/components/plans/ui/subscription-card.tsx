@@ -94,7 +94,7 @@ export function SubscriptionCard(): JSX.Element {
   }
 
   // Active subscription state
-  const { subscription, cancelling, handleCancel } = state
+  const { subscription } = state
   
   // Check if user has a Stripe subscription (has stripe_subscription_id)
   const hasStripeSubscription = !!subscription.stripe_subscription_id

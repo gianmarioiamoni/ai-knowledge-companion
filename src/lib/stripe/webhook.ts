@@ -4,7 +4,7 @@
  */
 
 import type Stripe from 'stripe'
-import { syncSubscriptionToDatabase, cancelSubscription } from './subscription'
+import { syncSubscriptionToDatabase } from './subscription'
 import { createServiceClient } from '@/lib/supabase/service-client'
 
 /**

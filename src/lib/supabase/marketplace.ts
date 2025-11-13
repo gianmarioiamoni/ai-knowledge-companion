@@ -173,7 +173,7 @@ export async function getTutorDetails(
     }
 
     // Fetch statistics
-    const { data: stats, error: statsError } = await supabase
+    const { data: stats } = await supabase
       .rpc('get_tutor_stats', { p_tutor_id: tutorId })
       .single()
 
@@ -192,7 +192,7 @@ export async function getTutorDetails(
     }
 
     // Fetch reviews
-    const { data: reviews, error: reviewsError } = await supabase
+    const { data: reviews } = await supabase
       .from('tutor_reviews')
       .select('*')
       .eq('tutor_id', tutorId)

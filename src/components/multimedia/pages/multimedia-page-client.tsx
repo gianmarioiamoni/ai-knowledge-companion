@@ -8,7 +8,7 @@
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Music, Video, Image as ImageIcon, AlertCircle } from 'lucide-react'
+import { Music, Video, Image as ImageIcon } from 'lucide-react'
 import { AudioUploadSection } from '../sections/audio-upload-section'
 import { ImageUploadSection } from '../sections/image-upload-section'
 import { VideoUploadSection } from '../sections/video-upload-section'
