@@ -12,13 +12,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { logAdminAction, getUserRoleById } from '@/lib/auth/roles'
-
-interface RouteParams {
-  params: Promise<{ userId: string }>
-}
+import { RoleInfo, UserRouteParams } from '@/types/admin'
 
 export const POST = withAdmin(
-  async (request: NextRequest, { roleInfo }, context: RouteParams) => {
+  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
     try {
       const { userId } = await context.params
       const supabase = createServiceClient()

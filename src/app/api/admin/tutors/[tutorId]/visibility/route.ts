@@ -14,10 +14,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withSuperAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { logAdminAction } from '@/lib/auth/roles'
-
-interface RouteParams {
-  params: Promise<{ tutorId: string }>
-}
+import { RoleInfo, TutorRouteParams } from '@/types/admin'
 
 interface RequestBody {
   visibility: 'private' | 'public' | 'marketplace'
@@ -25,7 +22,7 @@ interface RequestBody {
 }
 
 export const PATCH = withSuperAdmin(
-  async (request: NextRequest, { roleInfo }, context: RouteParams) => {
+  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: TutorRouteParams) => {
     try {
       const { tutorId } = await context.params
       const body: RequestBody = await request.json()

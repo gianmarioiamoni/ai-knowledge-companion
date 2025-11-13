@@ -11,12 +11,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withAdmin, withSuperAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { logAdminAction, getUserRoleById } from '@/lib/auth/roles'
+import { RoleInfo, UserRouteParams } from '@/types/admin'
 
-interface RouteParams {
-  params: Promise<{ userId: string }>
-}
-
-export const GET = withAdmin(async (request: NextRequest, { roleInfo }, context: RouteParams) => {
+export const GET = withAdmin(async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
   try {
     const { userId } = await context.params
     const supabase = createServiceClient()
@@ -57,7 +54,7 @@ export const GET = withAdmin(async (request: NextRequest, { roleInfo }, context:
 })
 
 export const DELETE = withSuperAdmin(
-  async (request: NextRequest, { roleInfo }, context: RouteParams) => {
+  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
     try {
       const { userId } = await context.params
       const supabase = createServiceClient()
