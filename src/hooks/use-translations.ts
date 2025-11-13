@@ -13,8 +13,10 @@ const translations = {
 } as const;
 
 // Helper function to get nested object value by dot notation
-function getNestedValue(obj: any, path: string): string {
-  return path.split('.').reduce((current, key) => current?.[key], obj) || path;
+function getNestedValue(obj: Record<string, unknown>, path: string): string {
+  return path.split('.').reduce((current: unknown, key: string) => {
+    return (current as Record<string, unknown>)?.[key];
+  }, obj as unknown) as string || path;
 }
 
 export function useTranslations(locale: Locale = "en") {

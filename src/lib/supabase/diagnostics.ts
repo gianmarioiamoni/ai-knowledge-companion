@@ -1,5 +1,17 @@
 import { createClient } from "@/lib/supabase/client";
 
+interface DiagnosticsResults {
+  environment: boolean;
+  supabaseConnection: boolean;
+  storageAccess: boolean;
+  networkConfig: boolean;
+  browserCapabilities: boolean;
+  fileUpload: boolean;
+  criticalIssues: string[];
+  warnings: string[];
+  recommendations: string[];
+}
+
 // Comprehensive diagnostics for Supabase upload issues
 export async function runCompleteDiagnostics(): Promise<void> {
   console.log("🔍 STARTING COMPREHENSIVE SUPABASE DIAGNOSTICS");
@@ -70,17 +82,7 @@ export async function runCompleteDiagnostics(): Promise<void> {
 }
 
 // Silent version of diagnostics - no console output
-export async function runSilentDiagnostics(): Promise<{
-  environment: boolean;
-  supabaseConnection: boolean;
-  storageAccess: boolean;
-  networkConfig: boolean;
-  browserCapabilities: boolean;
-  fileUpload: boolean;
-  criticalIssues: string[];
-  warnings: string[];
-  recommendations: string[];
-}> {
+export async function runSilentDiagnostics(): Promise<DiagnosticsResults> {
   const results = {
     environment: false,
     supabaseConnection: false,
@@ -141,7 +143,7 @@ export async function runSilentDiagnostics(): Promise<{
   return results;
 }
 
-function generateFinalReport(results: any): void {
+function generateFinalReport(results: DiagnosticsResults): void {
   console.log("\n📊 FINAL DIAGNOSTIC REPORT");
   console.log("=".repeat(60));
   

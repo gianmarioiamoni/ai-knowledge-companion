@@ -178,7 +178,7 @@ export function sanitizeString(
 /**
  * Sanitize an object by removing/masking sensitive fields
  */
-export function sanitizeObject<T = any>(
+export function sanitizeObject<T = unknown>(
   obj: T,
   options: SanitizeOptions = {}
 ): T {
@@ -203,12 +203,12 @@ export function sanitizeObject<T = any>(
   }
 
   if (Array.isArray(obj)) {
-    return obj.map((item) => sanitizeObject(item, options)) as any
+    return obj.map((item) => sanitizeObject(item, options)) as T
   }
 
-  const sanitized: any = {}
+  const sanitized: Record<string, unknown> = {}
 
-  for (const [key, value] of Object.entries(obj as any)) {
+  for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
     // Remove sensitive keys
     if (opts.removeSensitiveKeys && allSensitiveKeys.has(key)) {
       sanitized[key] = '[REDACTED]'
@@ -267,7 +267,7 @@ function maskValue(value: string): string {
  * ```
  */
 export function createSanitizedLogger(options: SanitizeOptions = {}) {
-  const sanitize = (args: any[]) => {
+  const sanitize = (args: unknown[]) => {
     return args.map((arg) => {
       if (typeof arg === 'string') {
         return sanitizeString(arg, options)
@@ -280,11 +280,11 @@ export function createSanitizedLogger(options: SanitizeOptions = {}) {
   }
 
   return {
-    log: (...args: any[]) => console.log(...sanitize(args)),
-    info: (...args: any[]) => console.info(...sanitize(args)),
-    warn: (...args: any[]) => console.warn(...sanitize(args)),
-    error: (...args: any[]) => console.error(...sanitize(args)),
-    debug: (...args: any[]) => console.debug(...sanitize(args)),
+    log: (...args: unknown[]) => console.log(...sanitize(args)),
+    info: (...args: unknown[]) => console.info(...sanitize(args)),
+    warn: (...args: unknown[]) => console.warn(...sanitize(args)),
+    error: (...args: unknown[]) => console.error(...sanitize(args)),
+    debug: (...args: unknown[]) => console.debug(...sanitize(args)),
   }
 }
 
@@ -297,9 +297,9 @@ export function createSanitizedLogger(options: SanitizeOptions = {}) {
  * // Output: User data: { userId: 'abc-123', token: '[REDACTED]' }
  * ```
  */
-export function sanitize<T = any>(data: T, options?: SanitizeOptions): T {
+export function sanitize<T = unknown>(data: T, options?: SanitizeOptions): T {
   if (typeof data === 'string') {
-    return sanitizeString(data, options) as any
+    return sanitizeString(data, options) as T
   }
   return sanitizeObject(data, options)
 }

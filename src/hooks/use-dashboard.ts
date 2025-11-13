@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import type { User } from '@supabase/supabase-js'
 import { useAuth } from '@/hooks/use-auth'
 import { useTranslations } from 'next-intl'
 import { getDashboardStats, type DashboardStats } from '@/lib/supabase/dashboard'
@@ -9,7 +10,7 @@ export type { DashboardStats }
 export interface DashboardData {
   stats: DashboardStats
   isLoading: boolean
-  user: any
+  user: User | null
   error?: string
 }
 
