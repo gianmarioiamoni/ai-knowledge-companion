@@ -210,13 +210,14 @@ catch (error) {
 
 ### Metrics Improvement
 
-| Metric | Initial | After Admin | After Zod | After JSX | Total Change |
-|--------|---------|-------------|-----------|-----------|--------------|
-| TypeScript errors | 182 | 176 | 167 | **166** | **-16 errors** ✅ |
-| ESLint errors | 115 | 114 | 114 | 114 | **-1 error** ✅ |
-| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **-12 errors** 🎉 |
-| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **-10 errors** 🎉 |
-| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **-1 error** 🎉 |
+| Metric | Initial | After Admin | After Zod | After JSX | After Any | Total Change |
+|--------|---------|-------------|-----------|-----------|-----------|--------------|
+| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **-16 errors** ✅ |
+| ESLint errors | 115 | 114 | 114 | 114 | **106** | **-9 errors** 🎉 |
+| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
+| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **-10 errors** 🎉 |
+| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **-1 error** 🎉 |
+| no-explicit-any (API) | ~8 | ~8 | ~8 | ~8 | **0** | **-8 errors** 🎉 |
 
 ### Example Fix Applied
 ```typescript
@@ -269,11 +270,22 @@ export const PATCH = withSuperAdmin(
    - Added `import type { JSX } from 'react'`
    - Zero TS2503 errors remaining! 🎉
 
+4. **Explicit `any` types in API routes** - All replaced with proper types ✅
+   - Fixed all 6 API route files with explicit any
+   - Zero explicit any in API routes! 🎉
+   - Files fixed:
+     - `src/app/api/tutors/[id]/route.ts` - `updateData: any` → proper type with z.infer
+     - `src/app/api/chat/messages/route.ts` - `Record<string, any[]>` → `Record<string, RAGChunk[]>`
+     - `src/app/api/chat/conversations/route.ts` - `Record<string, any>` → `Record<string, TutorInfo>`
+     - `src/app/api/documents/process/route.ts` - `mime_type as any` → `as SupportedMimeType`
+     - `src/app/api/admin/reprocess-document/route.ts` - `mime_type as any` → `as SupportedMimeType`
+     - `src/app/api/marketplace/route.ts` - `sort_by as any` → `as MarketplaceSortBy`
+
 #### 🔄 Next Steps
-4. **Explicit `any` types** - Replace with proper types
+5. **Remaining explicit `any` types** - ~100 occurrences in other files
    - Estimated: Top 20 high-impact files
    - Impact: ~20-30 ESLint errors
-   - Focus on API routes and core business logic
+   - Focus on hooks, components, and utility functions
 
 ## 🔄 Maintenance Strategy
 

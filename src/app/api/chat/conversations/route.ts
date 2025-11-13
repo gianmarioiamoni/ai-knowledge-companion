@@ -78,10 +78,16 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to get tutors' }, { status: 500 });
       }
       
+      type TutorInfo = {
+        id: string;
+        name: string;
+        avatar_url: string | null;
+        model: string;
+      };
       tutors = tutorsData?.reduce((acc, tutor) => {
         acc[tutor.id] = tutor;
         return acc;
-      }, {} as Record<string, any>) || {};
+      }, {} as Record<string, TutorInfo>) || {};
     }
 
     const transformedConversations = conversations?.map(conv => {

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createServiceClient } from '@/lib/supabase/service';
 import { updateTutorSchema } from '@/lib/schemas/tutors';
+import type { z } from 'zod';
 
 export async function PATCH(
   request: NextRequest,
@@ -52,7 +53,8 @@ export async function PATCH(
     const serviceClient = createServiceClient();
     
     // Genera nuovo share_token se necessario
-    const updateData: any = { ...updates };
+    type UpdateData = z.infer<typeof updateTutorSchema> & { share_token?: string | null };
+    const updateData: UpdateData = { ...updates };
     if (updates.visibility === 'unlisted' && !updates.is_shared) {
       updateData.share_token = generateShareToken();
     } else if (updates.visibility === 'private') {

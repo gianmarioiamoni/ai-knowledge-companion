@@ -3,6 +3,7 @@ import { withSuperAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { processDocumentBuffer } from '@/lib/workers/document-processor'
 import { sanitize } from '@/lib/utils/log-sanitizer'
+import type { SupportedMimeType } from '@/types/documents'
 
 export const runtime = 'nodejs'
 
@@ -44,7 +45,7 @@ export const POST = withSuperAdmin(async (request: NextRequest, { roleInfo }) =>
     const result = await processDocumentBuffer(
       buffer, 
       document.title, 
-      document.mime_type as any, 
+      document.mime_type as SupportedMimeType, 
       documentId, 
       {
         saveToDatabase: true,

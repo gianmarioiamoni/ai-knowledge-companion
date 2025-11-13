@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createServiceClient } from '@/lib/supabase/service'
 import { withRateLimit } from '@/lib/middleware/rate-limit-guard'
 import { sanitize } from '@/lib/utils/log-sanitizer'
+import type { SupportedMimeType } from '@/types/documents'
 
 export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
   try {
@@ -63,9 +64,14 @@ export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo 
     const buffer = Buffer.from(arrayBuffer)
 
     // Processa il documento (con embeddings)
-    const result = await processDocumentBuffer(buffer, document.title, document.mime_type as any, documentId, {
-      saveToDatabase: true,
-    }, serviceClient)
+    const result = await processDocumentBuffer(
+      buffer, 
+      document.title, 
+      document.mime_type as SupportedMimeType, 
+      documentId, 
+      { saveToDatabase: true },
+      serviceClient
+    )
 
     if (result.success) {
       // Aggiorna lo stato del documento nel database

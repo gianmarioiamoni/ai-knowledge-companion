@@ -73,6 +73,12 @@ export async function GET(request: NextRequest) {
         .in('message_id', messageIds);
       
       if (!ragError && ragData) {
+        type RAGChunk = {
+          chunk_id: string;
+          similarity_score: number;
+          content: string;
+          document_name: string;
+        };
         ragContext = ragData.reduce((acc, item) => {
           if (!acc[item.message_id]) {
             acc[item.message_id] = [];
@@ -84,7 +90,7 @@ export async function GET(request: NextRequest) {
             document_name: item.document_chunks.documents.name,
           });
           return acc;
-        }, {} as Record<string, any[]>);
+        }, {} as Record<string, RAGChunk[]>);
       }
     }
 

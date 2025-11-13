@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getMarketplaceTutors } from '@/lib/supabase/marketplace'
-import type { MarketplaceQuery } from '@/types/marketplace'
+import type { MarketplaceQuery, MarketplaceSortBy } from '@/types/marketplace'
 
 export async function GET(request: NextRequest) {
   try {
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
           : undefined,
         search: searchParams.get('search') || undefined
       },
-      sort_by: (searchParams.get('sort_by') || 'newest') as any,
+      sort_by: (searchParams.get('sort_by') || 'newest') as MarketplaceSortBy,
       limit: searchParams.get('limit') 
         ? parseInt(searchParams.get('limit')!) 
         : 20,
