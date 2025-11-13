@@ -69,7 +69,14 @@ export function HeroSection({
                 {ctaPrimary}
               </Button>
             </Link>
-            <Link href="/auth/login">
+            <a 
+              href="#features"
+              className="scroll-smooth"
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+              }}
+            >
               <Button 
                 variant="outline" 
                 size="lg" 
@@ -77,7 +84,7 @@ export function HeroSection({
               >
                 {ctaSecondary}
               </Button>
-            </Link>
+            </a>
           </div>
         </div>
       </div>
