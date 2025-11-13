@@ -2,6 +2,7 @@ import { JSX } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/navigation'
+import { ScrollToFeaturesButton } from '../ui/scroll-to-features-button'
 
 interface HeroSectionProps {
   title: string
@@ -69,22 +70,7 @@ export function HeroSection({
                 {ctaPrimary}
               </Button>
             </Link>
-            <a 
-              href="#features"
-              className="scroll-smooth"
-              onClick={(e) => {
-                e.preventDefault()
-                document.getElementById('features')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              }}
-            >
-              <Button 
-                variant="outline" 
-                size="lg" 
-                className="text-lg px-8 py-3 w-full sm:w-auto shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105 bg-background/80 backdrop-blur-sm"
-              >
-                {ctaSecondary}
-              </Button>
-            </a>
+            <ScrollToFeaturesButton label={ctaSecondary} />
           </div>
         </div>
       </div>

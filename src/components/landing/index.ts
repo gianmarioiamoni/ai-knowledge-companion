@@ -5,3 +5,4 @@ export { MarketplaceSection } from './sections/marketplace-section'
 
 // UI components
 export { FeatureCard } from './ui/feature-card'
+export { ScrollToFeaturesButton } from './ui/scroll-to-features-button'
