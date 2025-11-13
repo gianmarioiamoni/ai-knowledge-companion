@@ -36,22 +36,6 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
     }
   }, [])
 
-  // Handle drop
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
-
-    const files = Array.from(e.dataTransfer.files)
-    handleFiles(files)
-  }, [])
-
-  // Handle file input change
-  const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || [])
-    handleFiles(files)
-  }, [])
-
   // Process selected files
   const handleFiles = useCallback((files: File[]) => {
     const validFiles: FileWithMetadata[] = []
@@ -78,6 +62,22 @@ export function FileUpload({ onUpload, loading = false, className }: FileUploadP
 
     setSelectedFiles(prev => [...prev, ...validFiles])
   }, [])
+
+  // Handle drop
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+
+    const files = Array.from(e.dataTransfer.files)
+    handleFiles(files)
+  }, [handleFiles])
+
+  // Handle file input change
+  const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || [])
+    handleFiles(files)
+  }, [handleFiles])
 
   // Remove file from selection
   const removeFile = useCallback((index: number) => {

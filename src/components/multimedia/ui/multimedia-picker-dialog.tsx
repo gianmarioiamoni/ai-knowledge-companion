@@ -47,6 +47,7 @@ export function MultimediaPickerDialog({
       fetchFiles()
       setSelectedIds([])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen])
 
   const fetchFiles = async () => {

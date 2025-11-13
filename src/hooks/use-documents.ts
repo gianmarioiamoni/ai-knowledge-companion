@@ -222,6 +222,7 @@ export function useDocuments() {
   // Load documents when user changes
   useEffect(() => {
     loadDocuments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return {

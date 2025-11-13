@@ -6,7 +6,6 @@
 'use client'
 
 import { JSX } from 'react'
-import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { MarketplaceTutorCard } from '../ui/marketplace-tutor-card'
 import type { MarketplaceTutor } from '@/types/marketplace'
@@ -24,8 +23,6 @@ export function MarketplaceGrid({
   isLoadingMore,
   onLoadMore
 }: MarketplaceGridProps): JSX.Element {
-  const t = useTranslations('marketplace')
-
   return (
     <div className="space-y-6">
       {/* Grid */}

@@ -21,6 +21,15 @@ export function PaymentStatus(): JSX.Element | null {
   const [status, setStatus] = useState<PaymentStatus>(null)
   const { prorationInfo } = useProrationInfo()
 
+  const clearPaymentParam = () => {
+    setStatus(null)
+    // Remove payment param from URL without reload
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete('payment')
+    const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname
+    router.replace(newUrl)
+  }
+
   useEffect(() => {
     const paymentParam = searchParams.get('payment')
     
@@ -36,16 +45,8 @@ export function PaymentStatus(): JSX.Element | null {
         return () => clearTimeout(timer)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
-
-  const clearPaymentParam = () => {
-    setStatus(null)
-    // Remove payment param from URL without reload
-    const params = new URLSearchParams(searchParams.toString())
-    params.delete('payment')
-    const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname
-    router.replace(newUrl)
-  }
 
   if (!status && !prorationInfo) {
     return null

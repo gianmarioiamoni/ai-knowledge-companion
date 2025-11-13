@@ -166,6 +166,7 @@ export function useTutorDocuments(tutorId: string | null) {
 
   useEffect(() => {
     loadTutorDocuments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tutorId]);
 
   return {

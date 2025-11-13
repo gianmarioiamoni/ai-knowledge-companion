@@ -38,6 +38,7 @@ export function DocumentPreview({
         }
 
         loadDocumentData()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [document, isOpen])
 
     const loadDocumentData = async () => {
