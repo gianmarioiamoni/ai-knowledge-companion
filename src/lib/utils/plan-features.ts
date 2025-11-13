@@ -10,9 +10,11 @@ export interface PlanFeature {
   included: boolean
 }
 
+type TranslationFunction = (key: string) => string
+
 export function buildPlanFeatures(
   plan: SubscriptionPlan,
-  t: any,
+  t: TranslationFunction,
   isUnlimitedTutors: boolean
 ): PlanFeature[] {
   return [

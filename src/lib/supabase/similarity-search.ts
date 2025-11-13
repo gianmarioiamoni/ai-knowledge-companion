@@ -12,6 +12,16 @@ export interface SimilarityResult {
   created_at: string
 }
 
+type RawSimilarityMatch = {
+  id: string
+  document_id: string
+  chunk_index: number
+  text: string
+  tokens: number
+  similarity?: number
+  created_at: string
+}
+
 export interface SearchOptions {
   limit?: number
   threshold?: number
@@ -69,7 +79,7 @@ export async function searchSimilarChunks(
     }
 
     // Trasforma i risultati nel formato desiderato
-    let results: SimilarityResult[] = (data || []).map((item: any) => ({
+    let results: SimilarityResult[] = (data || []).map((item: RawSimilarityMatch) => ({
       id: item.id,
       document_id: item.document_id,
       chunk_index: item.chunk_index,

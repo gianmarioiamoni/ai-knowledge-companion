@@ -4,6 +4,8 @@
 
 import type { UserSubscriptionWithPlan, SubscriptionStatus } from '@/types/subscription'
 
+type TranslationFunctionWithParams = (key: string, params?: Record<string, string | number>) => string
+
 interface Translations {
   title: string
   statusActive: string
@@ -53,7 +55,7 @@ export function getStatusLabel(status: SubscriptionStatus, translations: Transla
 export function prepareHeaderData(
   subscription: UserSubscriptionWithPlan,
   translations: Translations,
-  tSub: any
+  tSub: TranslationFunctionWithParams
 ) {
   return {
     subscription,
@@ -71,7 +73,7 @@ export function prepareHeaderData(
 export function prepareDetailsData(
   subscription: UserSubscriptionWithPlan,
   translations: Translations,
-  tSub: any
+  tSub: TranslationFunctionWithParams
 ) {
   return {
     subscription,

@@ -8,7 +8,7 @@
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis } from '@upstash/redis'
 import { NextRequest } from 'next/server'
-import { getRateLimit, parseWindow } from './config'
+import { getRateLimit, parseWindow, RATE_LIMITS } from './config'
 
 // Initialize Redis client
 let redis: Redis | null = null
@@ -51,7 +51,7 @@ function getRateLimiter(type: string, role?: string): Ratelimit | null {
     return rateLimiters.get(key)!
   }
 
-  const config = getRateLimit(type as any, role)
+  const config = getRateLimit(type as keyof typeof RATE_LIMITS, role)
   const windowMs = parseWindow(config.window)
 
   const limiter = new Ratelimit({
