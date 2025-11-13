@@ -608,6 +608,7 @@ See [`src/types/database.ts`](./src/types/database.ts) for complete schema.
 | Document | Description |
 |----------|-------------|
 | [Stripe Integration](./docs/STRIPE_INTEGRATION_GUIDE.md) | Complete Stripe setup guide |
+| [Stripe Webhook Setup](./docs/STRIPE_WEBHOOK_SETUP.md) | Production webhook configuration |
 | [Stripe Implementation Status](./docs/STRIPE_IMPLEMENTATION_STATUS.md) | Current implementation state |
 | [Scheduled Plans](./docs/SCHEDULED_PLANS_AND_PRORATION.md) | Plan changes and proration |
 | [Admin Exemptions](./docs/ADMIN_SUBSCRIPTION_EXEMPTION.md) | Admin subscription handling |
@@ -624,6 +625,7 @@ See [`src/types/database.ts`](./src/types/database.ts) for complete schema.
 
 | Document | Description |
 |----------|-------------|
+| [Technical Debt](./docs/TECH_DEBT.md) | **Code quality improvement plan and tracking** |
 | [SRP Refactoring](./docs/SRP_REFACTORING.md) | Single Responsibility Principle guide |
 | [Cookie Consent Refactoring](./docs/refactoring/COOKIE_CONSENT_SRP_REFACTORING.md) | Cookie consent SRP implementation |
 | [Footer Refactoring](./docs/refactoring/FOOTER_SRP_REFACTORING.md) | Footer component SRP implementation |
