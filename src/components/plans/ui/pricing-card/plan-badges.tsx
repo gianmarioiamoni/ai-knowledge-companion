@@ -6,10 +6,12 @@ import { JSX } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Zap } from 'lucide-react'
 
+type TranslationFunction = (key: string) => string
+
 interface PlanBadgesProps {
   isMostPopular: boolean
   isCurrentPlan: boolean
-  t: any
+  t: TranslationFunction
 }
 
 export function PlanBadges({ isMostPopular, isCurrentPlan, t }: PlanBadgesProps): JSX.Element | null {

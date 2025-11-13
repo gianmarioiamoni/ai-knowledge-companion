@@ -23,13 +23,15 @@ import { FeaturesList } from './pricing-card/features-list'
 import { PlanActionButton } from './pricing-card/plan-action-button'
 import type { SubscriptionPlan } from '@/types/subscription'
 
+type TranslationFunction = (key: string) => string
+
 interface PricingCardProps {
   plan: SubscriptionPlan
   isCurrentPlan?: boolean
   isMostPopular?: boolean
   isSelected?: boolean
   onSelectPlan: (planName: string, billingCycle: 'monthly' | 'yearly' | null) => Promise<void>
-  t: any // Translation function
+  t: TranslationFunction
 }
 
 export function PricingCard({

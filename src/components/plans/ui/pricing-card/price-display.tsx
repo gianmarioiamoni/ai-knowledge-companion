@@ -6,13 +6,15 @@ import { JSX } from 'react'
 import type { PricingInfo } from '@/lib/utils/pricing'
 import { BillingToggle } from './billing-toggle'
 
+type TranslationFunction = (key: string) => string
+
 interface PriceDisplayProps {
   pricingInfo: PricingInfo
   billingCycle: 'monthly' | 'yearly'
   onChangeCycle: (cycle: 'monthly' | 'yearly') => void
   loading: boolean
   trialDays: number
-  t: any
+  t: TranslationFunction
 }
 
 export function PriceDisplay({ 

@@ -9,6 +9,8 @@ import { CardFooter } from '@/components/ui/card'
 import { Loader2 } from 'lucide-react'
 import { CheckoutButton } from '@/components/stripe'
 
+type TranslationFunction = (key: string) => string
+
 interface PlanActionButtonProps {
   planName: string
   billingCycle: 'monthly' | 'yearly'
@@ -18,7 +20,7 @@ interface PlanActionButtonProps {
   isFree: boolean
   loading: boolean
   onSelect: () => void
-  t: any
+  t: TranslationFunction
 }
 
 export function PlanActionButton({ 

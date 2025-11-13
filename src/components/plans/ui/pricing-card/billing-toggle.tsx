@@ -5,11 +5,13 @@
 import { JSX } from 'react'
 import { Button } from '@/components/ui/button'
 
+type TranslationFunction = (key: string) => string
+
 interface BillingToggleProps {
   billingCycle: 'monthly' | 'yearly'
   onChangeCycle: (cycle: 'monthly' | 'yearly') => void
   loading: boolean
-  t: any
+  t: TranslationFunction
 }
 
 export function BillingToggle({ billingCycle, onChangeCycle, loading, t }: BillingToggleProps): JSX.Element {
