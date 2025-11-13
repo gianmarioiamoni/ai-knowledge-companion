@@ -141,7 +141,7 @@ export function withOptionalAuth(
  * 
  * Apply different rate limits based on user role
  */
-export function withRoleBasedRateLimit(config: {
+export function withRoleBasedRateLimit(_config: {
   user: number // requests per minute
   admin: number
   super_admin: number
@@ -150,10 +150,7 @@ export function withRoleBasedRateLimit(config: {
   // like @upstash/ratelimit or redis
   return (handler: RouteHandler) => {
     return withAuth(async (request, context) => {
-      // Get rate limit for role
-      const limit = config[context.roleInfo.role] || config.user
-
-      // TODO: Implement actual rate limiting
+      // TODO: Implement actual rate limiting with _config[context.roleInfo.role] || _config.user
       // For now, just pass through
       return await handler(request, context)
     })

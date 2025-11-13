@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Shield, XCircle, CheckCircle, Loader2 } from "lucide-react";
+import { XCircle, CheckCircle, Loader2 } from "lucide-react";
 import { useTranslations } from 'next-intl';
 import type { JSX } from 'react';
 

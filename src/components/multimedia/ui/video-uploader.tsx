@@ -142,7 +142,7 @@ export function VideoUploader({ onUploadComplete }: VideoUploaderProps): JSX.Ele
       } else {
         setGlobalError('Some uploads failed. Please retry.')
       }
-    } catch (error) {
+    } catch (_error) {
       setGlobalError('Upload failed. Please try again.')
     } finally {
       setUploading(false)

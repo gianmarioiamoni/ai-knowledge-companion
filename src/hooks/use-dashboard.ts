@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import type { User } from '@supabase/supabase-js'
 import { useAuth } from '@/hooks/use-auth'
-import { useTranslations } from 'next-intl'
 import { getDashboardStats, type DashboardStats } from '@/lib/supabase/dashboard'
 
 // Re-export type for external use
@@ -22,8 +21,7 @@ export interface DashboardData {
  */
 export function useDashboard(initialStats?: DashboardStats): DashboardData {
   const { user } = useAuth()
-  const t = useTranslations('dashboard')
-  
+    
   const [stats, setStats] = useState<DashboardStats>(
     initialStats || {
       totalDocuments: 0,

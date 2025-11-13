@@ -15,7 +15,7 @@ interface TutorsPageClientProps {
   locale: 'en' | 'it'
 }
 
-export function TutorsPageClient({ locale }: TutorsPageClientProps): JSX.Element {
+export function TutorsPageClient(): JSX.Element {
   const t = useTranslations('tutors');
   const {
     tutors,

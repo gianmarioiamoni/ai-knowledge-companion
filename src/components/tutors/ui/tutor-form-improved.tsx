@@ -18,8 +18,7 @@ import {
   Eye, 
   FileText, 
   MessageSquare,
-  Zap,
-  Database
+  Zap
 } from "lucide-react";
 import type { Tutor, TutorInsert } from "@/types/tutors";
 import type { JSX } from 'react';

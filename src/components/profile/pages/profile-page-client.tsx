@@ -15,7 +15,7 @@ interface ProfilePageClientProps {
   _locale: 'en' | 'it'
 }
 
-export function ProfilePageClient({ locale }: ProfilePageClientProps): JSX.Element {
+export function ProfilePageClient(): JSX.Element {
   const t = useTranslations('profile')
   const {
     profile,

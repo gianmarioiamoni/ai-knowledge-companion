@@ -6,7 +6,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from '@/i18n/navigation'
-import type { SubscriptionPlan, UserSubscriptionWithPlan, BillingCycle, PlanName } from '@/types/subscription'
+import type { UserSubscriptionWithPlan, BillingCycle, PlanName } from '@/types/subscription'
 
 export function useSubscription() {
   const [subscription, setSubscription] = useState<UserSubscriptionWithPlan | null>(null)

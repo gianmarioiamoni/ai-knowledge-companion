@@ -7,7 +7,6 @@ import { createConversationWithWelcome } from '@/lib/supabase/chat-with-welcome'
 import type { 
   ChatState, 
   ChatActions, 
-  ChatConversation, 
   ChatMessage,
   ConversationQueryInput 
 } from '@/types/chat';

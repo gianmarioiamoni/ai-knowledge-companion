@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useRouter } from '@/i18n/navigation'
-import { useTranslations, useLocale } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuth } from '@/hooks/use-auth'
@@ -11,8 +11,7 @@ export function useLoginForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-  const locale = useLocale()
-  const t = useTranslations('auth')
+    const t = useTranslations('auth')
   const { signIn, signInWithGoogle, signInWithMagicLink } = useAuth()
 
   const form = useForm<LoginFormData>({
