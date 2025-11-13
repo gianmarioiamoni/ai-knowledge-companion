@@ -1,6 +1,7 @@
 import { JSX } from 'react'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import type { UseFormRegisterReturn } from 'react-hook-form'
 
 interface FormFieldProps {
   id: string
@@ -9,7 +10,7 @@ interface FormFieldProps {
   placeholder?: string
   disabled?: boolean
   error?: string
-  register: any
+  register: UseFormRegisterReturn
 }
 
 export function FormField({

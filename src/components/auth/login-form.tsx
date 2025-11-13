@@ -4,6 +4,7 @@ import { JSX } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useLoginForm } from '@/hooks/use-login-form'
+import type { LoginFormData } from '@/lib/schemas/auth'
 import { 
   FormField, 
   FormDivider, 
@@ -25,7 +26,7 @@ export function LoginForm(): JSX.Element {
 
   const { register, handleSubmit, formState: { errors } } = form
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginFormData) => {
     await handleEmailPasswordLogin(data)
   }
 
