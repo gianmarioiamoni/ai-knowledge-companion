@@ -8,6 +8,7 @@
 import { JSX, useCallback, useState } from 'react'
 import { useDropzone, type FileRejection } from 'react-dropzone'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import { Upload, Image as ImageIcon, X, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -207,10 +208,11 @@ export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Ele
               >
                 {/* Preview Thumbnail */}
                 <div className="relative h-16 w-16 flex-shrink-0 rounded overflow-hidden bg-muted">
-                  <img
+                  <Image
                     src={img.preview}
                     alt={img.file.name}
-                    className="h-full w-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                 </div>
 

@@ -7,7 +7,9 @@
 
 import { JSX, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import Image from 'next/image'
 import { Image as ImageIcon, Trash2, ExternalLink, Loader2 } from 'lucide-react'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
@@ -138,10 +140,11 @@ export function ImageFilesSection({
                 >
                   {/* Image Preview */}
                   <div className="relative aspect-video bg-muted">
-                    <img
+                    <Image
                       src={getImageUrl(file)}
                       alt={file.fileName}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                       loading="lazy"
                     />
                     
