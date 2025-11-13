@@ -30,7 +30,7 @@ export function HeroSection({
         alt="Digital brain and AI - artificial intelligence and knowledge representation"
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover object-center lg:object-contain xl:object-contain"
         sizes="100vw"
         quality={90}
       />
