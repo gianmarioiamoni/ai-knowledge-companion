@@ -210,16 +210,17 @@ catch (error) {
 
 ### Metrics Improvement
 
-| Metric | Initial | After Admin | After Zod | After JSX | After Any API | After Any Hooks | After Any Lib | Total Change |
-|--------|---------|-------------|-----------|-----------|---------------|-----------------|---------------|--------------|
-| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **166** | **166** | **-16 errors** ✅ |
-| ESLint errors | 115 | 114 | 114 | 114 | 106 | 102 | **83** | **-32 errors** 🎉 |
-| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
-| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **0** | **0** | **-10 errors** 🎉 |
-| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **0** | **0** | **-1 error** 🎉 |
-| no-explicit-any (API) | ~8 | ~8 | ~8 | ~8 | **0** | **0** | **0** | **-8 errors** 🎉 |
-| no-explicit-any (hooks/mid) | ~4 | ~4 | ~4 | ~4 | ~4 | **0** | **0** | **-4 errors** 🎉 |
-| no-explicit-any (lib) | ~19 | ~19 | ~19 | ~19 | ~19 | ~19 | **0** | **-19 errors** 🎉 |
+| Metric | Initial | After Admin | After Zod | After JSX | After Any API | After Any Hooks | After Any Lib | After Any Utils | Total Change |
+|--------|---------|-------------|-----------|-----------|---------------|-----------------|---------------|-----------------|--------------|
+| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **166** | **166** | **166** | **-16 errors** ✅ |
+| ESLint errors | 115 | 114 | 114 | 114 | 106 | 102 | 83 | **78** | **-37 errors** 🎉🎉 |
+| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
+| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **0** | **0** | **0** | **-10 errors** 🎉 |
+| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **0** | **0** | **0** | **-1 error** 🎉 |
+| no-explicit-any (API) | ~8 | ~8 | ~8 | ~8 | **0** | **0** | **0** | **0** | **-8 errors** 🎉 |
+| no-explicit-any (hooks/mid) | ~4 | ~4 | ~4 | ~4 | ~4 | **0** | **0** | **0** | **-4 errors** 🎉 |
+| no-explicit-any (lib main) | ~19 | ~19 | ~19 | ~19 | ~19 | ~19 | **0** | **0** | **-19 errors** 🎉 |
+| no-explicit-any (lib utils) | ~5 | ~5 | ~5 | ~5 | ~5 | ~5 | ~5 | **0** | **-5 errors** 🎉 |
 
 ### Example Fix Applied
 ```typescript
@@ -308,11 +309,20 @@ export const PATCH = withSuperAdmin(
        - `src/lib/supabase/documents.ts` - ErrorWithStatus helper + SupabaseClient
        - `src/lib/workers/document-processor.ts` - SupabaseClient (3 functions)
 
+7. **Explicit `any` types in utility functions** - All critical ones replaced ✅
+   - Fixed all 4 remaining utility files
+   - Zero explicit any in rate-limit, utils, similarity-search! 🎉
+   - Files fixed:
+     - `src/lib/rate-limit/index.ts` - `as any` → `as keyof typeof RATE_LIMITS`
+     - `src/lib/utils/plan-features.ts` - `t: any` → `TranslationFunction`
+     - `src/lib/utils/subscription-card-data.ts` - `tSub: any` → `TranslationFunctionWithParams` (2x)
+     - `src/lib/supabase/similarity-search.ts` - `item: any` → `RawSimilarityMatch`
+
 #### 🔄 Next Steps
-7. **Remaining explicit `any` types** - ~70 occurrences in other lib files
-   - Estimated: ~10 files remaining
+8. **Remaining explicit `any` types** - ~70 occurrences in other areas
+   - Mostly in: components, log-sanitizer (intentional generic utility), generated types
    - Impact: ~10-15 ESLint errors
-   - Focus on: rate-limit, schemas, utility functions
+   - Focus on: High-impact components, critical business logic
 
 ## 🔄 Maintenance Strategy
 
