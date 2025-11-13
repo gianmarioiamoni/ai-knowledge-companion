@@ -5,7 +5,7 @@
 
 'use client'
 
-import { JSX, useEffect, useState } from 'react'
+import { JSX, useEffect, useState, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
@@ -21,14 +21,14 @@ export function PaymentStatus(): JSX.Element | null {
   const [status, setStatus] = useState<PaymentStatus>(null)
   const { prorationInfo } = useProrationInfo()
 
-  const clearPaymentParam = () => {
+  const clearPaymentParam = useCallback(() => {
     setStatus(null)
     // Remove payment param from URL without reload
     const params = new URLSearchParams(searchParams.toString())
     params.delete('payment')
     const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname
     router.replace(newUrl)
-  }
+  }, [searchParams, router])
 
   useEffect(() => {
     const paymentParam = searchParams.get('payment')
@@ -45,8 +45,7 @@ export function PaymentStatus(): JSX.Element | null {
         return () => clearTimeout(timer)
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams])
+  }, [searchParams, clearPaymentParam])
 
   if (!status && !prorationInfo) {
     return null

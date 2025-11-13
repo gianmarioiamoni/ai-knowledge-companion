@@ -5,7 +5,7 @@
 
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useTranslations } from 'next-intl'
 import {
   Dialog,
@@ -42,15 +42,7 @@ export function MultimediaPickerDialog({
   const [isLoading, setIsLoading] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
-  useEffect(() => {
-    if (isOpen) {
-      fetchFiles()
-      setSelectedIds([])
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen])
-
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     try {
       setIsLoading(true)
       const response = await fetch('/api/multimedia')
@@ -67,7 +59,14 @@ export function MultimediaPickerDialog({
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [excludeIds])
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchFiles()
+      setSelectedIds([])
+    }
+  }, [isOpen, fetchFiles])
 
   const handleToggle = (documentId: string) => {
     setSelectedIds((prev) =>

@@ -1,6 +1,6 @@
 'use client'
 
-import { JSX, useState, useEffect } from 'react'
+import { JSX, useState, useEffect, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
@@ -29,19 +29,7 @@ export function DocumentPreview({
     const [error, setError] = useState<string | null>(null)
     const [fileUrl, setFileUrl] = useState<string | null>(null)
 
-    // Load document chunks when document changes
-    useEffect(() => {
-        if (!document || !isOpen) {
-            setChunks([])
-            setFileUrl(null)
-            return
-        }
-
-        loadDocumentData()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [document, isOpen])
-
-    const loadDocumentData = async () => {
+    const loadDocumentData = useCallback(async () => {
         if (!document) return
 
         try {
@@ -69,7 +57,18 @@ export function DocumentPreview({
         } finally {
             setLoading(false)
         }
-    }
+    }, [document])
+
+    // Load document chunks when document changes
+    useEffect(() => {
+        if (!document || !isOpen) {
+            setChunks([])
+            setFileUrl(null)
+            return
+        }
+
+        loadDocumentData()
+    }, [document, isOpen, loadDocumentData])
 
     const handleDownload = () => {
         if (document && onDownload) {

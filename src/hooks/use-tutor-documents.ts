@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import type { Document, DocumentWithStatus } from '@/types/documents';
 
@@ -24,7 +24,7 @@ export function useTutorDocuments(tutorId: string | null) {
   const supabase = createClient();
 
   // Carica documenti collegati al tutor
-  const loadTutorDocuments = async () => {
+  const loadTutorDocuments = useCallback(async () => {
     if (!tutorId) return;
     
     setLoading(true);
@@ -96,7 +96,7 @@ export function useTutorDocuments(tutorId: string | null) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [tutorId, supabase]);
 
   // Collega un documento al tutor
   const linkDocument = async (documentId: string) => {
@@ -166,8 +166,7 @@ export function useTutorDocuments(tutorId: string | null) {
 
   useEffect(() => {
     loadTutorDocuments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tutorId]);
+  }, [loadTutorDocuments]);
 
   return {
     documents,

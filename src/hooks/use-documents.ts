@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Document } from "@/types/database";
 import * as documentsService from "@/lib/supabase/documents";
 import { useAuth } from "./use-auth";
@@ -12,7 +12,7 @@ export function useDocuments() {
   const [error, setError] = useState<string | null>(null);
 
   // Load user documents
-  const loadDocuments = async () => {
+  const loadDocuments = useCallback(async () => {
     if (!user) {
       setDocuments([]);
       setLoading(false);
@@ -117,7 +117,7 @@ export function useDocuments() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
 
   // Upload and create document
   const uploadDocument = async (
@@ -222,8 +222,7 @@ export function useDocuments() {
   // Load documents when user changes
   useEffect(() => {
     loadDocuments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user]);
+  }, [loadDocuments]);
 
   return {
     documents,
