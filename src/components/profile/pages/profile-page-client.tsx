@@ -11,10 +11,6 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { AlertCircle } from 'lucide-react'
 import { useState } from 'react'
 
-interface ProfilePageClientProps {
-  _locale: 'en' | 'it'
-}
-
 export function ProfilePageClient(): JSX.Element {
   const t = useTranslations('profile')
   const {

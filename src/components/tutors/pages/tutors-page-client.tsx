@@ -11,10 +11,6 @@ import { useTutorsPage } from "@/hooks/use-tutors-page";
 import { useTranslations } from 'next-intl';
 import type { JSX } from 'react';
 
-interface TutorsPageClientProps {
-  locale: 'en' | 'it'
-}
-
 export function TutorsPageClient(): JSX.Element {
   const t = useTranslations('tutors');
   const {
