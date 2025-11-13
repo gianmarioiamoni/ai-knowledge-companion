@@ -13,11 +13,11 @@ export async function POST(request: NextRequest) {
     // Valida i dati di input
     const validationResult = createTutorSchema.safeParse(body);
     if (!validationResult.success) {
-      console.error('Validation errors:', validationResult.error.errors);
+      console.error('Validation errors:', validationResult.error.issues);
       return NextResponse.json(
         { 
           error: 'Invalid input data', 
-          details: validationResult.error.errors,
+          details: validationResult.error.issues,
           receivedData: body
         },
         { status: 400 }

@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     const validation = conversationQuerySchema.safeParse(query);
     if (!validation.success) {
       return NextResponse.json(
-        { error: 'Invalid query parameters', details: validation.error.errors },
+        { error: 'Invalid query parameters', details: validation.error.issues },
         { status: 400 }
       );
     }
