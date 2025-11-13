@@ -210,14 +210,15 @@ catch (error) {
 
 ### Metrics Improvement
 
-| Metric | Initial | After Admin | After Zod | After JSX | After Any | Total Change |
-|--------|---------|-------------|-----------|-----------|-----------|--------------|
-| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **-16 errors** ✅ |
-| ESLint errors | 115 | 114 | 114 | 114 | **106** | **-9 errors** 🎉 |
-| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
-| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **-10 errors** 🎉 |
-| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **-1 error** 🎉 |
-| no-explicit-any (API) | ~8 | ~8 | ~8 | ~8 | **0** | **-8 errors** 🎉 |
+| Metric | Initial | After Admin | After Zod | After JSX | After Any API | After Any Hooks | Total Change |
+|--------|---------|-------------|-----------|-----------|---------------|-----------------|--------------|
+| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **166** | **-16 errors** ✅ |
+| ESLint errors | 115 | 114 | 114 | 114 | 106 | **102** | **-13 errors** 🎉 |
+| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
+| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **0** | **-10 errors** 🎉 |
+| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **0** | **-1 error** 🎉 |
+| no-explicit-any (API) | ~8 | ~8 | ~8 | ~8 | **0** | **0** | **-8 errors** 🎉 |
+| no-explicit-any (hooks/mid) | ~4 | ~4 | ~4 | ~4 | ~4 | **0** | **-4 errors** 🎉 |
 
 ### Example Fix Applied
 ```typescript
@@ -281,11 +282,20 @@ export const PATCH = withSuperAdmin(
      - `src/app/api/admin/reprocess-document/route.ts` - `mime_type as any` → `as SupportedMimeType`
      - `src/app/api/marketplace/route.ts` - `sort_by as any` → `as MarketplaceSortBy`
 
+5. **Explicit `any` types in hooks & middleware** - All critical ones replaced ✅
+   - Fixed all 4 critical files
+   - Zero explicit any in hooks & middleware! 🎉
+   - Files fixed:
+     - `src/hooks/use-chat.ts` - Changed `as any` to `as const`
+     - `src/hooks/use-tutor-form.ts` - Generic type-safe `handleInputChange`
+     - `src/hooks/use-plan-selection.ts` - `planName as any` → `as PlanName`
+     - `src/lib/middleware/rate-limit-guard.ts` - `roleInfo: any` → `RoleInfo`
+
 #### 🔄 Next Steps
-5. **Remaining explicit `any` types** - ~100 occurrences in other files
-   - Estimated: Top 20 high-impact files
-   - Impact: ~20-30 ESLint errors
-   - Focus on hooks, components, and utility functions
+6. **Remaining explicit `any` types** - ~90 occurrences in lib utilities
+   - Estimated: ~10-15 high-impact files
+   - Impact: ~15-20 ESLint errors
+   - Focus on: openai services, supabase utils, workers
 
 ## 🔄 Maintenance Strategy
 
