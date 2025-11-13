@@ -9,6 +9,7 @@ import type {
   TranscriptionOptions,
   TranscriptionResult,
 } from "@/types/multimedia";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Initialize OpenAI client
 const openai = new OpenAI({
@@ -62,9 +63,20 @@ export async function transcribeAudio(
     const cost = (audioDuration / 60) * WHISPER_COST_PER_MINUTE;
 
     // Extract segments if available
+    type WhisperSegment = {
+      id: number;
+      start: number;
+      end: number;
+      text: string;
+      tokens?: number[];
+      temperature?: number;
+      avg_logprob?: number;
+      compression_ratio?: number;
+      no_speech_prob?: number;
+    };
     const segments =
       "segments" in response
-        ? response.segments?.map((seg: any) => ({
+        ? response.segments?.map((seg: WhisperSegment) => ({
             id: seg.id,
             start: seg.start,
             end: seg.end,
@@ -140,7 +152,7 @@ export async function transcribeAudioFromUrl(
  * Transcribe audio file from Supabase storage
  */
 export async function transcribeAudioFromStorage(
-  supabaseClient: any,
+  supabaseClient: SupabaseClient,
   bucket: string,
   storagePath: string,
   fileName: string,
@@ -180,7 +192,7 @@ export async function transcribeAudioFromStorage(
  * Transcribe video file from Supabase storage (extracts audio first)
  */
 export async function transcribeVideoFromStorage(
-  supabaseClient: any,
+  supabaseClient: SupabaseClient,
   bucket: string,
   storagePath: string,
   fileName: string,

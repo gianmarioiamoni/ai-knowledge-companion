@@ -1,7 +1,7 @@
 import OpenAI from 'openai'
 import { searchSimilarChunks, searchTutorChunks, type SimilarityResult } from '@/lib/supabase/similarity-search'
 import { generateEmbedding } from './embeddings'
-import { logUsage } from '@/lib/supabase/billing'
+import { logUsage, type QuotaCheckResult } from '@/lib/supabase/billing'
 
 // Funzione per ottenere il client OpenAI
 function getOpenAIClient() {
@@ -160,7 +160,7 @@ ${context ? `Additional context: ${context}` : ''}`
       if (usageResult.error) {
         console.error('Failed to log usage:', usageResult.error)
       } else if (usageResult.data) {
-        const quotaData = usageResult.data as any
+        const quotaData: QuotaCheckResult = usageResult.data
         console.log(`📊 Usage logged. Quota: ${quotaData.current_value || 'N/A'}/${quotaData.max_value || 'N/A'}`)
         
         // Check if quota exceeded

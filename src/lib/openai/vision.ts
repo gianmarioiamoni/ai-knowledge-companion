@@ -4,6 +4,7 @@
  */
 
 import OpenAI from 'openai'
+import type { SupabaseClient } from '@supabase/supabase-js'
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -139,7 +140,7 @@ Provide a complete and structured description that allows understanding the cont
  * Analyze an image from Supabase Storage
  */
 export async function analyzeImageFromStorage(
-  supabase: any,
+  supabase: SupabaseClient,
   bucketName: string,
   filePath: string,
   options: VisionAnalysisOptions = {}
