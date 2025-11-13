@@ -10,10 +10,9 @@ const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   // ESLint configuration for build
   eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    // TODO: Fix all linting errors and set this back to false
-    ignoreDuringBuilds: true,
+    // Re-enabled ESLint in builds after major cleanup
+    // Remaining warnings are non-critical (React hooks deps, img elements)
+    ignoreDuringBuilds: false,
   },
   // TypeScript configuration for build
   typescript: {
