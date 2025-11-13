@@ -23,14 +23,14 @@ export function HeroSection({
   ctaSecondary
 }: HeroSectionProps): JSX.Element {
   return (
-    <div className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
+    <div className="relative min-h-[600px] md:min-h-[700px] xl:min-h-[800px] 2xl:min-h-[900px] flex items-center overflow-hidden">
       {/* Background Image with Next.js Image optimization */}
       <Image
         src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=2865&auto=format&fit=crop"
         alt="Digital brain and AI - artificial intelligence and knowledge representation"
         fill
         priority
-        className="object-cover object-center 2xl:object-[center_35%]"
+        className="object-cover object-center"
         sizes="100vw"
         quality={90}
       />
