@@ -18,7 +18,7 @@ export function SubscriptionActions({
   status,
   hasStripeSubscription,
   changePlanText,
-  manageSubscriptionText,
+
 }: SubscriptionActionsProps): JSX.Element {
   const router = useRouter()
   const isActive = status === 'active' || status === 'trial'

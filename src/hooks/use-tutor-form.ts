@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Tutor, TutorInsert, SupportedModel, VisibilityLevel } from "@/types/tutors";
+import type { Tutor, TutorInsert, VisibilityLevel } from "@/types/tutors";
 
 interface UseTutorFormProps {
   tutor?: Tutor;

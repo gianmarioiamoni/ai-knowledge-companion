@@ -34,7 +34,7 @@ const ACCEPTED_VIDEO_TYPES = {
 
 export function VideoUploader({ onUploadComplete }: VideoUploaderProps): JSX.Element {
   const t = useTranslations('multimedia.video')
-  const tCommon = useTranslations('common')
+
 
   const [videos, setVideos] = useState<VideoFile[]>([])
   const [uploading, setUploading] = useState(false)
@@ -106,7 +106,7 @@ export function VideoUploader({ onUploadComplete }: VideoUploaderProps): JSX.Ele
       })
 
       return true
-    } catch (error) {
+    } catch (_error) {
       const errorMessage = error instanceof Error ? error.message : 'Upload failed'
       setVideos(prev => {
         const updated = [...prev]
