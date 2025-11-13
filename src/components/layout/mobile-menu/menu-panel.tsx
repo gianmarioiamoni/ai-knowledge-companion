@@ -3,11 +3,12 @@ import { MenuHeader } from './menu-header'
 import { UserInfo } from './user-info'
 import { MenuNavigationWithSubmenu } from './menu-navigation-with-submenu'
 import { MenuFooter } from './menu-footer'
+import type { User } from '@supabase/supabase-js'
 import type { JSX } from 'react'
 
 interface MenuPanelProps {
   isOpen: boolean
-  user: any
+  user: User | null
   pathname: string
   onClose: () => void
   onSignOut: () => void

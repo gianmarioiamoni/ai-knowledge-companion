@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { FileText, Users, LayoutDashboard, Store, CreditCard, FolderOpen, Music, ChevronDown, Shield, CreditCard as PlansIcon, type LucideIcon } from 'lucide-react'
+import type { User } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
 import { useRole } from '@/hooks/use-role'
 import type { JSX } from 'react'
@@ -33,7 +34,7 @@ interface MenuItem {
 }
 
 interface MenuNavigationProps {
-  user: any
+  user: User | null
   pathname: string
   onNavigate?: () => void
 }

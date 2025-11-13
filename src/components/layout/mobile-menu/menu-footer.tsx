@@ -2,10 +2,11 @@ import { Link } from '@/i18n/navigation'
 import { Button } from '@/components/ui/button'
 import { useTranslations } from 'next-intl'
 import { LogOut } from 'lucide-react'
+import type { User } from '@supabase/supabase-js'
 import type { JSX } from 'react'
 
 interface MenuFooterProps {
-  user: any
+  user: User | null
   onSignOut: () => void
   onClose: () => void
 }

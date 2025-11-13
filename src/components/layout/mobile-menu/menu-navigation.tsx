@@ -1,6 +1,7 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { FileText, Users, LayoutDashboard, Store, CreditCard, type LucideIcon } from 'lucide-react'
+import type { User } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
 import type { JSX } from 'react'
 
@@ -11,7 +12,7 @@ interface MenuItem {
 }
 
 interface MenuNavigationProps {
-  user: any
+  user: User | null
   pathname: string
 }
 

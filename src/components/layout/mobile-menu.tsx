@@ -2,11 +2,12 @@
 
 import { JSX } from 'react'
 import { createPortal } from 'react-dom'
+import type { User } from '@supabase/supabase-js'
 import { useMobileMenu } from '@/hooks/use-mobile-menu'
 import { HamburgerButton, MenuOverlay, MenuPanel } from './mobile-menu/index'
 
 interface MobileMenuProps {
-  user: any
+  user: User | null
   onSignOut: () => void
   locale: string
 }

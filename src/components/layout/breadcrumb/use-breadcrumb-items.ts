@@ -48,7 +48,8 @@ export const useBreadcrumbItems = ({ locale }: UseBreadcrumbItemsProps): Breadcr
     const getSegmentLabel = (segment: string): string => {
       // 1. Try navigation translations (most common routes)
       try {
-        const navLabel = t(segment as any)
+        // Type assertion: translation functions accept any string key
+        const navLabel = t(segment as string)
         if (navLabel && navLabel !== segment) {
           return navLabel
         }
@@ -58,7 +59,8 @@ export const useBreadcrumbItems = ({ locale }: UseBreadcrumbItemsProps): Breadcr
 
       // 2. Try breadcrumb-specific translations (special routes)
       try {
-        const breadcrumbLabel = tBreadcrumb(segment as any)
+        // Type assertion: translation functions accept any string key
+        const breadcrumbLabel = tBreadcrumb(segment as string)
         if (breadcrumbLabel && breadcrumbLabel !== segment) {
           return breadcrumbLabel
         }
