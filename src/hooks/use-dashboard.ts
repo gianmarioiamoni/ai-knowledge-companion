@@ -82,21 +82,6 @@ export function useDashboard(initialStats?: DashboardStats): DashboardData {
     fetchStats()
   }, [user, initialStats])
 
-  // Reset stats when user changes
-  useEffect(() => {
-    console.log('[useDashboard] User change effect triggered', { user: user?.id })
-    if (!user) {
-      console.log('[useDashboard] ⚠️ RESETTING STATS TO ZERO because no user!')
-      setStats({
-        totalDocuments: 0,
-        totalTutors: 0,
-        totalConversations: 0,
-        totalMessages: 0,
-        apiCalls: 0,
-      })
-    }
-  }, [user])
-
   return {
     stats,
     isLoading,
