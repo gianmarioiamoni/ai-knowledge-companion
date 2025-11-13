@@ -6,7 +6,7 @@
 'use client'
 
 import { JSX, useCallback, useState } from 'react'
-import { useDropzone } from 'react-dropzone'
+import { useDropzone, type FileRejection } from 'react-dropzone'
 import { useTranslations } from 'next-intl'
 import { Upload, Image as ImageIcon, X, Loader2 } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -41,7 +41,7 @@ export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Ele
   const [uploading, setUploading] = useState(false)
   const [globalError, setGlobalError] = useState<string | null>(null)
 
-  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: any[]) => {
+  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
     setGlobalError(null)
 
     // Handle rejected files

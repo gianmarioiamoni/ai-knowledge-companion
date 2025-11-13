@@ -2,6 +2,7 @@
 
 import { JSX } from 'react'
 import { useProfile } from '@/hooks/use-profile'
+import type { ProfileUpdate } from '@/lib/supabase/profile'
 import { useTranslations } from 'next-intl'
 import { AvatarUpload, ProfileForm, PasswordChange, DeleteAccount } from '../ui'
 import { SubscriptionCard } from '@/components/plans/ui'
@@ -46,7 +47,7 @@ export function ProfilePageClient({ locale }: ProfilePageClientProps): JSX.Eleme
     }
   }
 
-  const handleProfileSave = async (updates: any) => {
+  const handleProfileSave = async (updates: ProfileUpdate) => {
     setSaving(true)
     setSuccessMessage(null)
     
