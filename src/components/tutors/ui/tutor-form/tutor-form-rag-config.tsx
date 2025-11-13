@@ -10,7 +10,7 @@ import type { JSX } from 'react';
 
 interface TutorFormRagConfigProps {
   formData: TutorInsert;
-  onInputChange: (field: keyof TutorInsert, value: any) => void;
+  onInputChange: <K extends keyof TutorInsert>(field: K, value: TutorInsert[K]) => void;
   onNumericInputChange: (field: keyof TutorInsert, value: string) => void;
   getSimilarityLabel: (value: number | undefined) => string;
 }

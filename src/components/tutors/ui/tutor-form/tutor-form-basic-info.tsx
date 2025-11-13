@@ -7,7 +7,7 @@ import type { JSX } from 'react';
 
 interface TutorFormBasicInfoProps {
   formData: TutorInsert;
-  onInputChange: (field: keyof TutorInsert, value: any) => void;
+  onInputChange: <K extends keyof TutorInsert>(field: K, value: TutorInsert[K]) => void;
 }
 
 export function TutorFormBasicInfo({

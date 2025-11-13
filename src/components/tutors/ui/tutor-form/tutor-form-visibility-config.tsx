@@ -14,7 +14,7 @@ import type { JSX } from 'react';
 
 interface TutorFormVisibilityConfigProps {
   formData: TutorInsert;
-  onInputChange: (field: keyof TutorInsert, value: any) => void;
+  onInputChange: <K extends keyof TutorInsert>(field: K, value: TutorInsert[K]) => void;
   getVisibilityIcon: (visibility: VisibilityLevel) => string;
   getVisibilityDescription: (visibility: VisibilityLevel) => string;
 }
