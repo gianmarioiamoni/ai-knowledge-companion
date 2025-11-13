@@ -26,6 +26,7 @@ export async function getDashboardStatsServer(
   userId: string
 ): Promise<{ data?: DashboardStats; error?: string }> {
   try {
+    console.log('[Dashboard SSR] Fetching stats for user:', userId)
     const supabase = await createClient()
 
     // Fetch all statistics in parallel
@@ -76,7 +77,12 @@ export async function getDashboardStatsServer(
       Promise.resolve({ data: null, error: null })
     ])
 
-    // Check for errors
+    // Check for errors and log results
+    console.log('[Dashboard SSR] Documents count:', documentsResult.count, 'Error:', documentsResult.error)
+    console.log('[Dashboard SSR] Tutors count:', tutorsResult.count, 'Error:', tutorsResult.error)
+    console.log('[Dashboard SSR] Conversations count:', conversationsResult.count, 'Error:', conversationsResult.error)
+    console.log('[Dashboard SSR] Messages count:', messagesResult.count, 'Error:', messagesResult.error)
+    
     if (documentsResult.error) {
       console.error('[Dashboard SSR] Error counting documents:', documentsResult.error)
     }
@@ -100,6 +106,7 @@ export async function getDashboardStatsServer(
       apiCalls: 0,  // TODO: Implement when billing_tracking table exists
     }
 
+    console.log('[Dashboard SSR] Final stats:', stats)
     return { data: stats }
   } catch (error) {
     console.error('[Dashboard SSR] Unexpected error:', error)
