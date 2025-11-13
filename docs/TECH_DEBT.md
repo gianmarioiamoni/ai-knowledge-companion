@@ -210,15 +210,16 @@ catch (error) {
 
 ### Metrics Improvement
 
-| Metric | Initial | After Admin | After Zod | After JSX | After Any API | After Any Hooks | Total Change |
-|--------|---------|-------------|-----------|-----------|---------------|-----------------|--------------|
-| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **166** | **-16 errors** ✅ |
-| ESLint errors | 115 | 114 | 114 | 114 | 106 | **102** | **-13 errors** 🎉 |
-| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
-| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **0** | **-10 errors** 🎉 |
-| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **0** | **-1 error** 🎉 |
-| no-explicit-any (API) | ~8 | ~8 | ~8 | ~8 | **0** | **0** | **-8 errors** 🎉 |
-| no-explicit-any (hooks/mid) | ~4 | ~4 | ~4 | ~4 | ~4 | **0** | **-4 errors** 🎉 |
+| Metric | Initial | After Admin | After Zod | After JSX | After Any API | After Any Hooks | After Any Lib | Total Change |
+|--------|---------|-------------|-----------|-----------|---------------|-----------------|---------------|--------------|
+| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **166** | **166** | **-16 errors** ✅ |
+| ESLint errors | 115 | 114 | 114 | 114 | 106 | 102 | **83** | **-32 errors** 🎉 |
+| TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
+| TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **0** | **0** | **-10 errors** 🎉 |
+| TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **0** | **0** | **-1 error** 🎉 |
+| no-explicit-any (API) | ~8 | ~8 | ~8 | ~8 | **0** | **0** | **0** | **-8 errors** 🎉 |
+| no-explicit-any (hooks/mid) | ~4 | ~4 | ~4 | ~4 | ~4 | **0** | **0** | **-4 errors** 🎉 |
+| no-explicit-any (lib) | ~19 | ~19 | ~19 | ~19 | ~19 | ~19 | **0** | **-19 errors** 🎉 |
 
 ### Example Fix Applied
 ```typescript
@@ -291,11 +292,27 @@ export const PATCH = withSuperAdmin(
      - `src/hooks/use-plan-selection.ts` - `planName as any` → `as PlanName`
      - `src/lib/middleware/rate-limit-guard.ts` - `roleInfo: any` → `RoleInfo`
 
+6. **Explicit `any` types in lib utilities** - All critical ones replaced ✅
+   - Fixed all 8 critical library files
+   - Zero explicit any in openai, supabase, workers! 🎉
+   - Files fixed:
+     - **OpenAI services (3 files, 5 any)**:
+       - `src/lib/openai/transcription.ts` - SupabaseClient types + WhisperSegment
+       - `src/lib/openai/vision.ts` - SupabaseClient type
+       - `src/lib/openai/rag.ts` - QuotaCheckResult type
+     - **Supabase services (3 files, 4 any)**:
+       - `src/lib/supabase/tutors.ts` - TutorDocumentRelation type
+       - `src/lib/supabase/chat.ts` - ChatConversation type
+       - `src/lib/supabase/marketplace.ts` - Tutor & TutorReview types
+     - **Documents & Workers (2 files, 10 any)**:
+       - `src/lib/supabase/documents.ts` - ErrorWithStatus helper + SupabaseClient
+       - `src/lib/workers/document-processor.ts` - SupabaseClient (3 functions)
+
 #### 🔄 Next Steps
-6. **Remaining explicit `any` types** - ~90 occurrences in lib utilities
-   - Estimated: ~10-15 high-impact files
-   - Impact: ~15-20 ESLint errors
-   - Focus on: openai services, supabase utils, workers
+7. **Remaining explicit `any` types** - ~70 occurrences in other lib files
+   - Estimated: ~10 files remaining
+   - Impact: ~10-15 ESLint errors
+   - Focus on: rate-limit, schemas, utility functions
 
 ## 🔄 Maintenance Strategy
 
