@@ -21,10 +21,11 @@ import {
 } from '@/lib/rate-limit'
 import { RATE_LIMITS } from '@/lib/rate-limit/config'
 import { getCurrentUserRole } from '@/lib/auth/roles'
+import type { RoleInfo } from '@/types/admin'
 
 type RouteHandler = (
   request: NextRequest,
-  context?: { rateLimitResult: RateLimitResult; roleInfo: any }
+  context?: { rateLimitResult: RateLimitResult; roleInfo: RoleInfo }
 ) => Promise<NextResponse> | NextResponse
 
 /**

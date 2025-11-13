@@ -208,9 +208,9 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
         // Replace temporary message with real user message and add assistant response
         const realUserMessage = chatService.transformMessageToChat({
           ...result.data,
-          role: 'user',
+          role: 'user' as const,
           content,
-        } as any);
+        });
 
         const assistantMessage = chatService.transformMessageToChat(result.data);
 

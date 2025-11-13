@@ -39,7 +39,7 @@ export function useTutorForm({ tutor, onSubmit, onCancel, loading = false }: Use
     await onSubmit(cleanData);
   };
 
-  const handleInputChange = (field: keyof TutorInsert, value: any) => {
+  const handleInputChange = <K extends keyof TutorInsert>(field: K, value: TutorInsert[K]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 

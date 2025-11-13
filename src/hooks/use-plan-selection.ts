@@ -9,6 +9,7 @@ import { useRouter } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
 import { useSubscription } from './use-subscription'
 import { toast } from 'sonner'
+import type { PlanName } from '@/types/subscription'
 
 export function usePlanSelection() {
   const t = useTranslations('plans')
@@ -21,7 +22,7 @@ export function usePlanSelection() {
       try {
         setUpgrading(true)
         
-        const result = await upgradePlan(planName as any, billingCycle)
+        const result = await upgradePlan(planName as PlanName, billingCycle)
         
         if (result.success) {
           toast.success(result.message || t('upgradeSuccess'))
