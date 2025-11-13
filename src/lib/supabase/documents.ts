@@ -5,6 +5,10 @@ import {
   SupportedMimeType,
   MAX_FILE_SIZE,
 } from "@/types/documents";
+import type { SupabaseClient } from "@supabase/supabase-js";
+
+// Helper type for errors with HTTP status codes
+type ErrorWithStatus = Error & { statusCode?: number };
 
 // Use Supabase generated types
 type Document = Database["public"]["Tables"]["documents"]["Row"];
@@ -264,6 +268,7 @@ async function uploadFileDirectly(
       console.error("❌ Direct upload error:", error);
 
       // Retry on certain errors
+      const errorWithStatus = error as ErrorWithStatus;
       if (
         attempt < 3 &&
         (error.message.includes("timeout") ||
@@ -271,11 +276,11 @@ async function uploadFileDirectly(
           error.message.includes("NetworkError") ||
           error.message.includes("Load failed") ||
           error.message.includes("Connection") ||
-          (error as any).statusCode === 408 ||
-          (error as any).statusCode === 500 ||
-          (error as any).statusCode === 502 ||
-          (error as any).statusCode === 503 ||
-          (error as any).statusCode === 504)
+          errorWithStatus.statusCode === 408 ||
+          errorWithStatus.statusCode === 500 ||
+          errorWithStatus.statusCode === 502 ||
+          errorWithStatus.statusCode === 503 ||
+          errorWithStatus.statusCode === 504)
       ) {
         console.log(
           `🔄 Retrying direct upload (attempt ${attempt + 1}/3) due to error: ${
@@ -806,12 +811,12 @@ export async function deleteDocument(
 // Create document chunks
 export async function createDocumentChunks(
   chunks: DocumentChunkInsert[],
-  supabaseClient?: any
+  supabaseClient?: SupabaseClient
 ): Promise<{ error?: string }> {
   try {
     const supabase = supabaseClient || createClient();
 
-    const { error } = await (supabase as any)
+    const { error } = await supabase
       .from("document_chunks")
       .insert(chunks);
 

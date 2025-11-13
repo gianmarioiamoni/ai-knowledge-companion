@@ -14,6 +14,7 @@ import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
 import { createDocumentChunks } from "@/lib/supabase/documents";
 import type { SupportedMimeType } from "@/types/documents";
 import type { Database } from "@/types/database";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 type DocumentChunkInsert =
   Database["public"]["Tables"]["document_chunks"]["Insert"];
@@ -51,7 +52,7 @@ export async function processDocument(
   file: File,
   documentId: string,
   options: ProcessingOptions = {},
-  supabaseClient?: any
+  supabaseClient?: SupabaseClient
 ): Promise<ProcessingResult> {
   const {
     minTokens = 500,
@@ -189,7 +190,7 @@ export async function processDocumentBuffer(
   mimeType: SupportedMimeType,
   documentId: string,
   options: ProcessingOptions = {},
-  supabaseClient?: any
+  supabaseClient?: SupabaseClient
 ): Promise<ProcessingResult> {
   const {
     minTokens = 500,
@@ -263,7 +264,7 @@ export async function processDocumentBuffer(
 async function saveChunksToDatabase(
   documentId: string,
   chunks: (DocumentChunk & { embedding?: number[] })[],
-  supabaseClient?: any
+  supabaseClient?: SupabaseClient
 ): Promise<{ success: boolean; error?: string }> {
   try {
     // Converte i chunk nel formato del database
