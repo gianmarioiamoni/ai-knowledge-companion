@@ -7,7 +7,7 @@ import type { SupportedMimeType } from '@/types/documents'
 
 export const runtime = 'nodejs'
 
-export const POST = withSuperAdmin(async (request: NextRequest, { roleInfo }) => {
+export const POST = withSuperAdmin(async (request: NextRequest, { roleInfo: _roleInfo }) => {
   try {
     const { documentId } = await request.json()
     

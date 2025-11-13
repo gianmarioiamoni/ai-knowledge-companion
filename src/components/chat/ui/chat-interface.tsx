@@ -26,7 +26,6 @@ export function ChatInterface({
     isSending,
     error,
     createConversation,
-    loadMessages,
     sendMessage,
     setCurrentConversation,
     renameConversation,

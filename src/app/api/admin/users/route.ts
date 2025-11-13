@@ -10,7 +10,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 
-export const GET = withAdmin(async (request: NextRequest, { roleInfo }) => {
+export const GET = withAdmin(async (request: NextRequest, { roleInfo: _roleInfo }) => {
   try {
     const supabase = createServiceClient()
 
@@ -61,11 +61,6 @@ export const GET = withAdmin(async (request: NextRequest, { roleInfo }) => {
         { status: 500 }
       )
     }
-
-    // Get summary stats
-    const { data: summary } = await supabase
-      .from('profiles')
-      .select('role, status', { count: 'exact' })
 
     const stats = {
       total: count || 0,

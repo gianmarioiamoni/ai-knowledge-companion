@@ -18,7 +18,7 @@ export function TutorsHeader({
   title,
   subtitle,
   searchPlaceholder,
-  searchQuery,
+  /* searchQuery */,
   onSearchChange,
   onNewTutor,
   onFilters

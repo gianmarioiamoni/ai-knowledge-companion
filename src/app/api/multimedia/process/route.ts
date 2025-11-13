@@ -9,11 +9,9 @@ import { createClient } from "@/lib/supabase/server";
 import {
   updateProcessingJobStatus,
   updateDocumentTranscription,
-  getUserMultimediaDocuments,
 } from "@/lib/supabase/multimedia";
 import {
   transcribeAudioFromStorage,
-  estimateTranscriptionCost,
 } from "@/lib/openai/transcription";
 import { chunkDocument } from "@/lib/workers/document-chunker";
 import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
@@ -22,7 +20,7 @@ import type { DocumentChunk } from "@/lib/workers/document-chunker";
 import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
 import { sanitize } from "@/lib/utils/log-sanitizer";
 
-export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
+export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo: _roleInfo }) => {
   try {
     // This endpoint processes a specific document
     // In production, this would be called by a background worker (BullMQ, Inngest, etc.)

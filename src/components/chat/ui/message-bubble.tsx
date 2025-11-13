@@ -1,7 +1,7 @@
 'use client';
 
 import { JSX, useState } from 'react';
-import { useTranslations } from 'next-intl';
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,8 +16,7 @@ import {
 } from 'lucide-react';
 import type { MessageBubbleProps } from '@/types/chat';
 
-export function MessageBubble({ message, isLast }: MessageBubbleProps): JSX.Element {
-  const t = useTranslations('chat');
+export function MessageBubble({ message }: MessageBubbleProps): JSX.Element {
   const [copied, setCopied] = useState(false);
   const [showSources, setShowSources] = useState(false);
 
@@ -121,8 +120,8 @@ export function MessageBubble({ message, isLast }: MessageBubbleProps): JSX.Elem
 
               {showSources && (
                 <div className="mt-2 space-y-2">
-                  {message.rag_chunks.map((chunk, index) => (
-                    <Card key={index} className="bg-gray-50 dark:bg-gray-700">
+                  {message.rag_chunks.map((chunk) => (
+                    <Card key={chunk.chunk_id} className="bg-gray-50 dark:bg-gray-700">
                       <CardContent className="p-3">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">

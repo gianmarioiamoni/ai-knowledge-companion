@@ -4,7 +4,7 @@ import { createServiceClient } from '@/lib/supabase/service'
 
 export const runtime = 'nodejs'
 
-export async function DELETE(request: Request) {
+export async function DELETE(_request: Request) {
   try {
     const supabase = await createClient()
     

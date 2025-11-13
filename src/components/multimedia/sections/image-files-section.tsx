@@ -7,8 +7,7 @@
 
 import { JSX, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Image as ImageIcon, Trash2, ExternalLink, Loader2, AlertCircle } from 'lucide-react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Image as ImageIcon, Trash2, ExternalLink, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'

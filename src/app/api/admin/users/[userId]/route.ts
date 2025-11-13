@@ -13,7 +13,7 @@ import { createServiceClient } from '@/lib/supabase/service'
 import { logAdminAction, getUserRoleById } from '@/lib/auth/roles'
 import { RoleInfo, UserRouteParams } from '@/types/admin'
 
-export const GET = withAdmin(async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+export const GET = withAdmin(async (request: NextRequest, { roleInfo: _roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
   try {
     const { userId } = await context.params
     const supabase = createServiceClient()

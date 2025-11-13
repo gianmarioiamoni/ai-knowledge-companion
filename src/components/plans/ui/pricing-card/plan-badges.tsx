@@ -14,7 +14,7 @@ interface PlanBadgesProps {
   t: TranslationFunction
 }
 
-export function PlanBadges({ isMostPopular, isCurrentPlan, t }: PlanBadgesProps): JSX.Element | null {
+export function PlanBadges({ /* isMostPopular, */ isCurrentPlan, t }: PlanBadgesProps): JSX.Element | null {
   return (
     <>
       {isMostPopular && (

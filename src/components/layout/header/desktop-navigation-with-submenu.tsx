@@ -81,7 +81,7 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
 
   return (
     <nav className="hidden md:flex items-center gap-2 lg:gap-3">
-      {visibleItems.map((item, index) => {
+      {visibleItems.map((item) => {
         const key = item.href || item.label
         const hasSubItems = item.subItems && item.subItems.length > 0
         const isActive = item.href ? isActivePath(item.href) : isSubmenuActive(item.subItems)

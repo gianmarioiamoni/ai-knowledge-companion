@@ -12,7 +12,7 @@ import { AlertCircle } from 'lucide-react'
 import { useState } from 'react'
 
 interface ProfilePageClientProps {
-  locale: 'en' | 'it'
+  _locale: 'en' | 'it'
 }
 
 export function ProfilePageClient({ locale }: ProfilePageClientProps): JSX.Element {

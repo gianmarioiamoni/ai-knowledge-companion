@@ -11,7 +11,7 @@ interface TutorFormAvatarProps {
 }
 
 export function TutorFormAvatar({
-  name,
+  /* name */,
   avatarUrl,
   initials,
   onAvatarUrlChange,

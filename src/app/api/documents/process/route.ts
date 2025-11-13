@@ -7,7 +7,7 @@ import { withRateLimit } from '@/lib/middleware/rate-limit-guard'
 import { sanitize } from '@/lib/utils/log-sanitizer'
 import type { SupportedMimeType } from '@/types/documents'
 
-export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo }) => {
+export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo: _roleInfo }) => {
   try {
     const { documentId } = await request.json()
 

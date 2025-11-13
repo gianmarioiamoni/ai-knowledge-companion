@@ -6,7 +6,6 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { Card } from '@/components/ui/card'
 import { AudioUploader } from '../ui/audio-uploader'
 import { AudioFileList } from '../ui/audio-file-list'
 import { useAudioFiles } from '@/hooks/use-audio-files'

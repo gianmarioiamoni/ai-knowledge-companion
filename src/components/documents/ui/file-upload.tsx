@@ -3,7 +3,7 @@
 import { JSX, useState, useCallback } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
-import { Upload, X, FileText, AlertCircle } from 'lucide-react'
+import { Upload, X, AlertCircle } from 'lucide-react'
 import { isValidFileType, getFileTypeIcon } from '@/lib/supabase/documents'
 import { MAX_FILE_SIZE } from '@/types/documents'
 

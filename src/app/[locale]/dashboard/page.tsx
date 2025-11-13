@@ -24,5 +24,5 @@ export default async function DashboardPage({ params }: DashboardPageProps): Pro
   // Server-side data fetching
   const { data: initialStats } = await getDashboardStatsServer(user.id)
   
-  return <DashboardPageClient locale={locale as 'en' | 'it'} initialStats={initialStats} />
+  return <DashboardPageClient initialStats={initialStats} />
 }

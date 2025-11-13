@@ -18,7 +18,7 @@ import {
 import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
 import { sanitize } from "@/lib/utils/log-sanitizer";
 
-export const POST = withRateLimit('upload', async (request: NextRequest, { roleInfo }) => {
+export const POST = withRateLimit('upload', async (request: NextRequest, { roleInfo: _roleInfo }) => {
   try {
     // Authenticate user
     const supabase = await createClient();
@@ -37,7 +37,6 @@ export const POST = withRateLimit('upload', async (request: NextRequest, { roleI
     // Parse form data
     const formData = await request.formData();
     const file = formData.get("file") as File;
-    const tutorId = formData.get("tutorId") as string | null;
 
     if (!file) {
       return NextResponse.json(

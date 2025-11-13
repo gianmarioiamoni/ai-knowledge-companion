@@ -11,11 +11,7 @@ import { DocumentPreview } from '../ui/document-preview'
 import { testSupabaseConnectivity } from '@/lib/supabase/test-connectivity'
 import type { Document } from '@/types/database'
 
-interface DocumentsPageClientProps {
-  locale: 'en' | 'it'
-}
-
-export function DocumentsPageClient({ locale }: DocumentsPageClientProps): JSX.Element {
+export function DocumentsPageClient(): JSX.Element {
   const t = useTranslations('documents')
   const { documents, loading, error, uploadDocument, deleteDocument, getFileUrl, refreshDocuments } = useDocuments()
   const [showUpload, setShowUpload] = useState(false)

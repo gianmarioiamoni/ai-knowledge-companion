@@ -20,7 +20,7 @@ interface TutorsEmptyProps {
 
 export function TutorsEmpty({
   isSearching,
-  searchQuery,
+  /* searchQuery */,
   emptyLabels,
   onCreateTutor
 }: TutorsEmptyProps): JSX.Element {

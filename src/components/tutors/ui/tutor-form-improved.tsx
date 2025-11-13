@@ -43,7 +43,7 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
     getTemperatureLabel,
     getSimilarityLabel,
     getVisibilityIcon,
-    getVisibilityDescription,
+    /* getVisibilityDescription */,
     getInitials,
   } = useTutorForm({ tutor, onSubmit, onCancel, loading });
 

@@ -27,7 +27,7 @@ export function PlanActionButton({
   planName,
   billingCycle,
   isCurrentPlan, 
-  isMostPopular, 
+  // isMostPopular, 
   isSelected,
   isFree,
   loading, 

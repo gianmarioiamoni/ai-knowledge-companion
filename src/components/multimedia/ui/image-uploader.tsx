@@ -35,7 +35,7 @@ const ACCEPTED_IMAGE_TYPES = {
 
 export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Element {
   const t = useTranslations('multimedia.image')
-  const tCommon = useTranslations('common')
+  
 
   const [images, setImages] = useState<ImageFile[]>([])
   const [uploading, setUploading] = useState(false)
@@ -109,7 +109,7 @@ export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Ele
       })
 
       return true
-    } catch (error) {
+    } catch (_error) {
       const errorMessage = error instanceof Error ? error.message : 'Upload failed'
       setImages(prev => {
         const updated = [...prev]
@@ -145,7 +145,7 @@ export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Ele
       } else {
         setGlobalError('Some uploads failed. Please retry.')
       }
-    } catch (error) {
+    } catch (_error) {
       setGlobalError('Upload failed. Please try again.')
     } finally {
       setUploading(false)

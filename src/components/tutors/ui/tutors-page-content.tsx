@@ -32,7 +32,7 @@ interface TutorsPageContentProps {
 
 export function TutorsPageContent({
   tutors,
-  allTutors,
+  /* allTutors */,
   stats,
   searchQuery,
   onEdit,

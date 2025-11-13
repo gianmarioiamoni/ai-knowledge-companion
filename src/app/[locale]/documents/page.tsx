@@ -20,5 +20,5 @@ export default async function DocumentsPage({ params }: DocumentsPageProps): Pro
     redirect(`/${locale}/auth/login`)
   }
 
-  return <DocumentsPageClient locale={locale as 'en' | 'it'} />
+  return <DocumentsPageClient />
 }

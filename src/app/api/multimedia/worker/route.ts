@@ -26,7 +26,7 @@ import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
 import { createDocumentChunks } from "@/lib/supabase/documents";
 import type { DocumentChunk } from "@/lib/workers/document-chunker";
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
   try {
     // Use service role for worker - has full access to bypass RLS
     const supabase = createClient(
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     }
 
     const job = jobs[0];
-    const { queue_id, document_id, user_id, media_type, storage_path } = job;
+    const { queue_id, document_id, media_type, storage_path } = job;
 
     console.log(`🔄 Processing job:`, {
       queueId: queue_id,

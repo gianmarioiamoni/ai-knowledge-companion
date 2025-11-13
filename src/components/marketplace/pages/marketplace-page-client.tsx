@@ -6,7 +6,6 @@
 'use client'
 
 import { JSX } from 'react'
-import { useTranslations } from 'next-intl'
 import { useMarketplace, useMarketplaceCategories } from '@/hooks/use-marketplace'
 import { MarketplaceHeader } from '../sections/marketplace-header'
 import { MarketplaceFilters } from '../sections/marketplace-filters'
@@ -16,7 +15,7 @@ import { MarketplaceLoading } from '../ui/marketplace-loading'
 import { MarketplaceError } from '../ui/marketplace-error'
 
 export function MarketplacePage(): JSX.Element {
-  const t = useTranslations('marketplace')
+  
   
   const {
     tutors,

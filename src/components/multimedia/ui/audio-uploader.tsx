@@ -10,7 +10,7 @@ import { useDropzone } from 'react-dropzone'
 import { Button } from '@/components/ui/button'
 import { Music, Upload, Loader2, Check, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { SUPPORTED_AUDIO_TYPES, MULTIMEDIA_FILE_LIMITS } from '@/types/multimedia'
+import { MULTIMEDIA_FILE_LIMITS } from '@/types/multimedia'
 import type { JSX } from 'react'
 
 interface AudioUploaderProps {
@@ -52,7 +52,7 @@ export function AudioUploader({ onUploadSuccess }: AudioUploaderProps): JSX.Elem
         onUploadSuccess()
       }, 2000)
       
-    } catch (error) {
+    } catch (_error) {
       console.error('Upload error:', error)
       setUploadStatus('error')
       setStatusMessage(error instanceof Error ? error.message : t('error'))

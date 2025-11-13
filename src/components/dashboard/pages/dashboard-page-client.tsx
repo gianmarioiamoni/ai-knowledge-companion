@@ -13,14 +13,12 @@ import {
   WelcomeHeader, 
   RecentActivity 
 } from '../ui'
-import { FileText, Bot, MessageSquare, Upload } from 'lucide-react'
 
 interface DashboardPageClientProps {
-  locale: 'en' | 'it'
   initialStats?: DashboardStats
 }
 
-export function DashboardPageClient({ locale, initialStats }: DashboardPageClientProps): JSX.Element {
+export function DashboardPageClient({ initialStats }: DashboardPageClientProps): JSX.Element {
   const t = useTranslations('dashboard')
   const router = useRouter()
   const { stats, isLoading, user, error } = useDashboard(initialStats)

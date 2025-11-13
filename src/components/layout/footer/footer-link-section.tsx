@@ -3,7 +3,7 @@
  * Reusable component for displaying a section of links
  */
 
-import { JSX, ReactNode } from 'react'
+import { JSX } from 'react'
 import Link from 'next/link'
 
 interface FooterLink {
