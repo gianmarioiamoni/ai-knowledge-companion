@@ -19,7 +19,7 @@ export function PaymentStatus(): JSX.Element | null {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [status, setStatus] = useState<PaymentStatus>(null)
-  const { prorationInfo /*  /*, clearProrationInfo */ */ } = useProrationInfo()
+  const { prorationInfo } = useProrationInfo()
 
   useEffect(() => {
     const paymentParam = searchParams.get('payment')

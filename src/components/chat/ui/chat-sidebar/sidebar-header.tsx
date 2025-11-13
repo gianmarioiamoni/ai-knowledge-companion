@@ -12,7 +12,6 @@ interface SidebarHeaderProps {
 }
 
 export function SidebarHeader({ 
-  /* searchQuery */, 
   onSearchChange,
   onNewConversation 
 }: SidebarHeaderProps): JSX.Element {

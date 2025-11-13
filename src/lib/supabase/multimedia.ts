@@ -124,7 +124,7 @@ export async function createMultimediaDocument(
 
     const { data: document, error } = await supabase
       .from("documents")
-      // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+      // @ts-expect-error - Supabase auto-generated types have table marked as 'never'
       .insert({
         owner_id: data.userId,
         title: data.fileName,
@@ -184,7 +184,7 @@ export async function getUserMultimediaDocuments(
   try {
     const supabase = supabaseClient || createClient();
 
-    let query = supabase
+    const query = supabase
       .from("documents")
       .select("*, document_chunks(count)")
       .eq("owner_id", userId)
@@ -257,7 +257,7 @@ export async function updateDocumentTranscription(
 
     const { error } = await supabase
       .from("documents")
-      // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+      // @ts-expect-error - Supabase auto-generated types have table marked as 'never'
       .update({
         transcription_status: data.transcriptionStatus,
         transcription_text: data.transcriptionText,
@@ -301,7 +301,7 @@ export async function deleteMultimediaDocument(
     console.log(`🗑️  Deleting multimedia document: ${documentId}`);
 
     // First get document to know storage path and media type
-    // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+    // @ts-expect-error - Supabase auto-generated types have table marked as 'never'
     const { data: document, error: fetchError } = await supabase
       .from("documents")
       .select("storage_path, media_type")
@@ -395,7 +395,7 @@ export async function queueMultimediaProcessing(
     const { data, error } = await (
       supabase
         .from("media_processing_queue")
-        // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+        // @ts-expect-error - Supabase auto-generated types have table marked as 'never'
         .insert(queueData)
         .select()
         .single()
@@ -522,7 +522,7 @@ export async function updateProcessingJobStatus(
     const { error } = await (
       supabase
         .from("media_processing_queue")
-        // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+        // @ts-expect-error - Supabase auto-generated types have table marked as 'never'
         .update(updateData)
         .eq("id", queueId)
     );
@@ -567,7 +567,7 @@ export async function associateMultimediaWithTutor(
     // Type assertion for existing data
     const existingData = existing as Array<{ display_order: number }> | null;
 
-    let startOrder = existingData && existingData.length > 0 ? existingData[0].display_order + 1 : 0;
+    const startOrder = existingData && existingData.length > 0 ? existingData[0].display_order + 1 : 0;
 
     // Insert associations
     const associations: TutorMultimediaInsert[] = documentIds.map(
@@ -581,7 +581,7 @@ export async function associateMultimediaWithTutor(
     const { data, error } = await (
       supabase
         .from("tutor_multimedia")
-        // @ts-ignore - Supabase auto-generated types have table marked as 'never'
+        // @ts-expect-error - Supabase auto-generated types have table marked as 'never'
         .insert(associations)
         .select()
     );

@@ -33,6 +33,13 @@ const eslintConfig = [
         }
       ]
     }
+  },
+  {
+    // Allow 'any' in type definition files and tests
+    files: ["src/types/**/*.ts", "src/test/**/*.ts", "src/test/**/*.tsx"],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off"
+    }
   }
 ];
 

@@ -23,7 +23,6 @@ export function TutorFormVisibilityConfig({
   formData,
   onInputChange,
   getVisibilityIcon,
-  /* getVisibilityDescription */,
 }: TutorFormVisibilityConfigProps): JSX.Element {
   const t = useTranslations('tutors');
   const getVisibilityIconComponent = (visibility: VisibilityLevel) => {

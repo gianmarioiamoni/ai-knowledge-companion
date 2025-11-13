@@ -19,13 +19,11 @@ export function TutorsPageClient({ locale }: TutorsPageClientProps): JSX.Element
   const t = useTranslations('tutors');
   const {
     tutors,
-    /* allTutors */,
     stats,
     loading,
     error,
     showForm,
     editingTutor,
-    /* searchQuery */,
     setSearchQuery,
     handleCreateTutor,
     handleUpdateTutor,

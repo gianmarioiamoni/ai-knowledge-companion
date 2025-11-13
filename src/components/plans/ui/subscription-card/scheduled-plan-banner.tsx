@@ -78,7 +78,7 @@ export function ScheduledPlanBanner({
         {isUpgrade && (
           <div className="text-xs mt-2 text-blue-700 dark:text-blue-300">
             🚀 {/* Emoji for upgrade */}
-            You'll be charged a prorated amount for the remaining days when upgrading.
+            You&apos;ll be charged a prorated amount for the remaining days when upgrading.
           </div>
         )}
       </AlertDescription>
