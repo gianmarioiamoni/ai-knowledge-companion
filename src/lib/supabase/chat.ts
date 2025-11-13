@@ -199,7 +199,7 @@ export async function archiveAllConversations(
     }
 
     // Archive each conversation
-    const archivePromises = getResult.conversations.map((conv: any) => 
+    const archivePromises = getResult.conversations.map((conv: ChatConversation) => 
       archiveConversation(conv.id)
     );
 

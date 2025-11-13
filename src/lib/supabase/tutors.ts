@@ -233,9 +233,10 @@ export async function getTutorWithDocuments(tutorId: string): Promise<{ data?: T
     }
 
     // Trasforma i dati per il formato TutorWithDocuments
+    type TutorDocumentRelation = { documents: Document };
     const tutorWithDocuments: TutorWithDocuments = {
       ...data,
-      documents: data.tutor_documents?.map((td: any) => td.documents) || []
+      documents: data.tutor_documents?.map((td: TutorDocumentRelation) => td.documents) || []
     };
 
     return { data: tutorWithDocuments };

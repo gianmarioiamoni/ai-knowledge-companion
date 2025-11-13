@@ -108,7 +108,7 @@ export async function getMarketplaceTutors(
     )
 
     // Transform data
-    const tutors: MarketplaceTutor[] = (data || []).map((tutor: any) => ({
+    const tutors: MarketplaceTutor[] = (data || []).map((tutor: Tutor) => ({
       ...tutor,
       owner_display_name: profilesMap.get(tutor.owner_id) || 'Anonymous'
     }))
@@ -210,7 +210,7 @@ export async function getTutorDetails(
       (reviewProfiles || []).map(p => [p.id, p])
     )
 
-    const reviewsWithUser: ReviewWithUser[] = (reviews || []).map((review: any) => {
+    const reviewsWithUser: ReviewWithUser[] = (reviews || []).map((review: TutorReview) => {
       const profile = reviewProfilesMap.get(review.user_id)
       return {
         ...review,
