@@ -22,6 +22,10 @@ export interface DashboardData {
 export function useDashboard(initialStats?: DashboardStats): DashboardData {
   const { user } = useAuth()
   const t = useTranslations('dashboard')
+  
+  console.log('[useDashboard] Hook called with initialStats:', initialStats)
+  console.log('[useDashboard] User from useAuth:', user?.id)
+  
   const [stats, setStats] = useState<DashboardStats>(
     initialStats || {
       totalDocuments: 0,
@@ -33,33 +37,42 @@ export function useDashboard(initialStats?: DashboardStats): DashboardData {
   )
   const [isLoading, setIsLoading] = useState(!initialStats) // No loading if we have initial data
   const [error, setError] = useState<string>()
+  
+  console.log('[useDashboard] Current stats state:', stats)
 
   useEffect(() => {
     async function fetchStats() {
+      console.log('[useDashboard] fetchStats useEffect triggered', { user: user?.id, hasInitialStats: !!initialStats })
+      
       if (!user) {
+        console.log('[useDashboard] No user, skipping fetch')
         setIsLoading(false)
         return
       }
 
       // Skip fetching if we already have initial stats
       if (initialStats) {
+        console.log('[useDashboard] Has initialStats, skipping fetch')
         setIsLoading(false)
         return
       }
 
       try {
+        console.log('[useDashboard] Fetching stats from client...')
         setIsLoading(true)
         setError(undefined)
         
         const result = await getDashboardStats()
         
         if (result.error) {
+          console.log('[useDashboard] Fetch error:', result.error)
           setError(result.error)
         } else if (result.data) {
+          console.log('[useDashboard] Fetch success, setting stats:', result.data)
           setStats(result.data)
         }
       } catch (err) {
-        console.error('Error fetching dashboard stats:', err)
+        console.error('[useDashboard] Error fetching dashboard stats:', err)
         setError('Failed to load dashboard statistics')
       } finally {
         setIsLoading(false)
@@ -71,7 +84,9 @@ export function useDashboard(initialStats?: DashboardStats): DashboardData {
 
   // Reset stats when user changes
   useEffect(() => {
+    console.log('[useDashboard] User change effect triggered', { user: user?.id })
     if (!user) {
+      console.log('[useDashboard] ⚠️ RESETTING STATS TO ZERO because no user!')
       setStats({
         totalDocuments: 0,
         totalTutors: 0,
