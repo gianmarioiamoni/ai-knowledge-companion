@@ -210,10 +210,10 @@ catch (error) {
 
 ### Metrics Improvement
 
-| Metric | Initial | After Admin | After Zod | After JSX | After Any API | After Any Hooks | After Any Lib | After Any Utils | After Components | Total Change |
-|--------|---------|-------------|-----------|-----------|---------------|-----------------|---------------|-----------------|------------------|--------------|
-| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **166** | **166** | **166** | **166** | **-16 errors** ✅ |
-| ESLint errors | 115 | 114 | 114 | 114 | 106 | 102 | 83 | 78 | **63** | **-52 errors** 🎊🎊 |
+| Metric | Initial | After Admin | After Zod | After JSX | After Any API | After Any Hooks | After Any Lib | After Any Utils | After Components | After Layout | Total Change |
+|--------|---------|-------------|-----------|-----------|---------------|-----------------|---------------|-----------------|------------------|--------------|--------------|
+| TypeScript errors | 182 | 176 | 167 | 166 | **166** | **166** | **166** | **166** | **166** | **166** | **-16 errors** ✅ |
+| ESLint errors | 115 | 114 | 114 | 114 | 106 | 102 | 83 | 78 | 63 | **56** | **-59 errors** 🎊🎊🎊 |
 | TS7031 (implicit any) | 12+ | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **-12 errors** 🎉 |
 | TS2339 (.errors) | ~10 | ~10 | **0** | **0** | **0** | **0** | **0** | **0** | **0** | **-10 errors** 🎉 |
 | TS2503 (JSX namespace) | 1 | 1 | 1 | **0** | **0** | **0** | **0** | **0** | **0** | **-1 error** 🎉 |
@@ -221,7 +221,8 @@ catch (error) {
 | no-explicit-any (hooks/mid) | ~4 | ~4 | ~4 | ~4 | ~4 | **0** | **0** | **0** | **0** | **-4 errors** 🎉 |
 | no-explicit-any (lib main) | ~19 | ~19 | ~19 | ~19 | ~19 | ~19 | **0** | **0** | **0** | **-19 errors** 🎉 |
 | no-explicit-any (lib utils) | ~5 | ~5 | ~5 | ~5 | ~5 | ~5 | ~5 | **0** | **0** | **-5 errors** 🎉 |
-| no-explicit-any (components) | ~15 | ~15 | ~15 | ~15 | ~15 | ~15 | ~15 | ~15 | **0** | **-15 errors** 🎉 |
+| no-explicit-any (components) | ~15 | ~15 | ~15 | ~15 | ~15 | ~15 | ~15 | ~15 | **0** | **0** | **-15 errors** 🎉 |
+| no-explicit-any (layout) | ~7 | ~7 | ~7 | ~7 | ~7 | ~7 | ~7 | ~7 | ~7 | **0** | **-7 errors** 🎉 |
 
 ### Example Fix Applied
 ```typescript
@@ -335,11 +336,21 @@ export const PATCH = withSuperAdmin(
      - **Profile (1 file)**: profile-page-client
        - `updates: any` → `ProfileUpdate`
 
+9. **Explicit `any` types in layout components** - All eliminated! 🎉
+   - Fixed 6 layout & navigation components
+   - Zero explicit any in breadcrumb & mobile menu! 🎊
+   - Files fixed:
+     - **Breadcrumb (1 file)**: use-breadcrumb-items
+       - `segment as any` → `segment as string` (2x) - Translation keys are string-safe
+     - **Mobile Menu (5 files)**: All mobile menu components
+       - `user: any` → `User | null` from @supabase/supabase-js (5x)
+       - Type-safe authentication state throughout navigation
+
 #### 🔄 Next Steps
-9. **Remaining explicit `any` types** - ~55 occurrences (down from ~115!)
-   - Mostly in: Layout components (breadcrumb, mobile-menu), log-sanitizer (intentional), generated types
-   - Impact: ~7 ESLint errors remaining
-   - Low priority - non-critical UI logic & intentional generic utilities
+10. **Remaining explicit `any` types** - ~48 occurrences (down from ~115!)
+   - Mostly in: log-sanitizer (intentional generic utility), marketplace components, some utilities
+   - Impact: ~56 ESLint errors remaining
+   - Low priority - non-critical helpers & intentional generic utilities
 
 ## 🔄 Maintenance Strategy
 
