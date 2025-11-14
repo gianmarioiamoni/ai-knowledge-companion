@@ -14,7 +14,7 @@ export const BreadcrumbList = ({ items }: BreadcrumbListProps) => {
   return (
     <ol className="flex items-center gap-1.5 py-2 text-xs text-muted-foreground">
       {items.map((item, index) => (
-        <li key={item.href} className="flex items-center gap-1.5">
+        <li key={item.href || `breadcrumb-${index}`} className="flex items-center gap-1.5">
           {index > 0 && <BreadcrumbSeparator />}
           
           <BreadcrumbItem
