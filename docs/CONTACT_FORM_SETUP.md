@@ -1,13 +1,21 @@
-# Contact Form Setup Guide
+# Contact Form Setup Guide - Email-First Approach
 
-This document explains how to configure the contact form feature of AI Knowledge Companion.
+This document explains how to configure the contact form feature of AI Knowledge Companion using an email-first architecture with Nodemailer + Gmail SMTP.
 
 ## Overview
 
-The contact form allows both authenticated and unauthenticated users to send inquiries, report issues, or request support. All submissions are:
-- **Saved to the database**: Stored in the `contact_messages` table
-- **Tracked with status**: Pending, In Progress, Resolved, Closed
-- **Accessible to administrators**: Via database or admin dashboard
+The contact form allows both authenticated and unauthenticated users to send inquiries, report issues, or request support. All submissions result in:
+- **Email to administrators**: Instant notification with full message details
+- **Email to user**: Automatic confirmation with expected response time
+- **Minimal logging**: In-memory rate limiting and console logs (no database storage)
+
+### Why Email-First?
+
+✅ **Simplicity**: No database tables to maintain  
+✅ **Privacy**: Messages don't persist in database (GDPR-friendly)  
+✅ **Familiarity**: Traditional email workflow for admins  
+✅ **Zero config**: Works out of the box with Gmail  
+✅ **Scalable**: 500 emails/day limit is sufficient for most use cases
 
 ---
 
@@ -16,9 +24,10 @@ The contact form allows both authenticated and unauthenticated users to send inq
 - ✅ Accessible to both authenticated and unauthenticated users
 - ✅ Auto-fills email for authenticated users
 - ✅ Multiple inquiry categories (General, Support, Bug, Feature Request, Billing, Other)
-- ✅ Messages saved to database with full metadata
-- ✅ Status tracking and priority assignment
-- ✅ User agent and IP tracking for security
+- ✅ **Email notifications** to admin(s) with beautiful HTML templates
+- ✅ **Confirmation emails** to users with branding
+- ✅ **Rate limiting**: Max 5 messages per email per 24 hours (in-memory)
+- ✅ **Graceful degradation**: Works without Gmail config (logs to console)
 - ✅ Fully responsive design
 - ✅ Multilingual support (English & Italian)
 - ✅ Form validation with Zod
@@ -26,159 +35,212 @@ The contact form allows both authenticated and unauthenticated users to send inq
 
 ---
 
-## Database Setup
+## Email Service Setup
 
-### Apply Migration
+### Step 1: Get Gmail App Password
 
-Run the migration to create the `contact_messages` table:
+1. **Go to your Google Account**:
+   - Visit [myaccount.google.com](https://myaccount.google.com)
 
-```bash
-# Connect to your Supabase database and run:
-psql $DATABASE_URL -f sql/26_contact_messages.sql
-```
+2. **Enable 2-Step Verification** (required):
+   - Security → 2-Step Verification
+   - Follow the setup wizard
 
-Or through the Supabase Dashboard:
-1. Go to **SQL Editor**
-2. Create a new query
-3. Copy the content from `sql/26_contact_messages.sql`
-4. Execute the query
+3. **Generate App Password**:
+   - Security → 2-Step Verification → App passwords
+   - Select "Mail" and "Other (Custom name)"
+   - Name it "AI Knowledge Companion"
+   - **Copy the 16-character password** (format: `xxxx xxxx xxxx xxxx`)
 
-### Table Structure
+### Step 2: Configure Environment Variables
 
-The `contact_messages` table includes:
-- **User information**: user_id, name, email
-- **Message details**: subject, category, message
-- **Status tracking**: status (pending/in_progress/resolved/closed), priority
-- **Metadata**: is_authenticated, user_agent, ip_address
-- **Response tracking**: responded_at, responded_by, response_notes
-- **Timestamps**: created_at, updated_at
-
-### Row Level Security (RLS)
-
-The table has built-in RLS policies:
-- ✅ Users can view and insert their own messages
-- ✅ Admins can view, update, and delete all messages
-- ✅ Guest submissions (user_id = NULL) are allowed
-
-## Optional Environment Variables
-
-Add this to your `.env.local` file (for development) and to your Vercel Environment Variables (for production):
+Add these to your `.env.local` (development) and Vercel Environment Variables (production):
 
 ```env
+# Gmail SMTP Configuration (Required for email sending)
+GMAIL_USER=your-email@gmail.com
+GMAIL_APP_PASSWORD=your16charapppassword
+
+# Admin Email(s) - Comma-separated for multiple admins
+ADMIN_EMAILS=admin1@example.com,admin2@example.com
+
 # Optional: Public contact email (displayed on contact page)
 NEXT_PUBLIC_CONTACT_EMAIL=contact@yourdomain.com
+
+# Optional: App URL for email links
+NEXT_PUBLIC_APP_URL=https://yourdomain.com
 ```
 
-### Variable Descriptions
+### Environment Variables Reference
 
 | Variable | Description | Required | Example |
 |----------|-------------|----------|---------|
-| `NEXT_PUBLIC_CONTACT_EMAIL` | Public contact email displayed on the contact page | ❌ No | `contact@yourdomain.com` |
+| `GMAIL_USER` | Your Gmail address | ✅ Yes | `your-email@gmail.com` |
+| `GMAIL_APP_PASSWORD` | 16-char app password from Google | ✅ Yes | `abcd efgh ijkl mnop` |
+| `ADMIN_EMAILS` | Admin email(s) to receive notifications | ✅ Yes | `admin@example.com` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` | Email displayed on contact page | ❌ No | `contact@yourdomain.com` |
+| `NEXT_PUBLIC_APP_URL` | App URL for email links | ❌ No | `https://yourdomain.com` |
+
+**Notes**:
+- If `ADMIN_EMAILS` is not set, falls back to `GMAIL_USER`
+- Multiple admins: separate with commas
+- App password must be from Google account (no spaces when setting)
 
 ---
 
 ## Setup Complete!
 
-No external services required! The contact form uses your existing Supabase database to store all messages.
+✅ With Gmail configured, you're ready to receive contact form submissions via email!  
+⚠️ Without Gmail, the form will still work but emails will be logged to console only.
 
 ---
 
 ## Testing the Contact Form
 
-### Local Testing
+### Local Testing (Without Gmail)
 
-1. **Apply database migration**:
-   ```bash
-   psql $DATABASE_URL -f sql/26_contact_messages.sql
-   ```
-
-2. **Start development server**:
+1. **Start development server**:
    ```bash
    npm run dev
    ```
 
-3. **Navigate to the contact page**:
+2. **Navigate to contact page**:
    - Authenticated: `http://localhost:3000/en/contact`
-   - Unauthenticated: Log out and visit the same URL
+   - Unauthenticated: Log out and visit same URL
+
+3. **Submit a test message**:
+   - Form will work normally
+   - Check console logs for email content
+   - You'll see: `📧 Email service not configured - logging email instead`
 
 4. **Test scenarios**:
    - ✅ Submit as authenticated user (email auto-filled)
    - ✅ Submit as guest user (email required)
    - ✅ Test form validation (empty fields, invalid email)
-   - ✅ Verify message saved in database
-   - ✅ Check metadata (user_agent, ip_address) is captured
+   - ✅ Test rate limiting (try 6 messages in a row)
 
-5. **Verify database**:
-   ```sql
-   -- Check all messages
-   SELECT * FROM public.contact_messages ORDER BY created_at DESC;
-   
-   -- Get statistics
-   SELECT get_contact_message_stats();
+### Local Testing (With Gmail)
+
+1. **Configure Gmail** (see Setup section above)
+
+2. **Add to `.env.local`**:
+   ```env
+   GMAIL_USER=your-email@gmail.com
+   GMAIL_APP_PASSWORD=yourapppassword
+   ADMIN_EMAILS=your-email@gmail.com
    ```
+
+3. **Restart dev server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Submit a test message**:
+   - Check your Gmail inbox for admin notification
+   - Check test email for user confirmation
+   - Verify both emails arrived with correct formatting
+
+5. **Test email features**:
+   - ✅ Admin receives notification with "Reply" button
+   - ✅ User receives confirmation with dashboard link
+   - ✅ HTML templates render correctly
+   - ✅ Categories display with emojis
+   - ✅ Timestamps are localized (Italian format)
 
 ### Production Testing
 
-1. **Apply migration on production database**:
-   - Run the migration through Supabase Dashboard SQL Editor
-   - Or use the production database URL
+1. **Add environment variables to Vercel**:
+   - Settings → Environment Variables
+   - Add `GMAIL_USER`, `GMAIL_APP_PASSWORD`, `ADMIN_EMAILS`
+   - Redeploy application
 
 2. **Test on production**:
    - Visit `https://yourdomain.com/en/contact`
    - Submit a test inquiry
-   - Verify message appears in database
+   - Verify emails received
 
-3. **Admin Dashboard** (Optional):
-   - Create an admin interface to view and manage messages
-   - Use Supabase RLS policies to restrict access to admins only
+3. **Monitor logs**:
+   ```bash
+   vercel logs --follow
+   ```
+   - Look for `✅ Email sent successfully`
+   - Check for any error messages
 
 ---
 
 ## Troubleshooting
 
-### Message Not Saved
+### Emails Not Sent
 
-**Problem**: Contact form submission fails with error
+**Problem**: Form submits but no emails received
 
 **Solutions**:
-1. Verify migration was applied correctly:
-   ```sql
-   SELECT EXISTS (
-     SELECT FROM information_schema.tables 
-     WHERE table_schema = 'public' 
-     AND table_name = 'contact_messages'
-   );
+1. **Check environment variables**:
+   ```bash
+   # In server logs, look for:
+   📧 Gmail SMTP not configured - email sending disabled
    ```
-2. Check RLS policies are enabled and correct
-3. Verify Supabase service role key is configured
-4. Check server logs for detailed error messages
+   
+2. **Verify Gmail app password**:
+   - Must be 16 characters
+   - No spaces when setting in .env
+   - Must be from account with 2FA enabled
+   
+3. **Test SMTP connection**:
+   ```bash
+   # Check logs for:
+   ✅ Gmail SMTP configured successfully
+   ```
 
-### Permission Denied Errors
+4. **Check spam folder**: Confirmation emails might be filtered
 
-**Problem**: RLS policy blocks insertions
+5. **Verify admin emails**: Check `ADMIN_EMAILS` is correct
+
+### "Too Many Requests" Error
+
+**Problem**: User receives 429 status after 5 submissions
+
+**This is expected**: Rate limiting is working!
 
 **Solutions**:
-1. Ensure service client is used for insertions (bypasses RLS)
-2. Verify RLS policies allow guest submissions (user_id = NULL)
-3. Check `createServiceClient()` is configured correctly
+- Wait 24 hours for reset
+- Use different email address
+- For testing, restart server (clears in-memory cache)
 
-### Missing Metadata
+### Gmail "Less Secure Apps" Error
 
-**Problem**: user_agent or ip_address not captured
+**Problem**: Gmail blocks login attempts
+
+**Solution**: You MUST use App Password, not regular password!
+1. Enable 2-Step Verification
+2. Generate App Password (see setup section)
+3. Never use your regular Gmail password
+
+### Emails in Wrong Language
+
+**Problem**: Emails are in Italian but user is English
+
+**Current behavior**: Emails are hardcoded in Italian
+
+**Solution**: Update email templates in `src/lib/email/contact-notifications.ts`
+
+### Rate Limiter Not Working
+
+**Problem**: Can send unlimited messages
 
 **Solutions**:
-1. Verify headers are being passed correctly in production
-2. Check reverse proxy configuration (Vercel, Cloudflare)
-3. Ensure `x-forwarded-for` header is available
+1. Server restarts clear rate limit cache (expected)
+2. Check logs for: `📊 Rate limit: email@example.com - X/5 used`
+3. Verify different emails bypass limit (expected)
 
-### Rate Limiting
+### Build Errors
 
-**Problem**: Too many contact form submissions
+**Problem**: TypeScript/ESLint errors after implementation
 
-**Solution**: The contact form currently doesn't have rate limiting. To add it:
-1. Wrap the API route with `withRateLimit` middleware
-2. Configure appropriate limits for contact form submissions
-3. Add rate limiting based on IP address for guest users
+**Solutions**:
+1. Check nodemailer types installed: `@types/nodemailer`
+2. Clear `.next` folder: `rm -rf .next && npm run build`
+3. Verify all imports are correct
 
 ---
 
@@ -202,23 +264,46 @@ POST /api/contact
 }
 ```
 
-**Response** (Success):
+**Response** (Success - Emails Sent):
 ```json
 {
   "success": true,
   "message": "Your message has been sent successfully. We will respond within 2 business days.",
   "data": {
-    "id": "uuid-here",
-    "created_at": "2025-11-14T10:00:00Z"
+    "emailSent": true,
+    "remaining": 4,
+    "resetAt": "2025-11-15T10:00:00Z"
   }
+}
+```
+
+**Response** (Rate Limit Exceeded):
+```json
+{
+  "error": "Too many requests. Please try again later.",
+  "retryAfter": 43200,
+  "resetAt": "2025-11-15T10:00:00Z"
+}
+```
+
+**Response** (Validation Error):
+```json
+{
+  "error": "Invalid input data",
+  "details": [
+    {
+      "code": "too_small",
+      "message": "Message must be at least 10 characters",
+      "path": ["message"]
+    }
+  ]
 }
 ```
 
 **Response** (Error):
 ```json
 {
-  "error": "Error message here",
-  "details": []
+  "error": "An unexpected error occurred"
 }
 ```
 
@@ -242,26 +327,86 @@ src/hooks/
 src/lib/schemas/
 └── contact.ts                        # Zod validation schemas
 
-src/app/api/contact/
-└── route.ts                          # API route handler (saves to database)
+src/lib/email/
+├── email-service.ts                  # Core SMTP with nodemailer
+├── contact-notifications.ts          # Email templates & sending
+└── contact-rate-limiter.ts          # In-memory rate limiting
 
-sql/
-└── 26_contact_messages.sql          # Database migration
+src/app/api/contact/
+└── route.ts                          # API route handler (email-first)
 ```
+
+---
+
+## How It Works
+
+```
+┌────────────────────────────────────────────────┐
+│  User submits contact form                    │
+└────────────┬───────────────────────────────────┘
+             │
+             ▼
+┌────────────────────────────────────────────────┐
+│  1. Validate with Zod                         │
+│  2. Check rate limit (5/day per email)        │
+└────────────┬───────────────────────────────────┘
+             │
+             ▼
+┌────────────────────────────────────────────────┐
+│  Send emails via Gmail SMTP:                  │
+│  - Admin notification (reply button)          │
+│  - User confirmation (branded)                │
+└────────────┬───────────────────────────────────┘
+             │
+             ▼
+┌────────────────────────────────────────────────┐
+│  Log metadata (console only):                 │
+│  - Email address, category, timestamp         │
+│  - Email sent status                          │
+│  - Rate limit counter                         │
+└────────────────────────────────────────────────┘
+```
+
+**Key Points**:
+- ✅ No database writes
+- ✅ Emails are primary storage
+- ✅ Rate limiting in memory (resets on restart)
+- ✅ Graceful degradation if Gmail not configured
 
 ---
 
 ## Future Improvements
 
-- [ ] Add rate limiting to prevent spam
-- [ ] Add CAPTCHA for guest submissions
-- [ ] Add file attachment support
-- [ ] **Add admin dashboard to view and manage messages**
-- [ ] Add email notifications to admins (via Supabase triggers or Edge Functions)
-- [ ] Add automated responses based on category
-- [ ] Track response SLA and metrics
-- [ ] Add search and filtering for messages
-- [ ] Export messages to CSV/PDF
+- [ ] Multi-language email templates (currently Italian only)
+- [ ] CAPTCHA for guest submissions
+- [ ] File attachment support
+- [ ] Admin dashboard to view Gmail inbox
+- [ ] Integration with help desk systems (Zendesk, Intercom)
+- [ ] Automated responses based on category
+- [ ] Email templates customization UI
+- [ ] Analytics dashboard (email open rates, response times)
+- [ ] Persistent rate limiting (Redis/Upstash)
+
+---
+
+## Gmail Limits & Alternatives
+
+### Gmail Free Tier Limits
+
+- **500 emails/day**: More than sufficient for most use cases
+- **Per-account limit**: Resets every 24 hours
+- **Recipients**: Can send to multiple admins
+
+### When to Consider Alternatives
+
+If you exceed 500 emails/day, consider:
+
+1. **SendGrid**: $15/month for 50k emails
+2. **AWS SES**: $0.10 per 1000 emails
+3. **Mailgun**: $35/month for 50k emails
+4. **Postmark**: $15/month for 10k emails
+
+**Migration**: Easy! Just swap `email-service.ts` transporter
 
 ---
 
@@ -269,64 +414,10 @@ sql/
 
 For issues or questions about the contact form setup, please:
 1. Check this documentation
-2. Review the code in `src/components/contact/`
-3. Check Supabase documentation at [supabase.com/docs](https://supabase.com/docs)
-4. Review the database migration in `sql/26_contact_messages.sql`
+2. Review the code in `src/lib/email/`
+3. Check Nodemailer docs at [nodemailer.com](https://nodemailer.com)
+4. Review Gmail SMTP settings
 5. Open an issue on GitHub
-
----
-
-## Admin Dashboard (Optional)
-
-To view and manage contact messages, you can:
-
-### Option 1: Supabase Dashboard
-- Navigate to **Table Editor** → `contact_messages`
-- View, edit, and delete messages directly
-- Use filters and search
-
-### Option 2: Custom Admin Interface
-Create an admin page at `src/app/[locale]/admin/contact-messages/page.tsx`:
-
-```typescript
-// Example: Basic admin interface
-import { createServiceClient } from '@/lib/supabase/service';
-
-export default async function ContactMessagesPage() {
-  const supabase = createServiceClient();
-  const { data: messages } = await supabase
-    .from('contact_messages')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  return (
-    <div>
-      <h1>Contact Messages</h1>
-      {/* Render messages in a table with status/priority filters */}
-    </div>
-  );
-}
-```
-
-### Option 3: SQL Queries
-Use SQL queries to analyze messages:
-
-```sql
--- Get recent messages
-SELECT * FROM contact_messages 
-WHERE created_at > NOW() - INTERVAL '7 days'
-ORDER BY created_at DESC;
-
--- Get statistics
-SELECT get_contact_message_stats();
-
--- Mark as resolved
-UPDATE contact_messages 
-SET status = 'resolved', 
-    responded_at = NOW(),
-    responded_by = 'your-admin-user-id'
-WHERE id = 'message-id';
-```
 
 ---
 
