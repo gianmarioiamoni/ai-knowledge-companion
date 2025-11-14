@@ -51,8 +51,10 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - manifest.webmanifest (PWA manifest)
+     * - robots.txt, sitemap.xml (SEO files)
      * Feel free to modify this pattern to include more paths.
      */
-    "/((?!api/|_next/static|_next/image|favicon.ico|messages/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json)$).*)",
+    "/((?!api/|_next/static|_next/image|favicon.ico|manifest.webmanifest|robots.txt|sitemap.xml|messages/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|json)$).*)",
   ],
 };
