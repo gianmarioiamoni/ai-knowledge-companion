@@ -1,4 +1,3 @@
-import { useTranslations } from 'next-intl';
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
 import { ContactForm } from '@/components/contact/contact-form';
@@ -23,14 +22,47 @@ export async function generateMetadata({
 export const dynamic = 'force-dynamic';
 
 /**
+ * Get contact email from environment variables
+ * Priority: NEXT_PUBLIC_CONTACT_EMAIL > ADMIN_EMAILS (first) > GMAIL_USER
+ */
+function getContactEmail(): string {
+  // Check public env var first
+  if (process.env.NEXT_PUBLIC_CONTACT_EMAIL) {
+    return process.env.NEXT_PUBLIC_CONTACT_EMAIL;
+  }
+
+  // Check admin emails (server-side only)
+  if (process.env.ADMIN_EMAILS) {
+    const adminEmails = process.env.ADMIN_EMAILS.split(',').map(e => e.trim());
+    if (adminEmails.length > 0 && adminEmails[0]) {
+      return adminEmails[0]; // Use first admin email
+    }
+  }
+
+  // Fallback to Gmail user
+  if (process.env.GMAIL_USER) {
+    return process.env.GMAIL_USER;
+  }
+
+  // Last resort fallback
+  return 'support@aiknowledgecompanion.com';
+}
+
+/**
  * Contact page
  * - Accessible to both authenticated and unauthenticated users
  * - Auto-fills email for authenticated users
  * - Requires email input for guest users
  * - Responsive design
  */
-export default function ContactPage() {
-  const t = useTranslations('contact');
+export default async function ContactPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'contact' });
+  const contactEmail = getContactEmail();
 
   return (
     <div className="min-h-screen bg-background">
@@ -61,10 +93,10 @@ export default function ContactPage() {
               <span>
                 Or email us directly at{' '}
                 <a 
-                  href={`mailto:${process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@example.com'}`}
+                  href={`mailto:${contactEmail}`}
                   className="text-primary hover:underline font-medium"
                 >
-                  {process.env.NEXT_PUBLIC_CONTACT_EMAIL || 'contact@example.com'}
+                  {contactEmail}
                 </a>
               </span>
             </div>
