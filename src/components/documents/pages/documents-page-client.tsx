@@ -8,7 +8,6 @@ import { UploadSection } from '../sections/upload-section'
 import { ErrorDisplay } from '../ui/error-display'
 import { DocumentsList } from '../sections/documents-list'
 import { DocumentPreview } from '../ui/document-preview'
-import { testSupabaseConnectivity } from '@/lib/supabase/test-connectivity'
 import type { Document } from '@/types/database'
 
 export function DocumentsPageClient(): JSX.Element {
@@ -42,12 +41,6 @@ export function DocumentsPageClient(): JSX.Element {
     }
   }
 
-  const handleTestConnectivity = async () => {
-    console.log('🧪 Starting Supabase connectivity test...')
-    const results = await testSupabaseConnectivity()
-    console.log('📊 Connectivity test results:', results)
-  }
-
   const documentTranslations = {
     uploaded: t('uploaded'),
     processed: t('ready'),
@@ -65,7 +58,6 @@ export function DocumentsPageClient(): JSX.Element {
           showUpload={showUpload}
           onToggleUpload={() => setShowUpload(!showUpload)}
           onRefresh={refreshDocuments}
-          onTestConnectivity={handleTestConnectivity}
         />
 
         <UploadSection

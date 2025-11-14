@@ -28,6 +28,7 @@ interface Translations {
   usageUnlimitedAccess: string
   monthly: string
   yearly: string
+  manageSubscription?: string
   featuresTutors: string
   featuresDocuments: string
   featuresAudioFiles: string

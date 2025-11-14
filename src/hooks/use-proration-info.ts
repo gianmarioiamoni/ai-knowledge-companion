@@ -36,7 +36,7 @@ export function useProrationInfo() {
         .from('profiles')
         .select('settings')
         .eq('id', user.id)
-        .single()
+        .single<{ settings: { last_proration?: ProrationInfo } }>()
 
       if (profile?.settings?.last_proration) {
         const proration = profile.settings.last_proration
@@ -64,15 +64,18 @@ export function useProrationInfo() {
 
       if (!user) return
 
-      // Clear proration info from metadata
-      await supabase
-        .from('profiles')
+      // Clear proration info from settings
+      // Cast to any due to Supabase type inference issue with JSONB columns
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      await (supabase
+        .from('profiles') as any)
         .update({
-          metadata: {
+          settings: {
             last_proration: null
           }
         })
         .eq('id', user.id)
+      /* eslint-enable @typescript-eslint/no-explicit-any */
 
       setProrationInfo(null)
     } catch (error) {

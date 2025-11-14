@@ -49,7 +49,7 @@ export function useImageFiles(): UseImageFilesResult {
         if (file.status !== 'pending' && file.status !== 'processing') {
           return false
         }
-        const createdAt = new Date(file.created_at)
+        const createdAt = new Date(file.createdAt)
         return createdAt < fiveMinutesAgo
       })
 

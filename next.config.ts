@@ -16,9 +16,8 @@ const nextConfig: NextConfig = {
   },
   // TypeScript configuration for build
   typescript: {
-    // Warning: Dangerously allow production builds even with type errors.
-    // TODO: Fix all type errors and set this back to false
-    ignoreBuildErrors: true,
+    // TypeScript validation enabled for build
+    ignoreBuildErrors: false,
   },
   // Allow large file uploads (500MB for videos)
   experimental: {

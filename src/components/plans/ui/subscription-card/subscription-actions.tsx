@@ -12,6 +12,7 @@ import { PortalButton } from '@/components/stripe'
 interface SubscriptionActionsProps {
   status: string
   hasStripeSubscription: boolean // New prop to check if user has Stripe subscription
+  changePlanText?: string
 }
 
 export function SubscriptionActions({ 

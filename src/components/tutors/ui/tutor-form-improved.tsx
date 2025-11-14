@@ -45,6 +45,15 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
     getInitials,
   } = useTutorForm({ tutor, onSubmit, onCancel, loading });
 
+  const getVisibilityDescription = (visibility: 'public' | 'private' | 'unlisted') => {
+    const descriptions = {
+      public: t('form.visibilityPublicDesc'),
+      private: t('form.visibilityPrivateDesc'),
+      unlisted: t('form.visibilityUnlistedDesc'),
+    };
+    return descriptions[visibility] || descriptions.private;
+  };
+
   return (
     <div className="w-full mx-auto">
       <Card className="border-0 shadow-lg">

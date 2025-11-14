@@ -23,7 +23,7 @@ export function useAutoProcessing(options: UseAutoProcessingOptions = {}) {
     maxRetries = 3,
   } = options
 
-  const intervalRef = useRef<NodeJS.Timeout>()
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const retryCountRef = useRef(0)
 
   const processNext = useCallback(async () => {

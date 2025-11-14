@@ -14,8 +14,9 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
     }
 
     // Fetch tutor without complex joins (more reliable)
-    const { data: tutor, error } = await supabase
-      .from('tutors')
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const { data: tutor, error } = await (supabase
+      .from('tutors') as any)
       .select('*')
       .eq('id', tutorId)
       .eq('owner_id', user.id)
@@ -25,18 +26,18 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
     if (tutor && !error) {
       try {
         // Get tutor_documents relationships
-        const { data: tutorDocs } = await supabase
-          .from('tutor_documents')
+        const { data: tutorDocs } = await (supabase
+          .from('tutor_documents') as any)
           .select('document_id')
           .eq('tutor_id', tutorId);
         
         if (tutorDocs && tutorDocs.length > 0) {
-          const docIds = tutorDocs.map(td => td.document_id);
+          const docIds = tutorDocs.map((td: any) => td.document_id);
           console.log('🔗 getTutor: Found', tutorDocs.length, 'linked documents, IDs:', docIds);
           
           // Fetch document details
-          const { data: documents, error: docError } = await supabase
-            .from('documents')
+          const { data: documents, error: docError } = await (supabase
+            .from('documents') as any)
             .select('id, title, mime_type')
             .in('id', docIds);
           
@@ -45,12 +46,12 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
             console.error('❌ getTutor: Document IDs that failed:', docIds);
           } else if (documents) {
             // Attach documents to tutor in expected format
-            tutor.tutor_documents = tutorDocs.map(td => ({
+            tutor.tutor_documents = tutorDocs.map((td: any) => ({
               document_id: td.document_id,
-              documents: documents.find(d => d.id === td.document_id)
+              documents: documents.find((d: any) => d.id === td.document_id)
             }));
             
-            console.log('📄 getTutor: Loaded', documents.length, 'documents:', documents.map(d => d.title));
+            console.log('📄 getTutor: Loaded', documents.length, 'documents:', documents.map((d: any) => d.title));
           } else {
             console.warn('⚠️ getTutor: No documents returned');
           }
@@ -62,6 +63,7 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
         // Continue without documents
       }
     }
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     if (error) {
       console.error('❌ getTutor: Error fetching tutor:', error);
@@ -94,14 +96,16 @@ export async function getTutor(tutorId: string): Promise<{ data?: Tutor; error?:
     console.log('💬 getTutor: Conversations count:', conversationsCount);
 
     // Conta i messaggi per questo tutor (tramite le conversazioni)
-    const { data: conversations } = await supabase
-      .from('conversations')
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const { data: conversations } = await (supabase
+      .from('conversations') as any)
       .select('id')
       .eq('tutor_id', tutor.id);
 
     let messagesCount = 0;
     if (conversations && conversations.length > 0) {
-      const conversationIds = conversations.map(c => c.id);
+      const conversationIds = conversations.map((c: any) => c.id);
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       const { count: messagesCountResult } = await supabase
         .from('messages')
         .select('*', { count: 'exact', head: true })
@@ -160,7 +164,8 @@ export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
     }
 
     // Calcola i conteggi per ogni tutor
-    const tutorsWithCounts = await Promise.all((data || []).map(async (tutor) => {
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const tutorsWithCounts = await Promise.all((data || []).map(async (tutor: any) => {
       // Conta le conversazioni per questo tutor
       const { count: conversationsCount } = await supabase
         .from('conversations')
@@ -168,14 +173,14 @@ export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
         .eq('tutor_id', tutor.id);
 
       // Conta i messaggi per questo tutor (tramite le conversazioni)
-      const { data: conversations } = await supabase
-        .from('conversations')
+      const { data: conversations } = await (supabase
+        .from('conversations') as any)
         .select('id')
         .eq('tutor_id', tutor.id);
 
       let messagesCount = 0;
       if (conversations && conversations.length > 0) {
-        const conversationIds = conversations.map(c => c.id);
+        const conversationIds = conversations.map((c: any) => c.id);
         const { count: messagesCountResult } = await supabase
           .from('messages')
           .select('*', { count: 'exact', head: true })
@@ -190,6 +195,7 @@ export async function getTutors(): Promise<{ data?: Tutor[]; error?: string }> {
         total_messages: messagesCount
       };
     }));
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     return { data: tutorsWithCounts };
   } catch (error) {
@@ -208,8 +214,9 @@ export async function getTutorWithDocuments(tutorId: string): Promise<{ data?: T
       return { error: 'User not authenticated' };
     }
 
-    const { data, error } = await supabase
-      .from('tutors')
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const { data, error } = await (supabase
+      .from('tutors') as any)
       .select(`
         *,
         tutor_documents!inner(
@@ -232,12 +239,16 @@ export async function getTutorWithDocuments(tutorId: string): Promise<{ data?: T
       return { error: error.message };
     }
 
+    if (!data) {
+      return { error: 'Tutor not found' };
+    }
+
     // Trasforma i dati per il formato TutorWithDocuments
-    type TutorDocumentRelation = { documents: Document };
     const tutorWithDocuments: TutorWithDocuments = {
       ...data,
-      documents: data.tutor_documents?.map((td: TutorDocumentRelation) => td.documents) || []
+      documents: data.tutor_documents?.map((td: any) => td.documents) || []
     };
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     return { data: tutorWithDocuments };
   } catch (error) {

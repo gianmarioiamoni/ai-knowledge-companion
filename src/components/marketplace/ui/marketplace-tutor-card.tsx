@@ -6,6 +6,7 @@
 'use client'
 
 import { JSX, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Star, Download } from 'lucide-react'
@@ -17,7 +18,7 @@ interface MarketplaceTutorCardProps {
 }
 
 export function MarketplaceTutorCard({ tutor }: MarketplaceTutorCardProps): JSX.Element {
-  
+  const t = useTranslations('marketplace')
   const [showDetails, setShowDetails] = useState(false)
 
   return (

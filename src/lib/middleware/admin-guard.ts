@@ -23,23 +23,24 @@ type RouteContext = {
   roleInfo: UserRoleInfo
 }
 
-type RouteHandler = (
-  request: NextRequest,
-  context: RouteContext
-) => Promise<NextResponse> | NextResponse
+// Support both regular routes and dynamic routes with params
+type RouteHandler<TParams extends Record<string, unknown> | undefined = undefined> = TParams extends undefined
+  ? (request: NextRequest, context: RouteContext) => Promise<NextResponse> | NextResponse
+  : (request: NextRequest, context: RouteContext, routeParams: TParams) => Promise<NextResponse> | NextResponse
 
 /**
  * Require authentication for route
  * 
  * Ensures user is logged in and active
  */
-export function withAuth(handler: RouteHandler) {
-  return async (request: NextRequest): Promise<NextResponse> => {
+export function withAuth<TParams extends Record<string, unknown> | undefined = undefined>(handler: RouteHandler<TParams>) {
+  return async (request: NextRequest, routeParams?: TParams): Promise<NextResponse> => {
     try {
       const roleInfo = await requireAuth()
 
-      return await handler(request, { roleInfo })
-    } catch (_error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return await (handler as any)(request, { roleInfo }, routeParams)
+    } catch (error) {
       const message = error instanceof Error ? error.message : 'Authentication required'
 
       return NextResponse.json(
@@ -58,13 +59,14 @@ export function withAuth(handler: RouteHandler) {
  * 
  * Ensures user is admin or super_admin
  */
-export function withAdmin(handler: RouteHandler) {
-  return async (request: NextRequest): Promise<NextResponse> => {
+export function withAdmin<TParams extends Record<string, unknown> | undefined = undefined>(handler: RouteHandler<TParams>) {
+  return async (request: NextRequest, ...args: TParams extends undefined ? [] : [TParams]): Promise<NextResponse> => {
     try {
       const roleInfo = await requireAdmin()
+      const segmentParams = args[0] as TParams
 
-      return await handler(request, { roleInfo })
-    } catch (_error) {
+      return await handler(request, { roleInfo }, segmentParams as never)
+    } catch (error) {
       const message = error instanceof Error ? error.message : 'Admin access required'
 
       // Check if it's an auth error or permission error
@@ -88,13 +90,14 @@ export function withAdmin(handler: RouteHandler) {
  * 
  * Ensures user is super_admin
  */
-export function withSuperAdmin(handler: RouteHandler) {
-  return async (request: NextRequest): Promise<NextResponse> => {
+export function withSuperAdmin<TParams extends Record<string, unknown> | undefined = undefined>(handler: RouteHandler<TParams>) {
+  return async (request: NextRequest, ...args: TParams extends undefined ? [] : [TParams]): Promise<NextResponse> => {
     try {
       const roleInfo = await requireSuperAdmin()
+      const segmentParams = args[0] as TParams
 
-      return await handler(request, { roleInfo })
-    } catch (_error) {
+      return await handler(request, { roleInfo }, segmentParams as never)
+    } catch (error) {
       const message = error instanceof Error ? error.message : 'Super admin access required'
 
       // Check if it's an auth error or permission error
@@ -141,18 +144,19 @@ export function withOptionalAuth(
  * 
  * Apply different rate limits based on user role
  */
-export function withRoleBasedRateLimit(_config: {
+export function withRoleBasedRateLimit<TParams extends Record<string, unknown> | undefined = undefined>(_config: {
   user: number // requests per minute
   admin: number
   super_admin: number
 }) {
   // This is a placeholder - implement with a proper rate limiting solution
   // like @upstash/ratelimit or redis
-  return (handler: RouteHandler) => {
-    return withAuth(async (request, context) => {
+  return (handler: RouteHandler<TParams>) => {
+    return withAuth(async (request: NextRequest, context: RouteContext, routeParams?: TParams) => {
       // TODO: Implement actual rate limiting with _config[context.roleInfo.role] || _config.user
       // For now, just pass through
-      return await handler(request, context)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return await (handler as any)(request, context, routeParams)
     })
   }
 }
@@ -160,8 +164,8 @@ export function withRoleBasedRateLimit(_config: {
 /**
  * CORS helper for admin API routes
  */
-export function withCors(handler: RouteHandler, allowedOrigins?: string[]) {
-  return async (request: NextRequest): Promise<NextResponse> => {
+export function withCors<TParams extends Record<string, unknown> | undefined = undefined>(handler: RouteHandler<TParams>, allowedOrigins?: string[]) {
+  return async (request: NextRequest, routeParams?: TParams): Promise<NextResponse> => {
     // Handle OPTIONS request (preflight)
     if (request.method === 'OPTIONS') {
       return new NextResponse(null, {
@@ -183,7 +187,8 @@ export function withCors(handler: RouteHandler, allowedOrigins?: string[]) {
       )
     }
 
-    const response = await handler(request, { roleInfo })
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const response = await (handler as any)(request, { roleInfo }, routeParams)
 
     // Add CORS headers to response
     response.headers.set(
@@ -208,11 +213,12 @@ export function withCors(handler: RouteHandler, allowedOrigins?: string[]) {
  * 
  * Catches errors and returns consistent error responses
  */
-export function withErrorHandler(handler: RouteHandler) {
-  return async (request: NextRequest, context: RouteContext): Promise<NextResponse> => {
+export function withErrorHandler<TParams extends Record<string, unknown> | undefined = undefined>(handler: RouteHandler<TParams>) {
+  return async (request: NextRequest, context: RouteContext, routeParams?: TParams): Promise<NextResponse> => {
     try {
-      return await handler(request, context)
-    } catch (_error) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return await (handler as any)(request, context, routeParams)
+    } catch (error) {
       console.error('API Route Error:', error)
 
       const message = error instanceof Error ? error.message : 'Internal server error'
@@ -241,8 +247,8 @@ export function withErrorHandler(handler: RouteHandler) {
  *     withErrorHandler
  *   )(handler)
  */
-export function compose(...middlewares: ((handler: RouteHandler) => RouteHandler)[]) {
-  return (handler: RouteHandler): ((request: NextRequest) => Promise<NextResponse>) => {
+export function compose<TParams extends Record<string, unknown> | undefined = undefined>(...middlewares: ((handler: RouteHandler<TParams>) => RouteHandler<TParams>)[]) {
+  return (handler: RouteHandler<TParams>): ((request: NextRequest, routeParams?: TParams) => Promise<NextResponse>) => {
     // Apply middlewares from right to left (like function composition)
     const composedHandler = middlewares.reduceRight(
       (acc, middleware) => middleware(acc),
@@ -250,9 +256,10 @@ export function compose(...middlewares: ((handler: RouteHandler) => RouteHandler
     )
 
     // Return a function that matches Next.js route handler signature
-    return async (request: NextRequest) => {
+    return async (request: NextRequest, routeParams?: TParams) => {
       const roleInfo = await getCurrentUserRole()
-      return composedHandler(request, { roleInfo: roleInfo! })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (composedHandler as any)(request, { roleInfo: roleInfo! }, routeParams)
     }
   }
 }

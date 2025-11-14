@@ -1,9 +1,9 @@
-import { JSX } from 'react'
+import { JSX, ReactNode } from 'react'
 import { Link } from '@/i18n/navigation'
 
 interface AuthLinkProps {
   href: string
-  children: string
+  children: ReactNode
   className?: string
 }
 

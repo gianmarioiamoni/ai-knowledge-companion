@@ -5,7 +5,6 @@
 
 import { useState } from 'react'
 import { useParams } from 'next/navigation'
-import { getStripeClientPromise } from '@/lib/stripe/client'
 
 export interface CheckoutParams {
   planName: 'pro' | 'enterprise'
@@ -46,26 +45,13 @@ export function useStripeCheckout(): UseStripeCheckoutReturn {
         throw new Error(data.error || 'Failed to create checkout session')
       }
 
-      const { sessionId, url } = await response.json()
+      const { url } = await response.json()
 
       // Redirect to Stripe Checkout
-      if (url) {
-        window.location.href = url
-      } else {
-        // Fallback: use Stripe.js to redirect
-        const stripe = await getStripeClientPromise()
-        if (!stripe) {
-          throw new Error('Failed to load Stripe')
-        }
-
-        const { error: stripeError } = await stripe.redirectToCheckout({
-          sessionId,
-        })
-
-        if (stripeError) {
-          throw new Error(stripeError.message)
-        }
+      if (!url) {
+        throw new Error('No checkout URL returned')
       }
+      window.location.href = url
     } catch (err) {
       const error = err as Error
       console.error('Checkout error:', error)

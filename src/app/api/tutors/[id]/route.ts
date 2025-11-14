@@ -6,10 +6,10 @@ import type { z } from 'zod';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const tutorId = params.id;
+    const { id: tutorId } = await params;
     const body = await request.json();
     
     // Valida i dati di input
@@ -88,10 +88,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const tutorId = params.id;
+    const { id: tutorId } = await params;
 
     // Verifica autenticazione utente
     const supabase = await createClient();

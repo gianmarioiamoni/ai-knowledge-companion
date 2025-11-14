@@ -6,7 +6,7 @@ import { JSX } from 'react'
 import type { PricingInfo } from '@/lib/utils/pricing'
 import { BillingToggle } from './billing-toggle'
 
-type TranslationFunction = (key: string) => string
+type TranslationFunction = (key: string, params?: Record<string, unknown>) => string
 
 interface PriceDisplayProps {
   pricingInfo: PricingInfo

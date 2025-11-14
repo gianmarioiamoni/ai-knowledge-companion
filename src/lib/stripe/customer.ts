@@ -23,7 +23,7 @@ export async function getOrCreateStripeCustomer(
     .from('profiles')
     .select('stripe_customer_id')
     .eq('id', userId)
-    .single()
+    .single<{ stripe_customer_id: string | null }>()
 
   if (profile?.stripe_customer_id) {
     // Verify customer exists in Stripe
@@ -46,10 +46,12 @@ export async function getOrCreateStripeCustomer(
   })
 
   // Store customer ID in database
-  await supabase
-    .from('profiles')
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  await (supabase
+    .from('profiles') as any)
     .update({ stripe_customer_id: customer.id })
     .eq('id', userId)
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   return customer.id
 }
@@ -87,7 +89,7 @@ export async function getUserIdFromStripeCustomer(
     .from('profiles')
     .select('id')
     .eq('stripe_customer_id', customerId)
-    .single()
+    .single<{ id: string }>()
 
   return profile?.id || null
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { TutorsHeader } from "../sections";
 import { 
   TutorsLoading, 
@@ -13,6 +14,7 @@ import type { JSX } from 'react';
 
 export function TutorsPageClient(): JSX.Element {
   const t = useTranslations('tutors');
+  const [searchQuery, setSearchQuery] = useState('');
   const {
     tutors,
     stats,
@@ -20,7 +22,6 @@ export function TutorsPageClient(): JSX.Element {
     error,
     showForm,
     editingTutor,
-    setSearchQuery,
     handleCreateTutor,
     handleUpdateTutor,
     handleDeleteTutor,
@@ -67,7 +68,7 @@ export function TutorsPageClient(): JSX.Element {
           {/* Content */}
           <TutorsPageContent
             tutors={tutors}
-            allTutors={allTutors}
+            allTutors={tutors}
             stats={stats}
             searchQuery={searchQuery}
             onEdit={handleEditTutor}

@@ -22,6 +22,6 @@ export default async function ProfilePage({ params }: ProfilePageProps): Promise
     redirect(`/${locale}/auth/login`)
   }
   
-  return <ProfilePageClient locale={locale} />
+  return <ProfilePageClient />
 }
 

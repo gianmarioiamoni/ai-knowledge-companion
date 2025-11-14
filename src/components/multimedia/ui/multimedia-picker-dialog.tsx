@@ -176,7 +176,7 @@ export function MultimediaPickerDialog({
                     <Checkbox
                       checked={isSelected}
                       disabled={!isReady}
-                      onCheckedChange={() => handleToggle(file.id)}
+                      onChange={() => handleToggle(file.id)}
                       className="mt-1"
                     />
 

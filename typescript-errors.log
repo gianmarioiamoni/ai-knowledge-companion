@@ -1,0 +1,257 @@
+(node:45165) ExperimentalWarning: CommonJS module /usr/local/lib/node_modules/npm/node_modules/debug/src/node.js is loading ES Module /usr/local/lib/node_modules/npm/node_modules/supports-color/index.js using require().
+Support for loading ES Module in require() is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[96m.next/types/app/api/tutors/[id]/multimedia/[documentId]/route.ts[0m:[93m244[0m:[93m7[0m - [91merror[0m[90m TS2344: [0mType '{ __tag__: "DELETE"; __param_position__: "second"; __param_type__: { params: { id: string; documentId: string; }; }; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type '{ id: string; documentId: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+
+[7m244[0m       {
+[7m   [0m [91m      ~[0m
+[7m245[0m         __tag__: 'DELETE'
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m247[0m         __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m248[0m       },
+[7m   [0m [91m~~~~~~~[0m
+
+[96m.next/types/app/api/tutors/[id]/multimedia/route.ts[0m:[93m49[0m:[93m7[0m - [91merror[0m[90m TS2344: [0mType '{ __tag__: "GET"; __param_position__: "second"; __param_type__: { params: { id: string; }; }; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+
+[7m 49[0m       {
+[7m   [0m [91m      ~[0m
+[7m 50[0m         __tag__: 'GET'
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 52[0m         __param_type__: SecondArg<MaybeField<TEntry, 'GET'>>
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m 53[0m       },
+[7m   [0m [91m~~~~~~~[0m
+
+[96m.next/types/app/api/tutors/[id]/multimedia/route.ts[0m:[93m166[0m:[93m7[0m - [91merror[0m[90m TS2344: [0mType '{ __tag__: "POST"; __param_position__: "second"; __param_type__: { params: { id: string; }; }; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+
+[7m166[0m       {
+[7m   [0m [91m      ~[0m
+[7m167[0m         __tag__: 'POST'
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m169[0m         __param_type__: SecondArg<MaybeField<TEntry, 'POST'>>
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m170[0m       },
+[7m   [0m [91m~~~~~~~[0m
+
+[96m.next/types/app/api/tutors/[id]/route.ts[0m:[93m244[0m:[93m7[0m - [91merror[0m[90m TS2344: [0mType '{ __tag__: "DELETE"; __param_position__: "second"; __param_type__: { params: { id: string; }; }; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+
+[7m244[0m       {
+[7m   [0m [91m      ~[0m
+[7m245[0m         __tag__: 'DELETE'
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m247[0m         __param_type__: SecondArg<MaybeField<TEntry, 'DELETE'>>
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m248[0m       },
+[7m   [0m [91m~~~~~~~[0m
+
+[96m.next/types/app/api/tutors/[id]/route.ts[0m:[93m283[0m:[93m7[0m - [91merror[0m[90m TS2344: [0mType '{ __tag__: "PATCH"; __param_position__: "second"; __param_type__: { params: { id: string; }; }; }' does not satisfy the constraint 'ParamCheck<RouteContext>'.
+  The types of '__param_type__.params' are incompatible between these types.
+    Type '{ id: string; }' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
+
+[7m283[0m       {
+[7m   [0m [91m      ~[0m
+[7m284[0m         __tag__: 'PATCH'
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m286[0m         __param_type__: SecondArg<MaybeField<TEntry, 'PATCH'>>
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m287[0m       },
+[7m   [0m [91m~~~~~~~[0m
+
+[96m.next/types/validator.ts[0m:[93m585[0m:[93m31[0m - [91merror[0m[90m TS2344: [0mType 'typeof import("/Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/src/app/api/tutors/[id]/multimedia/[documentId]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/tutors/[id]/multimedia/[documentId]">'.
+  Types of property 'DELETE' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; documentId: string; }; }) => Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; documentId: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; documentId: string; }>; }' is not assignable to type '{ params: { id: string; documentId: string; }; }'.
+          Types of property 'params' are incompatible.
+            Type 'Promise<{ id: string; documentId: string; }>' is missing the following properties from type '{ id: string; documentId: string; }': id, documentId
+
+[7m585[0m   type __Check = __IsExpected<typeof handler>
+[7m   [0m [91m                              ~~~~~~~~~~~~~~[0m
+
+[96m.next/types/validator.ts[0m:[93m594[0m:[93m31[0m - [91merror[0m[90m TS2344: [0mType 'typeof import("/Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/src/app/api/tutors/[id]/multimedia/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/tutors/[id]/multimedia">'.
+  Types of property 'GET' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ error: string; }> | NextResponse<{ items: TutorMultimediaItem[]; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+
+[7m594[0m   type __Check = __IsExpected<typeof handler>
+[7m   [0m [91m                              ~~~~~~~~~~~~~~[0m
+
+  [96msrc/app/api/tutors/[id]/multimedia/route.ts[0m:[93m15[0m:[93m27[0m
+    [7m15[0m   { params }: { params: { id: string } }
+    [7m  [0m [96m                          ~~[0m
+    'id' is declared here.
+
+[96m.next/types/validator.ts[0m:[93m603[0m:[93m31[0m - [91merror[0m[90m TS2344: [0mType 'typeof import("/Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/src/app/api/tutors/[id]/route")' does not satisfy the constraint 'RouteHandlerConfig<"/api/tutors/[id]">'.
+  Types of property 'PATCH' are incompatible.
+    Type '(request: NextRequest, { params }: { params: { id: string; }; }) => Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; tutor: any; }>>' is not assignable to type '(request: NextRequest, context: { params: Promise<{ id: string; }>; }) => void | Response | Promise<void | Response>'.
+      Types of parameters '__1' and 'context' are incompatible.
+        Type '{ params: Promise<{ id: string; }>; }' is not assignable to type '{ params: { id: string; }; }'.
+          Types of property 'params' are incompatible.
+            Property 'id' is missing in type 'Promise<{ id: string; }>' but required in type '{ id: string; }'.
+
+[7m603[0m   type __Check = __IsExpected<typeof handler>
+[7m   [0m [91m                              ~~~~~~~~~~~~~~[0m
+
+  [96msrc/app/api/tutors/[id]/route.ts[0m:[93m9[0m:[93m27[0m
+    [7m9[0m   { params }: { params: { id: string } }
+    [7m [0m [96m                          ~~[0m
+    'id' is declared here.
+
+[96msrc/app/[locale]/profile/page.tsx[0m:[93m25[0m:[93m29[0m - [91merror[0m[90m TS2322: [0mType '{ locale: "en" | "it"; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'locale' does not exist on type 'IntrinsicAttributes'.
+
+[7m25[0m   return <ProfilePageClient locale={locale} />
+[7m  [0m [91m                            ~~~~~~[0m
+
+[96msrc/app/[locale]/tutors/page.tsx[0m:[93m23[0m:[93m28[0m - [91merror[0m[90m TS2322: [0mType '{ locale: "en" | "it"; }' is not assignable to type 'IntrinsicAttributes'.
+  Property 'locale' does not exist on type 'IntrinsicAttributes'.
+
+[7m23[0m   return <TutorsPageClient locale={locale as 'en' | 'it'} />
+[7m  [0m [91m                           ~~~~~~[0m
+
+[96msrc/app/api/admin/tutors/[tutorId]/visibility/route.ts[0m:[93m25[0m:[93m3[0m - [91merror[0m[90m TS2345: [0mArgument of type '(request: NextRequest, { roleInfo }: { roleInfo: RoleInfo; }, context: TutorRouteParams) => Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; message: string; tutor: { ...; }; }>>' is not assignable to parameter of type 'RouteHandler'.
+  Target signature provides too few arguments. Expected 3 or more, but got 2.
+
+[7m25[0m   async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: TutorRouteParams) => {
+[7m  [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/admin/users/[userId]/reset-password/route.ts[0m:[93m18[0m:[93m3[0m - [91merror[0m[90m TS2345: [0mArgument of type '(request: NextRequest, { roleInfo }: { roleInfo: RoleInfo; }, context: UserRouteParams) => Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; message: string; resetLink: string; }>>' is not assignable to parameter of type 'RouteHandler'.
+  Target signature provides too few arguments. Expected 3 or more, but got 2.
+
+[7m18[0m   async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+[7m  [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/admin/users/[userId]/role/route.ts[0m:[93m24[0m:[93m3[0m - [91merror[0m[90m TS2345: [0mArgument of type '(request: NextRequest, { roleInfo }: { roleInfo: RoleInfo; }, context: UserRouteParams) => Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; message: string; }>>' is not assignable to parameter of type 'RouteHandler'.
+  Target signature provides too few arguments. Expected 3 or more, but got 2.
+
+[7m24[0m   async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+[7m  [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/admin/users/[userId]/route.ts[0m:[93m16[0m:[93m30[0m - [91merror[0m[90m TS2345: [0mArgument of type '(request: NextRequest, { roleInfo: _roleInfo }: { roleInfo: RoleInfo; }, context: UserRouteParams) => Promise<NextResponse<{ error: string; }> | NextResponse<{ user: any; auditLog: any[]; }>>' is not assignable to parameter of type 'RouteHandler'.
+  Target signature provides too few arguments. Expected 3 or more, but got 2.
+
+[7m16[0m export const GET = withAdmin(async (request: NextRequest, { roleInfo: _roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+[7m  [0m [91m                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/admin/users/[userId]/route.ts[0m:[93m57[0m:[93m3[0m - [91merror[0m[90m TS2345: [0mArgument of type '(request: NextRequest, { roleInfo }: { roleInfo: RoleInfo; }, context: UserRouteParams) => Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; message: string; }>>' is not assignable to parameter of type 'RouteHandler'.
+  Target signature provides too few arguments. Expected 3 or more, but got 2.
+
+[7m57[0m   async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+[7m  [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/admin/users/[userId]/status/route.ts[0m:[93m25[0m:[93m3[0m - [91merror[0m[90m TS2345: [0mArgument of type '(request: NextRequest, { roleInfo }: { roleInfo: RoleInfo; }, context: UserRouteParams) => Promise<NextResponse<{ error: string; }> | NextResponse<{ success: boolean; message: string; }>>' is not assignable to parameter of type 'RouteHandler'.
+  Target signature provides too few arguments. Expected 3 or more, but got 2.
+
+[7m25[0m   async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+[7m  [0m [91m  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/chat/conversations/route.ts[0m:[93m94[0m:[93m21[0m - [91merror[0m[90m TS7053: [0mElement implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+
+[7m94[0m       const tutor = tutors[conv.tutor_id] || {
+[7m  [0m [91m                    ~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/chat/messages/route.ts[0m:[93m87[0m:[93m44[0m - [91merror[0m[90m TS2339: [0mProperty 'id' does not exist on type '{ id: any; content: any; documents: { name: any; }[]; }[]'.
+
+[7m87[0m             chunk_id: item.document_chunks.id,
+[7m  [0m [91m                                           ~~[0m
+
+[96msrc/app/api/chat/messages/route.ts[0m:[93m89[0m:[93m43[0m - [91merror[0m[90m TS2339: [0mProperty 'content' does not exist on type '{ id: any; content: any; documents: { name: any; }[]; }[]'.
+
+[7m89[0m             content: item.document_chunks.content,
+[7m  [0m [91m                                          ~~~~~~~[0m
+
+[96msrc/app/api/chat/messages/route.ts[0m:[93m90[0m:[93m49[0m - [91merror[0m[90m TS2339: [0mProperty 'documents' does not exist on type '{ id: any; content: any; documents: { name: any; }[]; }[]'.
+
+[7m90[0m             document_name: item.document_chunks.documents.name,
+[7m  [0m [91m                                                ~~~~~~~~~[0m
+
+[96msrc/app/api/chat/messages/route.ts[0m:[93m104[0m:[93m19[0m - [91merror[0m[90m TS7053: [0mElement implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+
+[7m104[0m       rag_chunks: ragContext[msg.id] || [],
+[7m   [0m [91m                  ~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/chat/send/route.ts[0m:[93m10[0m:[93m72[0m - [91merror[0m[90m TS2339: [0mProperty 'roleInfo' does not exist on type '{ rateLimitResult: RateLimitResult; roleInfo: RoleInfo; } | undefined'.
+
+[7m10[0m export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo: _roleInfo }) => {
+[7m  [0m [91m                                                                       ~~~~~~~~[0m
+
+[96msrc/app/api/documents/process/route.ts[0m:[93m10[0m:[93m72[0m - [91merror[0m[90m TS2339: [0mProperty 'roleInfo' does not exist on type '{ rateLimitResult: RateLimitResult; roleInfo: RoleInfo; } | undefined'.
+
+[7m10[0m export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo: _roleInfo }) => {
+[7m  [0m [91m                                                                       ~~~~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m23[0m:[93m72[0m - [91merror[0m[90m TS2339: [0mProperty 'roleInfo' does not exist on type '{ rateLimitResult: RateLimitResult; roleInfo: RoleInfo; } | undefined'.
+
+[7m23[0m export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo: _roleInfo }) => {
+[7m  [0m [91m                                                                       ~~~~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m162[0m:[93m48[0m - [91merror[0m[90m TS2345: [0mArgument of type '{ text: string; metadata: { title: any; author: any; pages: number; wordCount: number; charCount: number; }; }' is not assignable to parameter of type 'string'.
+
+[7m162[0m     const chunkingResult = await chunkDocument({
+[7m   [0m [91m                                               ~[0m
+[7m163[0m       text: extractedText,
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m170[0m       },
+[7m   [0m [91m~~~~~~~~[0m
+[7m171[0m     });
+[7m   [0m [91m~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m173[0m:[93m24[0m - [91merror[0m[90m TS2339: [0mProperty 'error' does not exist on type 'ChunkingResult'.
+
+[7m173[0m     if (chunkingResult.error) {
+[7m   [0m [91m                       ~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m174[0m:[93m77[0m - [91merror[0m[90m TS2339: [0mProperty 'error' does not exist on type 'ChunkingResult'.
+
+[7m174[0m       await updateProcessingJobStatus(queueId, "failed", 50, chunkingResult.error);
+[7m   [0m [91m                                                                            ~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m176[0m:[93m49[0m - [91merror[0m[90m TS2339: [0mProperty 'error' does not exist on type 'ChunkingResult'.
+
+[7m176[0m         { success: false, error: chunkingResult.error },
+[7m   [0m [91m                                                ~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m196[0m:[93m9[0m - [91merror[0m[90m TS2345: [0mArgument of type 'EmbeddingError' is not assignable to parameter of type 'string'.
+
+[7m196[0m         embeddingsResult.error
+[7m   [0m [91m        ~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m204[0m:[93m41[0m - [91merror[0m[90m TS2339: [0mProperty 'embeddings' does not exist on type '{ data?: EmbeddingResult[] | undefined; error?: EmbeddingError | undefined; }'.
+
+[7m204[0m     const embeddings = embeddingsResult.embeddings || [];
+[7m   [0m [91m                                        ~~~~~~~~~~[0m
+
+[96msrc/app/api/multimedia/process/route.ts[0m:[93m205[0m:[93m44[0m - [91merror[0m[90m TS2339: [0mProperty 'cost' does not exist on type '{ data?: EmbeddingResult[] | undefined; error?: EmbeddingError | undefined; }'.
+
+[7m205[0m     const embeddingCost = embeddingsResult.cost || 0;
+[7m   [0m [91m                                           ~~~~[0m
+
+[96msrc/app/api/multimedia/upload/route.ts[0m:[93m21[0m:[93m76[0m - [91merror[0m[90m TS2339: [0mProperty 'roleInfo' does not exist on type '{ rateLimitResult: RateLimitResult; roleInfo: RoleInfo; } | undefined'.
+
+[7m21[0m export const POST = withRateLimit('upload', async (request: NextRequest, { roleInfo: _roleInfo }) => {
+[7m  [0m [91m                                                                           ~~~~~~~~[0m
+
+[96msrc/app/api/multimedia/upload/route.ts[0m:[93m59[0m:[93m40[0m - [91merror[0m[90m TS2345: [0mArgument of type 'MediaType' is not assignable to parameter of type 'ResourceType'.
+  Type '"document"' is not assignable to type 'ResourceType'. Did you mean '"documents"'?
+
+[7m59[0m       await enforceUsageLimit(user.id, mediaType);
+[7m  [0m [91m                                       ~~~~~~~~~[0m
+

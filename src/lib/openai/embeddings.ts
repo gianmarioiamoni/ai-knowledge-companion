@@ -57,8 +57,8 @@ export async function generateEmbedding(
     return {
       data: {
         embedding: embedding.embedding,
-        tokens: embedding.usage?.total_tokens || 0,
-        model: embedding.model
+        tokens: response.usage?.total_tokens || 0,
+        model: response.model
       }
     }
   } catch (error) {
@@ -109,10 +109,13 @@ export async function generateBatchEmbeddings(
       encoding_format: 'float'
     })
 
+    const totalTokens = response.usage?.total_tokens || 0
+    const tokensPerEmbedding = Math.ceil(totalTokens / texts.length)
+    
     const embeddings = response.data.map(item => ({
       embedding: item.embedding,
-      tokens: item.usage?.total_tokens || 0,
-      model: item.model
+      tokens: tokensPerEmbedding,
+      model: response.model
     }))
 
     return { data: embeddings }

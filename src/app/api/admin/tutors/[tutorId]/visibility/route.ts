@@ -14,17 +14,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withSuperAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { logAdminAction } from '@/lib/auth/roles'
-import { RoleInfo, TutorRouteParams } from '@/types/admin'
+import { RoleInfo } from '@/types/admin'
 
 interface RequestBody {
   visibility: 'private' | 'public' | 'marketplace'
   reason?: string
 }
 
-export const PATCH = withSuperAdmin(
-  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: TutorRouteParams) => {
+export const PATCH = withSuperAdmin<{ params: Promise<{ tutorId: string }> }>(
+  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, segmentParams: { params: Promise<{ tutorId: string }> }) => {
     try {
-      const { tutorId } = await context.params
+      if (!segmentParams) throw new Error('Missing params')
+      const { tutorId } = await segmentParams.params
       const body: RequestBody = await request.json()
 
       if (!body.visibility || !['private', 'public', 'marketplace'].includes(body.visibility)) {

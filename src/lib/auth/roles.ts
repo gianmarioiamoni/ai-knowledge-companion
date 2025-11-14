@@ -17,6 +17,8 @@ export interface UserRoleInfo {
   status: UserStatus
   email?: string
   displayName?: string
+  isSuperAdmin: boolean
+  isAdmin: boolean
 }
 
 /**
@@ -46,12 +48,15 @@ export async function getCurrentUserRole(): Promise<UserRoleInfo | null> {
       return null
     }
 
+    const role = profile.role as UserRole
     return {
       userId: user.id,
-      role: profile.role as UserRole,
+      role,
       status: profile.status as UserStatus,
       email: user.email,
       displayName: profile.display_name || undefined,
+      isSuperAdmin: role === 'super_admin',
+      isAdmin: role === 'admin' || role === 'super_admin',
     }
   } catch (error) {
     console.error('Error getting current user role:', error)
@@ -119,12 +124,15 @@ export async function getUserRoleById(
       return null
     }
 
+    const role = profile.role as UserRole
     return {
       userId,
-      role: profile.role as UserRole,
+      role,
       status: profile.status as UserStatus,
       email: authUser.user.email,
       displayName: profile.display_name || undefined,
+      isSuperAdmin: role === 'super_admin',
+      isAdmin: role === 'admin' || role === 'super_admin',
     }
   } catch (error) {
     console.error('Error getting user role by ID:', error)

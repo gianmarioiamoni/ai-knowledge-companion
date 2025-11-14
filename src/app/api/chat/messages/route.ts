@@ -53,8 +53,26 @@ export async function GET(request: NextRequest) {
     }
 
     // Get RAG context for each message
+    type RAGChunk = {
+      chunk_id: string;
+      similarity_score: number;
+      content: string;
+      document_name: string;
+    };
+    type RAGItem = {
+      message_id: string;
+      similarity_score: number;
+      document_chunks: {
+        id: string;
+        content: string;
+        documents: {
+          name: string;
+        };
+      };
+    };
+    
     const messageIds = messages?.map(msg => msg.id) || [];
-    let ragContext = {};
+    let ragContext: Record<string, RAGChunk[]> = {};
     
     if (messageIds.length > 0) {
       const { data: ragData, error: ragError } = await serviceClient
@@ -73,13 +91,7 @@ export async function GET(request: NextRequest) {
         .in('message_id', messageIds);
       
       if (!ragError && ragData) {
-        type RAGChunk = {
-          chunk_id: string;
-          similarity_score: number;
-          content: string;
-          document_name: string;
-        };
-        ragContext = ragData.reduce((acc, item) => {
+        ragContext = (ragData as unknown as RAGItem[]).reduce((acc, item) => {
           if (!acc[item.message_id]) {
             acc[item.message_id] = [];
           }

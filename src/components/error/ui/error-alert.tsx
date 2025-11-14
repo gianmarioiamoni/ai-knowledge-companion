@@ -24,6 +24,7 @@ const severityConfig = {
   error: {
     variant: 'destructive' as const,
     icon: AlertCircle,
+    className: '',
   },
   warning: {
     variant: 'default' as const,

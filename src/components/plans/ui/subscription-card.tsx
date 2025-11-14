@@ -114,7 +114,7 @@ export function SubscriptionCard(): JSX.Element {
             scheduledBillingCycle={subscription.scheduled_billing_cycle || 'monthly'}
             scheduledChangeDate={subscription.scheduled_change_date}
             currentPlanName={subscription.plan_display_name}
-            currentBillingCycle={subscription.billing_cycle}
+            currentBillingCycle={subscription.billing_cycle || 'monthly'}
             titleText={tScheduled('title')}
             descriptionText={tScheduled('description')}
             effectiveDateText={tScheduled('effectiveDate')}

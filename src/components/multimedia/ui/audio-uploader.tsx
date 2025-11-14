@@ -52,7 +52,7 @@ export function AudioUploader({ onUploadSuccess }: AudioUploaderProps): JSX.Elem
         onUploadSuccess()
       }, 2000)
       
-    } catch (_error) {
+    } catch (error) {
       console.error('Upload error:', error)
       setUploadStatus('error')
       setStatusMessage(error instanceof Error ? error.message : t('error'))

@@ -64,8 +64,15 @@ export async function GET(request: NextRequest) {
     }
 
     // Get tutor information separately
+    type TutorInfo = {
+      id: string;
+      name: string;
+      avatar_url: string | null;
+      model: string;
+    };
+    
     const tutorIds = [...new Set(conversations?.map(conv => conv.tutor_id) || [])];
-    let tutors = {};
+    let tutors: Record<string, TutorInfo> = {};
     
     if (tutorIds.length > 0) {
       const { data: tutorsData, error: tutorsError } = await serviceClient
@@ -78,12 +85,6 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'Failed to get tutors' }, { status: 500 });
       }
       
-      type TutorInfo = {
-        id: string;
-        name: string;
-        avatar_url: string | null;
-        model: string;
-      };
       tutors = tutorsData?.reduce((acc, tutor) => {
         acc[tutor.id] = tutor;
         return acc;
@@ -91,7 +92,7 @@ export async function GET(request: NextRequest) {
     }
 
     const transformedConversations = conversations?.map(conv => {
-      const tutor = tutors[conv.tutor_id] || {
+      const tutor = tutors[conv.tutor_id as string] || {
         id: conv.tutor_id,
         name: 'Unknown Tutor',
         avatar_url: null,

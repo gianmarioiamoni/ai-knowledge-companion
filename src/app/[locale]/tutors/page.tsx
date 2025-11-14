@@ -20,5 +20,5 @@ export default async function TutorsPage({ params }: TutorsPageProps): Promise<J
     redirect(`/${locale}/auth/login`)
   }
 
-  return <TutorsPageClient locale={locale as 'en' | 'it'} />
+  return <TutorsPageClient />
 }

@@ -4,6 +4,7 @@ import type { Tutor } from '@/types/tutors'
 import type { Conversation } from '@/types/chat'
 
 interface CreateConversationWithWelcomeParams {
+  userId: string
   tutorId: string
   tutor: Tutor
   userEmail?: string
@@ -15,6 +16,7 @@ interface CreateConversationWithWelcomeParams {
  * This provides a better UX by introducing the tutor immediately
  */
 export async function createConversationWithWelcome({
+  userId,
   tutorId,
   tutor,
   userEmail,
@@ -26,6 +28,7 @@ export async function createConversationWithWelcome({
   try {
     // Step 1: Create the conversation
     const { data: conversation, error: convError } = await createConversation({
+      user_id: userId,
       tutor_id: tutorId,
       title: `Chat with ${tutor.name}`,
       metadata: {

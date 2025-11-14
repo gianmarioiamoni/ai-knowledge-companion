@@ -190,7 +190,7 @@ export async function getChunkStats(
   error?: string 
 }> {
   try {
-    const supabase = createClient()
+    const supabase = createServiceClient()
 
     const { data, error } = await supabase
       .from('document_chunks')
@@ -210,9 +210,11 @@ export async function getChunkStats(
       }
     }
 
+    /* eslint-disable @typescript-eslint/no-explicit-any */
     const totalChunks = data?.length || 0
-    const totalTokens = data?.reduce((sum, chunk) => sum + (chunk.tokens || 0), 0) || 0
-    const documentsWithEmbeddings = new Set(data?.map(chunk => chunk.documents.id) || []).size
+    const totalTokens = data?.reduce((sum: number, chunk: any) => sum + (chunk.tokens || 0), 0) || 0
+    const documentsWithEmbeddings = new Set(data?.map((chunk: any) => chunk.documents?.id) || []).size
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     return {
       data: {

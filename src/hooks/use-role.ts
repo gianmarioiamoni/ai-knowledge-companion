@@ -58,7 +58,7 @@ export function useRole(): UseRoleReturn {
         .from('profiles')
         .select('role, status, display_name')
         .eq('id', user.id)
-        .single()
+        .single<{ role: string; status: string; display_name: string | null }>()
 
       if (profileError) {
         setError(profileError.message)

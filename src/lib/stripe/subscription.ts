@@ -107,7 +107,8 @@ export async function syncSubscriptionToDatabase(
   // Get plan info from Stripe price ID
   const priceId = subscription.items.data[0].price.id
 
-  const { data: planData } = await supabase.rpc('get_plan_by_stripe_price_id', {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: planData } = await (supabase as any).rpc('get_plan_by_stripe_price_id', {
     p_stripe_price_id: priceId,
   })
 
@@ -134,10 +135,12 @@ export async function syncSubscriptionToDatabase(
   }
 
   // Calculate end date
-  const endDate = new Date(subscription.current_period_end * 1000)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const endDate = new Date((subscription as any).current_period_end * 1000)
 
   // Upsert subscription in database
-  const { error } = await supabase.rpc('upsert_subscription_from_stripe', {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any).rpc('upsert_subscription_from_stripe', {
     p_user_id: userId,
     p_plan_name: plan.plan_name,
     p_stripe_subscription_id: subscription.id,
@@ -145,7 +148,8 @@ export async function syncSubscriptionToDatabase(
     p_billing_cycle: plan.billing_cycle,
     p_stripe_payment_method: paymentMethod,
     p_status: status,
-    p_start_date: new Date(subscription.current_period_start * 1000).toISOString(),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    p_start_date: new Date((subscription as any).current_period_start * 1000).toISOString(),
     p_end_date: endDate.toISOString(),
   })
 

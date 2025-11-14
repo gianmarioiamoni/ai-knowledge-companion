@@ -6,6 +6,7 @@
 'use client'
 
 import { JSX } from 'react'
+import { useTranslations } from 'next-intl'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -23,6 +24,7 @@ interface TutorDetailsDialogProps {
 }
 
 export function TutorDetailsDialog({ tutorId, open, onClose }: TutorDetailsDialogProps): JSX.Element {
+  const t = useTranslations('marketplace')
   const router = useRouter()
   const { user } = useAuth()
   const { data, isLoading } = useTutorDetails(open ? tutorId : null)

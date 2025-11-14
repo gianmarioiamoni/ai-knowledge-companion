@@ -203,12 +203,7 @@ export async function POST(_request: NextRequest) {
       await updateProcessingJobStatus(queue_id, "processing", 50, undefined, supabase);
 
       const chunkingResult = chunkDocument(extractedText);
-
-      if (chunkingResult.error) {
-        throw new Error(chunkingResult.error);
-      }
-
-      const chunks = chunkingResult.chunks || [];
+      const chunks = chunkingResult.chunks;
       console.log(`📑 Created ${chunks.length} chunks`);
 
       // Generate embeddings
@@ -219,7 +214,7 @@ export async function POST(_request: NextRequest) {
       const embeddingsResult = await generateBatchEmbeddings(chunkTexts);
 
       if (embeddingsResult.error) {
-        throw new Error(embeddingsResult.error.error || "Embeddings generation failed");
+        throw new Error(String(embeddingsResult.error) || "Embeddings generation failed");
       }
 
       const embeddings = (embeddingsResult.data || []).map(item => item.embedding);

@@ -9,7 +9,7 @@ import { getTutorDetails } from '@/lib/supabase/marketplace'
 import { createClient } from '@/lib/supabase/server'
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {

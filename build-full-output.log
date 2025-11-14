@@ -1,0 +1,21 @@
+
+> ai-knowledge-companion@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · serverActions
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 8.6s
+   Linting and checking validity of types ...
+(node:45023) ESLintIgnoreWarning: The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files
+(Use `node --trace-warnings ...` to show where the warning was created)
+Failed to compile.
+
+src/app/api/tutors/[id]/multimedia/[documentId]/route.ts
+Type error: Route "src/app/api/tutors/[id]/multimedia/[documentId]/route.ts" has an invalid "DELETE" export:
+  Type "{ params: { id: string; documentId: string; }; }" is not a valid type for the function's second argument.
+
+Next.js build worker exited with code: 1 and signal: null

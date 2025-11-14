@@ -14,12 +14,14 @@ import {
 import { MoreHorizontal, X, Trash2, Archive } from 'lucide-react';
 
 interface ChatHeaderProps {
+  conversationId?: string;
   onClose?: () => void;
   onDeleteAllConversations?: () => void;
   onArchiveAllConversations?: () => void;
 }
 
 export function ChatHeader({ 
+  conversationId: _conversationId,
   onClose, 
   onDeleteAllConversations,
   onArchiveAllConversations 

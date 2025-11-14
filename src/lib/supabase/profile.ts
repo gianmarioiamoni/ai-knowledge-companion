@@ -10,15 +10,21 @@ export async function getProfile(): Promise<{ data?: Profile; error?: string }> 
       return { error: 'Not authenticated' }
     }
 
-    const { data: profile, error } = await supabase
-      .from('profiles')
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const { data: profile, error } = await (supabase
+      .from('profiles') as any)
       .select('*')
       .eq('id', user.id)
       .single()
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     if (error) {
       console.error('Error fetching profile:', error)
       return { error: error.message }
+    }
+
+    if (!profile) {
+      return { error: 'Profile not found' }
     }
 
     return { 

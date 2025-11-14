@@ -106,7 +106,7 @@ export function VideoUploader({ onUploadComplete }: VideoUploaderProps): JSX.Ele
       })
 
       return true
-    } catch (_error) {
+    } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Upload failed'
       setVideos(prev => {
         const updated = [...prev]

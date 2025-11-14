@@ -70,7 +70,7 @@ export function TutorFormRagConfig({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label className="text-sm font-medium">
-                  {t('form.fields.similarityThreshold', { value: formData.similarity_threshold })}
+                  {t('form.fields.similarityThreshold', { value: formData.similarity_threshold ?? 0.7 })}
                 </Label>
                 <Badge variant="outline" className="text-xs">
                   {getSimilarityLabel(formData.similarity_threshold)}

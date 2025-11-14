@@ -7,8 +7,7 @@ import { createConversationWithWelcome } from '@/lib/supabase/chat-with-welcome'
 import type { 
   ChatState, 
   ChatActions, 
-  ChatMessage,
-  ConversationQueryInput 
+  ChatMessage
 } from '@/types/chat';
 import type { Tutor } from '@/types/tutors';
 
@@ -30,7 +29,7 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
     setState(prev => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      const query: ConversationQueryInput = {};
+      const query: { tutor_id?: string } = {};
       if (tutorId) {
         query.tutor_id = tutorId;
       }
@@ -103,6 +102,7 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
       // If tutor info is available, create conversation with welcome message
       if (tutor && targetTutorId === tutor.id) {
         const result = await createConversationWithWelcome({
+          userId: user.id,
           tutorId: targetTutorId,
           tutor,
           userEmail: user.email,
@@ -114,11 +114,19 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
           return { success: false, error: result.error };
         }
 
-        if (result.data) {
+        if (result.data && tutor) {
+          // Create ConversationWithTutor from the result and tutor data
+          const conversationWithTutor = {
+            ...result.data.conversation,
+            tutor_name: tutor.name,
+            tutor_avatar_url: tutor.avatar_url,
+            tutor_model: tutor.model
+          };
+
           // Add to conversations list
           setState(prev => ({
             ...prev,
-            conversations: [chatService.transformConversationToChat(result.data!.conversation), ...prev.conversations],
+            conversations: [chatService.transformConversationToChat(conversationWithTutor), ...prev.conversations],
             currentConversation: result.data!.conversation.id,
             isSending: false,
           }));
@@ -131,6 +139,7 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
       } else {
         // Fallback to regular conversation creation
         const result = await chatService.createConversation({
+          user_id: user.id,
           tutor_id: targetTutorId,
           title: title || 'New Conversation',
         });
@@ -143,10 +152,12 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
         if (result.data) {
           setState(prev => ({
             ...prev,
-            conversations: [chatService.transformConversationToChat(result.data!), ...prev.conversations],
             currentConversation: result.data!.id,
             isSending: false,
           }));
+
+          // Reload conversations to get the full data with tutor info
+          await loadConversations();
 
           return { success: true, conversationId: result.data.id };
         }
@@ -158,7 +169,7 @@ export function useChat(tutorId?: string, tutor?: Tutor, locale?: string) {
       setState(prev => ({ ...prev, error: errorMessage, isSending: false }));
       return { success: false, error: errorMessage };
     }
-  }, [user, tutor, locale, loadMessages]);
+  }, [user, tutor, locale, loadMessages, loadConversations]);
 
   // Send a message
   const sendMessage = useCallback(async (content: string): Promise<{ success: boolean; error?: string }> => {

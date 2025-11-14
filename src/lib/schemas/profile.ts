@@ -17,7 +17,7 @@ export const passwordChangeSchema = z.object({
 export const deleteAccountSchema = z.object({
   password: z.string().min(1, 'Password is required'),
   confirmation: z.literal('DELETE', {
-    errorMap: () => ({ message: 'Please type DELETE to confirm' }),
+    message: 'Please type DELETE to confirm',
   }),
 })
 

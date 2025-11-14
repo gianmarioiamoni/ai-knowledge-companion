@@ -3,6 +3,7 @@
 import { JSX } from 'react'
 import { useTranslations } from 'next-intl'
 import { useRouter } from '@/i18n/navigation'
+import { FileText, Bot, MessageSquare, Upload } from 'lucide-react'
 import { useDashboard, type DashboardStats } from '@/hooks/use-dashboard'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 import { ErrorPage } from '@/components/error'

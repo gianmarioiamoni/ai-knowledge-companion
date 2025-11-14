@@ -14,17 +14,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withSuperAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { logAdminAction, getUserRoleById } from '@/lib/auth/roles'
-import { RoleInfo, UserRouteParams } from '@/types/admin'
+import { RoleInfo } from '@/types/admin'
 
 interface RequestBody {
   action: 'disable' | 'enable'
   reason?: string
 }
 
-export const PATCH = withSuperAdmin(
-  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+export const PATCH = withSuperAdmin<{ params: Promise<{ userId: string }> }>(
+  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, segmentParams: { params: Promise<{ userId: string }> }) => {
     try {
-      const { userId } = await context.params
+      if (!segmentParams) throw new Error("Missing params")
+      const { userId } = await segmentParams.params
       const body: RequestBody = await request.json()
 
       if (!body.action || !['disable', 'enable'].includes(body.action)) {

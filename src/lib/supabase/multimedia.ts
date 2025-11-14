@@ -301,7 +301,6 @@ export async function deleteMultimediaDocument(
     console.log(`🗑️  Deleting multimedia document: ${documentId}`);
 
     // First get document to know storage path and media type
-    // @ts-expect-error - Supabase auto-generated types have table marked as 'never'
     const { data: document, error: fetchError } = await supabase
       .from("documents")
       .select("storage_path, media_type")

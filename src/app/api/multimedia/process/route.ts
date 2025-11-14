@@ -20,7 +20,7 @@ import type { DocumentChunk } from "@/lib/workers/document-chunker";
 import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
 import { sanitize } from "@/lib/utils/log-sanitizer";
 
-export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo: _roleInfo }) => {
+export const POST = withRateLimit('ai', async (request: NextRequest, _context) => {
   try {
     // This endpoint processes a specific document
     // In production, this would be called by a background worker (BullMQ, Inngest, etc.)
@@ -159,26 +159,8 @@ export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo:
     console.log("✂️  Chunking text...");
     await updateProcessingJobStatus(queueId, "processing", 50);
 
-    const chunkingResult = await chunkDocument({
-      text: extractedText,
-      metadata: {
-        title: document.title,
-        author: document.owner_id,
-        pages: 1,
-        wordCount: extractedText.split(/\s+/).length,
-        charCount: extractedText.length,
-      },
-    });
-
-    if (chunkingResult.error) {
-      await updateProcessingJobStatus(queueId, "failed", 50, chunkingResult.error);
-      return NextResponse.json(
-        { success: false, error: chunkingResult.error },
-        { status: 500 }
-      );
-    }
-
-    const chunks = chunkingResult.chunks || [];
+    const chunkingResult = chunkDocument(extractedText);
+    const chunks = chunkingResult.chunks;
     console.log(`📑 Created ${chunks.length} chunks`);
 
     // Generate embeddings
@@ -189,20 +171,21 @@ export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo:
     const embeddingsResult = await generateBatchEmbeddings(chunkTexts);
 
     if (embeddingsResult.error) {
+      const errorMessage = String(embeddingsResult.error);
       await updateProcessingJobStatus(
         queueId,
         "failed",
         75,
-        embeddingsResult.error
+        errorMessage
       );
       return NextResponse.json(
-        { success: false, error: embeddingsResult.error },
+        { success: false, error: errorMessage },
         { status: 500 }
       );
     }
 
-    const embeddings = embeddingsResult.embeddings || [];
-    const embeddingCost = embeddingsResult.cost || 0;
+    const embeddings = (embeddingsResult.data || []).map(r => r.embedding);
+    const embeddingCost = 0; // Cost tracking not implemented yet
     const totalCost = processingCost + embeddingCost;
 
     console.log(`✅ Generated ${embeddings.length} embeddings, cost: $${embeddingCost.toFixed(4)}`);

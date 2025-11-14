@@ -83,7 +83,8 @@ export async function handleSubscriptionDeleted(
   const supabase = createServiceClient()
 
   try {
-    await supabase.rpc('cancel_subscription_from_stripe', {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase as any).rpc('cancel_subscription_from_stripe', {
       p_stripe_subscription_id: subscription.id,
     })
     console.log('✅ Subscription cancellation synced to database')
@@ -102,7 +103,8 @@ export async function handleInvoicePaid(
 ): Promise<void> {
   console.log('💰 Invoice paid:', invoice.id)
 
-  const subscriptionId = invoice.subscription as string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const subscriptionId = (invoice as any).subscription as string
 
   if (!subscriptionId) {
     console.log('⚠️  No subscription associated with invoice')
@@ -113,40 +115,45 @@ export async function handleInvoicePaid(
   const supabase = createServiceClient()
 
   try {
-    await supabase
-      .from('user_subscriptions')
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    await (supabase
+      .from('user_subscriptions') as any)
       .update({
         last_payment_date: new Date(invoice.created * 1000).toISOString(),
-        next_payment_date: invoice.next_payment_attempt
-          ? new Date(invoice.next_payment_attempt * 1000).toISOString()
+        next_payment_date: (invoice as any).next_payment_attempt
+          ? new Date((invoice as any).next_payment_attempt * 1000).toISOString()
           : null,
         updated_at: new Date().toISOString(),
       })
       .eq('stripe_subscription_id', subscriptionId)
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     console.log('✅ Payment info updated in database')
     
     // Check for proration (plan change mid-cycle)
-    const hasProration = invoice.lines.data.some(line => line.proration)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const hasProration = invoice.lines.data.some(line => (line as any).proration)
     if (hasProration) {
       const prorationAmount = invoice.lines.data
-        .filter(line => line.proration)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter(line => (line as any).proration)
         .reduce((sum, line) => sum + (line.amount / 100), 0)
       
       console.log('💵 Proration detected:', prorationAmount, invoice.currency.toUpperCase())
       
       // Store proration info in a metadata field or separate table for notification
       // For now, we'll log it - the frontend can detect upgrades via webhook metadata
-      const { data: subscription } = await supabase
-        .from('user_subscriptions')
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      const { data: subscription } = await (supabase
+        .from('user_subscriptions') as any)
         .select('user_id')
         .eq('stripe_subscription_id', subscriptionId)
         .single()
       
       if (subscription?.user_id) {
         // Store proration notification in profiles metadata
-        await supabase
-          .from('profiles')
+        await (supabase
+          .from('profiles') as any)
           .update({
             metadata: {
               last_proration: {
@@ -158,6 +165,7 @@ export async function handleInvoicePaid(
             }
           })
           .eq('id', subscription.user_id)
+        /* eslint-enable @typescript-eslint/no-explicit-any */
         
         console.log('✅ Proration info stored for user:', subscription.user_id)
       }
@@ -176,7 +184,8 @@ export async function handleInvoicePaymentFailed(
 ): Promise<void> {
   console.log('❌ Invoice payment failed:', invoice.id)
 
-  const subscriptionId = invoice.subscription as string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const subscriptionId = (invoice as any).subscription as string
 
   if (!subscriptionId) {
     console.log('⚠️  No subscription associated with invoice')
@@ -190,11 +199,13 @@ export async function handleInvoicePaymentFailed(
 
   try {
     // Get user info
-    const { data: subscription } = await supabase
-      .from('user_subscriptions')
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const { data: subscription } = await (supabase
+      .from('user_subscriptions') as any)
       .select('user_id')
       .eq('stripe_subscription_id', subscriptionId)
       .single()
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     if (subscription) {
       console.log('⚠️  Payment failed for user:', subscription.user_id)

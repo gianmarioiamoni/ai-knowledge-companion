@@ -12,12 +12,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { withAdmin } from '@/lib/middleware/admin-guard'
 import { createServiceClient } from '@/lib/supabase/service'
 import { logAdminAction, getUserRoleById } from '@/lib/auth/roles'
-import { RoleInfo, UserRouteParams } from '@/types/admin'
+import { RoleInfo } from '@/types/admin'
 
-export const POST = withAdmin(
-  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, context: UserRouteParams) => {
+export const POST = withAdmin<{ params: Promise<{ userId: string }> }>(
+  async (request: NextRequest, { roleInfo }: { roleInfo: RoleInfo }, segmentParams: { params: Promise<{ userId: string }> }) => {
     try {
-      const { userId } = await context.params
+      if (!segmentParams) throw new Error("Missing params")
+      const { userId } = await segmentParams.params
       const supabase = createServiceClient()
 
       // Get target user info

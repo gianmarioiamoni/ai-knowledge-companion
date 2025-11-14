@@ -45,13 +45,13 @@ export function useAuth() {
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      // Handle specific auth events
-      if (event === 'SIGNED_OUT' || event === 'USER_DELETED') {
+    } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      // Update user state based on session
+      if (!session) {
         setUser(null)
         router.push('/auth/login')
       } else {
-        setUser(session?.user ?? null);
+        setUser(session.user);
       }
       setLoading(false);
     });

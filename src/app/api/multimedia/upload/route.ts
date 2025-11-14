@@ -18,7 +18,7 @@ import {
 import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
 import { sanitize } from "@/lib/utils/log-sanitizer";
 
-export const POST = withRateLimit('upload', async (request: NextRequest, { roleInfo: _roleInfo }) => {
+export const POST = withRateLimit('upload', async (request: NextRequest, _context) => {
   try {
     // Authenticate user
     const supabase = await createClient();
@@ -56,7 +56,8 @@ export const POST = withRateLimit('upload', async (request: NextRequest, { roleI
 
     // Check usage limits based on media type
     try {
-      await enforceUsageLimit(user.id, mediaType);
+      const resourceType = mediaType === 'document' ? 'documents' : mediaType;
+      await enforceUsageLimit(user.id, resourceType);
     } catch (limitError) {
       return NextResponse.json(
         { 

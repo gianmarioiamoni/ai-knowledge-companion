@@ -221,8 +221,9 @@ export async function createMessage(
       return { error: 'Not authenticated' };
     }
 
-    const { data, error } = await supabase
-      .from('messages')
+    /* eslint-disable @typescript-eslint/no-explicit-any */
+    const { data, error } = await (supabase
+      .from('messages') as any)
       .insert({
         conversation_id: message.conversation_id,
         role: message.role,
@@ -233,6 +234,7 @@ export async function createMessage(
       })
       .select()
       .single();
+    /* eslint-enable @typescript-eslint/no-explicit-any */
 
     if (error) {
       console.error('Error creating message:', error);

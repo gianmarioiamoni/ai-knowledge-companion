@@ -193,26 +193,25 @@ export async function parseDocumentFromBuffer(
       }
       case "application/vnd.openxmlformats-officedocument.presentationml.presentation": {
         try {
-          const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
-          
-          const blob = new Blob([new Uint8Array(buffer)], { 
-            type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" 
-          });
-          
-          const loader = new PPTXLoader(blob);
-          const docs = await loader.load();
-          const combined = docs
-            .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
-            .filter(Boolean)
-            .join("\n\n");
-
-          text = combined;
-          metadata = {
-            title: filename.replace(/\.pptx$/i, ""),
-            wordCount: countWords(text),
-            charCount: text.length,
-            pages: (docs as unknown[]).length || undefined, // Numero di slide
-          };
+          // TODO: Re-enable LangChain loaders (Issue #fix-1)
+          throw new Error('Buffer-based PPTX parsing temporarily disabled');
+          // const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
+          // const blob = new Blob([new Uint8Array(buffer)], { 
+          //   type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" 
+          // });
+          // const loader = new PPTXLoader(blob);
+          // const docs = await loader.load();
+          // const combined = docs
+          //   .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+          //   .filter(Boolean)
+          //   .join("\n\n");
+          // text = combined;
+          // metadata = {
+          //   title: filename.replace(/\.pptx$/i, ""),
+          //   wordCount: countWords(text),
+          //   charCount: text.length,
+          //   pages: (docs as unknown[]).length || undefined, // Numero di slide
+          // };
         } catch (error) {
           console.warn('PPTX parsing failed (LangChain):', error);
           return { error: `Failed to parse PPTX via LangChain: ${error instanceof Error ? error.message : 'Unknown error'}` };
@@ -250,22 +249,20 @@ async function parseTextFile(file: File): Promise<ParsedDocument> {
     // TODO: Re-enable LangChain loaders (Issue #fix-1)
     throw new Error('File-based text parsing temporarily disabled');
     // const { TextLoader } = await import("@langchain/community/document_loaders/fs/text");
-    
-    const loader = new TextLoader(file);
-    const docs = await loader.load();
-    const text = docs
-      .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
-      .filter(Boolean)
-      .join("\n\n");
-
-    return {
-      text,
-      metadata: {
-        title: file.name.replace(/\.(txt|md)$/i, ""),
-        wordCount: countWords(text),
-        charCount: text.length,
-      },
-    };
+    // const loader = new TextLoader(file);
+    // const docs = await loader.load();
+    // const text = docs
+    //   .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+    //   .filter(Boolean)
+    //   .join("\n\n");
+    // return {
+    //   text,
+    //   metadata: {
+    //     title: file.name.replace(/\.(txt|md)$/i, ""),
+    //     wordCount: countWords(text),
+    //     charCount: text.length,
+    //   },
+    // };
   } catch (error) {
     console.warn("TXT/MD parsing failed (LangChain), using fallback:", error);
     // Fallback to simple text reading
@@ -285,28 +282,26 @@ async function parseTextFile(file: File): Promise<ParsedDocument> {
 /**
  * Parsa file PPTX usando LangChain PPTXLoader
  */
-async function parsePPTXFile(file: File): Promise<ParsedDocument> {
+async function parsePPTXFile(_file: File): Promise<ParsedDocument> {
   try {
     // TODO: Re-enable LangChain loaders (Issue #fix-1)
     throw new Error('File-based PPTX parsing temporarily disabled');
     // const { PPTXLoader } = await import("@langchain/community/document_loaders/fs/pptx");
-    
-    const loader = new PPTXLoader(file);
-    const docs = await loader.load();
-    const text = docs
-      .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
-      .filter(Boolean)
-      .join("\n\n");
-
-    return {
-      text,
-      metadata: {
-        title: file.name.replace(/\.pptx$/i, ""),
-        wordCount: countWords(text),
-        charCount: text.length,
-        pages: (docs as unknown[]).length || undefined, // Numero di slide
-      },
-    };
+    // const loader = new PPTXLoader(file);
+    // const docs = await loader.load();
+    // const text = docs
+    //   .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+    //   .filter(Boolean)
+    //   .join("\n\n");
+    // return {
+    //   text,
+    //   metadata: {
+    //     title: file.name.replace(/\.pptx$/i, ""),
+    //     wordCount: countWords(text),
+    //     charCount: text.length,
+    //     pages: (docs as unknown[]).length || undefined, // Numero di slide
+    //   },
+    // };
   } catch (error) {
     console.error("Failed to parse PPTX file:", error);
     throw new Error(`Failed to parse PPTX: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -316,33 +311,29 @@ async function parsePPTXFile(file: File): Promise<ParsedDocument> {
 /**
  * Parsa file DOC/DOCX usando LangChain DocxLoader
  */
-async function parseDocFile(file: File): Promise<ParsedDocument> {
+async function parseDocFile(_file: File): Promise<ParsedDocument> {
   try {
     // TODO: Re-enable LangChain loaders (Issue #fix-1)
     throw new Error('File-based DOCX parsing temporarily disabled');
     // const { DocxLoader } = await import("@langchain/community/document_loaders/fs/docx");
-    
-    // Determina il tipo di file
-    const isDoc = file.name.toLowerCase().endsWith('.doc');
-    const loaderOptions = isDoc 
-      ? { type: "doc" as const }
-      : { type: "docx" as const };
-    
-    const loader = new DocxLoader(file, loaderOptions);
-    const docs = await loader.load();
-    const text = docs
-      .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
-      .filter(Boolean)
-      .join("\n\n");
-
-    return {
-      text,
-      metadata: {
-        title: file.name.replace(/\.(doc|docx)$/i, ""),
-        wordCount: countWords(text),
-        charCount: text.length,
-      },
-    };
+    // const isDoc = file.name.toLowerCase().endsWith('.doc');
+    // const loaderOptions = isDoc 
+    //   ? { type: "doc" as const }
+    //   : { type: "docx" as const };
+    // const loader = new DocxLoader(file, loaderOptions);
+    // const docs = await loader.load();
+    // const text = docs
+    //   .map((d: { pageContent?: string }) => (d.pageContent || "").trim())
+    //   .filter(Boolean)
+    //   .join("\n\n");
+    // return {
+    //   text,
+    //   metadata: {
+    //     title: file.name.replace(/\.(doc|docx)$/i, ""),
+    //     wordCount: countWords(text),
+    //     charCount: text.length,
+    //   },
+    // };
   } catch (error) {
     console.error("Failed to parse DOC/DOCX file:", error);
     throw new Error(`Failed to parse DOC/DOCX: ${error instanceof Error ? error.message : 'Unknown error'}`);

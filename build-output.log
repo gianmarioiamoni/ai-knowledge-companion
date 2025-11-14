@@ -1,0 +1,176 @@
+
+> ai-knowledge-companion@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.4
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · serverActions
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 7.5s
+   Skipping validation of types
+   Linting ...
+(node:44532) ESLintIgnoreWarning: The ".eslintignore" file is no longer supported. Switch to using the "ignores" property in "eslint.config.js": https://eslint.org/docs/latest/use/configure/migration-guide#ignoring-files
+(Use `node --trace-warnings ...` to show where the warning was created)
+   Collecting page data ...
+(node:44551) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44554) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44557) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44556) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44553) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44559) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44552) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✅ Redis initialized for rate limiting
+✅ Redis initialized for rate limiting
+(node:44555) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44558) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✅ Redis initialized for rate limiting
+✅ Redis initialized for rate limiting
+   Generating static pages (0/77) ...
+✅ Redis initialized for rate limiting
+(node:44579) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44578) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:44580) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Generating static pages (19/77) 
+✅ Redis initialized for rate limiting
+   Generating static pages (38/77) 
+(node:44581) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+   Generating static pages (57/77) 
+ ✓ Generating static pages (77/77)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                      Size  First Load JS
+┌ ○ /_not-found                                 271 B         103 kB
+├ ● /[locale]                                 3.53 kB         137 kB
+├   ├ /en
+├   └ /it
+├ ● /[locale]/admin/billing                   2.83 kB         209 kB
+├   ├ /en/admin/billing
+├   └ /it/admin/billing
+├ ● /[locale]/admin/dashboard                 7.07 kB         184 kB
+├   ├ /en/admin/dashboard
+├   └ /it/admin/dashboard
+├ ● /[locale]/admin/users                     6.88 kB         231 kB
+├   ├ /en/admin/users
+├   └ /it/admin/users
+├ ƒ /[locale]/auth/callback                     271 B         103 kB
+├ ● /[locale]/auth/login                      4.91 kB         209 kB
+├   ├ /en/auth/login
+├   └ /it/auth/login
+├ ● /[locale]/auth/signup                     4.92 kB         209 kB
+├   ├ /en/auth/signup
+├   └ /it/auth/signup
+├ ● /[locale]/billing                         9.53 kB         186 kB
+├   ├ /en/billing
+├   └ /it/billing
+├ ● /[locale]/chat                            9.99 kB         229 kB
+├   ├ /en/chat
+├   └ /it/chat
+├ ● /[locale]/cookie-policy                     167 B         106 kB
+├   ├ /en/cookie-policy
+├   └ /it/cookie-policy
+├ ● /[locale]/dashboard                        6.3 kB         224 kB
+├   ├ /en/dashboard
+├   └ /it/dashboard
+├ ● /[locale]/documents                       12.8 kB         205 kB
+├   ├ /en/documents
+├   └ /it/documents
+├ ● /[locale]/marketplace                     13.9 kB         205 kB
+├   ├ /en/marketplace
+├   └ /it/marketplace
+├ ● /[locale]/multimedia                      30.6 kB         175 kB
+├   ├ /en/multimedia
+├   └ /it/multimedia
+├ ● /[locale]/plans                              3 kB         232 kB
+├   ├ /en/plans
+├   └ /it/plans
+├ ● /[locale]/privacy-policy                    271 B         103 kB
+├   ├ /en/privacy-policy
+├   └ /it/privacy-policy
+├ ● /[locale]/profile                         12.8 kB         254 kB
+├   ├ /en/profile
+├   └ /it/profile
+├ ● /[locale]/terms-of-service                  271 B         103 kB
+├   ├ /en/terms-of-service
+├   └ /it/terms-of-service
+├ ● /[locale]/tutors                          18.6 kB         238 kB
+├   ├ /en/tutors
+├   └ /it/tutors
+├ ƒ /api/admin/billing                          271 B         103 kB
+├ ƒ /api/admin/bootstrap                        271 B         103 kB
+├ ƒ /api/admin/reprocess-document               271 B         103 kB
+├ ƒ /api/admin/tutors/[tutorId]/visibility      271 B         103 kB
+├ ƒ /api/admin/users                            271 B         103 kB
+├ ƒ /api/admin/users/[userId]                   271 B         103 kB
+├ ƒ /api/admin/users/[userId]/reset-password    271 B         103 kB
+├ ƒ /api/admin/users/[userId]/role              271 B         103 kB
+├ ƒ /api/admin/users/[userId]/status            271 B         103 kB
+├ ƒ /api/chat/conversations                     271 B         103 kB
+├ ƒ /api/chat/conversations/[id]                271 B         103 kB
+├ ƒ /api/chat/conversations/[id]/archive        271 B         103 kB
+├ ƒ /api/chat/messages                          271 B         103 kB
+├ ƒ /api/chat/send                              271 B         103 kB
+├ ƒ /api/documents                              271 B         103 kB
+├ ƒ /api/documents/create                       271 B         103 kB
+├ ƒ /api/documents/process                      271 B         103 kB
+├ ƒ /api/marketplace                            271 B         103 kB
+├ ƒ /api/marketplace/[id]                       271 B         103 kB
+├ ƒ /api/marketplace/[id]/fork                  271 B         103 kB
+├ ƒ /api/marketplace/[id]/review                271 B         103 kB
+├ ƒ /api/marketplace/[id]/view                  271 B         103 kB
+├ ƒ /api/marketplace/categories                 271 B         103 kB
+├ ƒ /api/multimedia                             271 B         103 kB
+├ ƒ /api/multimedia/[id]                        271 B         103 kB
+├ ƒ /api/multimedia/[id]/preview                271 B         103 kB
+├ ƒ /api/multimedia/process                     271 B         103 kB
+├ ƒ /api/multimedia/status                      271 B         103 kB
+├ ƒ /api/multimedia/upload                      271 B         103 kB
+├ ƒ /api/multimedia/worker                      271 B         103 kB
+├ ƒ /api/profile/change-password                271 B         103 kB
+├ ƒ /api/profile/delete-account                 271 B         103 kB
+├ ƒ /api/profile/update                         271 B         103 kB
+├ ƒ /api/stripe/create-checkout-session         271 B         103 kB
+├ ƒ /api/stripe/create-portal-session           271 B         103 kB
+├ ƒ /api/subscriptions/cancel                   271 B         103 kB
+├ ƒ /api/subscriptions/check-limit              271 B         103 kB
+├ ƒ /api/subscriptions/current                  271 B         103 kB
+├ ƒ /api/subscriptions/plans                    271 B         103 kB
+├ ƒ /api/subscriptions/upgrade                  271 B         103 kB
+├ ƒ /api/tutors/[id]                            271 B         103 kB
+├ ƒ /api/tutors/[id]/multimedia                 271 B         103 kB
+├ ƒ /api/tutors/[id]/multimedia/[documentId]    271 B         103 kB
+├ ƒ /api/tutors/create                          271 B         103 kB
+├ ƒ /api/tutors/link-document                   271 B         103 kB
+├ ƒ /api/tutors/list                            271 B         103 kB
+├ ƒ /api/tutors/unlink-document                 271 B         103 kB
+├ ƒ /api/user/delete-account                    271 B         103 kB
+├ ƒ /api/user/export-data                       271 B         103 kB
+├ ƒ /api/webhooks/stripe                        271 B         103 kB
+├ ○ /manifest.webmanifest                       271 B         103 kB
+├ ○ /robots.txt                                 271 B         103 kB
+└ ○ /sitemap.xml                                271 B         103 kB
++ First Load JS shared by all                  102 kB
+  ├ chunks/1278-2381037a8c5dbdf1.js           46.1 kB
+  ├ chunks/dba6f266-18cd31fa2fa41c73.js       54.2 kB
+  └ other shared chunks (total)               1.95 kB
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

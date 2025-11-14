@@ -41,7 +41,7 @@ export function useLoginForm() {
           .from('profiles')
           .select('role')
           .eq('id', user.id)
-          .single()
+          .single<{ role: string }>()
         
         // Redirect admin/super_admin to admin dashboard
         if (profile && (profile.role === 'admin' || profile.role === 'super_admin')) {

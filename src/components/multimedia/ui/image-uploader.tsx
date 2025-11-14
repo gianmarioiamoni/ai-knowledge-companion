@@ -110,7 +110,7 @@ export function ImageUploader({ onUploadComplete }: ImageUploaderProps): JSX.Ele
       })
 
       return true
-    } catch (_error) {
+    } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Upload failed'
       setImages(prev => {
         const updated = [...prev]

@@ -7,7 +7,7 @@ import { withRateLimit } from '@/lib/middleware/rate-limit-guard';
 import { sanitize } from '@/lib/utils/log-sanitizer';
 
 // POST /api/chat/send - Send message with RAG (with rate limiting and log sanitization)
-export const POST = withRateLimit('ai', async (request: NextRequest, { roleInfo: _roleInfo }) => {
+export const POST = withRateLimit('ai', async (request: NextRequest, _context) => {
   try {
     const supabase = await createClient();
     const { data: { user }, error: authError } = await supabase.auth.getUser();

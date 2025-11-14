@@ -8,14 +8,14 @@ export const createConversationSchema = z.object({
     .min(1, 'Title is required')
     .max(255, 'Title too long')
     .optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 // Schema for creating a new message
 export const createMessageSchema = z.object({
   conversation_id: z.string().uuid('Invalid conversation ID'),
   role: z.enum(MESSAGE_ROLES, {
-    errorMap: () => ({ message: 'Invalid message role' })
+    message: 'Invalid message role'
   }),
   content: z.string()
     .min(1, 'Message content is required')
@@ -32,7 +32,7 @@ export const createMessageSchema = z.object({
     .min(0, 'Temperature must be >= 0')
     .max(2, 'Temperature must be <= 2')
     .optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 // Schema for updating a conversation
@@ -42,7 +42,7 @@ export const updateConversationSchema = z.object({
     .max(255, 'Title too long')
     .optional(),
   is_archived: z.boolean().optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 // Schema for chat request (user message)

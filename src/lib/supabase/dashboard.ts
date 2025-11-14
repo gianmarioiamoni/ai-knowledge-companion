@@ -44,35 +44,39 @@ export async function getDashboardStats(): Promise<{ data?: DashboardStats; erro
         .eq('user_id', user.id),
       
       // Conta messaggi totali (tramite conversazioni)
-      supabase
-        .from('conversations')
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      (supabase
+        .from('conversations') as any)
         .select('id')
         .eq('user_id', user.id)
-        .then(async (conversationsData) => {
+        .then(async (conversationsData: any) => {
           if (conversationsData.error || !conversationsData.data?.length) {
             return { count: 0 };
           }
           
-          const conversationIds = conversationsData.data.map(c => c.id);
+          const conversationIds = conversationsData.data.map((c: any) => c.id);
           return supabase
             .from('messages')
             .select('*', { count: 'exact', head: true })
             .in('conversation_id', conversationIds);
         }),
+      /* eslint-enable @typescript-eslint/no-explicit-any */
       
       // Conta API calls (dalla tabella usage_logs)
-      supabase
-        .from('usage_logs')
+      /* eslint-disable @typescript-eslint/no-explicit-any */
+      (supabase
+        .from('usage_logs') as any)
         .select('api_calls', { count: 'exact' })
         .eq('user_id', user.id)
-        .then(async (result) => {
+        .then(async (result: any) => {
           if (result.error || !result.data?.length) {
             return { totalApiCalls: 0 };
           }
           
-          const totalApiCalls = result.data.reduce((sum, log) => sum + (log.api_calls || 0), 0);
+          const totalApiCalls = result.data.reduce((sum: number, log: any) => sum + (log.api_calls || 0), 0);
           return { totalApiCalls };
         })
+      /* eslint-enable @typescript-eslint/no-explicit-any */
     ]);
 
     // Gestisci errori

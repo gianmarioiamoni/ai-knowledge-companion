@@ -8,9 +8,10 @@ import { removeMultimediaFromTutor } from "@/lib/supabase/multimedia";
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string; documentId: string } }
+  { params }: { params: Promise<{ id: string; documentId: string }> }
 ) {
   try {
+    const { id: tutorId, documentId } = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -25,7 +26,7 @@ export async function DELETE(
     const { data: tutor } = await supabase
       .from("tutors")
       .select("owner_id")
-      .eq("id", params.id)
+      .eq("id", tutorId)
       .single();
 
     if (!tutor || tutor.owner_id !== user.id) {
@@ -33,8 +34,8 @@ export async function DELETE(
     }
 
     const { success, error } = await removeMultimediaFromTutor(
-      params.id,
-      params.documentId
+      tutorId,
+      documentId
     );
 
     if (error) {

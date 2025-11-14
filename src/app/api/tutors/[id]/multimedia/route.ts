@@ -12,9 +12,10 @@ import {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: tutorId } = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -29,14 +30,14 @@ export async function GET(
     const { data: tutor } = await supabase
       .from("tutors")
       .select("owner_id")
-      .eq("id", params.id)
+      .eq("id", tutorId)
       .single();
 
     if (!tutor || tutor.owner_id !== user.id) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
     }
 
-    const { items, error } = await getTutorMultimedia(params.id);
+    const { items, error } = await getTutorMultimedia(tutorId);
 
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
@@ -59,9 +60,10 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id: tutorId } = await params;
     const supabase = await createClient();
     const {
       data: { user },
@@ -76,7 +78,7 @@ export async function POST(
     const { data: tutor } = await supabase
       .from("tutors")
       .select("owner_id")
-      .eq("id", params.id)
+      .eq("id", tutorId)
       .single();
 
     if (!tutor || tutor.owner_id !== user.id) {
@@ -93,7 +95,7 @@ export async function POST(
     }
 
     const { success, associated, error } = await associateMultimediaWithTutor(
-      params.id,
+      tutorId,
       documentIds
     );
 

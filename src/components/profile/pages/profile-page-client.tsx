@@ -2,7 +2,7 @@
 
 import { JSX } from 'react'
 import { useProfile } from '@/hooks/use-profile'
-import type { ProfileUpdate } from '@/lib/supabase/profile'
+import type { ProfileUpdate } from '@/types/profile'
 import { useTranslations } from 'next-intl'
 import { AvatarUpload, ProfileForm, PasswordChange, DeleteAccount } from '../ui'
 import { SubscriptionCard } from '@/components/plans/ui'

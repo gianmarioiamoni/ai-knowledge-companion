@@ -59,6 +59,19 @@ export interface ConversationInsert {
   metadata?: Record<string, any>;
 }
 
+export interface ConversationQueryInput {
+  tutor_id?: string;
+  archived?: boolean;
+  limit?: number;
+  offset?: number;
+}
+
+export interface MessageQueryInput {
+  conversation_id: string;
+  limit?: number;
+  offset?: number;
+}
+
 export interface MessageInsert {
   conversation_id: string;
   role: MessageRole;
