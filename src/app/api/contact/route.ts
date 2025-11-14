@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { contactRequestSchema } from '@/lib/schemas/contact';
-import { sendAdminNotification, sendUserConfirmation } from '@/lib/email/resend';
 import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 
 /**
  * POST /api/contact
  * Handle contact form submissions
  * - Validate form data
- * - Send notification email to admins
- * - Send confirmation email to user
+ * - Save message to database
  * - Public route (accessible to authenticated and unauthenticated users)
  */
 export async function POST(request: NextRequest) {
@@ -30,6 +29,7 @@ export async function POST(request: NextRequest) {
     }
 
     const data = validation.data;
+    let userId: string | null = null;
 
     // If user claims to be authenticated, verify it
     if (data.isAuthenticated) {
@@ -41,46 +41,54 @@ export async function POST(request: NextRequest) {
         console.warn('Contact form: User claimed authenticated but verification failed');
         data.isAuthenticated = false;
       } else {
-        // Use authenticated user's email
+        // Use authenticated user's email and ID
+        userId = user.id;
         data.email = user.email || data.email;
       }
     }
 
-    // Send email notifications
-    const [adminResult, userResult] = await Promise.allSettled([
-      sendAdminNotification(data),
-      sendUserConfirmation(data),
-    ]);
+    // Get request metadata
+    const userAgent = request.headers.get('user-agent') || undefined;
+    const forwardedFor = request.headers.get('x-forwarded-for');
+    const ipAddress = forwardedFor ? forwardedFor.split(',')[0] : request.headers.get('x-real-ip') || undefined;
 
-    // Check admin notification result (critical)
-    if (adminResult.status === 'rejected') {
-      console.error('Failed to send admin notification:', adminResult.reason);
+    // Save message to database using service client (bypasses RLS)
+    const serviceClient = createServiceClient();
+    const { data: savedMessage, error: saveError } = await serviceClient
+      .from('contact_messages')
+      .insert({
+        user_id: userId,
+        name: data.name,
+        email: data.email,
+        subject: data.subject,
+        category: data.category,
+        message: data.message,
+        is_authenticated: data.isAuthenticated,
+        user_agent: userAgent,
+        ip_address: ipAddress,
+        status: 'pending',
+        priority: 'normal',
+      })
+      .select()
+      .single();
+
+    if (saveError) {
+      console.error('Failed to save contact message:', saveError);
       return NextResponse.json(
-        { error: 'Failed to send notification to administrators' },
+        { error: 'Failed to save your message. Please try again.' },
         { status: 500 }
       );
-    }
-
-    if (!adminResult.value.success) {
-      console.error('Admin notification failed:', adminResult.value.error);
-      return NextResponse.json(
-        { error: 'Failed to send notification to administrators' },
-        { status: 500 }
-      );
-    }
-
-    // Check user confirmation result (non-critical, log but don't fail)
-    if (userResult.status === 'rejected') {
-      console.error('Failed to send user confirmation:', userResult.reason);
-    } else if (!userResult.value.success) {
-      console.error('User confirmation failed:', userResult.value.error);
     }
 
     // Return success
     return NextResponse.json(
       { 
         success: true, 
-        message: 'Your message has been sent successfully. We will respond within 2 business days.' 
+        message: 'Your message has been sent successfully. We will respond within 2 business days.',
+        data: {
+          id: savedMessage.id,
+          created_at: savedMessage.created_at,
+        }
       },
       { status: 200 }
     );

@@ -29,7 +29,7 @@ export function useFooterLinks(locale: string): FooterLinks {
     ],
     support: [
       { label: t('support.profile'), href: `/${locale}/profile` },
-      { label: t('support.contact'), href: 'mailto:support@aiknowledgecompanion.com', isExternal: true },
+      { label: t('support.contact'), href: `/${locale}/contact` },
     ],
     legal: [
       { label: t('legal.privacy'), href: `/${locale}/privacy-policy` },
