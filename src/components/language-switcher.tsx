@@ -32,13 +32,13 @@ export function LanguageSwitcher(): JSX.Element {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-1 sm:gap-2 px-2 sm:px-4">
-          <Languages className="h-3 w-3 sm:h-4 sm:w-4" />
-          <span className="text-xs sm:text-sm">
-            {currentLanguage?.flag}
-            <span className="hidden sm:inline ml-1">{currentLanguage?.name}</span>
-          </span>
-        </Button>
+        <button 
+          className="flex items-center gap-1 px-2 py-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          aria-label="Change language"
+        >
+          <Languages className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+          <span className="text-base">{currentLanguage?.flag}</span>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="min-w-[140px]">
         {languages.map((language) => (
