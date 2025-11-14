@@ -53,19 +53,43 @@ export async function updateSession(request: NextRequest) {
   const pathWithoutLocale = request.nextUrl.pathname.replace(/^\/[a-z]{2}/, '') || '/'
   const isPublicRoute = publicRoutes.includes(pathWithoutLocale)
 
+  // DEBUG: Add headers to see what's happening (visible in browser Network tab)
+  supabaseResponse.headers.set('X-Debug-Pathname', request.nextUrl.pathname)
+  supabaseResponse.headers.set('X-Debug-Locale', locale)
+  supabaseResponse.headers.set('X-Debug-PathWithoutLocale', pathWithoutLocale)
+  supabaseResponse.headers.set('X-Debug-IsPublicRoute', String(isPublicRoute))
+  supabaseResponse.headers.set('X-Debug-HasUser', String(!!user))
+  supabaseResponse.headers.set('X-Debug-LocaleMatch', String(!!localeMatch))
+
   // If no user and trying to access protected route, redirect to login (with locale)
   if (!user && !isPublicRoute) {
     const url = request.nextUrl.clone()
     url.pathname = `/${locale}/auth/login`
-    return NextResponse.redirect(url)
+    const redirectResponse = NextResponse.redirect(url)
+    
+    // Add debug headers to redirect response too
+    redirectResponse.headers.set('X-Debug-Action', 'REDIRECT-TO-LOGIN')
+    redirectResponse.headers.set('X-Debug-Reason', 'no-user-protected-route')
+    redirectResponse.headers.set('X-Debug-PathWithoutLocale', pathWithoutLocale)
+    
+    return redirectResponse
   }
 
   // If user is authenticated and trying to access auth pages, redirect to dashboard (with locale)
   if (user && (pathWithoutLocale === '/auth/login' || pathWithoutLocale === '/auth/signup')) {
     const url = request.nextUrl.clone()
     url.pathname = `/${locale}/dashboard`
-    return NextResponse.redirect(url)
+    const redirectResponse = NextResponse.redirect(url)
+    
+    // Add debug headers to redirect response too
+    redirectResponse.headers.set('X-Debug-Action', 'REDIRECT-TO-DASHBOARD')
+    redirectResponse.headers.set('X-Debug-Reason', 'user-on-auth-page')
+    
+    return redirectResponse
   }
+
+  // Add success header
+  supabaseResponse.headers.set('X-Debug-Action', 'ALLOW-ACCESS')
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:
