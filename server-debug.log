@@ -114,3 +114,91 @@
  GET /en/contact 200 in 117ms
  GET /manifest.webmanifest 200 in 19ms
  ✓ Compiled in 573ms (1571 modules)
+ ✓ Compiled /_not-found in 274ms (921 modules)
+ ⨯ Error: Cannot find module './4439.js'
+Require stack:
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/webpack-runtime.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/app/_not-found/page.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/require.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/load-components.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/utils.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/options.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/index.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/next.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/_not-found/page.js:2:8866)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:2:8918) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ ○ Compiling /_error ...
+ ✓ Compiled /_error in 800ms (1878 modules)
+ GET / 500 in 3834ms
+ ⨯ Error: Cannot find module './4439.js'
+Require stack:
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/webpack-runtime.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/app/_not-found/page.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/require.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/load-components.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/utils.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/options.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/index.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/next.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/_not-found/page.js:2:8866)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:2:8918) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 19ms
+ ⨯ Error: Cannot find module './4439.js'
+Require stack:
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/webpack-runtime.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/app/_not-found/page.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/require.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/load-components.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/utils.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/options.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/index.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/next.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/_not-found/page.js:2:8866)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:2:8918) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 26ms
+ ✓ Compiled /favicon.ico in 140ms (1126 modules)
+ GET /favicon.ico 200 in 235ms
+ ⨯ Error: Cannot find module './4439.js'
+Require stack:
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/webpack-runtime.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/.next/server/app/favicon.ico/route.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/require.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/load-components.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/utils.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/options.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/swc/index.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/build/next-config-ts/transpile-config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/config.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/next.js
+- /Users/gianmarioiamoni/PROGRAMMAZIONE/Projects/ai-knowledge-companion/node_modules/.pnpm/next@15.5.4_@babel+core@7.28.4_@playwright+test@1.56.1_react-dom@19.1.0_react@19.1.0__react@19.1.0/node_modules/next/dist/server/lib/start-server.js
+    at <unknown> (.next/server/app/_not-found/page.js:2:8866)
+    at Object.<anonymous> (.next/server/app/_not-found/page.js:2:8918) {
+  code: 'MODULE_NOT_FOUND',
+  requireStack: [Array]
+}
+ GET / 500 in 19ms
+ GET /favicon.ico 200 in 23ms
+ ✓ Compiled in 1873ms (1891 modules)
+ ✓ Compiled in 540ms (1891 modules)
+ ✓ Compiled in 544ms (1891 modules)
+ ✓ Compiled in 641ms (1891 modules)
+ ✓ Compiled in 459ms (1891 modules)
+ ✓ Compiled in 2.2s (1891 modules)

@@ -82,7 +82,7 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
   }
 
   return (
-    <nav className="hidden md:flex items-center gap-2 lg:gap-3">
+    <nav className="hidden md:flex items-center gap-1 lg:gap-2 xl:gap-3 flex-nowrap">
       {visibleItems.map((item) => {
         const key = item.href || item.label
         const hasSubItems = item.subItems && item.subItems.length > 0
@@ -93,13 +93,13 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
           return (
             <div
               key={key}
-              className="relative"
+              className="relative flex-shrink-0"
               onMouseEnter={() => setOpenDropdown(key)}
               onMouseLeave={() => setOpenDropdown(null)}
             >
               <button
                 className={cn(
-                  "relative px-4 py-2 text-sm lg:text-base font-medium rounded-lg transition-all duration-200 flex items-center gap-1",
+                  "relative px-2 md:px-3 lg:px-4 py-2 text-xs md:text-sm lg:text-base font-medium rounded-lg transition-all duration-200 flex items-center gap-1 whitespace-nowrap",
                   isActive
                     ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 shadow-sm"
                     : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800/50"
@@ -108,7 +108,7 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
                 {item.label}
                 <ChevronDown
                   className={cn(
-                    "h-4 w-4 transition-transform duration-200",
+                    "h-3 w-3 md:h-4 md:w-4 transition-transform duration-200",
                     openDropdown === key && "rotate-180"
                   )}
                 />
@@ -146,7 +146,7 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
             key={key}
             href={item.href!}
             className={cn(
-              "relative px-4 py-2 text-sm lg:text-base font-medium rounded-lg transition-all duration-200",
+              "relative px-2 md:px-3 lg:px-4 py-2 text-xs md:text-sm lg:text-base font-medium rounded-lg transition-all duration-200 whitespace-nowrap flex-shrink-0",
               isActive
                 ? "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 shadow-sm"
                 : "text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800/50"
