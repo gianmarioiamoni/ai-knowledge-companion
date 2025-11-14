@@ -56,8 +56,7 @@ async function initializeTransporter(): Promise<void> {
     });
 
     isConfigured = true;
-    console.info('✅ Gmail SMTP configured successfully');
-    console.info(`📧 Email service ready: ${gmailUser}`);
+    console.log('✅ Gmail SMTP configured successfully');
   } catch (error) {
     console.error('❌ Failed to configure Gmail SMTP:', sanitize(error));
   }
@@ -146,7 +145,7 @@ export async function verifyEmailConnection(): Promise<boolean> {
     }
 
     await transporter.verify();
-    console.info('✅ Gmail SMTP connection verified');
+    console.log('✅ Gmail SMTP connection verified');
     return true;
   } catch (error) {
     console.error('❌ Gmail SMTP verification failed:', sanitize(error));

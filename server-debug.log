@@ -1,0 +1,116 @@
+
+> ai-knowledge-companion@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.12:3000
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · serverActions
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 1430ms (562 modules)
+ GET / 307 in 1654ms
+ ○ Compiling /[locale] ...
+ ✓ Compiled /[locale] in 2000ms (1387 modules)
+(node:9735) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ GET /en 200 in 2768ms
+ ○ Compiling /api/contact/test ...
+ ✓ Compiled /api/contact/test in 725ms (1426 modules)
+🔍 [DEBUG] Verifying Gmail SMTP connection...
+🔍 [DEBUG] Email Service Init:
+  - GMAIL_USER: ✅ Set
+  - GMAIL_APP_PASSWORD: ✅ Set (length: 16)
+🔍 [DEBUG] Importing nodemailer...
+🔍 [DEBUG] Creating Gmail SMTP transporter...
+✅ Gmail SMTP configured successfully
+📧 Email service ready: gianmarioiamoni1@gmail.com
+🔍 [DEBUG] Transporter exists, calling verify()...
+❌ Gmail SMTP verification failed: {
+  code: 'EAUTH',
+  response: '535-5.7.8 Username and password=[REDACTED] accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4779527a656sm15708635e9.10 - gsmtp',
+  responseCode: 535,
+  command: 'AUTH PLAIN'
+}
+🔍 [DEBUG] Full verification error: [Error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4779527a656sm15708635e9.10 - gsmtp] {
+  code: 'EAUTH',
+  response: '535-5.7.8 Username and Password not accepted. For more information, go to\n' +
+    '535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4779527a656sm15708635e9.10 - gsmtp',
+  responseCode: 535,
+  command: 'AUTH PLAIN'
+}
+🔍 [DEBUG] Error name: Error
+🔍 [DEBUG] Error message: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4779527a656sm15708635e9.10 - gsmtp
+🔍 [DEBUG] Error stack: Error: Invalid login: 535-5.7.8 Username and Password not accepted. For more information, go to
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 5b1f17b1804b1-4779527a656sm15708635e9.10 - gsmtp
+    at SMTPConnection._formatError (webpack-internal:///(rsc)/./node_modules/.pnpm/nodemailer@7.0.10/node_modules/nodemailer/lib/smtp-connection/index.js:809:19)
+    at SMTPConnection._actionAUTHComplete (webpack-internal:///(rsc)/./node_modules/.pnpm/nodemailer@7.0.10/node_modules/nodemailer/lib/smtp-connection/index.js:1595:34)
+    at SMTPConnection.eval (webpack-internal:///(rsc)/./node_modules/.pnpm/nodemailer@7.0.10/node_modules/nodemailer/lib/smtp-connection/index.js:556:26)
+    at SMTPConnection._processResponse (webpack-internal:///(rsc)/./node_modules/.pnpm/nodemailer@7.0.10/node_modules/nodemailer/lib/smtp-connection/index.js:993:20)
+    at SMTPConnection._onData (webpack-internal:///(rsc)/./node_modules/.pnpm/nodemailer@7.0.10/node_modules/nodemailer/lib/smtp-connection/index.js:774:14)
+    at SMTPConnection._onSocketData (webpack-internal:///(rsc)/./node_modules/.pnpm/nodemailer@7.0.10/node_modules/nodemailer/lib/smtp-connection/index.js:195:44)
+    at TLSSocket.emit (node:events:507:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:189:23)
+    at TLSWrap.callbackTrampoline (node:internal/async_hooks:130:17)
+ GET /api/contact/test 200 in 2521ms
+   Reload env: .env.local
+ ✓ Compiled in 2.4s (1386 modules)
+ ○ Compiling /api/contact/test ...
+ ✓ Compiled /api/contact/test in 855ms (891 modules)
+🔍 [DEBUG] Verifying Gmail SMTP connection...
+🔍 [DEBUG] Email Service Init:
+  - GMAIL_USER: ✅ Set
+  - GMAIL_APP_PASSWORD: ✅ Set (length: 16)
+🔍 [DEBUG] Importing nodemailer...
+🔍 [DEBUG] Creating Gmail SMTP transporter...
+✅ Gmail SMTP configured successfully
+📧 Email service ready: gianmarioiamoni1@gmail.com
+🔍 [DEBUG] Transporter exists, calling verify()...
+✅ Gmail SMTP connection verified
+ GET /api/contact/test 200 in 1966ms
+ ✓ Compiled /favicon.ico in 444ms (893 modules)
+ GET /favicon.ico 200 in 515ms
+ ✓ Compiled /_not-found in 145ms (894 modules)
+ GET / 307 in 281ms
+ GET /en 200 in 220ms
+ ✓ Compiled /[locale]/contact in 476ms (1603 modules)
+ GET /en/contact 200 in 916ms
+ ✓ Compiled /manifest.webmanifest in 180ms (1607 modules)
+ GET /manifest.webmanifest 200 in 254ms
+ ✓ Compiled /api/contact in 425ms (1765 modules)
+🔍 [DEBUG] Email Service Init:
+  - GMAIL_USER: ✅ Set
+  - GMAIL_APP_PASSWORD: ✅ Set (length: 16)
+🔍 [DEBUG] Importing nodemailer...
+🔍 [DEBUG] Creating Gmail SMTP transporter...
+✅ Gmail SMTP configured successfully
+📧 Email service ready: gianmarioiamoni1@gmail.com
+✅ Email sent successfully
+📧 To: [ 'gianmarioiamoni1@gmail.com' ]
+📧 Subject: [AI Knowledge Companion] 🛠️ Supporto Tecnico: Prova form
+📧 Message ID: <d0789126-3d7f-e677-6767-ad2f947d89ce@gmail.com>
+✅ Email sent successfully
+📧 To: [ 'gia.iamoni@tiscali.it' ]
+📧 Subject: Messaggio ricevuto - AI Knowledge Companion
+📧 Message ID: <bcbb922b-d090-4c06-328d-34218ce6d5c6@gmail.com>
+📊 Rate limit: gia.iamoni@tiscali.it - 1/5 used
+📝 Contact submission: {"type":"contact_form_submission","email":"gia.iamoni@tiscali.it","category":"support","isAuthenticated":true,"emailSent":true,"timestamp":"2025-11-14T17:05:03.998Z"}
+ POST /api/contact 200 in 3073ms
+ ✓ Compiled in 397ms (1552 modules)
+ GET /en/contact 200 in 199ms
+ ✓ Compiled /manifest.webmanifest in 106ms (939 modules)
+ GET /manifest.webmanifest 200 in 149ms
+ ✓ Compiled in 184ms (632 modules)
+ GET /en/contact 200 in 117ms
+ GET /manifest.webmanifest 200 in 19ms
+ ✓ Compiled in 573ms (1571 modules)
