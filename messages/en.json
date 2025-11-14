@@ -48,7 +48,8 @@
     "adminBilling": "Billing",
     "privacy-policy": "Privacy Policy",
     "terms-of-service": "Terms of Service",
-    "cookie-policy": "Cookie Policy"
+    "cookie-policy": "Cookie Policy",
+    "contact": "Contact"
   },
   "breadcrumb": {
     "ariaLabel": "Breadcrumb navigation",
@@ -1389,5 +1390,55 @@
     },
     "rights": "All rights reserved.",
     "gdprCompliant": "🇪🇺 GDPR Compliant"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have a question or need help? We're here to assist you.",
+    "form": {
+      "name": "Your Name",
+      "namePlaceholder": "John Doe",
+      "nameRequired": "Name is required",
+      "email": "Your Email",
+      "emailPlaceholder": "your.email@example.com",
+      "emailRequired": "Email is required",
+      "emailInvalid": "Please enter a valid email address",
+      "subject": "Subject",
+      "subjectPlaceholder": "How can we help you?",
+      "subjectRequired": "Subject is required",
+      "category": "Category",
+      "categoryPlaceholder": "Select a category",
+      "categoryRequired": "Category is required",
+      "categories": {
+        "general": "General Inquiry",
+        "support": "Technical Support",
+        "bug": "Bug Report",
+        "feature": "Feature Request",
+        "billing": "Billing Question",
+        "other": "Other"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Please describe your inquiry in detail...",
+      "messageRequired": "Message is required",
+      "messageMinLength": "Message must be at least 10 characters",
+      "submit": "Send Message",
+      "submitting": "Sending...",
+      "cancel": "Cancel"
+    },
+    "success": {
+      "title": "Message Sent Successfully!",
+      "description": "Thank you for contacting us. We have received your message and will respond within 2 business days.",
+      "backToHome": "Back to Home"
+    },
+    "error": {
+      "title": "Failed to Send Message",
+      "description": "An error occurred while sending your message. Please try again or contact us directly.",
+      "tryAgain": "Try Again"
+    },
+    "info": {
+      "authenticatedUser": "We'll reply to the email address associated with your account: {email}",
+      "guestUser": "As a guest, please provide your email so we can respond to you.",
+      "responseTime": "Expected response time: 2 business days",
+      "privacy": "Your information is protected and will only be used to respond to your inquiry."
+    }
   }
 }

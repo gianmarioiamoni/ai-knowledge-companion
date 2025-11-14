@@ -591,6 +591,7 @@ See [`src/types/database.ts`](./src/types/database.ts) for complete schema.
 | [Authorization Setup](./docs/AUTHORIZATION_SETUP.md) | Auth and RLS configuration |
 | [Super Admin Setup](./docs/SUPER_ADMIN_SETUP.md) | Creating super admin accounts |
 | [Worker Setup](./docs/setup/WORKER_SETUP.md) | Background job configuration |
+| [Contact Form Setup](./docs/CONTACT_FORM_SETUP.md) | Email notifications with Resend |
 
 ### 🎨 Implementation Details
 

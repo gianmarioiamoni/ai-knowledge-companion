@@ -21,6 +21,7 @@ export function DesktopNavigation({ isActivePath }: DesktopNavigationProps): JSX
     { href: '/marketplace', label: t('marketplace') },
     { href: '/billing', label: t('billing') },
     { href: '/dashboard', label: t('dashboard') },
+    { href: '/contact', label: t('contact') },
   ]
 
   return (

@@ -48,7 +48,8 @@
     "adminBilling": "Fatturazione",
     "privacy-policy": "Privacy Policy",
     "terms-of-service": "Termini di Servizio",
-    "cookie-policy": "Cookie Policy"
+    "cookie-policy": "Cookie Policy",
+    "contact": "Contatti"
   },
   "breadcrumb": {
     "ariaLabel": "Navigazione breadcrumb",
@@ -1389,5 +1390,55 @@
     },
     "rights": "Tutti i diritti riservati.",
     "gdprCompliant": "🇪🇺 Conforme al GDPR"
+  },
+  "contact": {
+    "title": "Contattaci",
+    "subtitle": "Hai una domanda o hai bisogno di aiuto? Siamo qui per assisterti.",
+    "form": {
+      "name": "Il Tuo Nome",
+      "namePlaceholder": "Mario Rossi",
+      "nameRequired": "Il nome è obbligatorio",
+      "email": "La Tua Email",
+      "emailPlaceholder": "tua.email@esempio.it",
+      "emailRequired": "L'email è obbligatoria",
+      "emailInvalid": "Inserisci un indirizzo email valido",
+      "subject": "Oggetto",
+      "subjectPlaceholder": "Come possiamo aiutarti?",
+      "subjectRequired": "L'oggetto è obbligatorio",
+      "category": "Categoria",
+      "categoryPlaceholder": "Seleziona una categoria",
+      "categoryRequired": "La categoria è obbligatoria",
+      "categories": {
+        "general": "Richiesta Generale",
+        "support": "Supporto Tecnico",
+        "bug": "Segnalazione Bug",
+        "feature": "Richiesta Funzionalità",
+        "billing": "Domanda su Fatturazione",
+        "other": "Altro"
+      },
+      "message": "Messaggio",
+      "messagePlaceholder": "Descrivi la tua richiesta in dettaglio...",
+      "messageRequired": "Il messaggio è obbligatorio",
+      "messageMinLength": "Il messaggio deve contenere almeno 10 caratteri",
+      "submit": "Invia Messaggio",
+      "submitting": "Invio in corso...",
+      "cancel": "Annulla"
+    },
+    "success": {
+      "title": "Messaggio Inviato con Successo!",
+      "description": "Grazie per averci contattato. Abbiamo ricevuto il tuo messaggio e risponderemo entro 2 giorni lavorativi.",
+      "backToHome": "Torna alla Home"
+    },
+    "error": {
+      "title": "Invio Fallito",
+      "description": "Si è verificato un errore durante l'invio del messaggio. Riprova o contattaci direttamente.",
+      "tryAgain": "Riprova"
+    },
+    "info": {
+      "authenticatedUser": "Risponderemo all'indirizzo email associato al tuo account: {email}",
+      "guestUser": "Come ospite, fornisci la tua email così possiamo risponderti.",
+      "responseTime": "Tempo di risposta previsto: 2 giorni lavorativi",
+      "privacy": "Le tue informazioni sono protette e verranno utilizzate solo per rispondere alla tua richiesta."
+    }
   }
 }

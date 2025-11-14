@@ -8,6 +8,11 @@ export function AuthButtons(): JSX.Element {
 
   return (
     <div className="flex items-center gap-1.5 sm:gap-2">
+      <Link href="/contact">
+        <Button variant="ghost" size="sm" className="text-xs sm:text-sm px-2 sm:px-3">
+          {t('contact')}
+        </Button>
+      </Link>
       <Link href="/auth/login">
         <Button variant="outline" size="sm" className="text-xs sm:text-sm px-2 sm:px-4">
           {t('login')}

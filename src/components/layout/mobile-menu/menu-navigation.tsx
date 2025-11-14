@@ -1,6 +1,6 @@
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { FileText, Users, LayoutDashboard, Store, CreditCard, type LucideIcon } from 'lucide-react'
+import { FileText, Users, LayoutDashboard, Store, CreditCard, MessageSquare, type LucideIcon } from 'lucide-react'
 import type { User } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
 import type { JSX } from 'react'
@@ -25,6 +25,7 @@ export function MenuNavigation({ user, pathname }: MenuNavigationProps): JSX.Ele
     { href: '/marketplace', icon: Store, label: t('marketplace') },
     { href: '/billing', icon: CreditCard, label: t('billing') },
     { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard') },
+    { href: '/contact', icon: MessageSquare, label: t('contact') },
   ]
 
   return (
