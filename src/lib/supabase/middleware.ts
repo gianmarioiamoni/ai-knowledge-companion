@@ -35,20 +35,16 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // IMPORTANT: Handle root path redirect to default locale
-  // This must happen before any other logic to avoid 404
-  if (request.nextUrl.pathname === '/') {
-    const url = request.nextUrl.clone()
-    url.pathname = '/en' // redirect to default locale
-    return NextResponse.redirect(url)
-  }
-
   // Check if we're on a public route that doesn't require auth
+  // Note: The landing page (root) should be accessible without authentication
   const publicRoutes = [
     '/',
     '/auth/login',
     '/auth/signup',
     '/auth/callback',
+    '/privacy-policy',
+    '/terms-of-service',
+    '/cookie-policy',
   ]
   
   // Extract the locale and path
