@@ -36,11 +36,21 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // Extract the locale and path
-  const localeMatch = request.nextUrl.pathname.match(/^\/([a-z]{2})(?:\/|$)/)
+  const pathname = request.nextUrl.pathname
+  const localeMatch = pathname.match(/^\/([a-z]{2})(?:\/|$)/)
   const locale = localeMatch ? localeMatch[1] : 'en'
   const pathWithoutLocale = localeMatch 
-    ? request.nextUrl.pathname.replace(/^\/[a-z]{2}/, '') || '/'
-    : request.nextUrl.pathname
+    ? pathname.replace(/^\/[a-z]{2}/, '') || '/'
+    : pathname
+
+  // DEBUG LOGGING (TEMPORARY)
+  console.log('🔍 Supabase Middleware Debug:', {
+    pathname,
+    locale,
+    pathWithoutLocale,
+    hasUser: !!user,
+    localeMatch: !!localeMatch
+  })
 
   // Check if we're on a public route that doesn't require auth
   // Note: The landing page (root) should be accessible without authentication
@@ -56,12 +66,21 @@ export async function updateSession(request: NextRequest) {
   
   const isPublicRoute = publicRoutes.includes(pathWithoutLocale)
 
+  console.log('🔍 Public Route Check:', {
+    pathWithoutLocale,
+    isPublicRoute,
+    publicRoutes
+  })
+
   // If no user and trying to access protected route, redirect to login
   if (!user && !isPublicRoute) {
+    console.log('❌ Redirecting to login - no user and not public route')
     const url = request.nextUrl.clone()
     url.pathname = `/${locale}/auth/login`
     return NextResponse.redirect(url)
   }
+
+  console.log('✅ Allowing access - public route or authenticated user')
 
   // If user is authenticated and trying to access auth pages, redirect to dashboard
   if (user && (pathWithoutLocale === '/auth/login' || pathWithoutLocale === '/auth/signup')) {
