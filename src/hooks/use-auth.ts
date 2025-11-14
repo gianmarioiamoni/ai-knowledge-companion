@@ -47,13 +47,12 @@ export function useAuth() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
       // Update user state based on session
-      if (!session) {
-        setUser(null)
-        router.push('/auth/login')
-      } else {
-        setUser(session.user);
-      }
+      setUser(session?.user ?? null);
       setLoading(false);
+      
+      // REMOVED: Automatic redirect to login on session loss
+      // The middleware handles auth redirects for protected routes
+      // This allows public pages (landing, auth pages, etc.) to work correctly
     });
 
     return () => subscription.unsubscribe();
