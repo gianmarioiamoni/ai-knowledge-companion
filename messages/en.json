@@ -49,6 +49,7 @@
     "usage": "Usage",
     "account": "Account",
     "userManual": "User Manual",
+    "help": "Help Center",
     "privacy-policy": "Privacy Policy",
     "terms-of-service": "Terms of Service",
     "cookie-policy": "Cookie Policy",
@@ -1387,6 +1388,7 @@
     "support": {
       "title": "Support",
       "profile": "My Profile",
+      "help": "Help Center",
       "contact": "Contact Us"
     },
     "legal": {
@@ -1446,6 +1448,102 @@
       "guestUser": "As a guest, please provide your email so we can respond to you.",
       "responseTime": "Expected response time: 2 business days",
       "privacy": "Your information is protected and will only be used to respond to your inquiry."
+    }
+  },
+  "help": {
+    "title": "Help & Support",
+    "subtitle": "Quick answers to common questions",
+    "quickStart": {
+      "title": "Quick Start Guide",
+      "step1": {
+        "title": "1. Create an Account",
+        "description": "Sign up with email or Google to get started with a free 30-day trial."
+      },
+      "step2": {
+        "title": "2. Upload Documents",
+        "description": "Upload PDFs, Word docs, or multimedia files to build your knowledge base."
+      },
+      "step3": {
+        "title": "3. Create AI Tutor",
+        "description": "Configure a custom AI tutor with your documents and personalized instructions."
+      },
+      "step4": {
+        "title": "4. Start Chatting",
+        "description": "Chat with your tutor and get contextual answers from your documents."
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "account": {
+        "title": "Account & Authentication",
+        "q1": {
+          "question": "How do I reset my password?",
+          "answer": "Click 'Forgot Password?' on the login page, enter your email, and follow the instructions in the reset email."
+        },
+        "q2": {
+          "question": "Can I change my email address?",
+          "answer": "Yes, go to Profile → Edit Profile → Change Email. You'll need to confirm your new email address."
+        },
+        "q3": {
+          "question": "How do I delete my account?",
+          "answer": "Go to Profile → Delete Account. This action is permanent and will delete all your data within 30 days."
+        }
+      },
+      "plans": {
+        "title": "Plans & Billing",
+        "q1": {
+          "question": "What happens after my trial ends?",
+          "answer": "You'll need to choose a paid plan to continue using premium features. You can still access your account but with limited functionality."
+        },
+        "q2": {
+          "question": "Can I cancel my subscription anytime?",
+          "answer": "Yes, you can cancel at any time. You'll retain access until the end of your current billing period."
+        },
+        "q3": {
+          "question": "Do you offer refunds?",
+          "answer": "We offer refunds within 14 days of purchase if you're not satisfied. Contact support for assistance."
+        }
+      },
+      "usage": {
+        "title": "Usage & Limits",
+        "q1": {
+          "question": "How is usage calculated?",
+          "answer": "Usage is tracked based on API calls to OpenAI (chat, embeddings, transcription). Each plan has monthly limits."
+        },
+        "q2": {
+          "question": "What happens if I exceed my limits?",
+          "answer": "Some operations will be blocked until your quota resets or you upgrade to a higher plan."
+        },
+        "q3": {
+          "question": "When does my quota reset?",
+          "answer": "Your quota resets at the beginning of each monthly billing cycle. Check your Usage dashboard for the exact date."
+        }
+      },
+      "tutors": {
+        "title": "AI Tutors",
+        "q1": {
+          "question": "How many tutors can I create?",
+          "answer": "There's no fixed limit, but each tutor consumes quota for processing linked documents."
+        },
+        "q2": {
+          "question": "Can I share my tutors?",
+          "answer": "Yes! Set visibility to 'Public' (marketplace) or 'Unlisted' (share the direct link)."
+        },
+        "q3": {
+          "question": "What's the difference between GPT-3.5 and GPT-4?",
+          "answer": "GPT-4 is more accurate and capable but costs more. GPT-3.5 is faster and more cost-effective for simpler tasks."
+        }
+      }
+    },
+    "support": {
+      "title": "Need More Help?",
+      "description": "Can't find what you're looking for? We're here to help!",
+      "fullManual": "Read Full Manual",
+      "fullManualDesc": "Complete documentation on GitHub (200+ pages)",
+      "contactSupport": "Contact Support",
+      "contactSupportDesc": "Get help via email (2 business days response)",
+      "community": "Join Community",
+      "communityDesc": "Connect with other users"
     }
   }
 }

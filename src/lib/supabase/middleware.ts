@@ -45,6 +45,7 @@ export async function updateSession(request: NextRequest) {
     '/terms-of-service',
     '/cookie-policy',
     '/contact',
+    '/help',
   ]
   
   // Extract the locale and path

@@ -49,6 +49,7 @@
     "usage": "Utilizzo",
     "account": "Account",
     "userManual": "Manuale Utente",
+    "help": "Centro Aiuto",
     "privacy-policy": "Privacy Policy",
     "terms-of-service": "Termini di Servizio",
     "cookie-policy": "Cookie Policy",
@@ -1387,6 +1388,7 @@
     "support": {
       "title": "Supporto",
       "profile": "Il Mio Profilo",
+      "help": "Centro Aiuto",
       "contact": "Contattaci"
     },
     "legal": {
@@ -1446,6 +1448,102 @@
       "guestUser": "Come ospite, fornisci la tua email così possiamo risponderti.",
       "responseTime": "Tempo di risposta previsto: 2 giorni lavorativi",
       "privacy": "Le tue informazioni sono protette e verranno utilizzate solo per rispondere alla tua richiesta."
+    }
+  },
+  "help": {
+    "title": "Aiuto & Supporto",
+    "subtitle": "Risposte rapide alle domande più comuni",
+    "quickStart": {
+      "title": "Guida Rapida",
+      "step1": {
+        "title": "1. Crea un Account",
+        "description": "Registrati con email o Google per iniziare con una prova gratuita di 30 giorni."
+      },
+      "step2": {
+        "title": "2. Carica Documenti",
+        "description": "Carica PDF, documenti Word o file multimediali per costruire la tua base di conoscenza."
+      },
+      "step3": {
+        "title": "3. Crea un Tutor AI",
+        "description": "Configura un tutor AI personalizzato con i tuoi documenti e istruzioni su misura."
+      },
+      "step4": {
+        "title": "4. Inizia a Chattare",
+        "description": "Chatta con il tuo tutor e ottieni risposte contestuali dai tuoi documenti."
+      }
+    },
+    "faq": {
+      "title": "Domande Frequenti",
+      "account": {
+        "title": "Account e Autenticazione",
+        "q1": {
+          "question": "Come posso reimpostare la mia password?",
+          "answer": "Clicca su 'Password dimenticata?' nella pagina di login, inserisci la tua email e segui le istruzioni nell'email di reset."
+        },
+        "q2": {
+          "question": "Posso cambiare il mio indirizzo email?",
+          "answer": "Sì, vai su Profilo → Modifica Profilo → Cambia Email. Dovrai confermare il nuovo indirizzo email."
+        },
+        "q3": {
+          "question": "Come posso eliminare il mio account?",
+          "answer": "Vai su Profilo → Elimina Account. Questa azione è permanente e cancellerà tutti i tuoi dati entro 30 giorni."
+        }
+      },
+      "plans": {
+        "title": "Piani e Fatturazione",
+        "q1": {
+          "question": "Cosa succede dopo la fine del mio periodo di prova?",
+          "answer": "Dovrai scegliere un piano a pagamento per continuare a utilizzare le funzioni premium. Potrai comunque accedere al tuo account ma con funzionalità limitate."
+        },
+        "q2": {
+          "question": "Posso cancellare il mio abbonamento in qualsiasi momento?",
+          "answer": "Sì, puoi cancellare in qualsiasi momento. Manterrai l'accesso fino alla fine del periodo di fatturazione corrente."
+        },
+        "q3": {
+          "question": "Offrite rimborsi?",
+          "answer": "Offriamo rimborsi entro 14 giorni dall'acquisto se non sei soddisfatto. Contatta il supporto per assistenza."
+        }
+      },
+      "usage": {
+        "title": "Utilizzo e Limiti",
+        "q1": {
+          "question": "Come viene calcolato l'utilizzo?",
+          "answer": "L'utilizzo viene tracciato in base alle chiamate API a OpenAI (chat, embeddings, trascrizione). Ogni piano ha limiti mensili."
+        },
+        "q2": {
+          "question": "Cosa succede se supero i miei limiti?",
+          "answer": "Alcune operazioni verranno bloccate fino al reset della quota o fino a quando non passerai a un piano superiore."
+        },
+        "q3": {
+          "question": "Quando si resetta la mia quota?",
+          "answer": "La tua quota si resetta all'inizio di ogni ciclo di fatturazione mensile. Controlla la dashboard Utilizzo per la data esatta."
+        }
+      },
+      "tutors": {
+        "title": "Tutor AI",
+        "q1": {
+          "question": "Quanti tutor posso creare?",
+          "answer": "Non c'è un limite fisso, ma ogni tutor consuma quota per l'elaborazione dei documenti collegati."
+        },
+        "q2": {
+          "question": "Posso condividere i miei tutor?",
+          "answer": "Sì! Imposta la visibilità su 'Public' (marketplace) o 'Unlisted' (condividi il link diretto)."
+        },
+        "q3": {
+          "question": "Qual è la differenza tra GPT-3.5 e GPT-4?",
+          "answer": "GPT-4 è più accurato e capace ma costa di più. GPT-3.5 è più veloce e conveniente per attività più semplici."
+        }
+      }
+    },
+    "support": {
+      "title": "Hai Bisogno di Ulteriore Aiuto?",
+      "description": "Non trovi quello che cerchi? Siamo qui per aiutarti!",
+      "fullManual": "Leggi il Manuale Completo",
+      "fullManualDesc": "Documentazione completa su GitHub (200+ pagine)",
+      "contactSupport": "Contatta il Supporto",
+      "contactSupportDesc": "Ricevi aiuto via email (risposta in 2 giorni lavorativi)",
+      "community": "Unisciti alla Community",
+      "communityDesc": "Connettiti con altri utenti"
     }
   }
 }

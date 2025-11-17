@@ -1,5 +1,5 @@
 import { useTranslations, useLocale } from 'next-intl'
-import { UserCircle, User, LogOut, ChevronDown, Activity, BookOpen } from 'lucide-react'
+import { UserCircle, User, LogOut, ChevronDown, Activity, BookOpen, ExternalLink } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import {
   DropdownMenu,
@@ -76,10 +76,14 @@ export function UserMenu({ userEmail, onSignOut }: UserMenuProps): JSX.Element {
             href={userManualUrl} 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="flex items-center cursor-pointer"
+            className="flex items-center justify-between cursor-pointer group"
+            title="Opens complete manual on GitHub"
           >
-            <BookOpen className="mr-2 h-4 w-4" />
-            <span>{t('userManual')}</span>
+            <div className="flex items-center">
+              <BookOpen className="mr-2 h-4 w-4" />
+              <span>{t('userManual')}</span>
+            </div>
+            <ExternalLink className="h-3 w-3 ml-2 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
           </a>
         </DropdownMenuItem>
         

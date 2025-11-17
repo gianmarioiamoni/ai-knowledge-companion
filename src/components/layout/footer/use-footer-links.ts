@@ -29,6 +29,7 @@ export function useFooterLinks(locale: string): FooterLinks {
     ],
     support: [
       { label: t('support.profile'), href: `/${locale}/profile` },
+      { label: t('support.help'), href: `/${locale}/help` },
       { label: t('support.contact'), href: `/${locale}/contact` },
     ],
     legal: [
