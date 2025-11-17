@@ -480,14 +480,41 @@ ai-knowledge-companion/
 ├── public/                      # Static files
 │   ├── icons/                  # PWA icons
 │   └── ...
-├── docs/                        # Documentation
-│   ├── implementation/         # Implementation docs
-│   ├── setup/                  # Setup guides
-│   ├── refactoring/            # Refactoring docs
-│   ├── archive/                # Archived docs
-│   ├── ADR.md                  # Architecture decisions
-│   ├── API.md                  # API documentation
-│   └── ...
+├── docs/                        # Documentation (organized by category)
+│   ├── user/                   # User documentation
+│   │   ├── USER_MANUAL.md     # Complete user manual
+│   │   └── README.md          # User docs index
+│   ├── admin/                  # Admin documentation
+│   │   ├── SUPER_ADMIN_SETUP.md
+│   │   ├── ADMIN_SUBSCRIPTION_EXEMPTION.md
+│   │   └── README.md
+│   ├── setup/                  # Setup & deployment guides
+│   │   ├── SUPABASE_SETUP.md
+│   │   ├── VERCEL_DEPLOY_GUIDE.md
+│   │   ├── VERCEL_TROUBLESHOOTING.md
+│   │   ├── STRIPE_WEBHOOK_SETUP.md
+│   │   └── README.md
+│   ├── development/            # Development guides
+│   │   ├── API.md             # API documentation
+│   │   ├── ADR.md             # Architecture decisions
+│   │   ├── TECH_DEBT.md       # Technical debt tracking
+│   │   └── README.md
+│   ├── security/               # Security documentation
+│   │   ├── RATE_LIMITING_GUIDE.md
+│   │   ├── SECURITY_AUDIT_RESULTS.md
+│   │   └── README.md
+│   ├── features/               # Feature implementation docs
+│   │   ├── CONTACT_FORM_SETUP.md
+│   │   ├── COST_TRACKING_TEST.md
+│   │   └── README.md
+│   ├── compliance/             # Legal & accessibility compliance
+│   │   ├── GDPR_COMPLIANCE.md
+│   │   ├── COOKIE_CONSENT.md
+│   │   ├── EAA_WCAG_COMPLIANCE.md
+│   │   └── README.md
+│   ├── implementation/         # Complete implementation summaries
+│   ├── refactoring/            # Refactoring documentation
+│   └── archive/                # Archived documentation
 ├── sql/                         # Database migrations
 ├── scripts/                     # Utility scripts
 ├── test-files/                  # Test assets
@@ -580,68 +607,124 @@ See [`src/types/database.ts`](./src/types/database.ts) for complete schema.
 | Document | Description |
 |----------|-------------|
 | [CLAUDE.md](./CLAUDE.md) | Complete project specifications for AI assistants |
-| [ADR.md](./docs/ADR.md) | Architecture Decision Records |
-| [API.md](./docs/API.md) | API contracts and endpoint specifications |
+| [ADR.md](./docs/development/ADR.md) | Architecture Decision Records |
+| [API.md](./docs/development/API.md) | API contracts and endpoint specifications |
 
-### 🔧 Setup Guides
+---
+
+### 👥 User Documentation
+
+| Document | Description |
+|----------|-------------|
+| **[📖 User Manual](./docs/user/USER_MANUAL.md)** | **Complete user guide covering all features** |
+
+The User Manual includes:
+- Account management and authentication
+- Document and multimedia management
+- AI Tutor creation and usage
+- Chat functionality
+- Marketplace
+- Plans, billing, and subscriptions
+- Usage monitoring
+- Profile and settings
+- Comprehensive FAQ
+
+**📂 Folder**: [`docs/user/`](./docs/user/)
+
+---
+
+### 🔐 Admin Documentation
+
+| Document | Description |
+|----------|-------------|
+| [Super Admin Setup](./docs/admin/SUPER_ADMIN_SETUP.md) | Creating super admin accounts using bootstrap endpoint |
+| [Admin Subscription Exemption](./docs/admin/ADMIN_SUBSCRIPTION_EXEMPTION.md) | Exempting users from subscription requirements |
+
+**📂 Folder**: [`docs/admin/`](./docs/admin/)
+
+---
+
+### 🛠️ Setup Guides
 
 | Guide | Description |
 |-------|-------------|
 | [Supabase Setup](./docs/setup/SUPABASE_SETUP.md) | Database configuration and migrations |
-| [Authorization Setup](./docs/AUTHORIZATION_SETUP.md) | Auth and RLS configuration |
-| [Super Admin Setup](./docs/SUPER_ADMIN_SETUP.md) | Creating super admin accounts |
+| [Vercel Deploy Guide](./docs/setup/VERCEL_DEPLOY_GUIDE.md) | Deploy to Vercel step-by-step |
+| [Vercel Troubleshooting](./docs/setup/VERCEL_TROUBLESHOOTING.md) | Common deployment issues and solutions |
+| [Authorization Setup](./docs/setup/AUTHORIZATION_SETUP.md) | Role-based authorization configuration |
+| [Stripe Webhook Setup](./docs/setup/STRIPE_WEBHOOK_SETUP.md) | Configure Stripe webhooks for subscriptions |
+| [Upstash Redis Setup](./docs/setup/UPSTASH_REDIS_SETUP.md) | Setup Redis for rate limiting |
+| [Images Bucket Setup](./docs/setup/CREATE_IMAGES_BUCKET_MANUAL.md) | Configure Supabase storage for images |
 | [Worker Setup](./docs/setup/WORKER_SETUP.md) | Background job configuration |
-| [Contact Form Setup](./docs/CONTACT_FORM_SETUP.md) | Email notifications with Resend |
 
-### 🎨 Implementation Details
+**📂 Folder**: [`docs/setup/`](./docs/setup/)
 
-| Document | Description |
-|----------|-------------|
-| [Breadcrumb Navigation](./docs/implementation/BREADCRUMB_SRP_IMPLEMENTATION.md) | SRP architecture for breadcrumbs |
-| [Multimedia Support](./docs/implementation/MULTIMEDIA_IMPLEMENTATION_COMPLETE.md) | Audio, video, and image processing |
-| [Image Processing](./docs/implementation/IMAGE_PROCESSING_COMPLETE.md) | OCR and image analysis |
-| [GDPR Compliance](./docs/implementation/GDPR_IMPLEMENTATION_COMPLETE.md) | Privacy and data protection |
-| [SEO Optimization](./docs/implementation/SEO_IMPLEMENTATION_COMPLETE.md) | Search engine optimization |
-| [Video Processing](./docs/implementation/VIDEO_AUDIO_EXTRACTION_COMPLETE.md) | Video transcription pipeline |
+---
 
-### 💳 Payments & Billing
+### 💻 Development
 
 | Document | Description |
 |----------|-------------|
-| [Stripe Integration](./docs/STRIPE_INTEGRATION_GUIDE.md) | Complete Stripe setup guide |
-| [Stripe Webhook Setup](./docs/STRIPE_WEBHOOK_SETUP.md) | Production webhook configuration |
-| [Stripe Implementation Status](./docs/STRIPE_IMPLEMENTATION_STATUS.md) | Current implementation state |
-| [Scheduled Plans](./docs/SCHEDULED_PLANS_AND_PRORATION.md) | Plan changes and proration |
-| [Admin Exemptions](./docs/ADMIN_SUBSCRIPTION_EXEMPTION.md) | Admin subscription handling |
+| [API Documentation](./docs/development/API.md) | API endpoints and usage examples |
+| [Architecture Decisions](./docs/development/ADR.md) | Key architectural decisions and rationale |
+| [Technical Debt](./docs/development/TECH_DEBT.md) | Code quality improvement plan and tracking |
+| [SQL Migration Order](./docs/development/SQL_MIGRATION_ORDER.md) | Database migration dependencies |
 
-### ♿ Accessibility & Compliance
+**📂 Folder**: [`docs/development/`](./docs/development/)
 
-| Document | Description |
-|----------|-------------|
-| [EAA/WCAG Compliance](./docs/EAA_WCAG_COMPLIANCE.md) | Accessibility standards compliance |
-| [GDPR Compliance](./docs/GDPR_COMPLIANCE.md) | Data protection regulations |
-| [Cookie Consent](./docs/COOKIE_CONSENT.md) | Cookie policy and consent |
+---
 
-### 🎨 Code Quality & Refactoring
+### 🔒 Security
 
 | Document | Description |
 |----------|-------------|
-| [Technical Debt](./docs/TECH_DEBT.md) | **Code quality improvement plan and tracking** |
-| [SRP Refactoring](./docs/SRP_REFACTORING.md) | Single Responsibility Principle guide |
-| [Cookie Consent Refactoring](./docs/refactoring/COOKIE_CONSENT_SRP_REFACTORING.md) | Cookie consent SRP implementation |
-| [Footer Refactoring](./docs/refactoring/FOOTER_SRP_REFACTORING.md) | Footer component SRP implementation |
-| [Testing Checklist](./docs/TESTING_CHECKLIST_REFACTORING.md) | Testing guidelines |
+| [Rate Limiting Guide](./docs/security/RATE_LIMITING_GUIDE.md) | Rate limiting with Redis/Upstash |
+| [Security Audit Results](./docs/security/SECURITY_AUDIT_RESULTS.md) | Security audit findings |
+| [Security Fix Summary](./docs/security/SECURITY_FIX_SUMMARY.md) | Summary of vulnerabilities fixed |
+| [Security Improvements](./docs/security/SECURITY_IMPROVEMENTS_IMPLEMENTATION.md) | Implementation of security features (headers, rate limiting, log sanitization) |
 
-### 🔍 SEO & Performance
+**📂 Folder**: [`docs/security/`](./docs/security/)
+
+---
+
+### ✨ Features
 
 | Document | Description |
 |----------|-------------|
-| [SEO Optimization](./docs/SEO_OPTIMIZATION.md) | SEO best practices |
-| [SEO Testing Guide](./docs/SEO_TESTING_GUIDE.md) | SEO testing procedures |
+| [Contact Form Setup](./docs/features/CONTACT_FORM_SETUP.md) | Contact form with Nodemailer (email-first approach) |
+| [Cost Tracking Test](./docs/features/COST_TRACKING_TEST.md) | Testing cost tracking for multimedia processing |
+| [Cost Tracking UI Guide](./docs/features/COST_TRACKING_UI_GUIDE.md) | Usage Dashboard user interface |
+| [Video Transcription Setup](./docs/features/VIDEO_TRANSCRIPTION_SETUP.md) | Video/audio transcription with Whisper API |
+| [Image Processing](./docs/features/IMAGE_PROCESSING_IMPLEMENTATION.md) | Image processing with GPT-4V Vision API |
 
-### 📦 Archived Documentation
+**📂 Folder**: [`docs/features/`](./docs/features/)
 
-Older implementation notes and debug sessions are available in [`docs/archive/`](./docs/archive/)
+---
+
+### ⚖️ Compliance
+
+| Document | Description |
+|----------|-------------|
+| [GDPR Compliance](./docs/compliance/GDPR_COMPLIANCE.md) | GDPR compliance implementation |
+| [Cookie Consent](./docs/compliance/COOKIE_CONSENT.md) | Cookie consent banner and management |
+| [EAA/WCAG Compliance](./docs/compliance/EAA_WCAG_COMPLIANCE.md) | Accessibility standards compliance |
+| [SEO Optimization](./docs/compliance/SEO_OPTIMIZATION.md) | SEO implementation and best practices |
+
+**📂 Folder**: [`docs/compliance/`](./docs/compliance/)
+
+---
+
+### 📦 Implementation & Refactoring
+
+**Implementation Details**: [`docs/implementation/`](./docs/implementation/)
+- Complete implementation summaries for major features
+- GDPR, SEO, Multimedia, Image Processing, Video/Audio, Breadcrumb
+
+**Refactoring Documentation**: [`docs/refactoring/`](./docs/refactoring/)
+- SRP refactoring examples (Cookie Consent, Footer)
+
+**Archived Documentation**: [`docs/archive/`](./docs/archive/)
+- Older implementation notes and debug sessions
 
 ---
 
