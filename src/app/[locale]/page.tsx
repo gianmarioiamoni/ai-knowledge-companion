@@ -48,8 +48,7 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
           ctaPrimary={isAuthenticated ? tNav('dashboard') : t('cta.primary')}
           ctaSecondary={t('cta.secondary')}
           isAuthenticated={isAuthenticated}
-          locale={locale}
-          userManualText={tNav('userManual')}
+          helpCenterText={tNav('help')}
         />
         <FeaturesSection
           features={{

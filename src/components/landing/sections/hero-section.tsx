@@ -2,7 +2,7 @@ import { JSX } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/navigation'
-import { BookOpen } from 'lucide-react'
+import { HelpCircle } from 'lucide-react'
 import { ScrollToFeaturesButton } from '../ui/scroll-to-features-button'
 
 interface HeroSectionProps {
@@ -12,8 +12,7 @@ interface HeroSectionProps {
   ctaPrimary: string
   ctaSecondary: string
   isAuthenticated?: boolean
-  locale?: string
-  userManualText?: string
+  helpCenterText?: string
 }
 
 /**
@@ -27,11 +26,8 @@ export function HeroSection({
   ctaPrimary,
   ctaSecondary,
   isAuthenticated = false,
-  locale = 'en',
-  userManualText = 'User Manual'
+  helpCenterText = 'Help Center'
 }: HeroSectionProps): JSX.Element {
-  // User Manual URL based on locale
-  const userManualUrl = `https://github.com/gianmarioiamoni/ai-knowledge-companion/blob/main/docs/user/USER_MANUAL.${locale}.md`
   return (
     <div className="relative min-h-[600px] md:min-h-[700px] xl:min-h-[800px] 2xl:min-h-[900px] flex items-center overflow-hidden">
       {/* Background Image with Next.js Image optimization */}
@@ -81,20 +77,16 @@ export function HeroSection({
                     {ctaPrimary}
                   </Button>
                 </Link>
-                <a 
-                  href={userManualUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                >
+                <Link href="/help">
                   <Button 
                     size="lg" 
                     variant="outline"
                     className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-background/80 backdrop-blur-sm"
                   >
-                    <BookOpen className="mr-2 h-5 w-5" />
-                    {userManualText}
+                    <HelpCircle className="mr-2 h-5 w-5" />
+                    {helpCenterText}
                   </Button>
-                </a>
+                </Link>
               </>
             ) : (
               <>
