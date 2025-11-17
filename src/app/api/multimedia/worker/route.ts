@@ -22,9 +22,10 @@ import {
   analyzeImageFromStorage,
 } from "@/lib/openai/vision";
 import { chunkDocument } from "@/lib/workers/document-chunker";
-import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
+import { generateBatchEmbeddings, estimateEmbeddingCost } from "@/lib/openai/embeddings";
 import { createDocumentChunks } from "@/lib/supabase/documents";
 import type { DocumentChunk } from "@/lib/workers/document-chunker";
+import { logUsage } from "@/lib/supabase/billing";
 
 export async function POST(_request: NextRequest) {
   try {
@@ -73,10 +74,10 @@ export async function POST(_request: NextRequest) {
       let extractedText = "";
       let processingCost = 0;
 
-      // Get document details
+      // Get document details including owner_id for usage tracking
       const { data: document } = await supabase
         .from("documents")
-        .select("title, storage_path, media_type")
+        .select("title, storage_path, media_type, owner_id")
         .eq("id", document_id)
         .single();
 
@@ -219,14 +220,51 @@ export async function POST(_request: NextRequest) {
 
       const embeddings = (embeddingsResult.data || []).map(item => item.embedding);
       
-      // Calculate embedding cost based on tokens used
+      // Calculate actual embedding cost based on tokens used
       const totalTokens = (embeddingsResult.data || []).reduce((sum, item) => sum + (item.tokens || 0), 0);
-      const embeddingCost = (totalTokens / 1000) * 0.0001; // $0.0001 per 1K tokens for text-embedding-3-small
+      const embeddingCost = estimateEmbeddingCost(totalTokens, 'text-embedding-3-small');
       const totalCost = processingCost + embeddingCost;
 
       console.log(
-        `✅ Generated ${embeddings.length} embeddings, cost: $${embeddingCost.toFixed(4)}`
+        `✅ Generated ${embeddings.length} embeddings, ${totalTokens} tokens, cost: $${embeddingCost.toFixed(4)}`
       );
+
+      // Track API usage for billing and quota management
+      if (document.owner_id) {
+        const usageResult = await logUsage({
+          user_id: document.owner_id,
+          tutor_id: null,
+          action: 'embedding',
+          api_calls: 1,
+          tokens_used: totalTokens,
+          cost_estimate: embeddingCost,
+          metadata: {
+            document_id: document_id,
+            document_type: media_type,
+            chunks_count: chunks.length,
+            embeddings_count: embeddings.length,
+            processing_cost: processingCost,
+            embedding_cost: embeddingCost,
+            total_cost: totalCost,
+            worker_type: 'auto_processing'
+          }
+        });
+
+        if (usageResult.error) {
+          console.error('⚠️ Failed to log usage:', usageResult.error);
+        } else if (usageResult.data) {
+          console.log(`📊 Usage logged. Quota: ${usageResult.data.current_value || 'N/A'}/${usageResult.data.max_value || 'N/A'}`);
+          
+          // Check if user exceeded quota
+          if (usageResult.data.quota_exceeded) {
+            console.warn(`⚠️ User ${document.owner_id} has exceeded their quota!`);
+            // Note: We continue processing as the document is already processed
+            // In a real-world scenario, you might want to prevent processing before it starts
+          }
+        }
+      } else {
+        console.warn('⚠️ No owner_id found for document, skipping usage tracking');
+      }
 
       // Save chunks with embeddings
       console.log("💾 Saving chunks...");

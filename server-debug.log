@@ -224,3 +224,11 @@ Require stack:
  ✓ Compiled in 887ms (1893 modules)
  ✓ Compiled in 697ms (1893 modules)
  ✓ Compiled in 2s (1893 modules)
+ ✓ Compiled in 400ms (1893 modules)
+ ✓ Compiled in 435ms (784 modules)
+ ✓ Compiled in 210ms (784 modules)
+🧹 Rate limiter cleanup: removed 1 expired entries
+ ✓ Compiled in 1109ms (784 modules)
+ ✓ Compiled in 335ms (784 modules)
+ ✓ Compiled in 208ms (784 modules)
+ ✓ Compiled in 204ms (784 modules)

@@ -14,11 +14,12 @@ import {
   transcribeAudioFromStorage,
 } from "@/lib/openai/transcription";
 import { chunkDocument } from "@/lib/workers/document-chunker";
-import { generateBatchEmbeddings } from "@/lib/openai/embeddings";
+import { generateBatchEmbeddings, estimateEmbeddingCost } from "@/lib/openai/embeddings";
 import { createDocumentChunks } from "@/lib/supabase/documents";
 import type { DocumentChunk } from "@/lib/workers/document-chunker";
 import { withRateLimit } from "@/lib/middleware/rate-limit-guard";
 import { sanitize } from "@/lib/utils/log-sanitizer";
+import { logUsage } from "@/lib/supabase/billing";
 
 export const POST = withRateLimit('ai', async (request: NextRequest, _context) => {
   try {
@@ -185,10 +186,49 @@ export const POST = withRateLimit('ai', async (request: NextRequest, _context) =
     }
 
     const embeddings = (embeddingsResult.data || []).map(r => r.embedding);
-    const embeddingCost = 0; // Cost tracking not implemented yet
+    
+    // Calculate actual embedding cost based on tokens used
+    const totalTokens = (embeddingsResult.data || []).reduce((sum, r) => sum + (r.tokens || 0), 0);
+    const embeddingCost = estimateEmbeddingCost(totalTokens, 'text-embedding-3-small');
     const totalCost = processingCost + embeddingCost;
 
-    console.log(`✅ Generated ${embeddings.length} embeddings, cost: $${embeddingCost.toFixed(4)}`);
+    console.log(`✅ Generated ${embeddings.length} embeddings, ${totalTokens} tokens, cost: $${embeddingCost.toFixed(4)}`);
+
+    // Track API usage for billing and quota management
+    if (document.owner_id) {
+      const usageResult = await logUsage({
+        user_id: document.owner_id,
+        tutor_id: null,
+        action: 'embedding',
+        api_calls: 1,
+        tokens_used: totalTokens,
+        cost_estimate: embeddingCost,
+        metadata: {
+          document_id: documentId,
+          document_type: document.media_type,
+          chunks_count: chunks.length,
+          embeddings_count: embeddings.length,
+          processing_cost: processingCost,
+          embedding_cost: embeddingCost,
+          total_cost: totalCost
+        }
+      });
+
+      if (usageResult.error) {
+        console.error('⚠️ Failed to log usage:', usageResult.error);
+      } else if (usageResult.data) {
+        console.log(`📊 Usage logged. Quota: ${usageResult.data.current_value || 'N/A'}/${usageResult.data.max_value || 'N/A'}`);
+        
+        // Check if user exceeded quota
+        if (usageResult.data.quota_exceeded) {
+          console.warn(`⚠️ User ${document.owner_id} has exceeded their quota!`);
+          // Note: We continue processing as the document is already processed
+          // In a real-world scenario, you might want to prevent processing before it starts
+        }
+      }
+    } else {
+      console.warn('⚠️ No owner_id found for document, skipping usage tracking');
+    }
 
     // Save chunks with embeddings to database
     console.log("💾 Saving chunks to database...");
