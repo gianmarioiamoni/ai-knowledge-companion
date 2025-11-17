@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl'
-import { UserCircle, User, LogOut, ChevronDown } from 'lucide-react'
+import { UserCircle, User, LogOut, ChevronDown, Activity } from 'lucide-react'
 import { Link } from '@/i18n/navigation'
 import {
   DropdownMenu,
@@ -57,6 +57,13 @@ export function UserMenu({ userEmail, onSignOut }: UserMenuProps): JSX.Element {
           <Link href="/profile" className="flex items-center cursor-pointer">
             <User className="mr-2 h-4 w-4" />
             <span>{t('profile')}</span>
+          </Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem asChild>
+          <Link href="/billing" className="flex items-center cursor-pointer">
+            <Activity className="mr-2 h-4 w-4" />
+            <span>{t('usage')}</span>
           </Link>
         </DropdownMenuItem>
         
