@@ -1,6 +1,6 @@
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 import { UserCircle, User, LogOut, ChevronDown, Activity, BookOpen } from 'lucide-react'
-import { Link, usePathname } from '@/i18n/navigation'
+import { Link } from '@/i18n/navigation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,10 +24,7 @@ interface UserMenuProps {
  */
 export function UserMenu({ userEmail, onSignOut }: UserMenuProps): JSX.Element {
   const t = useTranslations('navigation')
-  const pathname = usePathname()
-  
-  // Extract locale from pathname (e.g., /en/dashboard -> en)
-  const locale = pathname.split('/')[1] || 'en'
+  const locale = useLocale() // Get current locale from next-intl
   
   // User Manual URL based on locale
   const userManualUrl = `https://github.com/gianmarioiamoni/ai-knowledge-companion/blob/main/docs/user/USER_MANUAL.${locale}.md`
