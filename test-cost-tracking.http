@@ -1,0 +1,15 @@
+### Test Cost Tracking - Manual Processing
+POST http://localhost:3000/api/multimedia/process
+Content-Type: application/json
+
+{
+  "documentId": "INSERISCI_DOCUMENT_ID_QUI",
+  "queueId": "INSERISCI_QUEUE_ID_QUI"
+}
+
+### Check Worker Status
+GET http://localhost:3000/api/multimedia/worker
+
+### Trigger Auto Worker
+POST http://localhost:3000/api/multimedia/worker
+
