@@ -8,7 +8,7 @@
 import { useState } from 'react'
 import { Link } from '@/i18n/navigation'
 import { useTranslations } from 'next-intl'
-import { FileText, Users, LayoutDashboard, Store, CreditCard, FolderOpen, Music, ChevronDown, Shield, CreditCard as PlansIcon, MessageSquare, type LucideIcon } from 'lucide-react'
+import { FileText, Users, LayoutDashboard, Store, CreditCard, FolderOpen, Music, ChevronDown, Shield, CreditCard as PlansIcon, MessageSquare, Activity, type LucideIcon } from 'lucide-react'
 import type { User } from '@supabase/supabase-js'
 import { cn } from '@/lib/utils'
 import { useRole } from '@/hooks/use-role'
@@ -59,6 +59,7 @@ export function MenuNavigationWithSubmenu({ user, pathname, onNavigate }: MenuNa
     { href: '/marketplace', icon: Store, label: t('marketplace'), hideForAdmins: true },
     { href: '/plans', icon: PlansIcon, label: t('plans'), hideForAdmins: true },
     { href: '/dashboard', icon: LayoutDashboard, label: t('dashboard'), hideForAdmins: true },
+    { href: '/billing', icon: Activity, label: t('usage'), hideForAdmins: true },
     // Contact - visible to all authenticated users
     { href: '/contact', icon: MessageSquare, label: t('contact') },
     // Admin menu - only for admin/super_admin
