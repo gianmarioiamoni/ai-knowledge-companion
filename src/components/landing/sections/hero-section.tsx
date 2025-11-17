@@ -12,6 +12,7 @@ interface HeroSectionProps {
   ctaPrimary: string
   ctaSecondary: string
   isAuthenticated?: boolean
+  locale?: string
   helpCenterText?: string
 }
 
@@ -26,6 +27,7 @@ export function HeroSection({
   ctaPrimary,
   ctaSecondary,
   isAuthenticated = false,
+  locale = 'en',
   helpCenterText = 'Help Center'
 }: HeroSectionProps): JSX.Element {
   return (
@@ -69,7 +71,7 @@ export function HeroSection({
           <div className="flex gap-4 justify-center flex-col sm:flex-row animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
             {isAuthenticated ? (
               <>
-                <Link href="/dashboard">
+                <Link href="/dashboard" locale={locale}>
                   <Button 
                     size="lg" 
                     className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
@@ -77,7 +79,7 @@ export function HeroSection({
                     {ctaPrimary}
                   </Button>
                 </Link>
-                <Link href="/help">
+                <Link href="/help" locale={locale}>
                   <Button 
                     size="lg" 
                     variant="outline"
@@ -90,7 +92,7 @@ export function HeroSection({
               </>
             ) : (
               <>
-                <Link href="/auth/signup">
+                <Link href="/auth/signup" locale={locale}>
                   <Button 
                     size="lg" 
                     className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
