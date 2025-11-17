@@ -69,6 +69,8 @@ export function MenuNavigationWithSubmenu({ user, pathname, onNavigate }: MenuNa
         { href: '/billing', icon: Activity, label: t('usage') },
       ],
     },
+    // Usage - for super admin only (all users usage)
+    { href: '/admin/usage', icon: Activity, label: t('usage'), superAdminOnly: true },
     // Contact - visible to all authenticated users
     { href: '/contact', icon: MessageSquare, label: t('contact') },
     // Admin menu - only for admin/super_admin

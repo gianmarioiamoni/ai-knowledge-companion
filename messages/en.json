@@ -1060,6 +1060,10 @@
         "tokens": "Tokens",
         "calls": "API Calls"
       }
+    },
+    "usage": {
+      "title": "All Users Usage",
+      "description": "View usage statistics for all users in the system"
     }
   },
   "cookies": {

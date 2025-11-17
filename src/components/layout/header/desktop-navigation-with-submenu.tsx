@@ -53,6 +53,8 @@ export function DesktopNavigationWithSubmenu({ isActivePath }: DesktopNavigation
     { href: '/marketplace', label: t('marketplace'), hideForAdmins: true },
     { href: '/plans', label: t('plans'), hideForAdmins: true },
     { href: '/dashboard', label: t('dashboard'), hideForAdmins: true },
+    // Usage - for super admin only (all users usage)
+    { href: '/admin/usage', label: t('usage'), superAdminOnly: true },
     // Contact - visible to all authenticated users
     { href: '/contact', label: t('contact') },
     // Admin menu - only for admin/super_admin
