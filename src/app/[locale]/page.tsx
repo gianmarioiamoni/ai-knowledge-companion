@@ -3,12 +3,16 @@ import type { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 import { HeroSection, FeaturesSection, MarketplaceSection } from '@/components/landing/sections'
 import { StructuredDataWrapper } from '@/components/seo'
+import { getUserServer } from '@/lib/auth'
 import { 
   generateLandingMetadata,
   generateOrganizationSchema,
   generateWebSiteSchema,
   generateSoftwareApplicationSchema,
 } from '@/lib/seo'
+
+// Force dynamic rendering for authentication check
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -18,8 +22,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function LandingPage({ params }: { params: Promise<{ locale: string }> }): Promise<JSX.Element> {
   const { locale } = await params
   
+  // Check if user is authenticated
+  const { user } = await getUserServer()
+  const isAuthenticated = !!user
+  
   // Server-side translations
   const t = await getTranslations({ locale, namespace: 'landing' })
+  const tNav = await getTranslations({ locale, namespace: 'navigation' })
 
   // Generate structured data for SEO
   const structuredData = [
@@ -36,8 +45,11 @@ export default async function LandingPage({ params }: { params: Promise<{ locale
           title={t('title')}
           subtitle={t('subtitle')}
           description={t('description')}
-          ctaPrimary={t('cta.primary')}
+          ctaPrimary={isAuthenticated ? tNav('dashboard') : t('cta.primary')}
           ctaSecondary={t('cta.secondary')}
+          isAuthenticated={isAuthenticated}
+          locale={locale}
+          userManualText={tNav('userManual')}
         />
         <FeaturesSection
           features={{

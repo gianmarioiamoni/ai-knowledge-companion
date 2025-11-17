@@ -2,18 +2,26 @@
 
 Documentation for end users of AI Knowledge Companion.
 
-## Documents
+## User Manuals
 
-- **[USER_MANUAL.md](USER_MANUAL.md)** - Complete user manual covering all features and how to access them
-  - Account management
-  - Document and multimedia management
-  - AI Tutor creation and usage
-  - Chat functionality
-  - Marketplace
-  - Plans and billing
-  - Usage monitoring
-  - Profile and settings
-  - FAQ
+Complete user manuals covering all features and how to access them:
+
+- **[🇬🇧 English User Manual](USER_MANUAL.en.md)** - Complete guide in English
+- **[🇮🇹 Manuale Utente Italiano](USER_MANUAL.it.md)** - Guida completa in italiano
+
+### Contents
+
+Both manuals include:
+- Account management and authentication
+- Document and multimedia management
+- AI Tutor creation and usage
+- Chat functionality
+- Marketplace
+- Plans, billing, and subscriptions
+- Usage monitoring
+- Profile and settings
+- Admin functions (for admins)
+- Comprehensive FAQ (40+ questions)
 
 ## For Other Documentation
 

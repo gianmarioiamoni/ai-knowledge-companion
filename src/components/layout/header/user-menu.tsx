@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl'
-import { UserCircle, User, LogOut, ChevronDown, Activity } from 'lucide-react'
-import { Link } from '@/i18n/navigation'
+import { UserCircle, User, LogOut, ChevronDown, Activity, BookOpen } from 'lucide-react'
+import { Link, usePathname } from '@/i18n/navigation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,13 @@ interface UserMenuProps {
  */
 export function UserMenu({ userEmail, onSignOut }: UserMenuProps): JSX.Element {
   const t = useTranslations('navigation')
+  const pathname = usePathname()
+  
+  // Extract locale from pathname (e.g., /en/dashboard -> en)
+  const locale = pathname.split('/')[1] || 'en'
+  
+  // User Manual URL based on locale
+  const userManualUrl = `https://github.com/gianmarioiamoni/ai-knowledge-companion/blob/main/docs/user/USER_MANUAL.${locale}.md`
 
   // Extract first part of email for display
   const displayName = userEmail?.split('@')[0] || 'User'
@@ -65,6 +72,18 @@ export function UserMenu({ userEmail, onSignOut }: UserMenuProps): JSX.Element {
             <Activity className="mr-2 h-4 w-4" />
             <span>{t('usage')}</span>
           </Link>
+        </DropdownMenuItem>
+        
+        <DropdownMenuItem asChild>
+          <a 
+            href={userManualUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="flex items-center cursor-pointer"
+          >
+            <BookOpen className="mr-2 h-4 w-4" />
+            <span>{t('userManual')}</span>
+          </a>
         </DropdownMenuItem>
         
         <DropdownMenuSeparator />

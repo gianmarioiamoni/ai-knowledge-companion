@@ -1,7 +1,7 @@
 # 📖 AI Knowledge Companion - Manuale Utente
 
 **Versione**: 1.0  
-**Data**: Novembre 2024  
+**Data**: Novembre 2025  
 **Lingue Supportate**: 🇬🇧 English, 🇮🇹 Italiano
 
 ---
@@ -645,7 +645,7 @@ A: Sì, vedi `/docs` nel repository GitHub.
 
 ## 🔄 Changelog
 
-**v1.0** (Novembre 2024)
+**v1.0** (Novembre 2025)
 - ✅ Prima versione completa manuale utente
 - ✅ Copertura tutte le funzionalità
 - ✅ FAQ estese
@@ -654,5 +654,5 @@ A: Sì, vedi `/docs` nel repository GitHub.
 ---
 
 **Fine del Manuale Utente**  
-_Ultimo aggiornamento: Novembre 2024_
+_Ultimo aggiornamento: Novembre 2025_
 

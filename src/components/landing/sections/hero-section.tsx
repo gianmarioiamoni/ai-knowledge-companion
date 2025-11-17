@@ -2,6 +2,7 @@ import { JSX } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Link } from '@/i18n/navigation'
+import { BookOpen } from 'lucide-react'
 import { ScrollToFeaturesButton } from '../ui/scroll-to-features-button'
 
 interface HeroSectionProps {
@@ -10,6 +11,9 @@ interface HeroSectionProps {
   description: string
   ctaPrimary: string
   ctaSecondary: string
+  isAuthenticated?: boolean
+  locale?: string
+  userManualText?: string
 }
 
 /**
@@ -21,8 +25,13 @@ export function HeroSection({
   subtitle,
   description,
   ctaPrimary,
-  ctaSecondary
+  ctaSecondary,
+  isAuthenticated = false,
+  locale = 'en',
+  userManualText = 'User Manual'
 }: HeroSectionProps): JSX.Element {
+  // User Manual URL based on locale
+  const userManualUrl = `https://github.com/gianmarioiamoni/ai-knowledge-companion/blob/main/docs/user/USER_MANUAL.${locale}.md`
   return (
     <div className="relative min-h-[600px] md:min-h-[700px] xl:min-h-[800px] 2xl:min-h-[900px] flex items-center overflow-hidden">
       {/* Background Image with Next.js Image optimization */}
@@ -62,15 +71,44 @@ export function HeroSection({
 
           {/* CTA Buttons with enhanced visibility */}
           <div className="flex gap-4 justify-center flex-col sm:flex-row animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
-            <Link href="/auth/signup">
-              <Button 
-                size="lg" 
-                className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
-              >
-                {ctaPrimary}
-              </Button>
-            </Link>
-            <ScrollToFeaturesButton label={ctaSecondary} />
+            {isAuthenticated ? (
+              <>
+                <Link href="/dashboard">
+                  <Button 
+                    size="lg" 
+                    className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  >
+                    {ctaPrimary}
+                  </Button>
+                </Link>
+                <a 
+                  href={userManualUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Button 
+                    size="lg" 
+                    variant="outline"
+                    className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 bg-background/80 backdrop-blur-sm"
+                  >
+                    <BookOpen className="mr-2 h-5 w-5" />
+                    {userManualText}
+                  </Button>
+                </a>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/signup">
+                  <Button 
+                    size="lg" 
+                    className="text-lg px-8 py-3 w-full sm:w-auto shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                  >
+                    {ctaPrimary}
+                  </Button>
+                </Link>
+                <ScrollToFeaturesButton label={ctaSecondary} />
+              </>
+            )}
           </div>
         </div>
       </div>

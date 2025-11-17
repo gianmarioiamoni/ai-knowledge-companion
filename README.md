@@ -616,9 +616,10 @@ See [`src/types/database.ts`](./src/types/database.ts) for complete schema.
 
 | Document | Description |
 |----------|-------------|
-| **[📖 User Manual](./docs/user/USER_MANUAL.md)** | **Complete user guide covering all features** |
+| **[📖 User Manual - English](./docs/user/USER_MANUAL.en.md)** | **Complete user guide in English** |
+| **[📖 Manuale Utente - Italiano](./docs/user/USER_MANUAL.it.md)** | **Guida completa in italiano** |
 
-The User Manual includes:
+Both user manuals include:
 - Account management and authentication
 - Document and multimedia management
 - AI Tutor creation and usage
@@ -627,7 +628,8 @@ The User Manual includes:
 - Plans, billing, and subscriptions
 - Usage monitoring
 - Profile and settings
-- Comprehensive FAQ
+- Admin functions (for admins)
+- Comprehensive FAQ (40+ questions)
 
 **📂 Folder**: [`docs/user/`](./docs/user/)
 
