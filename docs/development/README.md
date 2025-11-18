@@ -4,6 +4,7 @@ Technical documentation for developers working on AI Knowledge Companion.
 
 ## Documents
 
+- **[DATABASE_SCHEMA.md](DATABASE_SCHEMA.md)** - Complete database schema documentation with tables, relationships, and examples
 - **[API.md](API.md)** - API endpoints documentation and usage examples
 - **[ADR.md](ADR.md)** - Architecture Decision Records - key architectural decisions and rationale
 - **[TECH_DEBT.md](TECH_DEBT.md)** - Technical debt tracking and improvement plan

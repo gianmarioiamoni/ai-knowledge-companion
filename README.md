@@ -589,15 +589,19 @@ The Retrieval-Augmented Generation pipeline processes documents in several stage
 
 **Key Tables:**
 - `profiles` - User profiles and settings
-- `documents` - Uploaded documents metadata
-- `document_chunks` - Text chunks with embeddings (vector)
+- `documents` - Uploaded documents metadata (documents + multimedia)
+- `document_chunks` - Text chunks with vector embeddings (1536-dim)
 - `tutors` - AI tutor configurations
 - `conversations` - Chat conversations
 - `messages` - Individual messages
 - `usage_logs` - API usage tracking
 - `subscriptions` - Stripe subscription data
+- `message_rag_context` - RAG context per message
+- `tutor_documents` - Tutor-document relationships
 
-See [`src/types/database.ts`](./src/types/database.ts) for complete schema.
+**📚 Complete Documentation:**
+- [**Database Schema**](./docs/development/DATABASE_SCHEMA.md) - Full schema with relationships, examples, and data dictionary
+- [`src/types/database.ts`](./src/types/database.ts) - TypeScript types
 
 ### Security Architecture
 
@@ -676,6 +680,7 @@ Both user manuals include:
 
 | Document | Description |
 |----------|-------------|
+| **[Database Schema](./docs/development/DATABASE_SCHEMA.md)** | **Complete database schema with tables, relationships, and examples** |
 | [API Documentation](./docs/development/API.md) | API endpoints and usage examples |
 | [Architecture Decisions](./docs/development/ADR.md) | Key architectural decisions and rationale |
 | [Technical Debt](./docs/development/TECH_DEBT.md) | Code quality improvement plan and tracking |
