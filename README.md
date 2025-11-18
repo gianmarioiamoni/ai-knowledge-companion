@@ -353,7 +353,7 @@ The `generate-secrets.sh` script will create unique secrets for:
 After deployment, you'll need to:
 1. Update `NEXTAUTH_URL` and `NEXT_PUBLIC_SITE_URL` with your Vercel URL
 2. Configure Supabase redirect URLs
-3. Setup Stripe webhook endpoint
+3. **Activate Stripe Live Mode**: [Quick Checklist](./docs/deployment/STRIPE_LIVE_MODE_CHECKLIST.md) | [Complete Guide](./docs/deployment/STRIPE_PRODUCTION_SETUP.md)
 4. Bootstrap super admin account
 
 See the full deployment guide for detailed instructions.
@@ -727,6 +727,18 @@ Both user manuals include:
 | [SEO Optimization](./docs/compliance/SEO_OPTIMIZATION.md) | SEO implementation and best practices |
 
 **📂 Folder**: [`docs/compliance/`](./docs/compliance/)
+
+---
+
+### 🚀 Deployment
+
+| Document | Description |
+|----------|-------------|
+| [**Stripe Live Mode Checklist**](./docs/deployment/STRIPE_LIVE_MODE_CHECKLIST.md) | **Quick checklist to activate Stripe in production (Pro & Enterprise plans)** |
+| [**🔐 Stripe Restricted Keys**](./docs/deployment/STRIPE_RESTRICTED_KEY_SETUP.md) | **Security guide for creating restricted API keys (RECOMMENDED)** |
+| [Stripe Production Setup](./docs/deployment/STRIPE_PRODUCTION_SETUP.md) | Complete guide for Stripe production activation |
+
+**📂 Folder**: [`docs/deployment/`](./docs/deployment/)
 
 ---
 
