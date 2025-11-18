@@ -4,6 +4,12 @@
  * Creates realistic demo conversations between user and tutors
  */
 
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load .env.local explicitly
+config({ path: resolve(process.cwd(), '.env.local') });
+
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import { SEED_CONVERSATIONS, type SeedConversation } from './seed-config';
@@ -78,7 +84,7 @@ async function createConversation(
           conversation_id: conversationId,
           role: message.role,
           content: message.content,
-          sender: message.role === 'user' ? 'user' : 'ai',
+          sender: message.role, // Use 'user' or 'assistant' directly
           tokens_used: Math.floor(message.content.length / 4), // Rough estimate
           model: 'gpt-4o-mini'
         });

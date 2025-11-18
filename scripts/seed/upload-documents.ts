@@ -4,6 +4,12 @@
  * Uploads seed documents to Supabase Storage and triggers processing
  */
 
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load .env.local explicitly
+config({ path: resolve(process.cwd(), '.env.local') });
+
 import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
@@ -18,7 +24,13 @@ if (!supabaseUrl || !supabaseServiceKey) {
   throw new Error('Missing Supabase environment variables');
 }
 
-const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey);
+// Use service role client (bypasses RLS)
+const supabase = createClient<Database>(supabaseUrl, supabaseServiceKey, {
+  auth: {
+    autoRefreshToken: false,
+    persistSession: false
+  }
+});
 
 interface UploadResult {
   success: boolean;
@@ -95,27 +107,62 @@ async function uploadDocument(
     const documentId = docData.id;
     console.log(`  ✅ Created DB record: ${documentId}`);
 
-    // Trigger processing via API
-    const apiUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-    const processResponse = await fetch(`${apiUrl}/api/documents/process`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${supabaseServiceKey}`
-      },
-      body: JSON.stringify({ documentId })
-    });
+    // Process document directly (bypass API)
+    console.log(`  ⚙️  Processing document...`);
+    
+    try {
+      // Get file from storage
+      const { data: fileData, error: downloadError } = await supabase.storage
+        .from('documents')
+        .download(storagePath);
 
-    if (!processResponse.ok) {
-      const errorText = await processResponse.text();
-      result.error = `Processing API failed: ${processResponse.status} - ${errorText}`;
+      if (downloadError) {
+        result.error = `Failed to download file: ${downloadError.message}`;
+        return result;
+      }
+
+      // Convert to buffer
+      const arrayBuffer = await fileData.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      // Import processing function dynamically
+      const { processDocumentBuffer } = await import('@/lib/workers/document-processor');
+
+      // Process document with service client (bypasses RLS)
+      const processResult = await processDocumentBuffer(
+        buffer,
+        doc.filename,
+        'text/markdown',
+        documentId,
+        {}, // default options
+        supabase // pass service client
+      );
+
+      if (!processResult.success) {
+        result.error = `Processing failed: ${processResult.error}`;
+        
+        // Update document status to failed
+        await supabase
+          .from('documents')
+          .update({ status: 'failed' })
+          .eq('id', documentId);
+
+        return result;
+      }
+
+      console.log(`  ✅ Processing completed (${processResult.chunks?.length || 0} chunks)`);
+    } catch (processError) {
+      const errorMsg = processError instanceof Error ? processError.message : String(processError);
+      result.error = `Processing error: ${errorMsg}`;
+      
+      // Update document status to failed
+      await supabase
+        .from('documents')
+        .update({ status: 'failed' })
+        .eq('id', documentId);
+
       return result;
     }
-
-    console.log(`  ✅ Processing triggered`);
-
-    // Wait for processing to complete (poll status)
-    await waitForProcessing(documentId, 60000); // 60 second timeout
 
     result.success = true;
     result.documentId = documentId;
@@ -128,41 +175,6 @@ async function uploadDocument(
   }
 }
 
-/**
- * Wait for document processing to complete
- */
-async function waitForProcessing(
-  documentId: string,
-  timeoutMs: number = 60000
-): Promise<void> {
-  const startTime = Date.now();
-  const pollInterval = 2000; // Check every 2 seconds
-
-  while (Date.now() - startTime < timeoutMs) {
-    const { data, error } = await supabase
-      .from('documents')
-      .select('status')
-      .eq('id', documentId)
-      .single();
-
-    if (error) {
-      throw new Error(`Failed to check document status: ${error.message}`);
-    }
-
-    if (data.status === 'ready') {
-      return;
-    }
-
-    if (data.status === 'failed') {
-      throw new Error('Document processing failed');
-    }
-
-    // Still processing, wait and check again
-    await new Promise(resolve => setTimeout(resolve, pollInterval));
-  }
-
-  throw new Error('Document processing timeout');
-}
 
 /**
  * Get user ID by email

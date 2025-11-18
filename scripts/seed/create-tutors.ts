@@ -4,6 +4,12 @@
  * Creates seed tutors and links them to uploaded documents
  */
 
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load .env.local explicitly
+config({ path: resolve(process.cwd(), '.env.local') });
+
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/database';
 import { SEED_TUTORS, type SeedTutor } from './seed-config';

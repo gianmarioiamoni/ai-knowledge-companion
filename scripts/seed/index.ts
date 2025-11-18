@@ -16,6 +16,12 @@
  *   - OPENAI_API_KEY (for embeddings)
  */
 
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+// Load .env.local explicitly
+config({ path: resolve(process.cwd(), '.env.local') });
+
 import { TARGET_USER_EMAIL } from './seed-config';
 import { uploadAllDocuments } from './upload-documents';
 import { createAllTutors } from './create-tutors';
