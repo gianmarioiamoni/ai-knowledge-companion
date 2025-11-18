@@ -156,10 +156,10 @@ Currently you have test products. You need to create identical products in **Pro
    | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | `pk_live_...` | Production |
    | `STRIPE_SECRET_KEY` | `sk_live_...` | Production |
    | `STRIPE_WEBHOOK_SECRET` | `whsec_...` | Production |
-   | `STRIPE_PRICE_ID_FREE` | `price_live_...` (Free Trial) | Production |
-   | `STRIPE_PRICE_ID_BASIC` | `price_live_...` (Basic) | Production |
-   | `STRIPE_PRICE_ID_PRO` | `price_live_...` (Pro) | Production |
-   | `STRIPE_PRICE_ID_ENTERPRISE` | `price_live_...` (Enterprise) | Production |
+   | `STRIPE_PRICE_PRO_MONTHLY` | `price_live_...` (Pro €19/month) | Production |
+   | `STRIPE_PRICE_PRO_YEARLY` | `price_live_...` (Pro €190/year) | Production |
+   | `STRIPE_PRICE_ENTERPRISE_MONTHLY` | `price_live_...` (Enterprise €49/month) | Production |
+   | `STRIPE_PRICE_ENTERPRISE_YEARLY` | `price_live_...` (Enterprise €490/year) | Production |
 
 5. **Important**: Select **"Production"** environment for all variables
 6. **Save** all variables
