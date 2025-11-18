@@ -77,6 +77,15 @@ A modern, full-stack platform that transforms documents, audio, video, and image
   - Usage tracking and limits
   - Automatic proration and plan changes
 
+- **📊 Cost Tracking & Analytics**
+  - Real-time OpenAI API cost tracking (per operation)
+  - Detailed usage analytics dashboard
+  - Per-user cost monitoring (embeddings, chat, transcription, vision)
+  - Monthly quota management and enforcement
+  - Cost breakdown by operation type and tutor
+  - Historical usage trends and statistics
+  - Admin dashboard for all users' usage monitoring
+
 - **♿ Accessibility & Compliance**
   - WCAG 2.1 Level AA compliant
   - EAA (European Accessibility Act) ready
