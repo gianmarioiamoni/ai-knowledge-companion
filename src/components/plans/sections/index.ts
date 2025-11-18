@@ -6,4 +6,5 @@ export { PlansHeader } from './plans-header'
 export { CurrentPlanBanner } from './current-plan-banner'
 export { PricingGrid } from './pricing-grid'
 export { FAQSection } from './faq-section'
+export { StripeTestModeBanner } from './stripe-test-mode-banner'
 

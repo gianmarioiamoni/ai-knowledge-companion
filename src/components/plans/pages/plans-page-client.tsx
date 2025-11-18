@@ -15,9 +15,14 @@ import { usePlans } from '@/hooks/use-plans'
 import { useSubscription } from '@/hooks/use-subscription'
 import { usePlanSelection } from '@/hooks/use-plan-selection'
 import { PlansHeader, CurrentPlanBanner, PricingGrid, FAQSection } from '../sections'
+import { StripeTestModeBanner } from '../sections/stripe-test-mode-banner'
 import { LoadingSpinner } from '@/components/ui/loading-spinner'
 
-export function PlansPageClient(): JSX.Element {
+interface PlansPageClientProps {
+  isTestMode?: boolean
+}
+
+export function PlansPageClient({ isTestMode = false }: PlansPageClientProps): JSX.Element {
   // Data fetching
   const { plans, loading: plansLoading } = usePlans()
   const { subscription, loading: subLoading } = useSubscription()
@@ -42,6 +47,7 @@ export function PlansPageClient(): JSX.Element {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <PlansHeader />
+        <StripeTestModeBanner isTestMode={isTestMode} />
         <CurrentPlanBanner subscription={subscription} />
         <PricingGrid 
           plans={plans} 

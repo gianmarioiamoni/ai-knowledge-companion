@@ -667,6 +667,10 @@
       "question3": "Posso cancellare il mio abbonamento?",
       "answer3": "Sì, puoi cancellare in qualsiasi momento. Continuerai ad avere accesso fino alla fine del tuo periodo di fatturazione corrente."
     },
+    "testMode": {
+      "title": "Modalità Test Stripe Attiva",
+      "description": "Sei in modalità test Stripe. Usa la carta di test 4242 4242 4242 4242 per simulare i pagamenti. Non verranno effettuati addebiti reali."
+    },
     "subscription": {
       "title": "Abbonamento Attuale",
       "status": "Stato",

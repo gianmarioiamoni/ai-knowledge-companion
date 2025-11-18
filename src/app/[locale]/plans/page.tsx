@@ -8,6 +8,7 @@ import type { Metadata } from 'next'
 import { PlansPageClient } from '@/components/plans/pages/plans-page-client'
 import { StructuredDataWrapper } from '@/components/seo'
 import { generateMetadata as generateSeoMetadata, generateOfferSchema } from '@/lib/seo'
+import { isStripeTestMode } from '@/lib/stripe/client'
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params
@@ -34,6 +35,9 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function PlansPage({ params }: { params: Promise<{ locale: string }> }): Promise<JSX.Element> {
   const { locale } = await params
 
+  // Check if Stripe is in test mode
+  const isTestMode = isStripeTestMode()
+
   // Generate structured data for pricing plans
   const structuredData = [
     generateOfferSchema('Free Plan', '0', 'EUR', locale),
@@ -45,7 +49,7 @@ export default async function PlansPage({ params }: { params: Promise<{ locale: 
   return (
     <>
       <StructuredDataWrapper data={structuredData} />
-      <PlansPageClient />
+      <PlansPageClient isTestMode={isTestMode} />
     </>
   )
 }

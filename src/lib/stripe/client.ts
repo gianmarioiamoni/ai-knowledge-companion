@@ -75,6 +75,15 @@ export function getPriceIdForPlan(
 }
 
 /**
+ * Check if Stripe is in test mode
+ * @returns true if using test keys, false if using live keys
+ */
+export function isStripeTestMode(): boolean {
+  const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
+  return publishableKey.startsWith('pk_test_')
+}
+
+/**
  * Validate Stripe webhook signature
  */
 export function validateWebhookSignature(

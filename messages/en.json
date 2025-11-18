@@ -667,6 +667,10 @@
       "question3": "Can I cancel my subscription?",
       "answer3": "Yes, you can cancel anytime. You'll continue to have access until the end of your current billing period."
     },
+    "testMode": {
+      "title": "Stripe Test Mode Active",
+      "description": "You are in Stripe test mode. Use test card 4242 4242 4242 4242 to simulate payments. No real charges will be made."
+    },
     "subscription": {
       "title": "Current Subscription",
       "status": "Status",
