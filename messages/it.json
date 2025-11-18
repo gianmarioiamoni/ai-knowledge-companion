@@ -49,7 +49,7 @@
     "usage": "Utilizzo",
     "account": "Account",
     "userManual": "Manuale Utente",
-    "help": "Centro Aiuto",
+    "help": "Centro Supporto",
     "privacy-policy": "Privacy Policy",
     "terms-of-service": "Termini di Servizio",
     "cookie-policy": "Cookie Policy",
@@ -1388,7 +1388,7 @@
     "support": {
       "title": "Supporto",
       "profile": "Il Mio Profilo",
-      "help": "Centro Aiuto",
+      "help": "Centro Supporto",
       "contact": "Contattaci"
     },
     "legal": {
