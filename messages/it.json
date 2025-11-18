@@ -192,6 +192,7 @@
         "rename": "Rinomina",
         "archive": "Archivia",
         "delete": "Elimina",
+        "deleteConfirm": "Sei sicuro di voler eliminare questa conversazione? Questa azione non può essere annullata.",
         "renameDialog": {
           "title": "Rinomina Conversazione",
           "description": "Inserisci un nuovo nome per questa conversazione",
