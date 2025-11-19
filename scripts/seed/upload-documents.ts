@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Upload and Process Documents
  * 

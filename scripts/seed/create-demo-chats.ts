@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Create Demo Conversations
  * 

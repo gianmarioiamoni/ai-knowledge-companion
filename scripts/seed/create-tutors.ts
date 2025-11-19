@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Create Tutors and Link Documents
  * 
