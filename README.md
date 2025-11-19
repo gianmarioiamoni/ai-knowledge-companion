@@ -18,6 +18,9 @@ A modern, full-stack platform that transforms documents, audio, video, and image
 
 ---
 
+<img width="1693" height="921" alt="01 - Homepage" src="https://github.com/user-attachments/assets/7cc293c6-4b0a-42ba-ace5-c5f3ba1e21c6" />
+
+
 ## 📑 Table of Contents
 
 - [✨ Features](#-features)
@@ -852,6 +855,80 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 - The open-source community for incredible tools and libraries
 
 ---
+
+## Screenshots
+
+<img width="1685" height="920" alt="02 - Dashboard" src="https://github.com/user-attachments/assets/4ef1ee93-d54d-4e56-bbc7-497a65598fdf" />
+
+Full accessible dashboard for autheticated users
+
+
+
+<img width="1207" height="918" alt="03 - Storage Documents" src="https://github.com/user-attachments/assets/a9da38ba-af29-4b2c-b8ae-de27f629493d" />
+
+<img width="1207" height="918" alt="03a - Storage Multimedia" src="https://github.com/user-attachments/assets/68c84957-0fa2-460a-8b8e-56d618b2a18b" />
+
+Rich storage capabilities for documents and multimedia, with automatic processing to enrich your tutors knowledge
+
+
+
+<img width="1207" height="918" alt="04 - Tutors" src="https://github.com/user-attachments/assets/4c17a74a-d203-4425-a998-c2f967ab2248" />
+
+Create your own tutors and keep them available in a single page
+
+
+
+<img width="1207" height="918" alt="04 - Tutors" src="https://github.com/user-attachments/assets/870fc4cd-0d85-46c6-aa84-486b042ef1b0" />
+
+Chat with your tutor and improve your competences thanks its specific knowledge
+
+
+
+<img width="1207" height="922" alt="06 - Tutor settings" src="https://github.com/user-attachments/assets/9163ab2d-4003-4d81-b6e1-b465aea0d6a3" />
+
+
+<img width="1207" height="922" alt="06a - Tutor settings" src="https://github.com/user-attachments/assets/e205f412-a69c-47a5-8017-fa9aac9ad86d" />
+
+
+<img width="1207" height="922" alt="06b - Tutor settings" src="https://github.com/user-attachments/assets/5b7f8489-6ff9-4bf8-8617-7d0f52627a17" />
+
+Setup up your tutors to match your specific needs
+
+
+
+<img width="1194" height="921" alt="07a - Marketplace" src="https://github.com/user-attachments/assets/d6f1a777-049b-47a2-9e9e-bbaaa713010e" />
+
+Share your tutors in the marketplace and rely on the tutors of other users
+
+
+
+<img width="1207" height="922" alt="08 - Plans" src="https://github.com/user-attachments/assets/932e9292-0ae4-49ea-8b6d-baf10567c525" />
+
+
+<img width="1207" height="922" alt="09 - Checkout" src="https://github.com/user-attachments/assets/b07f9d77-3106-4bbc-a275-aab973bd3068" />
+
+3 plans available, to match your specific needs. Different payment methods accepted.
+
+
+
+<img width="1207" height="922" alt="10 - Profile settings" src="https://github.com/user-attachments/assets/276b2679-246e-4bf9-8673-70ed6a531a1b" />
+
+User profile settings with full control of your data.
+
+
+
+<img width="1207" height="922" alt="11 - Billing" src="https://github.com/user-attachments/assets/317105b0-88e0-48f5-9819-55c85b297104" />
+
+Usage and billing always under your control.
+
+
+
+<img width="756" height="864" alt="12 - Help Center" src="https://github.com/user-attachments/assets/8167f7e9-5d32-4b23-9bdc-355204378411" />
+
+A well structured Help Center for all your questions and needs.
+
+
+
 
 **Built with ❤️ using Next.js, OpenAI, and Supabase**
 
