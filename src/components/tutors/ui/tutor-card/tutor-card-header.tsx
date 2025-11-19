@@ -1,6 +1,6 @@
 import { CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Eye, Share2, EyeOff } from "lucide-react";
+import { Eye, Share2, EyeOff, Store } from "lucide-react";
 import { TutorCardAvatar } from "./tutor-card-avatar";
 import type { JSX } from 'react';
 
@@ -27,6 +27,8 @@ export function TutorCardHeader({
         return <Eye className="h-4 w-4" />;
       case 'share':
         return <Share2 className="h-4 w-4" />;
+      case 'store':
+        return <Store className="h-4 w-4" />;
       default:
         return <EyeOff className="h-4 w-4" />;
     }

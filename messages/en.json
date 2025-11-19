@@ -366,6 +366,7 @@
       "private": "Private",
       "public": "Public",
       "unlisted": "Unlisted",
+      "marketplace": "Marketplace",
       "tooltips": {
         "conversations": "{count} conversations",
         "messages": "{count} messages",
@@ -439,7 +440,8 @@
         "visibilityOptions": {
           "private": "Private - Only you",
           "public": "Public - Visible to everyone",
-          "unlisted": "Unlisted - Only with link"
+          "unlisted": "Unlisted - Only with link",
+          "marketplace": "Marketplace - Public listing in marketplace"
         },
         "systemPrompt": "System Prompt",
         "systemPromptPlaceholder": "Define the tutor's behavior...",
@@ -460,7 +462,8 @@
       "visibilityLevels": {
         "private": "Private",
         "public": "Public",
-        "unlisted": "Unlisted"
+        "unlisted": "Unlisted",
+        "marketplace": "Marketplace"
       }
     },
     "chat": {

@@ -58,6 +58,8 @@ export function useTutorCard({
         return 'eye';
       case 'unlisted':
         return 'share';
+      case 'marketplace':
+        return 'store';
       default:
         return 'eye-off';
     }
@@ -69,6 +71,8 @@ export function useTutorCard({
         return t('card.public');
       case 'unlisted':
         return t('card.unlisted');
+      case 'marketplace':
+        return t('card.marketplace');
       default:
         return t('card.private');
     }

@@ -68,14 +68,16 @@ export function useTutorForm({ tutor, onSubmit, loading = false }: UseTutorFormP
     switch (visibility) {
       case 'public': return 'globe';
       case 'unlisted': return 'link';
+      case 'marketplace': return 'store';
       default: return 'lock';
     }
   };
 
   const getVisibilityDescription = (visibility: VisibilityLevel) => {
     switch (visibility) {
-      case 'public': return "Visibile a tutti nel marketplace";
+      case 'public': return "Visibile a tutti";
       case 'unlisted': return "Accessibile solo tramite link diretto";
+      case 'marketplace': return "Listato pubblicamente nel marketplace";
       default: return "Visibile solo a te";
     }
   };

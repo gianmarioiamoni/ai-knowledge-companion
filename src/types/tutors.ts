@@ -139,6 +139,7 @@ export const VISIBILITY_LEVELS = [
   'private',
   'public',
   'unlisted',
+  'marketplace',
 ] as const;
 
 export type VisibilityLevel = typeof VISIBILITY_LEVELS[number];

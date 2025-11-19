@@ -6,7 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Eye, Globe, Link as LinkIcon, Lock } from "lucide-react";
+import { Eye, Globe, Link as LinkIcon, Lock, Store } from "lucide-react";
 import { useTranslations } from 'next-intl';
 import type { TutorInsert, VisibilityLevel } from "@/types/tutors";
 import { VISIBILITY_LEVELS } from "@/types/tutors";
@@ -31,6 +31,8 @@ export function TutorFormVisibilityConfig({
         return <Globe className="h-4 w-4" />;
       case 'link':
         return <LinkIcon className="h-4 w-4" />;
+      case 'store':
+        return <Store className="h-4 w-4" />;
       default:
         return <Lock className="h-4 w-4" />;
     }

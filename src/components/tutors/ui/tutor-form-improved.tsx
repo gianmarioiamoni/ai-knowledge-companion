@@ -45,11 +45,12 @@ export function TutorFormImproved({ tutor, onSubmit, onCancel, loading = false }
     getInitials,
   } = useTutorForm({ tutor, onSubmit, onCancel, loading });
 
-  const getVisibilityDescription = (visibility: 'public' | 'private' | 'unlisted') => {
+  const getVisibilityDescription = (visibility: 'public' | 'private' | 'unlisted' | 'marketplace') => {
     const descriptions = {
-      public: t('form.visibilityPublicDesc'),
-      private: t('form.visibilityPrivateDesc'),
-      unlisted: t('form.visibilityUnlistedDesc'),
+      public: t('form.fields.visibilityOptions.public'),
+      private: t('form.fields.visibilityOptions.private'),
+      unlisted: t('form.fields.visibilityOptions.unlisted'),
+      marketplace: t('form.fields.visibilityOptions.marketplace'),
     };
     return descriptions[visibility] || descriptions.private;
   };
