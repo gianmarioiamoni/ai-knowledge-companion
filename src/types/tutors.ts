@@ -33,7 +33,7 @@ export interface Tutor {
   max_document_size_mb: number;
   
   // Configurazioni visibilità
-  visibility: 'private' | 'public' | 'unlisted';
+  visibility: VisibilityLevel;
   is_shared: boolean;
   share_token?: string;
   
