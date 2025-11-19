@@ -2,6 +2,8 @@
 
 > **Your Personal AI Learning Assistant** - Build custom AI tutors powered by your own knowledge base using RAG (Retrieval-Augmented Generation).
 
+🌐 **Live Demo**: [https://ai-knowledge-companion.vercel.app](https://ai-knowledge-companion.vercel.app/en)
+
 A modern, full-stack platform that transforms documents, audio, video, and images into interactive AI tutors. Upload your materials, create specialized AI assistants, and share them in a marketplace.
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black)](https://nextjs.org/)
@@ -856,11 +858,12 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 
 ---
 
-## Screenshots
+## 📸 Screenshots
 
 <img width="1685" height="920" alt="02 - Dashboard" src="https://github.com/user-attachments/assets/4ef1ee93-d54d-4e56-bbc7-497a65598fdf" />
 
-Full accessible dashboard for autheticated users
+**Full accessible dashboard for authenticated users**
+
 
 
 
@@ -868,19 +871,22 @@ Full accessible dashboard for autheticated users
 
 <img width="1207" height="918" alt="03a - Storage Multimedia" src="https://github.com/user-attachments/assets/68c84957-0fa2-460a-8b8e-56d618b2a18b" />
 
-Rich storage capabilities for documents and multimedia, with automatic processing to enrich your tutors knowledge
+**Rich storage capabilities for documents and multimedia, with automatic processing to enrich your tutors knowledge**
+
 
 
 
 <img width="1207" height="918" alt="04 - Tutors" src="https://github.com/user-attachments/assets/4c17a74a-d203-4425-a998-c2f967ab2248" />
 
-Create your own tutors and keep them available in a single page
+**Create your own tutors and keep them available in a single page**
+
 
 
 
 <img width="1207" height="918" alt="04 - Tutors" src="https://github.com/user-attachments/assets/870fc4cd-0d85-46c6-aa84-486b042ef1b0" />
 
-Chat with your tutor and improve your competences thanks its specific knowledge
+**Chat with your tutor and improve your competences thanks to its specific knowledge**
+
 
 
 
@@ -892,13 +898,15 @@ Chat with your tutor and improve your competences thanks its specific knowledge
 
 <img width="1207" height="922" alt="06b - Tutor settings" src="https://github.com/user-attachments/assets/5b7f8489-6ff9-4bf8-8617-7d0f52627a17" />
 
-Setup up your tutors to match your specific needs
+**Set up your tutors to match your specific needs**
+
 
 
 
 <img width="1194" height="921" alt="07a - Marketplace" src="https://github.com/user-attachments/assets/d6f1a777-049b-47a2-9e9e-bbaaa713010e" />
 
-Share your tutors in the marketplace and rely on the tutors of other users
+**Share your tutors in the marketplace and rely on the tutors of other users**
+
 
 
 
@@ -907,25 +915,29 @@ Share your tutors in the marketplace and rely on the tutors of other users
 
 <img width="1207" height="922" alt="09 - Checkout" src="https://github.com/user-attachments/assets/b07f9d77-3106-4bbc-a275-aab973bd3068" />
 
-3 plans available, to match your specific needs. Different payment methods accepted.
+**3 plans available, to match your specific needs. Different payment methods accepted.**
+
 
 
 
 <img width="1207" height="922" alt="10 - Profile settings" src="https://github.com/user-attachments/assets/276b2679-246e-4bf9-8673-70ed6a531a1b" />
 
-User profile settings with full control of your data.
+**User profile settings with full control of your data.**
+
 
 
 
 <img width="1207" height="922" alt="11 - Billing" src="https://github.com/user-attachments/assets/317105b0-88e0-48f5-9819-55c85b297104" />
 
-Usage and billing always under your control.
+**Usage and billing always under your control.**
+
 
 
 
 <img width="756" height="864" alt="12 - Help Center" src="https://github.com/user-attachments/assets/8167f7e9-5d32-4b23-9bdc-355204378411" />
 
-A well structured Help Center for all your questions and needs.
+**A well-structured Help Center for all your questions and needs.**
+
 
 
 
