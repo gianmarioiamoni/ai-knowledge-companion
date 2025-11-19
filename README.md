@@ -2,7 +2,7 @@
 
 > **Your Personal AI Learning Assistant** - Build custom AI tutors powered by your own knowledge base using RAG (Retrieval-Augmented Generation).
 
-🌐 **Live Demo**: [https://ai-knowledge-companion.vercel.app](https://ai-knowledge-companion.vercel.app/en)
+🌐 **Link to the website**: [https://ai-knowledge-companion.vercel.app](https://ai-knowledge-companion.vercel.app/en)
 
 A modern, full-stack platform that transforms documents, audio, video, and images into interactive AI tutors. Upload your materials, create specialized AI assistants, and share them in a marketplace.
 
