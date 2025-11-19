@@ -1,4 +1,15 @@
 // Types per il sistema Tutor
+
+// Livelli di visibilità
+export const VISIBILITY_LEVELS = [
+  'private',
+  'public',
+  'unlisted',
+  'marketplace',
+] as const;
+
+export type VisibilityLevel = typeof VISIBILITY_LEVELS[number];
+
 export interface Tutor {
   id: string;
   owner_id: string;
@@ -61,7 +72,7 @@ export interface TutorInsert {
   similarity_threshold?: number;
   allowed_document_types?: string[];
   max_document_size_mb?: number;
-  visibility?: 'private' | 'public' | 'unlisted';
+  visibility?: VisibilityLevel;
 }
 
 export interface TutorUpdate {
@@ -77,7 +88,7 @@ export interface TutorUpdate {
   similarity_threshold?: number;
   allowed_document_types?: string[];
   max_document_size_mb?: number;
-  visibility?: 'private' | 'public' | 'unlisted';
+  visibility?: VisibilityLevel;
   is_shared?: boolean;
 }
 
@@ -133,13 +144,3 @@ export const SUPPORTED_DOCUMENT_TYPES = [
 ] as const;
 
 export type SupportedDocumentType = typeof SUPPORTED_DOCUMENT_TYPES[number];
-
-// Livelli di visibilità
-export const VISIBILITY_LEVELS = [
-  'private',
-  'public',
-  'unlisted',
-  'marketplace',
-] as const;
-
-export type VisibilityLevel = typeof VISIBILITY_LEVELS[number];
