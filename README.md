@@ -883,7 +883,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 
 
 
-<img width="1207" height="918" alt="04 - Tutors" src="https://github.com/user-attachments/assets/870fc4cd-0d85-46c6-aa84-486b042ef1b0" />
+<img width="1207" height="922" alt="05 - Tutor" src="https://github.com/user-attachments/assets/3022ddcf-cb74-4d2d-a75e-1a06d632fcab" />
 
 **Chat with your tutor and improve your competences thanks to its specific knowledge**
 
