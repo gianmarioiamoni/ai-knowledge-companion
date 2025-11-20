@@ -37,6 +37,18 @@ const nextConfig: NextConfig = {
     // Configure allowed quality values for images
     qualities: [75, 80, 90, 95, 100],
   },
+  // Redirects configuration
+  async redirects() {
+    return [
+      {
+        // Redirect root to default locale (en)
+        // This prevents 404 errors when accessing the root URL
+        source: '/',
+        destination: '/en',
+        permanent: false, // Use temporary redirect (307) for flexibility
+      },
+    ]
+  },
   // Security headers
   async headers() {
     return [
